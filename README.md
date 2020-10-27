@@ -31,7 +31,7 @@ Blog técnico sobre proyectos caseros de electrónica, informática y física.
 
 ### Artículos destacados
 
-Una selección de los artículos que más me gustas o que más lecturas tienen:
+Una selección de los artículos que más me gustan o que más lecturas tienen:
 
 - [Sintetizador de frecuencias digital con PLL](http://electronicayciencia.blogspot.com/2020/09/sintetizador-de-frecuencias-digital-con.html) - 2020
 - [Leer tarjetas de acceso RFID, sin Arduino](http://electronicayciencia.blogspot.com/2019/12/leer-tarjetas-de-acceso-rfid-sin-arduino.html) - 2019
