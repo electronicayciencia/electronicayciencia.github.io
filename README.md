@@ -1,6 +1,7 @@
 # Electrónica y Ciencia <!-- omit in toc -->
 
-Proyectos personales.
+Recopilación de mis proyectos personales.
+
 - [Español](#español)
   - [Obteniendo la PLOAM password de un router F@ST 5657](#obteniendo-la-ploam-password-de-un-router-fst-5657)
   - [Prácticas con TPM virtual](#prácticas-con-tpm-virtual)
