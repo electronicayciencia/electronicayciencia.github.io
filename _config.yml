@@ -17,8 +17,8 @@ show_excerpts: true
 show_tags: true
 show_image: true
 
-#logo: "/assets/logo_dvd.jpg"
-logo: "/assets/favicon.png"
+logo: "/assets/logo_dvd.jpg"
+#logo: "/assets/favicon.png"
 favicon: "/assets/favicon.png"
 
 # Build settings
