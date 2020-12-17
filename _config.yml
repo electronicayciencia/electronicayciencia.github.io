@@ -8,7 +8,7 @@ email: electronicayciencia@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   Blog técnico sobre proyectos caseros de electrónica, informática y física.
 #baseurl: "/pruebas-blog" # the subpath of your site, e.g. /blog
-url: "https://electronicayciencia.com" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://www.electronicayciencia.com" # the base hostname & protocol for your site, e.g. http://example.com
 permalink: /:year/:month/:title:output_ext
 
 lang: es
