@@ -52,7 +52,7 @@ paginate: 6
 
 # For jekyll seo
 twitter:
-  username: electronicayciencia
+  username: electronicaycie
 
 exclude:
   - notas
