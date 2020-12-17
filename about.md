@@ -8,7 +8,7 @@ permalink: /about/
 
 Todo el contenido es original y publicado bajo licencia libre.
 
-El aspecto está basado el tema *Minima* de Jekyll con cierta personalización. En el repositorio [electronicayciencia.github.io](https://github.com/electronicayciencia/electronicayciencia.github.io) podéis encontrar el código fuente, imágenes y todos los archivos utilizados para elaborar los artículos.
+El aspecto está basado el tema *Minima* de Jekyll con cierta personalización. En el repositorio [electronicayciencia](https://github.com/electronicayciencia/electronicayciencia.github.io) podéis encontrar el código fuente, imágenes y todos los archivos utilizados para elaborar los artículos.
 
 El blog original en Blogspot [electronicayciencia.blogspot.com](http://electronicayciencia.blogspot.com) ya no se actualiza. La nueva versión está alojada en GitHub Pages [electronicayciencia.github.io/](https://electronicayciencia.github.io/).
 

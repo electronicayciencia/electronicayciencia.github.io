@@ -30,7 +30,7 @@ theme: minima
 disqus:
     shortname: electronicayciencia
 
-google_analytics: UA-15570327-6
+google_analytics: UA-15570327-7
 
 plugins:
   - jekyll-feed
@@ -49,6 +49,9 @@ minima:
     linkedin: reinosoguzman
 
 paginate: 6
+
+exclude:
+  - notas
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
