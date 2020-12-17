@@ -1,0 +1,790 @@
+
+
+
+
+<!DOCTYPE html>
+<!--[if IE 7]>		   <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>		   <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9]>		   <html class="no-js lt-ie10" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+<!-- 143c9e58-a411-4b2e-8ee5-ed45ea88c0fc|p|w -->
+<head>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="robots" content="follow, index" />
+    <title>Fundamental Principles Behind the Sigma-Delta ADC Topology: Part 2 | Analog Devices</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="description" content="AD717x is the latest family of precision Σ-Δ ADCs from Analog Devices. This ADC family is the first converter family on the market to provide a true 24-bit noise free output. The AD717x devices maximize dynamic range for designers of critically noise sensitive instrumentation circuits, enabling reduction or elimination of preceding amplifier gain i" />
+    <meta name="viewport" id="adiviewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="sigma-delta, adc topology, sigma delta adc" />
+    <meta name="breadcrumb" content="Fundamental Principles Behind the Sigma-Delta ADC Topology: Part 2" />
+    <meta name="pageInfoType" content="Technical Article" />
+    <meta name="customer-journey" content="Research" />
+    <meta name="persona" content="Design Engineer" />
+    <meta name="verify-v1" content="EH6D19wZGxG0dpmm3/iUbsWFvGU/hZp9p5Vs5UuoIXI=" />
+    <meta name="y_key" content="fdd5bc59ae0e6340" />
+    <meta name="msvalidate.01" content="739DEB4E2F14C3A552E581E88FA542AC" />
+    <meta name="baidu-site-verification" content="cSddD8r1N7" />
+    <meta name="yandex-verification" content="86a60d9bcaab43f0" />
+    <meta name="google-site-verification" content="aVOSmh5Dsd1VpzYMM3a_ZvOQcjP9G5GDlvU-atf48ss" />
+        <link rel="canonical" href="https://www.analog.com/en/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2.html">
+
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    
+
+
+<link href="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed:400,400i,500,500i,600,600i,700,700i|Barlow:300,300i,400,400i,500,500i,600,600i,700,700i&display=swap" rel="stylesheet">
+<link href="https://assets.analog.com/css/bootstrap.css" rel="stylesheet" media="all" />
+<link href="https://assets.analog.com/css/vendor.css" rel="stylesheet" media="all" />
+<link href="https://assets.analog.com/css/global.css" rel="stylesheet" media="all" />
+<link href="https://assets.analog.com/css/print.css" rel="stylesheet" media="print" />
+    <link href="https://assets.analog.com/lib/css/components.css" rel="stylesheet">
+
+    <script>
+        var isForceDesktopCookie = (document.cookie.indexOf("forcedesktopview") > -1) ? document.cookie.substring(document.cookie.indexOf("forcedesktopview"),
+            (document.cookie.indexOf(";", document.cookie.indexOf("forcedesktopview")) > -1) ?
+                document.cookie.indexOf(";", document.cookie.indexOf("forcedesktopview")) : document.cookie.length) : "";
+
+        isForceDesktopCookie = (isForceDesktopCookie) ? isForceDesktopCookie.split("=")[1] : '';
+
+        if ((window.innerWidth > 640 && window.innerWidth < 960) || isForceDesktopCookie) {
+            var mvp = document.getElementById('adiviewport');
+            mvp.setAttribute('content', 'width=1024');
+        }
+    </script>
+
+
+<script src="https://assets.analog.com/js/adi/modernizr.js" type="text/javascript"></script>
+
+
+
+
+    <script src="https://assets.analog.com/js/adi/vendor.js" type="text/javascript"></script>
+
+    <script src="/lib/scripts/reactScript/client.min.js"></script>
+
+  <script>(window.BOOMR_mq=window.BOOMR_mq||[]).push(["addVar",{"rua.upush":"false","rua.cpush":"false","rua.upre":"false","rua.cpre":"false","rua.uprl":"false","rua.cprl":"false","rua.cprf":"false","rua.trans":"","rua.cook":"false","rua.ims":"false","rua.ufprl":"false","rua.cfprl":"false"}]);</script>
+  <script>!function(a){var e="https://s.go-mpulse.net/boomerang/",t="addEventListener";if("False"=="True")a.BOOMR_config=a.BOOMR_config||{},a.BOOMR_config.PageParams=a.BOOMR_config.PageParams||{},a.BOOMR_config.PageParams.pci=!0,e="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="BBYKJ-QTC84-T74CF-8TNKL-DHE3B",function(){function n(e){a.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!a.BOOMR||!a.BOOMR.version&&!a.BOOMR.snippetExecuted){a.BOOMR=a.BOOMR||{},a.BOOMR.snippetExecuted=!0;var i,_,o,r=document.createElement("iframe");if(a[t])a[t]("load",n,!1);else if(a.attachEvent)a.attachEvent("onload",n);r.src="javascript:void(0)",r.title="",r.role="presentation",(r.frameElement||r).style.cssText="width:0;height:0;border:0;display:none;",o=document.getElementsByTagName("script")[0],o.parentNode.insertBefore(r,o);try{_=r.contentWindow.document}catch(O){i=document.domain,r.src="javascript:var d=document.open();d.domain='"+i+"';void(0);",_=r.contentWindow.document}_.open()._l=function(){var a=this.createElement("script");if(i)this.domain=i;a.id="boomr-if-as",a.src=e+"BBYKJ-QTC84-T74CF-8TNKL-DHE3B",BOOMR_lstart=(new Date).getTime(),this.body.appendChild(a)},_.write("<bo"+'dy onload="document._l();">'),_.close()}}(),"".length>0)if(a&&"performance"in a&&a.performance&&"function"==typeof a.performance.setResourceTimingBufferSize)a.performance.setResourceTimingBufferSize();!function(){if(BOOMR=a.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var e=""=="true"?1:0,t="",n="xr727hyxewqs6x6ra3ga-f-dbc94262e-clientnsv4-s.akamaihd.net",i={"ak.v":"29","ak.cp":"82680","ak.ai":parseInt("215232",10),"ak.ol":"0","ak.cr":4,"ak.ipv":4,"ak.proto":"http/1.1","ak.rid":"1f06e4b","ak.r":12561,"ak.a2":e,"ak.m":"a","ak.n":"essl","ak.bpcip":"188.127.175.0","ak.cport":43060,"ak.gh":"92.123.73.233","ak.quicv":"","ak.tlsv":"tls1.2","ak.0rtt":"","ak.csrc":"-","ak.acc":"reno","ak.t":"1607534284","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==fcHjc44yb39e+LOPVDZEMkbt8+4IKWyjF2sYazqJ1MoPbihX/mewTbIsQdwFedtWhZ8q8RgeRuV/XzfJFgdyf1yBEAIx8n4s8ybBOajByAFyk0TvU696StuosHS9klzTj5pdP8/Lsxd+RoWJ3KjfvnUUKguAM2WMkvUjYttBmeDARoK41m35ZmP9Rkkn/7Aum2oTcoGDIr3G+6ELK4VblWhNv2EvZsvZBFYiFqeZ72gBUBGNq5zV6mGOWZeHiut52Kzw2uPSb+dhr24Da36m7Q/v2K4PEA4ck7F4cg8zol9bFkHUotSn0szl7JP8vjOOSQuMq7wnbZpQOEKev4Mfoa88vm8uHq29p7p1JGT/iMWvqvA4Xli6kLKBuao+ze3Vx+HVmS694J3Rpzp+Sy69ZEFCRwBTZjMEVV5njS+gI4w=","ak.pv":"443","ak.dpoabenc":""};if(""!==t)i["ak.ruds"]=t;var _={i:!1,av:function(e){var t="http.initiator";if(e&&(!e[t]||"spa_hard"===e[t]))i["ak.feo"]=void 0!==a.aFeoApplied?1:0,BOOMR.addVar(i)},rv:function(){var a=["ak.bpcip","ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.r","ak.acc","ak.t"];BOOMR.removeVar(a)}};BOOMR.plugins.AK={akVars:i,akDNSPreFetchDomain:n,init:function(){if(!_.i){var a=BOOMR.subscribe;a("before_beacon",_.av,null,null),a("onbeacon",_.rv,null,null),_.i=!0}return this},is_complete:function(){return!0}}}}()}(window);</script></head>
+<body class="home" data-adi-spy="scroll"   data-socialmediawidget="true"
+   data-savetoanalog="true"
+      >
+
+        <ol class="list-inline nbm hide">
+                        <li>
+                            <span title="Technical Articles" class="ellipsis">
+                                <a href="https://www.analog.com/en/search.html?q=*&amp;Filters=resource_type_l2_fac_s:948bcad75dda46938741bb491d391102_c1db6dd505a94fa09f7826c8b66a2bbb|resource_type_fac_s:948bcad75dda46938741bb491d391102">Technical Articles</a>
+                            </span>
+                        </li>
+                        <li class="active">
+                            <span title="Fundamental Principles Behind the Sigma-Delta ADC Topology: Part 2" class="ellipsis">Fundamental Principles Behind the Sigma-Delta ADC Topology: Part 2</span>
+                        </li>
+
+        </ol>
+                    <script type="application/ld+json">
+                        {"@context":"https://schema.org","@type":"TechArticle","Author":[{"@type":"Person","Name":null,"description":null}],"Genre":"Technical Articles Page","Headline":"Fundamental Principles Behind the Sigma-Delta ADC Topology: Part 2","Keywords":"sigma-delta, adc topology, sigma delta adc","Audience":"Engineers","publisher":[{"@type":"Organization","name":"Analog Devices, Inc."}],"Description":"AD717x is the latest family of precision Σ-Δ ADCs from Analog Devices. This ADC family is the first converter family on the market to provide a true 24-bit noise free output. The AD717x devices maximize dynamic range for designers of critically noise sensitive instrumentation circuits, enabling reduction or elimination of preceding amplifier gain i"}
+                    </script>
+
+
+    
+ <header class="common" data-IsNonCore="False"><div class="saveToMyAnalog visible-sm"><button id="myAnalogWidgetBtn" class="widget-Btn" name="myAnalog"><img class="add-plus" src="https://assets.analog.com/images/myAnalog/add.svg" alt="add" /><!-- <img class="add-check" src="" alt="added" /> --><img class="myAnalog-saveTo" src="https://assets.analog.com/images/myAnalog/myAnalog-logo.svg" alt="myAnalog" /></button></div><nav class="navbar navbar-default"><div class="container"><div class="navbar-collapse collapse"><ul class="site-family nav nav-bar-nav"><li><a class="AnD-link" href="http://www.analog.com/en/analog-dialogue.html" target=""><strong>Analog</strong>Dialogue </a></li><li><a class="ez-link" href="https://ez.analog.com" target=""><strong>Engineer</strong>Zone </a></li><li class="last"><a class="wiki-link" href="https://wiki.analog.com/" target=""><strong>Wiki</strong></a></li></ul><ul class="regional nav nav-bar-nav navbar-right"><li><a href="https://shoppingcart.analog.com/ShoppingCartPage.aspx" target="" title="Cart" class="cart" name='Cart_8697d4f3-2cf9-4e3a-8fee-f7b834be2f9f'><strong></strong></a></li><li class="insert-language js-insert-language"></li><li><a href="https://careers.analog.com" target="" title="" class="" name='Careers_1ce06318-42f2-415b-9698-8e2c40f8adec'><strong><strong>Careers</strong></strong></a></li></ul></div></div></nav></header><header id="header" data-assets-path="https://assets.analog.com"><div class="col-md-12 ie-support"><div><span class="support-desc">Browser Compatibility Issue: We no longer support this version of Internet Explorer. For optimal site performance we recommend you update your browser to the latest version.</span><span class="update-ie-button"><a href="https://support.microsoft.com/en-us/help/17621/internet-explorer-downloads" class="btn btn-primary anchor-class-ie">Update Microsoft Internet Explorer</a></span></div></div><nav class="navbar linkbar" role="navigation"><div class="container searchbar" name="adi_header_searchbar"><div class="row"><div class="logo navbar-nav"><a href="http://www.analog.com/en/index.html" name='Header_ce520461-428c-43c8-ab49-f754c641cecd'><img src="https://assets.analog.com/images/en/ADI_Logo_AWP.png" alt=""></a></div><button type="button" class="navbar-toggle pull-right visible-phone collapsed" data-toggle="collapse" data-target="#search" name='Global_Site_Search_393ead15-036b-4d0f-983b-abe90609ce16'><span class="search-icon searchBtn"></span></button><div class="navbar-collapse" id="search" name='Global_Site_Search_393ead15-036b-4d0f-983b-abe90609ce16'><div class="control-form control-form-autosuggest search-header clearfix"><form class="clearfix" role="form" method="get" action="https://www.analog.com/en/search.html"><div class="form-group"><label for="text-global-search" class="sr-only">Search</label><input id="text-global-search" type="text" name="q" class="form-control" data-data-source="https://www.analog.com/en/client/Search/GetPredictiveSearchResultsJson?q=%QUERY" data-autosuggest-text="Search" placeholder="Search"><button type="submit" class="search-icon"></button><button type="button" class="search-clear-icon">&nbsp;</button><div class="search-links-alignment clearfix"><a class="pull-left" href="https://www.analog.com/cpsearch/CrossReferenceSearch.aspx">Cross Reference Search</a><a href="#search_tips_modal" class="pull-right search_tips" data-toggle="modal">Search Tips</a><a class="pull-right" href=""></a></div></div></form></div></div></div></div></nav><section class="bottomnav mega-menu" data-domain="https://assets.analog.com/" data-adi-root="https://www.analog.com/" data-manifest="cdp/adicommon/versionconfig.json" data-fail="client/Home/GetNavigationContent?navigation={tab}&amp;languageCode={lang}" data-my-analog="https://my.analog.com/"><script type="text/javascript"> var HeaderConfig = { "Labels" : { "NoRsultMessageL1": "Sorry, there are no Product Categories matching {searchTerm}.", "NoRsultMessageL2": "Search all of analog.com for {searchLink}", "NoSubcategoryMessage": "{categoryName} has no subcategories. Visit the category page by clicking {categoryLink} above.", "ProductsListedMessage":"Products viewed will be listed here.", "CategoriesListedMessage":"Categories viewed will be listed here.", "PagesListedMessage":"Pages viewed will be listed here.", }, "URL": { "SearchLink": { "LinkText": "", "LinkUrl": "http://www.analog.com/en/search.html?q={searchLink}" }, "ViewAllProductLink": { "LinkText": "View All New Products", "LinkUrl": "http://www.analog.com/en/products/landing-pages/new-products-listing.html" }, } }; </script><script id="menu-desktop" type="text/x-handlebars-template"><nav class="navbar"><div class="container primary"><ul class="nav navbar-nav"><li class="company"><a href="/company" data-qa-element="link_company"><span> Company </span></a></li><li class="myAnalog"><a href="/https://my.analog.com" data-qa-element="link_myAnalog"><span> MyAnalog <img src="https://assets.analog.com/images/myanalog/logo-wave-blue.svg"></span></a></li><li class="products"><a href="/products" data-qa-element="link_products"><span> Products </span></a></li><li class="applications"><a href="/applications" data-qa-element="link_applications"><span> Applications </span></a></li><li class="designcenter"><a href="/designcenter" data-qa-element="link_designcenter"><span> Design Center </span></a></li><li class="education"><a href="/education" data-qa-element="link_education"><span> Education </span></a></li><li class="support"><a href="/support" data-qa-element="link_support"><span> Support </span></a></li></ul></div></nav><div class="company menu content" role="navigation"><div class="emptybar"></div><div class="container padded"><section class="company__section"></section></div></div><div class="myAnalog menu content"><div class="emptybar"></div><div class="container"><div class="row pre-login"></div><div class="row widgets"><div class="col-md-2"><div class="widget profile" data-widget="profile"></div></div><div class="col-md-10"><div class="row"><div class="col-md-3 widget projects" data-widget="projects"></div><div class="col-md-3 widget products" data-widget="products"></div><div class="col-md-3 widget productcategory" data-widget="productcategory"></div><div class="col-md-3 widget applications" data-widget="applications"></div></div><div class="row"><div class="col-md-3 widget parametric-search" data-widget="parametric-search"></div><div class="col-md-3 widget resources" data-widget="resources"></div><div class="col-md-3 widget engineerzone" data-widget="engineerzone"></div><div class="col-md-3 widget orders" data-widget="orders"></div></div></div></div></div></div><div class="products menu content"><div class="category-container"><div class="small-search"><div class="search small"><div class="field"><i class="fa fa-search"></i><input type="text" placeholder="Category" autocomplete="off"></div></div></div><ul class="categories"><li class="separator"><hr></li><li><a href="http://www.analog.com/en/products/landing-pages/new-products-listing.html"><span>New Products</span></a></li><li class="separator"><hr></li></ul></div><div class="main"><div class="meta"><div class="pst-help left"><i class="fa fa-table"></i><span class="header">Parametric Table</span><a><i class="fa fa-question-circle-o"></i></a><div class="info"><div class="pointer"></div><i class="fa fa-table fa-2x"></i><p>Click icons below for Parametric Table</p></div></div><div class="header" style="display: none;"></div></div><div class="search large"><div class="field"><i class="fa fa-search"></i><input type="text" placeholder="Type Category" autocomplete="off"></div></div><div class="splash"><div class="row"><div class="col-md-4"><div><div class="outline-card previous-categories"><div class="header4">Previously Visited Categories</div><ul></ul></div></div></div><div class="col-md-8"><div><div class="outline-card new-products"><div class="header4">New Products</div><ul></ul></div></div></div></div></div><div class="results"></div></div></div><div class="applications menu content" role="navigation"><div class="emptybar"></div><div class="container padded"><section class="applications__section"></section></div></div><div class="designcenter menu content" role="navigation"><div class="emptybar"></div><section class="design-center-section"></section></div><div class="education menu content" role="navigation"><div class="emptybar"></div><div class="container padded"><div class="education__section"></div></div></div><div class="support menu content" role="navigation"><div class="emptybar"></div><section class="support-section"></section></div></script><script id="menu-mobile" type="text/x-handlebars-template"><nav class="navbar"><button id="nav-hamburger" class="navbar-item" type="button" data-toggle="collapse" data-target="#mobile-menu" aria-controls="mobile-menu" aria-expanded="false" aria-label="Open Menu"><span></span><span></span><span></span></button><a class="navbar-brand" href="https://www.analog.com" name="Header_ce520461-428c-43c8-ab49-f754c641cecd"><img src="https://assets.analog.com/images/en/ADI_Logo_AWP.png" alt="Analog Devices Ahead of What's Possible"></a><button class="navbar-item" type="button" data-toggle="collapse" data-target="#mobile-search" aria-controls="mobile-search" aria-expanded="false" aria-label="Search"><i class="fa fa-search fa-lg"></i></button></nav><div class="collapse navbar-collapse searchbar" id="mobile-search"><form class="clearfix control-form control-form-autosuggest search-header" role="form" method="get" action="https://www.analog.com/en/search.html"><div class="form-group"><label for="text-global-search" class="sr-only">Search</label><input id="text-global-search" type="text" name="q" class="form-control" data-data-source="https://www.analog.com/en/client/Search/GetPredictiveSearchResultsJson?q=%QUERY" data-autosuggest-text="Search" placeholder="Search"><button type="submit" class="search-icon"></button><button type="button" class="search-clear-icon">&nbsp;</button><div class="search-links-alignment clearfix"><a class="pull-left" href="https://www.analog.com/cpsearch/CrossReferenceSearch.aspx">Cross Reference Search</a><a href="#search_tips_modal" class="pull-right search_tips" data-toggle="modal">Search Tips</a></div></div></form></div><div class="mobilemenu-section"><div class="collapse menus" id="mobile-menu"><ul><li class="main menu" data-target="main-menu">Main Menu</li><li class="about adi" data-target="about-adi">About ADI</li><li class="global" data-target="global"><i class="fa fa-globe" aria-hidden="true"></i></li></ul></div><div class="sub-menu" id="main-menu"><ul class="primary navbar-nav"><li class="company"><a href="/company" data-qa-element="link_company"><span> Company </span></a></li><li class="myAnalog"><a href="/myAnalog" data-qa-element="link_myAnalog"><span> MyAnalog <img src=https://assets.analog.com/images/myanalog/logo-wave-blue.svg></span></a></li><li class="products"><a href="/products" data-qa-element="link_products"><span> Products </span></a></li><li class="applications"><a href="/applications" data-qa-element="link_applications"><span> Applications </span></a></li><li class="designcenter"><a href="/designcenter" data-qa-element="link_designcenter"><span> Design Center </span></a></li><li class="education"><a href="/education" data-qa-element="link_education"><span> Education </span></a></li><li class="support"><a href="/support" data-qa-element="link_support"><span> Support </span></a></li><li class="mobile-site-family"><a class="AnD-link" href="http://www.analog.com/en/analog-dialogue.html" data-qa-element="link_AnD" target=""><strong>Analog</strong>Dialogue</a></li><li class="mobile-site-family"><a class="ez-link" href="https://ez.analog.com" data-qa-element="link_ez" target=""><strong>Engineer</strong>Zone</a></li><li class="mobile-site-family"><a class="wiki-link" href="https://wiki.analog.com/" data-qa-element="link_wiki" target=""><strong>Wiki</strong></a></li></ul></div><div class="sub-menu" id="about-adi"></div><div class="sub-menu" id="global"><div class="language"><p class="global-title">Languages</p><ul><li><a name="en" href="/en/index.html"> English </a></li><li><a name="cn" href="/cn/index.html"> 简体中文 </a></li><li><a name="jp" href="/jp/index.html"> 日本語 </a></li><li><a name="ru" href="/ru/index.html"> Руccкий </a></li></ul></div><div class="regions"><p class="global-title">Regions</p><ul><li><a href="http://www.analog.com/en/landing-pages/001/india-welcome.html">India</a></li><li><a href="http://www.analog.com/en/landing-pages/001/korea-welcome.html">Korea</a></li><li><a href="http://www.analog.com/en/landing-pages/001/singapore-welcome.html">Singapore</a></li><li><a href="http://www.analog.com/en/landing-pages/001/taiwan-welcome.html">Taiwan</a></li></ul></div></div></div><script id="submenu-mobile" type="text/x-handlebars-template"><ul class="secondary navbar-nav"><li class="controls"><a class="back"><span>Back</span></a><a class="info" href="\{{url}}"><span>\{{{title}}}</span></a></li> \{{#each links}} <li><a \{{#if this.ItemLink}} href="\{{this.ItemLink.Url}}" \{{else}}href="\{{this.Url}}" \{{/if}} \{{#if this.Children}}class="parent" \{{/if}}><span> \{{#if this.Title}} \{{{this.Title}}} \{{else}} \{{#if this.PageTitle}} \{{{this.PageTitle}}} \{{else}} \{{#if this.Name}} \{{{this.Name}}} \{{else}} \{{#if this.ItemLink}} \{{{this.ItemLink.Text}}} \{{else}} \{{{this.ItemName}}} \{{/if}} \{{/if}} \{{/if}} \{{/if}} </span></a></li> \{{/each}} </ul></script></script></section><script type="text/x-handlebars-template" id="template__megamenu__company__column"><div class="company__nav"> {{#Links}} <div class="company__nav__parent"><div class="header3"><a href="{{ItemLink.Url}}" title={{{ItemLink.Title}}}>{{{ItemLink.Text}}}</a></div><ul class="company__nav__children"> {{#Children}} <li><a href="{{ItemLink.Url}}" title={{{ItemLink.Title}}}>{{{ItemLink.Text}}}</a></li> {{/Children}} </ul></div> {{/Links}} </div> {{#NavigationPanelData}} {{#if PromoBannerDetails}} {{#PromoBannerDetails}} <div class="menu-promo" style="background-image: url(&quot;{{{BackgroundImageUrl}}}&quot;);"><div class="{{#if PipeSeparator}}menu-promo__thumbnail--pipe {{else}} menu-promo__thumbnail{{/if}}"><img class="menu-promo__thumbnail__image" src={{{SupportingImageUrl}}}></div><div class="menu-promo__title"><div class="menu-promo__title__information"><div class="menu-promo__title__information__name">{{{Title}}}</div> {{#if Body}} <div class="menu-promo__title__information__description">{{{Body}}}</div> {{/if}} <a href={{{CTA.Url}}} class="link-learn-more"> {{{CTA.Name}}} </a></div></div></div> {{/PromoBannerDetails}} {{/if}} {{/NavigationPanelData}} </script><script type="text/x-handlebars-template" id="template__megamenu__education__column"><div class="education__nav"> {{#Links}} <div class="education__nav__parent"><div class="header3"><a href="{{ItemLink.Url}}" title={{{ItemLink.Title}}}>{{{ItemLink.Text}}}</a></div><ul class="education__nav__children"> {{#Children}} <li><a href="{{{ItemLink.Url}}}" title={{{ItemLink.Title}}}> {{{ItemLink.Text}}} </a></li> {{/Children}} </ul></div> {{/Links}} </div> {{#NavigationPanelData}} {{#if PromoBannerDetails}} {{#PromoBannerDetails}} <div class="menu-promo" style="background-image: url(&quot;{{{BackgroundImageUrl}}}&quot;);"><div class="{{#if PipeSeparator}}menu-promo__thumbnail--pipe {{else}} menu-promo__thumbnail{{/if}}"><img class="menu-promo__thumbnail__image" src={{{SupportingImageUrl}}}></div><div class="menu-promo__title"><div class="menu-promo__title__information"><div class="menu-promo__title__information__name">{{{Title}}}</div> {{#if Body}} <div class="menu-promo__title__information__description">{{{Body}}}</div> {{/if}} <a href={{{CTA.Url}}} class="link-learn-more"> {{{CTA.Name}}} </a></div></div></div> {{/PromoBannerDetails}} {{/if}} {{/NavigationPanelData}} </script><script type="text/x-handlebars-template" id="template__megamenu__myhistory__column"><div class="myhistory__nav "> {{#Links}} <div class="myhistory__nav__parent"><div class="header3"><a href="#" title={{{ItemName}}}>{{{ItemName}}} Viewed</a></div> {{#if Children}} <ul class="myhistory__nav__children"> {{#Children}} {{#if dataSheet}} <li class="myhistory__col_2"><a href="{{#decode url}}{{/decode}}" title="{{#decode code}}{{/decode}}">{{#decode code}}{{/decode}}</a><span></span><a href="{{dataSheet}}" title="Data Sheet">Data Sheet</a></li> {{else}} <li><a href="{{#decode url}}{{/decode}}" title="{{#decode code}}{{/decode}}">{{#decode code}}{{/decode}}</a></li> {{/if}} {{/Children}} </ul> {{ else }} {{#if noData}} <p>{{ noData }}</p> {{/if}} {{/if}} </div> {{/Links}} </div> {{#NavigationPanelData}} {{#if PromoBannerDetails}} {{#PromoBannerDetails}} <div class="menu-promo" style="background-image: url(&quot;{{{BackgroundImageUrl}}}&quot;);"><div class="{{#if PipeSeparator}}menu-promo__thumbnail--pipe {{else}} menu-promo__thumbnail{{/if}}"><img class="menu-promo__thumbnail__image" src={{{SupportingImageUrl}}}></div><div class="menu-promo__title"><div class="menu-promo__title__information"><div class="menu-promo__title__information__name">{{{Title}}}</div> {{#if Body}} <div class="menu-promo__title__information__description">{{{Body}}}</div> {{/if}} <a href={{{CTA.Url}}} class="link-learn-more"> {{{CTA.Name}}} </a></div></div></div> {{/PromoBannerDetails}} {{/if}} {{/NavigationPanelData}} </script><script type="text/x-handlebars-template" id="template__megamenu_applications"><div class="applications__nav"> {{#Links}} <div class="row"><div class="applications__nav__parent col-md-12"><div class="header3"><a href="{{{Url}}}">{{{Title}}}</a></div><ul class="applications__nav__children"> {{#Children}} {{#if Title}} <li><a data-category="{{{Title}}}" href="{{{Url}}}" title="{{{Title}}}"> {{{Title}}} </a> {{#if New}}<span>New</span>{{/if}} </li> {{else}} <li class="applications__nav__children__empty">&nbsp;</li> {{/if}} {{/Children}} </ul></div></div> {{/Links}} </div> {{#NavigationPanelData}} {{#if PromoBannerDetails}} {{#PromoBannerDetails}} <div class="menu-promo" style="background-image: url(&quot;{{{BackgroundImageUrl}}}&quot;);"><div class="{{#if PipeSeparator}}menu-promo__thumbnail--pipe {{else}} menu-promo__thumbnail{{/if}}"><img class="menu-promo__thumbnail__image" src={{{SupportingImageUrl}}}></div><div class="menu-promo__title"><div class="menu-promo__title__information"><div class="menu-promo__title__information__name">{{{Title}}}</div> {{#if Body}} <div class="menu-promo__title__information__description">{{{Body}}}</div> {{/if}} <a href={{{CTA.Url}}} class="link-learn-more"> {{{CTA.Name}}} </a></div></div></div> {{/PromoBannerDetails}} {{/if}} {{/NavigationPanelData}} </script><script type="text/x-handlebars-template" id="template_megamenu_designcenter"><div class="row featured-section bg-grey"><div class="container"> {{#Links}} {{#if IsFeatured}} <div class="col-md-6"><div class="secondary-nav-block clearfix"><h3><a href="{{{ItemLink.Url}}}"><span> {{{ItemLink.Text}}}</span></a></h3><ul class="col-md-6 nav__children"> {{#Children}} <li><a href="{{{ItemLink.Url}}}" title={{{ItemLink.Title}}}> {{{ItemLink.Text}}} </a></li> {{/Children}} </ul> {{#if ImageUrl}} <img class="col-md-6" src={{{ImageUrl}}} /> {{/if}} </div></div> {{/if}} {{/Links}} </div></div><div class="row featured-section-sub"><div class="container"> {{#Links}} {{#if IsFeatured}} {{else}} <div class="col-md-6"><div class="secondary-nav-block clearfix"><h3><a href="{{{ItemLink.Url}}}"> {{{ItemLink.Text}}}</a></h3><ul class="nav__children"> {{#Children}} <li><a href="{{{ItemLink.Url}}}" title={{{ItemLink.Title}}}> {{{ItemLink.Text}}} </a></li> {{/Children}} </ul></div></div> {{/if}} {{/Links}} </div></div> {{#NavigationPanelData}} {{#if PromoBannerDetails}} {{#PromoBannerDetails}} <div class="menu-promo" style="background-image: url(&quot;{{{BackgroundImageUrl}}}&quot;);"><div class="{{#if PipeSeparator}}menu-promo__thumbnail--pipe {{else}} menu-promo__thumbnail{{/if}}"><img class="menu-promo__thumbnail__image" src={{{SupportingImageUrl}}}></div><div class="menu-promo__title"><div class="menu-promo__title__information"><div class="menu-promo__title__information__name">{{{Title}}}</div> {{#if Body}} <div class="menu-promo__title__information__description">{{{Body}}}</div> {{/if}} <a href={{{CTA.Url}}} class="link-learn-more"> {{{CTA.Name}}} </a></div></div></div> {{/PromoBannerDetails}} {{/if}} {{/NavigationPanelData}} </script><script type="text/x-handlebars-template" id="megamenu_support"><div class="row featured-section bg-grey"><div class="container"><div class="search-support"><div class="control-form"><form class="form form-findanswers col-md-9" role="form" method="get" action="https://www.analog.com/en/support/searchsupport.html"><div class="form-group"><label class="sr-only" for="text-findanswer">Search within Support</label><span class="twitter-typeahead"><span class="twitter-typeahead" style="position: relative; display: inline-block;"><input type="text" class="form-control tt-hint" data-data-source="https://www.analog.com/en/client/Search/GetPredictiveSearchResultsJson?q=%QUERY&amp;moduleFacets={1EC6C453-FA49-4F49-97A6-FDE9DFB2C6ED}" autocomplete="off" spellcheck="false" dir="ltr" data-autosuggest-text="Search" readonly="" tabindex="-1" style="position: absolute; top: 0px; left: 0px; border-color: transparent; box-shadow: none; opacity: 1; background: none 0% 0% / auto repeat scroll padding-box border-box rgb(255, 255, 255);"><input type="text" class="form-control tt-hint tt-input" data-data-source="https://www.analog.com/en/client/Search/GetPredictiveSearchResultsJson?q=%QUERY&amp;moduleFacets={1EC6C453-FA49-4F49-97A6-FDE9DFB2C6ED}" autocomplete="off" spellcheck="false" dir="ltr" data-autosuggest-text="Search" readonly="" tabindex="-1" style="position: relative; vertical-align: top; background-color: transparent;"><pre aria-hidden="true" style="position: absolute; visibility: hidden; white-space: pre; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-style: normal; font-variant: normal; font-weight: 400; word-spacing: 0px; letter-spacing: 0px; text-indent: 0px; text-rendering: auto; text-transform: none;"></pre><div class="tt-menu" style="position: absolute; top: 100%; left: 0px; z-index: 100; display: none;"><div class="tt-dataset tt-dataset-contentsearch-undefined"></div></div></span><span class="twitter-typeahead" style="position: relative; display: inline-block;"><input type="text" class="form-control tt-input tt-hint" data-data-source="https://www.analog.com/en/client/Search/GetPredictiveSearchResultsJson?q=%QUERY&amp;moduleFacets={1EC6C453-FA49-4F49-97A6-FDE9DFB2C6ED}" autocomplete="off" spellcheck="false" dir="ltr" data-autosuggest-text="Search" readonly="" tabindex="-1" style="position: absolute; top: 0px; left: 0px; border-color: transparent; box-shadow: none; opacity: 1; background: none 0% 0% / auto repeat scroll padding-box border-box rgb(255, 255, 255);"><input type="text" class="form-control tt-input" data-data-source="https://www.analog.com/en/client/Search/GetPredictiveSearchResultsJson?q=%QUERY&amp;moduleFacets={1EC6C453-FA49-4F49-97A6-FDE9DFB2C6ED}" autocomplete="off" spellcheck="false" dir="auto" data-autosuggest-text="Search" placeholder="Search within Support" id="text-findanswer-943d6e18-ff15-487c-b6b6-99fc39eaf4c4" name="q" style="position: relative; vertical-align: top; background-color: transparent;"><pre aria-hidden="true" style="position: absolute; visibility: hidden; white-space: pre; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-style: normal; font-variant: normal; font-weight: 400; word-spacing: 0px; letter-spacing: 0px; text-indent: 0px; text-rendering: auto; text-transform: none;"></pre><div class="tt-menu" style="position: absolute; top: 100%; left: 0px; z-index: 100; display: none;"><div class="tt-dataset tt-dataset-contentsearch-text-findanswer-943d6e18-ff15-487c-b6b6-99fc39eaf4c4"></div></div></span><button type="submit"><i class="fa fa-search fa-lg"></i></button></span></div></form></div></div> {{#Links}} {{#if IsFeatured}} <div class="col-md-4"><div class="secondary-nav-block clearfix"> {{#if ImageUrl}} <h3 class="{{{ImageLogo}}}"><a href={{{ItemLink.Url}}}><img src="{{{ImageUrl}}}" alt="{{ItemName}}" /></a></h3> {{else}} <h3><a href="{{{ItemLink.Url}}}">{{{ItemLink.Text}}}</a></h3> {{/if}} {{#if PageDescription}} <p class="support__featured__description">{{{PageDescription}}}</p> {{/if}} {{#if IsDropdown}} <div class="ez"><div class="dropdown ez-dropdown"><button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa pull-right fa-angle-down fa-2x"></i><span> Select {{#Children}}{{#isStringEqual ItemName "Community"}} {{{ItemName}}}{{/isStringEqual}}{{/Children}} </span></button><ul class="dropdown-menu support-dropdown-community"> {{#each Children}} {{#isStringEqual ItemName "Community"}} {{#Children}} <li><a href="{{{Url}}}" title={{{Title}}}> {{{ItemName}}} </a></li> {{/Children}} {{/isStringEqual}} {{/each}} </ul></div> {{#each Children}} {{#isStringEqual ItemName "ADI Community User Forums Terms of Use"}} <a class="support-link" href={{{ItemLink.Url}}}>{{{ItemLink.Text}}}</a> {{/isStringEqual}} {{/each}} </div><ul class="register"> {{#each Children}} {{#isStringEqual ItemName "Register Now"}} <li><a href="{{{ItemLink.Url}}}">{{{ItemName}}}</a></li> {{/isStringEqual}} {{#isStringEqual ItemName "ADI Partner Zone"}} <li><a href="{{{ItemLink.Url}}}">{{{ItemName}}}</a></li> {{/isStringEqual}} {{/each}} </ul> {{else}} <ul class="nav__children"> {{#Children}} {{#if RegionKey}} <li class="support__regional__email"><img src="{{../../assetsUrl}}/images/header/menu/icon-support-email.svg" alt="{{Title}}"><a href="mailto:{{EmailId}}?subject={{NorthAmericaSubjectLine}}">{{ Title }}</a></li><li class="support__regional__phone"><img src="{{../../assetsUrl}}/images/header/menu/icon-support-phone.svg" alt="{{Title}}"><div class="support__regional__phone__toll-free"><span class="support__regional__phone__number">{{{ ContactNumber }}}</span><span class="support__regional__phone__hours"> {{ PrimaryWorkingDays }}:<br> {{ PrimaryWorkTimings }} </span></div><div class="support__regional__phone__direct"><span class="support__regional__phone__number">{{{ AltContactNumber }}}</span><span class="support__regional__phone__hours"> {{ SecondaryWorkingDays }}:<br> {{ SecondaryWorkTimings }} </span></div></li> {{else}} <li><img src="{{LinkIcon.Src}}" alt="" /><a href="{{{ItemLink.Url}}}" title="{{{ItemLink.Title}}}">{{{ItemLink.Text}}} </a></li> {{/if}} {{/Children}} </ul> {{/if}} </div></div> {{/if}} {{/Links}} </div></div><div class="row featured-section-sub"><div class="container"> {{#Links}} {{#if IsFeatured}} {{else}} <div class="col-md-4"><div class="secondary-nav-block clearfix"><h3> {{#if ItemLink}} <a href="{{{ItemLink.Url}}}">{{{ItemLink.Text}}}</a> {{else}} {{ItemName}} {{/if}} </h3><ul class="nav__children"> {{#Children}} <li><a href="{{{ItemLink.Url}}}" title={{{ItemLink.Title}}}> {{{ItemLink.Text}}} </a></li> {{/Children}} </ul></div></div> {{/if}} {{/Links}} </div></div> {{#NavigationPanelData}} {{#if PromoBannerDetails}} {{#PromoBannerDetails}} <div class="menu-promo" style="background-image: url(&quot;{{{BackgroundImageUrl}}}&quot;);"><div class="{{#if PipeSeparator}}menu-promo__thumbnail--pipe {{else}} menu-promo__thumbnail{{/if}}"><img class="menu-promo__thumbnail__image" src={{{SupportingImageUrl}}}></div><div class="menu-promo__title"><div class="menu-promo__title__information"><p class="menu-promo__title__information__name"> {{{Title}}} </p> {{#if Body}} <div class="menu-promo__title__information__description">{{{Body}}}</div> {{/if}} <a href={{{CTA.Url}}} class="link-learn-more"> {{{CTA.Name}}} </a></div></div></div> {{/PromoBannerDetails}} {{/if}} {{/NavigationPanelData}} </script><script id="login-widget-template" type="text/x-handlebars-template"><div class="col-md-8 register"> {{#if videoId}} <div class="col-md-6"><div class="header">{{registerNow}}</div><p>{{description}}</p><button class="btn btn-primary">{{getStarted}}</button></div><div class="col-md-6"><div class="video"><div id="videoTemplate"><div><div class="deferred-video-player" data-account="{{accountId}}" data-application-id="" data-controls data-embed="{{embed}}" data-player="{{playerId}}" data-video-id="{{videoId}}"><i class="fa fa-spinner fa-spin fa-2x"></i></div></div></div></div><a class="explore" href={{exploreUrl}}>{{explore}}</a></div> {{else}} <div class="col-md-12"><div class="header">{{registerNow}}</div><p>{{description}}</p><button class="btn btn-primary">{{getStarted}}</button></div> {{/if}} </div><div class="col-md-4 login"><form autocomplete="off"><div class="header">{{login}}</div><p>{{youWillBeRedirected}}</p><button type="submit" class="ma btn btn-primary">{{loginToMyAnalog}}</button><p>{{{dontHaveAccount}}}<a href={{route}}>{{registerNow}}</a></p></form></div></script><script id="project-widget-template" type="text/x-handlebars-template"><div class="title"><a href={{route}}><span>{{title}}</span> {{#if count}} <span>({{count}})</span> {{/if}} </a></div><div class="content"><div class="details"> {{#if defaultState}} <div class="default state">{{{defaultState}}}</div> {{else}} <div class="project"><a href={{{projectRoute}}} class="name">{{name}}</a><p class="timestamp">{{modifiedOn}}<span>{{date}}</span></p><div class="info"><div class="contributors"><span class="count">{{contributors.count}}</span><span>{{contributors.title}}</span> {{#if contributors.new}} <div class="new flag"></div> {{/if}} </div><div class="product"><span class="count">{{product.count}}</span><span>{{product.title}}</span> {{#if product.new}} <div class="new flag"></div> {{/if}} </div><div class="resources"><span class="count">{{resources.count}}</span><span>{{resources.title}}</span> {{#if resources.new}} <div class="new flag"></div> {{/if}} </div><div class="notes"><span class="count">{{notes.count}}</span><span>{{notes.title}}</span> {{#if notes.new}} <div class="new flag"></div> {{/if}} </div></div></div> {{/if}} <a class="create project" href={{{route}}}>{{createProject}}</a></div> {{#if seeAllYourProjects}} <div class="more"><a href={{{route}}}>{{seeAllYourProjects}}</a></div> {{/if}} </div></script><script id="product-widget-template" type="text/x-handlebars-template"><div class="title"><a href={{route}}><span>{{title}}</span> {{#if count}} <span>({{count}})</span> {{/if}} </a></div><div class="content"><div class="details"> {{#if defaultState}} <div class="default state">{{{defaultState}}}</div> {{else}} <div class="info"><ul> {{#each productsData}} <li><span><a href={{{url}}}>{{name}}</a></span><span class="datasheet"><a target="_blank" href="{{../datasheetRoute}}/{{name}}/datasheet">{{../datasheet}}</a></span></li> {{/each}} </ul></div> {{/if}} </div> {{#if seeAllYourProducts}} <div class="more"><a href={{{route}}}>{{seeAllYourProducts}}</a></div> {{/if}} </div></script><script id="list-widget-template" type="text/x-handlebars-template"><div class="title"><a href={{route}}><span>{{title}}</span></a></div><div class="content"><div class="details"> {{#if defaultState}} <div class="default state">{{{defaultState}}}</div> {{else}} <ul> {{#each list}} <li><a href={{{url}}}>{{{title}}}</a> {{#if desc}} <p>{{desc}}</p> {{/if}} </li> {{/each}} </ul> {{/if}} </div> {{#if seeAll}} <div class="more"><a href={{route}}>{{seeAll}}</a></div> {{/if}} </div></script><script id="profile-widget-template" type="text/x-handlebars-template"><div class="{{avatarColor}} completeness"><svg class="doughnut"><circle class="total" cx="72" cy="72" r="56.5" fill="transparent" stroke-width="7" fill="pink"></circle><circle class="complete" cx="72" cy="72" r="56.5" fill="transparent" stroke-width="7" fill="hotpink" stroke-dasharray={{avatarFilled}}></circle></svg><div><div class="{{avatarColor}} avatar editable"><span class="initials">{{initials}}</span><a class="edit" href={{editRoute}}>{{edit}}</a></div></div><div class="details"><div class="username">{{username}}</div><div class="company">{{company}}</div><div><a class="logout" href={{signOutUrl}}>{{signOut}}</a></div></div></div><div><a class="link dashboard" href={{route}}>{{{dashboard}}}</a></div><div><a class="local sales" href={{salesContactLink}}><img src="https://assets.analog.com/images/myanalog/sales-contact.svg" /><div>{{{salesContact}}}</div></a></div><div><a class="distributor portal" href={{distributorPortalLink}}><img src="https://assets.analog.com/images/myanalog/hyperion-logo.svg" /><div>{{distributorPortal}}</div></a></div></script><div class="container"><div class="socialmediawidget socialmediawidget-main visible-desktop hidden"><ul class="clearfix visible-lg visible-md"><li class="link print" onclick="window.print();return false;"><a href="#" name='Print'> Print </a></li><li class="saveToMyAnalog"><button id="myAnalogWidgetBtn" class="widget-Btn" name="myAnalog"><img class="add-plus" src="https://assets.analog.com/images/myanalog/add.svg" alt="add" /><img class="add-check" src="" alt="added" /><img class="myAnalog-saveTo" src="https://assets.analog.com/images/myanalog/myAnalog-logo.svg" alt="myAnalog" /></button></li></ul><div id="myAnalog-widget" style="display:none"></div><script id="template-save-to-myAnalog-prelogin" type="text/x-handlebars-template"><div class="saveToMyAnalog widget"><div class="authenticate"><p class="message">{{message}}</p><button class="btn btn-primary">{{loginToMyAnalog}}</button><div class="other actions"><span>{{dontHaveAnAccount}}</span>&nbsp; <a href={{registerLink}}>{{registerNow}}</a></div></div></div></script><script id="template-save-to-myAnalog-postlogin" type="text/x-handlebars-template"><div class="saveToMyAnalog widget"><div class="saveTo createProject"><div class="tab-header"><ul><li data-tab="saveToWidget" class="active">{{saveTo}}</li><li data-tab="createProject">{{newProject}}</li></ul><span class="helper-text">* {{required}}</span></div> {{#if RESOURCES}} <div class="selected-resources" id="selectedResources"><span class="count">0</span><span> {{selected}}</span></div> {{/if}} <div class="save-to-widget tab active" id="saveToWidget"> {{#if PST}} <label>* {{saveModelsTo}}</label> {{/if}} {{#if PDP}} <label>* <span class="productLabel">{{saveTo}}</span><span>{{saveProductTo}}</span></label> {{/if}} {{#if RESOURCES}} <label>* {{saveResourceTo}}</label> {{/if}} <div class="select-product dropdown"><div class="selected-value"><span>myAnalog</span><img class="angle down" alt="down" src="https://assets.analog.com/images/myanalog/data-arrow-open.svg" /><img class="angle up" alt="up" src="https://assets.analog.com/images/myanalog/data-arrow-open.svg" /></div><ul class="hide"><li>myAnalog</li> {{#if projects}} {{#each projects}} <li id="{{ id }}">{{ title }}</li> {{/each}} {{/if}} </ul><div class="validation-message" style="display:none"></div></div></div><div class="create-new-item-widget tab" id="createProject"><div class="input-control"><label>* {{createNewProject}}</label><input type="text" placeholder="{{projectName}}" id="newProjectTitle" maxlength="128"/><div class="validation-message" style="display:none"></div></div><div class="add item active"><button class="outline-button"><img class="plus-icon" src="https://assets.analog.com/images/myanalog/plus.svg" alt="add" />{{addDescription}}</button><textarea id="projectDescription"></textarea><div class="validation-message" style="display:none"></div></div></div> {{#if PST}} <div class="pst-table-name"><div class="input-control"><label>* {{tableName}}</label><input type="text" placeholder="{{enterTableName}}" id="pstTableName" /><div class="validation-message" style="display:none"></div></div><div class="add item active"><button class="outline-button"><img class="plus-icon" src="https://assets.analog.com/images/myAnalog/plus.svg" alt="add" />{{addNote}}</button><textarea id="tableNote"></textarea><div class="validation-message" style="display:none"></div></div></div> {{/if}} {{#if RESOURCES}} <div class="add item active"><button class="outline-button"><img class="plus-icon" src="https://assets.analog.com/images/myAnalog/plus.svg" alt="add" />{{addNote}}</button><textarea id="resourceNote"></textarea><div class="validation-message" style="display:none"></div></div> {{/if}} {{#if PST}} <div class="widget-footer single btn"><button class="btn btn-primary pst" id="saveProductToMyanalog">{{savePST}}</button></div> {{/if}} {{#if PDP}} <div class="widget-footer single btn"><button class="btn btn-primary pdp" id="saveProductToMyanalog"><span class="productLabel">{{saveProduct}}</span><span>{{save}}</span></button></div> {{/if}} {{#if RESOURCES}} <div class="widget-footer single btn"><button class="btn btn-primary resource" id="saveProductToMyanalog">{{saveResource}}</button></div> {{/if}} </div><div class="saved info hide" id="savedInfo"><h5><span>{{savedTo}}</span><img class="saved-myAnalog-logo" alt="myAnalog" src="https://assets.analog.com/images/myanalog/myAnalog-logo.svg" alt="myAnalog" /></h5><div class="saved-message"> {{#if PDP }} <h5><span class="productLabel">{{productSavedTo}}</span><span>{{resourceSavedTo}}</span> "<span id="savedTo"></span>"</h5> {{/if}} {{#if PST }} <h5>{{tableSavedTo}} "<span id="savedTo"></span>"</h5> {{/if}} {{#if RESOURCES }} <h5>{{resourceSavedTo}} "<span id="savedTo"></span>"</h5> {{/if}} {{#if PDP }} <div class="pcn-notification"><div class="switch"><input type="checkbox" class="toggle" name="PCNPDNNotification" id="pcnNotify" /><label for="pcnNotify"></label></div><span><label for="pcnNotify">{{ turnOnPCNNotification }}</label></span></div> {{/if}} </div></div><div class="widget-footer single hide" id="mySavedFooter"><a href="#" target="_blank"><img class="share-icon" src="https://assets.analog.com/images/myanalog/link.svg" alt="share-icon" /> {{#if PDP}} <span class="productLabel">{{viewMySavedProducts}}</span><span>{{viewMySavedResources}}</span> {{/if}} {{#if PST}} <span>{{viewMySavedProducts}}</span> {{/if}} {{#if RESOURCES}} <span>{{viewMySavedResources}}</span> {{/if}} </a></div></div></script></div></div><div class="breadcrumb adicrumb visible-desktop" name="adi_breadcrumb"><div class="container"><ol class="list-inline nbm"><li><a href="http://www.analog.com/en/index.html" class="home" alt="Home" title="Home"></a></li></ol></div></div></header><div class="modal fade" id="search_tips_modal" tab-index="-1" role="dialog" aria-hidden="true"><div class="modal-dialog modal-dialog-center"><div class="search_model_content"><div class="search_model_content_header"><button type="button" class="close search-close" data-dismiss="modal" aria-hidden="true">&times;</button><span class="search-title-head">Four Easy Search Tips</span></div><div class="hr_line"><div class="modal-content-search content_search"><div class="content-search-txt"><div class="wrap-search-txt">1.</div><div>Press the Enter key or click the Search Icon to get general search results</div></div><div class="wrap-search-img"><span style="background-image:url('https://assets.analog.com/images/en/enter.jpg');" class="search-tips-img"></span></div></div></div><div class="hr_line1 "><div class="content_search"><div class="content-search-txt"><div class="wrap-search-txt">2.</div><div>Click a suggested result to go directly to that page</div></div><div class="wrap-search-img"><span style="background-image:url('https://assets.analog.com/images/en/suggested.jpg');" class="suggested-img"></span></div></div></div><div class="hr_line1"><div class="content_search-result"><div class="content-search-txt"><div class="wrap-search-txt">3.</div><div>Click Search to get general search results based on this suggestion</div></div><div class="wrap-search-img"><span style="background-image:url('https://assets.analog.com/images/en/search.jpg');" class="search-img"></span></div></div></div><div class="hr_line1"><div class="content_search"><div class="content-search-txt"><div class="wrap-search-txt">4.</div><div>On Search Results page use Filters found in the left hand column to refine your search</div></div><div class="wrap-search-img"><span style="background-image:url('https://assets.analog.com/images/en/filters.jpg');" class="filters-img"></span></div></div></div></div></div></div> 
+
+
+    <noscript>Enable javascript</noscript>
+    <div class="content" role="main">
+
+        
+
+        
+
+
+
+        <div>
+
+
+
+
+
+
+<div class="content article">
+    <div class="container article-container">
+        <div class="row">
+            <section class="col-lg-8 col-md-8 col-sm-12 col-xs-12 leftCol">
+                
+                
+        <h1>Fundamental Principles Behind the Sigma-Delta ADC Topology: Part 2</h1>
+
+
+<p class="byline">
+            <a  class="author_hyperlink" href="#author">
+                    by
+<strong>Michael Clifford</strong>            </a>
+            <span class="download">
+                <i class="far fa-file-pdf" aria-hidden="true"></i>
+                    <span>
+                        <a href="/media/en/technical-documentation/tech-articles/Fundamental-Principles-Behind-the-Sigma-Delta-ADC-Topology-Part-2.pdf" target="_blank">Download PDF</a>
+                    </span>
+            </span>
+
+</p>
+    <article>
+        <p><a href="https://www.analog.com/en/products/landing-pages/001/ad717x-family.html">AD717x</a> is the latest family of precision &Sigma;-&Delta; ADCs from Analog Devices. This&nbsp;ADC family is the first converter family on the market to provide a true 24-bit noise free output. The AD717x devices maximize dynamic range for designers of critically noise sensitive instrumentation circuits, enabling reduction or elimination of preceding amplifier gain in signal conditioning stages. The devices can also run at high speed and offer lower settling times than before. This improves the response times to a stimulus on the input in control loops or increases the density of channels that can be converted with a faster throughput per channel.</p>
+<p>The <a href="https://www.analog.com/en/products/landing-pages/001/ad717x-family.html">AD717x page</a> on <em>analog.com</em> provides details of the complete family, which includes information on the AD7172-2, AD7175-2, AD7172-4, AD7173-8, and the AD7175-8. These precision ADCs comes with a fully integrated analog signal chain with true rail-to-rail analog input and reference input buffers. The family offers multiple input channel counts with pin-to-pin upgrades for either speed of conversion or for lower noise or lower power alternatives. AD7175-2 and AD7175-8 provide the fastest outputs and lowest noise. AD7177-2 offers a 32-bit resolution output. AD7172 and AD7173 provide the lowest power options.</p>
+<table align="center">
+    <tbody>
+        <tr>
+            <td style="padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #ffffff; font-weight: bold; text-align: center; vertical-align: middle; background-color: #7c4a8b;">Noise-Free p&ndash;p Bits<br />
+            </td>
+            <td style="padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #ffffff; font-weight: bold; text-align: center; vertical-align: middle; background-color: #acacac;">Output Data Rate<br />
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">17.2<br />
+            </td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">250 kSPS<br />
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">17.8<br />
+            </td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">2.5 kSPS<br />
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">19.1<br />
+            </td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">10 kSPS<br />
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">19.9</td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">2.5 kSPS<br />
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">24</td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">20 SPS<br />
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<figure>
+<div class="image-container"><a href="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure1.png?la=en?w=900" data-lightbox="BB76CFB8-4724-4BB9-889F-265B4B8ED01A" name="Figure 1_BB76CFB8-4724-4BB9-889F-265B4B8ED01A">
+<div class="icon-zoom"></div>
+<div data-picture=" " data-alt="Figure 1" data-title="Figure 1" data-class="img-responsive">
+<div data-src="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure1.png?la=en?w=577"></div>
+<div data-src="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure1.png?la=en?h=270" data-media="(min-width: 640px)"></div>
+<noscript> &lt;img src='https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure1.png?la=en?w=435 ' alt='Figure 1'&gt; </noscript> </div>
+</a> </div>
+<img alt="" width="350" class="rtezoom-hideimg" src="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure1.png?la=en" /><figcaption>
+<p>Figure 1. AD7175x &Sigma;-&Delta; ADC family; AD7175-2 block diagram and noise performance.</p>
+</figcaption></figure>
+<p>The AD7175-2 includes an extremely useful software tool to help with its evaluation. Eval+ is a single piece of software downloadable from the ADI website, which can be used to configure, analyze, and select the ADC with&nbsp;or without hardware. The software, running with hardware, will operate as per the standard evaluation board. Without hardware, a functional model of the ADC runs in the background, allowing the user to establish the best operating configuration for their end application.</p>
+<figure>
+<div class="image-container"><a href="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure2.png?la=en?w=900" data-lightbox="29687E99-C179-4028-8017-3E2A522A4959" name="Figure 2_29687E99-C179-4028-8017-3E2A522A4959">
+<div class="icon-zoom"></div>
+<div data-picture=" " data-alt="Figure 2" data-title="Figure 2" data-class="img-responsive">
+<div data-src="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure2.png?la=en?w=577"></div>
+<div data-src="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure2.png?la=en?h=270" data-media="(min-width: 640px)"></div>
+<noscript> &amp;lt;img src='https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure2.png?la=en?w=435 ' alt='Figure 2'&amp;gt; </noscript> </div>
+</a> </div>
+<img alt="" width="350" class="rtezoom-hideimg" src="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure2.png?la=en" /><figcaption>
+<p>Figure 2. Configuration tab of the <a href="https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/eval-ad7175-2.html#eb-relatedsoftware">AD7175-2 Eval+ software</a> in functional model evaluation mode.</p>
+</figcaption></figure><strong>
+<p style="text-align: center;">Table 1. AD717x Family Overview, Showing the Channel Count Options&nbsp;Available and the Pin-for-Pin Alignment of Family Members</p>
+</strong><br />
+<table align="center">
+    <tbody>
+        <tr>
+            <td style="padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #ffffff; font-weight: bold; text-align: center; vertical-align: middle; background-color: #7c4a8b;" colspan="4">AD717x Family<br />
+            </td>
+            <td style="padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #ffffff; font-weight: bold; text-align: center; vertical-align: middle; background-color: #acacac;">24-lead TSSOP<br />
+            </td>
+            <td style="padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #ffffff; font-weight: bold; text-align: center; vertical-align: middle; background-color: #acacac;">5 &times; 5<br />
+            32-lead LFCSP<br />
+            </td>
+            <td style="padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #ffffff; font-weight: bold; text-align: center; vertical-align: middle; background-color: #acacac;">6 &times; 6<br />
+            40-lead LFCSP<br />
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;"><br />
+            </td>
+            <td style="padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">
+            <div style="text-align: center;"><em>Noise-Free Bits</em></div>
+            <em>
+            <div style="text-align: center;"><em>(Full Speed)</em></div>
+            </em></td>
+            <td style="padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">
+            <div style="text-align: center;"><em>Modulator</em></div>
+            <em>
+            <div style="text-align: center;"><em>(mA)</em>&nbsp;</div>
+            </em></td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">&nbsp;</td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;"><em>&ndash;2<br />
+            </em></td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;"><em>&ndash;4<br />
+            </em></td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;"><em>&ndash;8</em><br />
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">
+            <div style="text-align: center;"><a href="https://www.analog.com/en/products/ad7175-2.html">AD7175</a></div>
+            <div style="text-align: center;">250 kSPS</div>
+            </td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">17.2</td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">8.4</td>
+            <td style="padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">
+            <div style="text-align: center;">Fast, low noise, true rail-to-rail</div>
+            <div style="text-align: center;">buffers, 5 V supply</div>
+            </td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;"><span style="font-size: 24px;">&bull;</span><br />
+            </td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">&nbsp;</td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;"><span style="font-size: 24px;">&bull;</span></td>
+        </tr>
+        <tr>
+            <td style="padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">
+            <div style="text-align: center;"><a href="https://www.analog.com/en/products/ad7172-2.html">AD7172</a></div>
+            <div style="text-align: center;">32 kSPS</div>
+            </td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">17.2</td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">1.5<br />
+            </td>
+            <td style="padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">
+            <div style="text-align: center;">Low power, true rail-to-rail buffers,</div>
+            <div style="text-align: center;">5 V or 3 V supply</div>
+            </td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;"><span style="font-size: 24px;">&bull;</span></td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;"><span style="font-size: 24px;">&bull;</span></td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">&nbsp;</td>
+        </tr>
+        <tr>
+            <td style="padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">
+            <div style="text-align: center;"><a href="https://www.analog.com/en/products/ad7176-2.html">AD7176</a></div>
+            <div style="text-align: center;">250 kSPS</div>
+            </td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">17.3</td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">8</td>
+            <td style="padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">
+            <div style="text-align: center;">Fast, low noise,</div>
+            <div style="text-align: center;">unbuffered, 5 V supply</div>
+            </td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;"><span style="font-size: 24px;">&bull;</span></td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">&nbsp;</td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">&nbsp;</td>
+        </tr>
+        <tr>
+            <td style="padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">
+            <div style="text-align: center;"><a href="https://www.analog.com/en/products/ad7173-8.html">AD7173</a></div>
+            <div style="text-align: center;">32 kSPS</div>
+            </td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">17.5</td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">1.5</td>
+            <td style="padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">
+            <div style="text-align: center;">Low power, buffered input,</div>
+            <div style="text-align: center;">5 V or 3 V supply</div>
+            </td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">&nbsp;</td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">&nbsp;</td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;"><span style="font-size: 24px;">&bull;</span></td>
+        </tr>
+        <tr>
+            <td style="padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">
+            <div style="text-align: center;"><a href="https://www.analog.com/en/products/AD7177-2.html">AD7177</a></div>
+            <div style="text-align: center;">10 kSPS</div>
+            </td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">19.1</td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">8.4</td>
+            <td style="padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">
+            <div style="text-align: center;">Fast, low noise, 32-bit</div>
+            <div style="text-align: center;">true rail-to-rail buffers, 5 V supply</div>
+            </td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;"><span style="font-size: 24px;">&bull;</span></td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">&nbsp;</td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">&nbsp;</td>
+        </tr>
+    </tbody>
+</table>
+<h3>Eliminating the &Sigma;-&Delta; ADC Quantization Noise: Noise and BW Considerations</h3>
+<p>The AD7175 ADC will be used to illustrate how the quantization noise of &Sigma;-&Delta; ADCs can be eliminated using digital filtering. Trade-offs in noise/ input bandwidth and settling time come into focus.</p>
+<p>Figure 4 shows where the raw modulator noise is plotted from vs. the log of frequency for the AD7175 device from dc to FMOD/2 (or 4 MHz). The AD7175 modulator samples at an effective rate of 8 MHz (FMOD). The modulator is a MASH style that is designed to give an 80 dB/decade slope to the modulator noise. The thermal noise of the circuit sets the in-band noise floor before getting to the point of the frequency axis where the modulator noise begins to ramp. The plot illustrating the low noise floor gives an insight into the high dynamic range capability of the ADC for low bandwidth signals. This dynamic range and the ability of the AD7175 to push this noise floor down translates into improved sensitivity for the user, which is particularly useful when acquiring low amplitude signals in the application.</p>
+<p>The minimum oversampling ratio of the ADC, the digital filter order, and the corner frequency all contribute to ensuring that the quantization noise is not the limiting factor for the ADC noise. To filter the noise, the envelope of the filter needs to be able to attenuate, with sufficient roll-off to deal with the rate of increase of the magnitude quantization noise.</p>
+<p>The minimum oversampling ratio of the AD7175 is &times;32, so given the 8 MHz FMOD, the maximum output data rate offered is 250 kHz.</p>
+<p>The AD7175 offers a number of different filter types selectable by the user.&nbsp;The theory behind the operation of a digital filter operation is described by&nbsp;comparing the sinc5 + sinc1 and sinc3 filters in different scenarios.</p>
+<p>At a 250 kHz ODR, the AD7175 sinc5 + sinc1 is configured directly as a sinc5 path with a &minus;3 dB frequency of ~0.2 &times; ODR (50 kHz). The sinc5 filter has an attenuating envelope of &minus;100 dB per decade. This means the sinc5 filter attenuation and roll-off is more than sufficient to eliminate the modulator noise, as shown in Figure 3.</p>
+<figure>
+<div class="image-container"><a href="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure3.png?la=en?w=900" data-lightbox="9EE143E2-0F54-4D82-82C2-67A702E358D9" name="Figure 3_9EE143E2-0F54-4D82-82C2-67A702E358D9">
+<div class="icon-zoom"></div>
+<div data-picture=" " data-alt="Figure 3" data-title="Figure 3" data-class="img-responsive">
+<div data-src="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure3.png?la=en?w=577"></div>
+<div data-src="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure3.png?la=en?h=270" data-media="(min-width: 640px)"></div>
+<noscript> &amp;lt;img src='https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure3.png?la=en?w=435 ' alt='Figure 3'&amp;gt; </noscript> </div>
+</a> </div>
+<img alt="" width="350" class="rtezoom-hideimg" src="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure3.png?la=en" /><figcaption>
+<p>Figure 3. AD7175 modulator output spectrum dc to FMOD/2 with the sinc5 + sinc1 and decimate by 32 (effectively a sinc5 dc response) overlaid.</p>
+</figcaption></figure><figure>
+<div class="image-container"><a href="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure4.png?la=en?w=900" data-lightbox="64A7827D-E43E-4488-83B4-55141498ED15" name="Figure 4_64A7827D-E43E-4488-83B4-55141498ED15">
+<div class="icon-zoom"></div>
+<div data-picture=" " data-alt="Figure 4" data-title="Figure 4" data-class="img-responsive">
+<div data-src="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure4.png?la=en?w=577"></div>
+<div data-src="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure4.png?la=en?h=270" data-media="(min-width: 640px)"></div>
+<noscript> &amp;lt;img src='https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure4.png?la=en?w=435 ' alt='Figure 4'&amp;gt; </noscript> </div>
+</a> </div>
+<img alt="" width="350" class="rtezoom-hideimg" src="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure4.png?la=en" /><figcaption>
+<p>Figure 4. AD7175-2 sinc5 + sinc1 filter: adjusting the input bandwidth by changing the decimation rate of the ADC.</p>
+</figcaption></figure>
+<p>In contrast, changing to sinc3 at 250 kHz ODR, the attenuation and roll-off are not sufficient to eliminate the modulator noise. The data sheet noise numbers at 250 kHz and 125 kHz ODR show this fact. Only when the data rate is set to 62.5 kHz and below does the sinc3 response fully filter the quantization noise from the ADC result.</p>
+<p>Beyond filtering quantization noise, the digital filter can be used to trade off input bandwidth for lower noise. This is done by increasing the decimation rate. In the case of the sinc5 + sinc1 filter, increasing the oversampling ratio means that the initial fifth-order sinc filter becomes averaged. The averaging of the initial result enables the user to choose from a range of different output data rates, speed, and bandwidth improving noise performance (shown in Figure 5) by the sinc5 and subsequent sinc5 + sinc1 averages to improve the noise performance. Averaging the sinc5 result introduces first-order notches at the output data rate and multiples of that rate, which are compound with the overall sinc5 envelope. The notches in the sinc style filter have traditionally been used to reject interferers at known frequencies by strategically setting the data rate to coincide with the interferer frequency. A classic example of this is in the 50 Hz and 60 Hz rejection of the line frequency.</p>
+<figure>
+<div class="image-container"><a href="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure5.png?la=en?w=900" data-lightbox="80A51306-8B5D-493A-9AE4-457CE2ACBDFA" name="Figure 5_80A51306-8B5D-493A-9AE4-457CE2ACBDFA">
+<div class="icon-zoom"></div>
+<div data-picture=" " data-alt="Figure 5" data-title="Figure 5" data-class="img-responsive">
+<div data-src="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure5.png?la=en?w=577"></div>
+<div data-src="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure5.png?la=en?h=270" data-media="(min-width: 640px)"></div>
+<noscript> &amp;lt;img src='https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure5.png?la=en?w=435 ' alt='Figure 5'&amp;gt; </noscript> </div>
+</a> </div>
+<img alt="" width="350" class="rtezoom-hideimg" src="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure5.png?la=en" /><figcaption>
+<p>Figure 5. AD7175-2 sinc5 + sinc1 filter &ndash; noise vs. ODR plot.</p>
+</figcaption></figure>
+<p>The sinc style filter is a moving average filter with a sin(x)/x profile, so it is commonly referred to as a sinc filter. The filter is made up of a series of integrators and a switch that operates as the decimator, followed by a series of differentiators. This is a finite impulse response (FIR) type of filter. It exhibits a known and finite linear phase response to a step change at the input. As the output data rate and integer multiples of this rate, deep notches occur with attenuating signals within the notch.</p>
+<p>Figure 6 shows the comparison of the third-order and fifth-order sinc filters, both running with a decimation rate of 32 for the AD7175. In this case, both filters will provide conversion data at an output rate of 250 kHz. The order of the filter determines both the roll-off and the &minus;3 dB frequency. A sincP filter will sit under a frequency response envelope of &ndash;P &times; 20 dB/decade. The steeper roll-off gives a lower &minus;3 dB frequency. The major trade-off between different orders of filters is in the settling time of the filter, which has different effects on the end measurement application depending on the scenario.</p>
+<figure>
+<div class="image-container"><a href="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure6.png?la=en?w=900" data-lightbox="9CE6D8B8-20AC-444B-AABF-8C30C4301868" name="Figure 6_9CE6D8B8-20AC-444B-AABF-8C30C4301868">
+<div class="icon-zoom"></div>
+<div data-picture=" " data-alt="Figure 6" data-title="Figure 6" data-class="img-responsive">
+<div data-src="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure6.png?la=en?w=577"></div>
+<div data-src="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure6.png?la=en?h=270" data-media="(min-width: 640px)"></div>
+<noscript> &amp;lt;img src='https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure6.png?la=en?w=435 ' alt='Figure 6'&amp;gt; </noscript> </div>
+</a> </div>
+<img alt="" width="350" class="rtezoom-hideimg" src="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure6.png?la=en" /><figcaption>
+<p>Figure 6. Frequency domain comparison of the different orders of sinc filters: sinc5 vs. sinc3.</p>
+</figcaption></figure>
+<h3>Filter Settling Time</h3>
+<p>As the digital filter processes a moving average of the data stream from the &Sigma;-&Delta; modulator, there is an associated settling time. The delay is fixed for any FIR filter, but differs for each sinc filter order. The delay is typically described by two terms: group delay and settling time. The group delay describes the delay between the analog signal being present at the input to when it is seen at the digital output. For a single tone sine wave, for instance, it is the time between the voltage peak of the sine wave existing at the analog input and the same peak appearing at the digital output.</p>
+<p>The settling time is the full averaging time of the digital filter. If there were a step at the analog input, it takes the full settling time of the filter until the data output from the ADC has no correlation with that previous step at the input. Other delays can exist, such as the computation time of the filter. For AD7175 family, the first conversion will have a longer settling time or settling after coming out of standby can also incur a delay due to an initial computation cycle of 1/ODR. Any delays in addition to the settling time of the filter can vary depending on the converter selected, so be mindful when reading ADC data sheets.</p>
+<p>The filter settling time effect is best shown by comparing a single &Sigma;-&Delta; ADC scenario with that of a multiplexed &Sigma;-&Delta; ADC. The settling time of the digital filter heavily impacts the rate at which the user can cycle the multiple input channels while keeping each channel result independent.</p>
+<p>Why do you need to wait the full settling time to give an independent result? Let&rsquo;s look at the digital filtering for a single ADC with a single input source. The data from the modulator &Sigma;-&Delta; ADC is passed at a rate of FMOD to the digital filter (as described in Figure 5) with each sample passed through the moving average filter. Depending on the order and style, the filter weighs each sample differently over the conversion time period (set by the filter decimation rate) as shown in Figure 7. Input Sample 0 and subsequent samples are discrete modulator output results separated by a single period of the modulator clock. The y-axis scales the weighing attributed by the digital filter to each sample. The shape of this weighing is the time domain representation of the low-pass digital filter. The output data rate of this situation is 250 kHz (8 MHz/32 = FMOD/decimation rate). The time between the data ready signals (vertical dashed lines in each of the different colors) is 4 &mu;s. The ADC is set up to run with the sinc5 + sinc1 filter with a decimation rate of 32. All five conversion outputs have some overlap in the modulator inputs that define the filter output, thus, none&nbsp;are independent from each other. For a single ADC input, each conversion result shares inputs from the modulator but the filter weighs each of these modulator outputs differently.</p>
+<figure>
+<div class="image-container"><a href="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure7.png?la=en?w=900" data-lightbox="CF29AB55-3181-4A0C-A655-5784F33C68BF" name="Figure 7_CF29AB55-3181-4A0C-A655-5784F33C68BF">
+<div class="icon-zoom"></div>
+<div data-picture=" " data-alt="Figure 7" data-title="Figure 7" data-class="img-responsive">
+<div data-src="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure7.png?la=en?w=577"></div>
+<div data-src="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure7.png?la=en?h=270" data-media="(min-width: 640px)"></div>
+<noscript> &amp;lt;img src='https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure7.png?la=en?w=435 ' alt='Figure 7'&amp;gt; </noscript> </div>
+</a> </div>
+<img alt="" width="350" class="rtezoom-hideimg" src="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure7.png?la=en" /><figcaption>
+<p>Figure 7. Single ADC input, sinc5, and five conversion output cycles.</p>
+</figcaption></figure>
+<p>For the multiplexed input case, the modulator data provided to create each conversion output must be independent for each channel. The full settling time of the filter must elapse before the multiplexer switches from one analog input channel to the next. Taking an example of the sinc3 style filter and using a decimation rate of 32, the filter settling time is illustrated for one conversion in Figure 8 (a). The data output, once the filter is fully settled, is a weighted average of the previous 96 outputs from the modulator. This equates to 12 &mu;s or three cycles of the output data rate of the ADC.</p>
+<p>Figure 8 (b) shows the first three samples of the multiplexed situation where each of the samples output by the ADC is fully settled. The &nbsp;modulator output does not overlap between any of the samples. &nbsp;The multiplexed rate indicated by the time between the DRDY (vertical lines) is decided by the settling time of the filter. This rate is often described in data sheets and parametric plots as a fully settled data rate.</p>
+<figure>
+<div class="image-container"><a href="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure8.png?la=en?w=900" data-lightbox="8D37F257-82BD-4506-9C96-5786B04B0CF7" name="Figure 8_8D37F257-82BD-4506-9C96-5786B04B0CF7">
+<div class="icon-zoom"></div>
+<div data-picture=" " data-alt="Figure 8" data-title="Figure 8" data-class="img-responsive">
+<div data-src="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure8.png?la=en?w=577"></div>
+<div data-src="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure8.png?la=en?h=270" data-media="(min-width: 640px)"></div>
+<noscript> &lt;img src='https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure8.png?la=en?w=435 ' alt='Figure 8'&gt; </noscript> </div>
+</a> </div>
+<img alt="" width="350" class="rtezoom-hideimg" src="https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2/figure8.png?la=en" /><figcaption>
+<p>Figure 8. Multiplexed ADC, sinc3 filter, and three conversion cycles&mdash;fully settled data</p>
+</figcaption></figure>
+<p>For the sincP filter, the settling time of the filter is the filter order P, multiplied by 1/ODR. For a sinc3 filter running at 250 kHz ODR it means that the settling time of the filter is 3 &times; 1/250 kHz = 12 &mu;s. By comparison, if using a sinc5 filter at the same ODR of 250 kHz, the settling time of the filter is 5 &times; (1/2 50 kHz) = 20 &mu;s.</p>
+<p>An approximate rate for switching between channels is the ODR divided by the order of the filter, so ODR/3 for sinc3, or ODR/5 for sinc5 filter. It is straight forward for direct sinc filters. An added step is required for cases such as the sinc5 + sinc1 style. The AD7175 family of ADCs offers the ability to choose between different styles of filters. The next section demonstrates the differences between the filter types and also provides an example of calculating the settling time for each of the cases.</p>
+<p>Let&rsquo;s work out the settling time for a multiplexed scenario. A typical analog input module in process control and factory automation will have a front-end stage to scale a &plusmn;10 V input to the input range of an AD7175-8. The AD7175-8 will then multiplex through each of the channels converting each input or input pair in sequence. The time to convert all channels depends on the filter used and also on the number of channels.</p>
+<p>The following example compares the use of a sinc3 filter and a &nbsp;sinc5 + sinc1 filter, with both configured to the same output data &nbsp;rate we will see the contrast and method to calculate the settling time. Both filters options, which could be selected by the user of &nbsp;an AD7175-8.</p>
+<p>a. Using sinc3 filter, 62.5 kHz ODR<br />
+&nbsp; &nbsp; Calculating the settling time</p>
+<p>&nbsp; &nbsp; AD7175 sinc3: ODR = 62.5 kHz<br />
+&nbsp; &nbsp; Settling time = 3 &times; (1/62.5 kHz) = 48 &mu;s,<br />
+&nbsp; &nbsp; Channel switch rate = 1/48 &mu;s = 20.833 kHz</p>
+<p>b. Using sinc5 + sinc1 filter, 62.5 kHz ODR<br />
+&nbsp; &nbsp; Calculating the settling time.</p>
+<p>&nbsp; &nbsp; AD7175 sinc5 + sinc1: ODR = 62.5 kHz</p>
+<p>Note, there are two components. The sinc5 filter averages over a 4 &mu;s window (FMOD = 8 MHz) so it passes data to the averaging block at a rate of 250 kHz.</p>
+<p>1. Settling time of the sinc5 = 5 &times; 1/250 kHz = 20 &mu;s.<br />
+&nbsp; &nbsp; This provides the first sample for the averaging.</p>
+<p>
+2. Settling for the sinc1, averaging filter.<br />
+&nbsp; &nbsp; For ODR = 62.5 kHz, 250 kHz data stream is averaged four times.<br />
+&nbsp; &nbsp; Settling time for the remaining three samples for<br />
+&nbsp; &nbsp; averaging is 3 &times; 1/250 kHz = 12 &mu;s.<br />
+&nbsp; &nbsp; Total settling time = 20 &mu;s + 12 &mu;s = 32 &mu;s,<br />
+&nbsp; &nbsp; channel switch rate = 1/32 &mu;s = 31.25 kHz.
+</p>
+<div>
+<p>Note that for the sinc5 + sinc1 filter, data rates of 10 kSPS and below the ADC have a single cycle settling. This means that the settling time of the ADC = 1/ODR.</p>
+<p>Table 2 shows the comparison of a 4-channel multiplexed measurement with setup (a) and (b). Using the sinc5 + sinc1 filter enables a faster per channel sampling rate, showing the advantages of shorter settling time. Note that this rule of thumb is relevant to the converter alone, if there are analog preconditioning circuits prior to each input, which have longer time constants than that of the ADC, it will be the worst- case settling time which will dominate.</p>
+<p>This comparison is shown in Table 2:</p>
+<p style="text-align: center;"><strong>Table 2. Per Channel Data Rate Comparisons of&nbsp;Sinc5 + Sinc1 vs. Sinc3 Filter for a 4-Channel&nbsp;Multiplexed System (for Instance, Using the AD7175-8)</strong></p>
+<div>
+<table align="center">
+    <tbody>
+        <tr>
+            <td style="padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #ffffff; font-weight: bold; text-align: center; vertical-align: middle; background-color: #7c4a8b;">Filter Type</td>
+            <td style="padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #ffffff; font-weight: bold; text-align: center; vertical-align: middle; background-color: #acacac;">ODR<br />
+            (kHz)<br />
+            </td>
+            <td style="padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #ffffff; font-weight: bold; text-align: center; vertical-align: middle; background-color: #acacac;">Per Channel<br />
+            Settling Time (&mu;s<br />
+            </td>
+            <td style="padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #ffffff; font-weight: bold; text-align: center; vertical-align: middle; background-color: #acacac;">Time to Convert<br />
+            Four Channels (&mu;s)<br />
+            </td>
+            <td style="padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #ffffff; font-weight: bold; text-align: center; vertical-align: middle; background-color: #acacac;">Per Channel<br />
+            Data Rate (kHz)</td>
+        </tr>
+        <tr>
+            <td style="padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">
+            <div style="text-align: center;">Sinc5 +</div>
+            <div style="text-align: center;">sinc1</div>
+            </td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">62.5<br />
+            </td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">32</td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">128</td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">7.8125</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">Sinc3<br />
+            </td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">62.5<br />
+            </td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">48</td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">192</td>
+            <td style="text-align: center; padding: 10px 7px; border-top: 2px solid #ffffff; border-right: 2px solid #ffffff; color: #636363; background-color: #f5f5f5;">5.208</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+<p>That completes the overview of &Sigma;-&Delta; ADCs&mdash;the theory surrounding the modulator and concept followed by the examples of the digital filtering, and their effects on noise, settling time, and some of the knock on effects of both within your measurement system.</p>
+<div>
+<p>
+</p>
+</div>
+</div>
+                <h3>
+                    References
+                </h3>
+<p>"<a href="/media/cn/training-seminars/design-handbooks/MixedSignal_Sect3.pdf" target="_blank">ADCs for DSP Applications</a>,"&nbsp;Series: Analog Devices. Newnes, Edition 1, 2002.</p>            </article>
+
+
+
+
+
+    <article>
+                <h3 id="author">Author</h3>
+        
+            <section class="author clearfix">
+                    <img class="img-responsive" src="https://www.analog.com/-/media/images/analog-dialogue/en/authors/michael-clifford-blue-background.jpg?la=en" alt="Michael Clifford" />
+                <div class="author-details">
+                        <p class="name">Michael Clifford</p>
+                    <p class="social">
+                            <a href="mailto:michael.clifford@analog.com" id="dialogue-author-email"><i class="fas fa-envelope" aria-hidden="true"></i></a>
+                                                                    </p>
+                        <p class="details">
+                            Michael Clifford is an applications engineer in the Linear and Precision Technology Applications Team at Analog Devices (Limerick, Ireland). He has worked for Analog Devices since 2004 and is focused on precision analog-to-digital converter products, in particular those using
+the Σ-Δ topology for both precision dc and ac measurement. He holds a bachelor’s degree in electrical and electronic engineering (B.E.E.E.) from University College Cork (UCC).
+                        </p>
+                </div>
+            </section>           
+    </article>
+
+            </section>
+            <section class="col-lg-4 col-md-4 col-sm-12 col-xs-12 rightCol">
+                <aside>
+                    
+    <section class=" related-products">
+            <h2>Related Products</h2>
+        <ul>
+                    <li>
+                            <a href="https://www.analog.com/en/products/ad7177-2.html" target="_blank">AD7177-2</a>
+                                                    <p class="product-details">32-Bit, 10 kSPS, Sigma-Delta ADC with&nbsp;100 &micro;s Settling and True...</p>
+                    </li>
+                    <li>
+                            <a href="https://www.analog.com/en/products/ad7176-2.html" target="_blank">AD7176-2</a>
+                                                    <p class="product-details">24-Bit, 250 kSPS Sigma Delta ADC with 20 &micro;s Settling</p>
+                    </li>
+                    <li>
+                            <a href="https://www.analog.com/en/products/ad7171.html" target="_blank">AD7171</a>
+                                                    <p class="product-details">16-Bit, Low Power, Sigma-Delta ADC</p>
+                    </li>
+                    <li>
+                            <a href="https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/eval-ad7175-2.html" target="_blank">EVAL-AD7175-2</a>
+                                                    <p class="product-details">AD7175-2 Evaluation Board</p>
+                    </li>
+                    <li>
+                            <a href="https://www.analog.com/en/products/ad7175-8.html" target="_blank">AD7175-8</a>
+                                                    <p class="product-details">24-Bit, 8-/16-Channel, 250 kSPS, Sigma-Delta ADC with True Rail-to-Rail Buffers</p>
+                    </li>
+                    <li>
+                            <a href="https://www.analog.com/en/products/ad7173-8.html" target="_blank">AD7173-8</a>
+                                                    <p class="product-details"><p>Low Power, 8-/16-Channel, 31.25 kSPS, 24-Bit, Highly Integrated Sigma-Delta ADC</p></p>
+                    </li>
+                    <li>
+                            <a href="https://www.analog.com/en/products/ad7172-4.html" target="_blank">AD7172-4</a>
+                                                    <p class="product-details">Low Power, &nbsp;with 4- or 8-channel, 24-bit, 31.25 kSPS, Sigma-Delta ADC...</p>
+                    </li>
+                    <li>
+                            <a href="https://www.analog.com/en/products/ad7175-2.html" target="_blank">AD7175-2</a>
+                                                    <p class="product-details">24-Bit, 250 kSPS, Sigma-Delta ADC with 20 &micro;s Settling and True...</p>
+                    </li>
+                    <li>
+                            <a href="https://www.analog.com/en/products/ad7172-2.html" target="_blank">AD7172-2</a>
+                                                    <p class="product-details">Low Power, 24-Bit, 31.25 kSPS, Sigma-Delta ADC with True Rail-to-Rail Buffers</p>
+                    </li>
+        </ul>
+    </section>
+
+
+
+
+    <section class="related-products">
+            <h2>Related Categories</h2>
+        <ul>
+                    <li>
+                        <a href="https://www.analog.com/en/products/analog-to-digital-converters/precision-ad-converters/simultaneous-sampling-ad-converters.html" target="_blank">Simultaneous Sampling A/D Converters</a>
+                    </li>
+                    <li>
+                        <a href="https://www.analog.com/en/products/analog-to-digital-converters/precision-ad-converters/single-channel-ad-converters.html" target="_blank">Single Channel A/D Converters</a>
+                    </li>
+        </ul>
+    </section>
+
+    <section class="related-products">
+            <h2>Related Markets & Technology</h2>
+        <ul>
+                    <li>
+                        <a href="https://www.analog.com/en/applications/markets/instrumentation-and-measurement-pavilion-home/electronic-test-and-measurement/precision-measurement.html" target="_blank">Precision Measurement</a>
+                    </li>
+        </ul>
+    </section>
+
+                </aside>
+            </section>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+        <div class="special-content">
+            <li class="dropdown dropdown-region">
+                    <a href="#" data-toggle="dropdown" name='Region_7fe452b3-5379-47e8-aa31-5b3ddffd9ec6'>
+
+                        <span data-toggle="dropdown" class="region"></span>
+                        <span class="arrow-down-transparent"></span>
+                    </a>
+
+        <div class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+        <ul>
+                <li><strong>Region</strong></li>
+                                <li>
+                        <a tabindex="-1" href="https://www.analog.com/en/landing-pages/001/korea-welcome.html" target="" title="" name='Korea_154f8b08-52bc-4468-a8e2-90eae4f85b44'>Korea</a>
+                    </li>
+                    <li>
+                        <a tabindex="-1" href="https://www.analog.com/en/landing-pages/001/india-welcome.html" target="" title="" name='India_d28fd230-86d1-43a5-a921-270db9a11aef'>India</a>
+                    </li>
+                    <li>
+                        <a tabindex="-1" href="https://www.analog.com/en/landing-pages/001/taiwan-welcome.html" target="" title="" name='Taiwan_3146147e-7236-4692-b1a8-18240f3e01e0'>Taiwan</a>
+                    </li>
+                    <li>
+                        <a tabindex="-1" href="https://www.analog.com/en/landing-pages/001/singapore-welcome.html" target="" title="" name='Singapore_13a09ebe-e404-43e9-a609-c21f2b2da0a9'>Singapore</a>
+                    </li>
+
+        </ul>
+        <ul class="setLang">
+                    <li>
+                        <strong>Languages</strong>
+                    </li>
+                                    <li>
+                                            <a tabindex="-1" href="https://www.analog.com/en/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2.html" title="English" name='English_e33369c5-cf6f-415c-a408-fcf42c2a6c19'><strong>English</strong></a>
+                                        </li>
+                                    <li>
+                                            <a tabindex="-1" href="https://www.analog.com/cn/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2.html" title="简体中文" name='Chinese_42e59427-ab8e-4088-8e78-b229a94f639d'>简体中文</a>
+                                    </li>
+                                    <li>
+                                            <a tabindex="-1" href="https://www.analog.com/jp/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2.html" title="日本語" name='Japanese_36645878-0d31-42ed-80fd-4101c6c03573'>日本語</a>
+                                    </li>
+
+        </ul>
+
+        </div>
+
+
+
+            </li>
+        </div>
+        <div class="special-content">
+                    <div class="accordion-group language-footer-block">
+                        <div class="accordion-heading">
+                            <span class="accordion-toggle" data-toggle="collapse" data-parent="#accordion4" href="#English">
+                                English<span class="glyphicon  pull-right glyphicon-chevron-down visible-phone"></span>
+                            </span>
+                        </div>
+                        <div id="English" class="accordion-body collapse">
+                            <div class="accordion-inner language-footer">
+                                    <a href="https://www.analog.com/en/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2.html">
+                                        <img data-image-source="https://assets.analog.com/images/language_en.jpg" class="mobile-images" width="100%" alt="English" />
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-group language-footer-block">
+                        <div class="accordion-heading">
+                            <span class="accordion-toggle" data-toggle="collapse" data-parent="#accordion4" href="#简体中文">
+                                简体中文<span class="glyphicon  pull-right glyphicon-chevron-down visible-phone"></span>
+                            </span>
+                        </div>
+                        <div id="简体中文" class="accordion-body collapse">
+                            <div class="accordion-inner language-footer">
+                                    <a href="https://www.analog.com/cn/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2.html">
+                                        <img data-image-source="https://assets.analog.com/images/language_cn.jpg" class="mobile-images" width="100%" alt="简体中文" />
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-group language-footer-block">
+                        <div class="accordion-heading">
+                            <span class="accordion-toggle" data-toggle="collapse" data-parent="#accordion4" href="#日本語">
+                                日本語<span class="glyphicon  pull-right glyphicon-chevron-down visible-phone"></span>
+                            </span>
+                        </div>
+                        <div id="日本語" class="accordion-body collapse">
+                            <div class="accordion-inner language-footer">
+                                    <a href="https://www.analog.com/jp/technical-articles/fundamental-principles-behind-sigma-delta-adc-topology-part2.html">
+                                        <img data-image-source="https://assets.analog.com/images/language_jp.jpg" class="mobile-images" width="100%" alt="日本語" />
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+
+</div>
+<iframe id='ifrmPrint' style="width: 0pt; height: 0pt; border: none;"></iframe>
+<iframe id='trackVisitor' class="track-visitor-class"></iframe>
+<label for="itemId" class="hidden"></label>
+<input type="hidden" id="itemId" name="itemId" value="68379606-8e4e-4acb-8799-16a0c2f26155" />
+
+
+
+
+ <a class="backtotop" href="#header">&nbsp;</a><footer class="footer" id="footer" data-session=https://analogb2c.b2clogin.com/tfp/analogb2c.onmicrosoft.com/b2c_1a_adi_signuporsigninwithkmsi/oauth2/v2.0/authorize?client_id=63aa5bf0-fc9b-4ab2-8f60-ad90b639eb32&amp;nonce=0c6ead94-f4e4-42bf-b761-fe32f97aa7bb&amp;redirect_uri=https://my.analog.com/app/session-exist&amp;scope=https://analogb2c.onmicrosoft.com/myanalog/read&amp;response_type=code&amp;prompt=none><div id="cookie-consent-container" class="modal fade" role="dialog" data-id="gdpr-consent"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h4 class="modal-title"><img src=https://assets.analog.com/images/en/ADI_Logo_AWP.png alt="ADI"> Analog Devices Uses Cookies for Enhanced Online Performance </h4></div><div class="modal-body"><div class="short-description"><p> Some cookies are required for secure log-ins but others are optional for functional activities. Our data collection is used to improve our products and services. We recommend you accept our cookies to ensure you&rsquo;re receiving the best performance and functionality our site can provide. For additional information you may view the <a href="#" data-id="cookie-details">cookie details</a>. Read more about our <a href="http://www.analog.com/en/about-adi/landing-pages/001/privacy_security_statement.html#cookies">privacy policy</a>. </p><a href="#" class="btn btn-success" data-id="consent"><em class="fa fa-check"></em> Accept and proceed </a></div><div class="long-description"><a href="#" class="btn btn-success" data-id="consent"><i class="fa fa-check"></i> Accept and proceed </a><p>The cookies we use can be categorized as follows:</p><dl><dt>Strictly Necessary Cookies:</dt><dd> These are cookies that are required for the operation of analog.com or specific functionality offered. They either serve the sole purpose of carrying out network transmissions or are strictly necessary to provide an online service explicitly requested by you. </dd><dt>Analytics/Performance Cookies:</dt><dd> These cookies allow us to carry out web analytics or other forms of audience measuring such as recognizing and counting the number of visitors and seeing how visitors move around our website. This helps us to improve the way the website works, for example, by ensuring that users are easily finding what they are looking for. </dd><dt>Functionality Cookies:</dt><dd> These cookies are used to recognize you when you return to our website. This enables us to personalize our content for you, greet you by name and remember your preferences (for example, your choice of language or region). Loss of the information in these cookies may make our services less functional, but would not prevent the website from working. </dd><dt>Targeting/Profiling Cookies:</dt><dd> These cookies record your visit to our website and/or your use of the services, the pages you have visited and the links you have followed. We will use this information to make the website and the advertising displayed on it more relevant to your interests. We may also share this information with third parties for this purpose. </dd></dl><a href="#" class="btn btn-link" data-id="decline">Decline cookies</a></div></div></div></div></div><div class="container"><div class="row footer-bottom" name="adi_footer_bottom"><div class="col-md-12 clearfix"><div class="visible-desktop"><div class="col-md-2" name='Footer_Social_Media_Links_eee39a50-a6b0-4426-9c6a-78dd1523c507'><div class="row"><div class="sociallinks"><span class="header4"><a href="#" class="footer-collapse dropdown-toggle" data-toggle="dropdown"> Social<span class="expand-icon visible-phone"></span></a></span><ul class="pull-right list-social footer-dropdown-menu"><li class="ez-color"><a href="https://ez.analog.com" target="" title="Join Analog Devices on EngineerZone"></a></li><li><a class="instagram" href="https://www.instagram.com/analogdevices/?hl=en" target="_blank" title="Follow us on Instagram"><i class="fab fa-instagram"></i></a></li><li><a class="facebook" href="http://www.facebook.com/AnalogDevicesInc" target="_blank" title="Visit Analog Devices on Facebook"><i class="fab fa-facebook-f"></i></a></li><li><a class="twitter" href="https://twitter.com/#!/adi_news" target="_blank" title="Follow Analog Devices on Twitter"><i class="fab fa-twitter"></i></a></li><li><a class="linkedin" href="http://www.linkedin.com/company/3450" target="_blank" title="Join Analog Devices on LinkedIn"><i class="fab fa-linkedin-in"></i></a></li><li><a class="youtube" href="http://www.youtube.com/user/AnalogDevicesInc" target="_blank" title="View Analog Devices on YouTube"><i class="fab fa-youtube"></i></a></li></ul><div id="weixin-modal" class="modal fade" role="dialog"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button></div><div class="modal-body"><img src="https://assets.analog.com/images/zh/weixin-qr-code.jpg" alt=""></div></div></div></div></div></div></div><div class="col-md-4 quick" name="adi_footer_quicklinks"><div class="quicklinks"><span class="header4 open"><a href="#" class="footer-collapse dropdown-toggle expanded" data-toggle="dropdown" aria-expanded="true">Quick Links<span class="pull-right expand-icon visible-phone"></span></a></span><ul class="list-unstyled footer-dropdown-menu"><li class=""><a href="http://www.analog.com/en/about-adi.html" target="" title="About ADI" name='About_ADI_a18d047b-e6c9-43eb-ac39-f2433cb55f1f'>About ADI</a></li><li class=""><a href="http://www.analog.com/en/about-adi/partners.html" target="_blank" title="" name='Partners_5e47a5a2-8dd5-4b8d-b949-bb78e7c8b52d'>Partners</a></li><li class=""><a href="http://www.analog.com/en/analog-dialogue.html" target="" title="Analog Dialogue" name='Analog_Dialogue_41ade380-bf31-4791-8015-2a7cc8211984'>Analog Dialogue</a></li><li class=""><a href="https://careers.analog.com" target="" title="Careers" name='Careers_d3bc9a5a-eaac-4f74-a4eb-9588b983bae8'>Careers</a></li><li class=""><a href="http://www.analog.com/en/about-adi/contact-us.html" target="" title="Contact us" name='Contact_us_95dc0fe9-dc2d-4f85-81fa-1a49595a3d0d'>Contact us</a></li><li class=""><a href="http://investor.analog.com/" target="" title="Investor Relations" name='Investor_Relations_2ffc3744-f828-4aa2-8db4-3e3bb8854bb7'>Investor Relations</a></li><li class=""><a href="http://www.analog.com/en/about-adi/news-room.html" target="" title="News Room" name='News_Room_0b77676a-6e78-428a-b729-3b12f20cb0d0'>News Room</a></li><li class=""><a href="http://www.analog.com/en/about-adi/quality-reliability.html" target="" title="Quality &amp; Reliability" name='Quality_N_Reliability_9f2071ca-97a4-4e6c-85f8-a28480bc998c'>Quality &amp; Reliability</a></li><li class=""><a href="http://www.analog.com/en/about-adi/corporate-information/sales-distribution.html" target="" title="Sales &amp; Distributors" name='Sales_N_Distributors_c71f89eb-3bca-4ca9-a79d-73a1172cfa1a'>Sales &amp; Distribution</a></li><li class=""><a href="http://www.analog.com/en/landing-pages/001/analog-garage.html" target="" title="" name='analog-garage_be449ed0-c547-481c-a209-e5816db3b6ce'>Analog Garage</a></li></ul></div></div></div><div class="visible-phone"><div class="col-md-4 quick" name="adi_footer_quicklinks"><div class="quicklinks"><span class="header4 open"><a href="#" class="footer-collapse dropdown-toggle expanded" data-toggle="dropdown" aria-expanded="true">Quick Links<span class="pull-right expand-icon visible-phone"></span></a></span><ul class="list-unstyled footer-dropdown-menu"><li class=""><a href="http://www.analog.com/en/about-adi.html" target="" title="About ADI" name='About_ADI_a18d047b-e6c9-43eb-ac39-f2433cb55f1f'>About ADI</a></li><li class=""><a href="http://www.analog.com/en/about-adi/partners.html" target="_blank" title="" name='Partners_5e47a5a2-8dd5-4b8d-b949-bb78e7c8b52d'>Partners</a></li><li class=""><a href="http://www.analog.com/en/analog-dialogue.html" target="" title="Analog Dialogue" name='Analog_Dialogue_41ade380-bf31-4791-8015-2a7cc8211984'>Analog Dialogue</a></li><li class=""><a href="https://careers.analog.com" target="" title="Careers" name='Careers_d3bc9a5a-eaac-4f74-a4eb-9588b983bae8'>Careers</a></li><li class=""><a href="http://www.analog.com/en/about-adi/contact-us.html" target="" title="Contact us" name='Contact_us_95dc0fe9-dc2d-4f85-81fa-1a49595a3d0d'>Contact us</a></li><li class=""><a href="http://investor.analog.com/" target="" title="Investor Relations" name='Investor_Relations_2ffc3744-f828-4aa2-8db4-3e3bb8854bb7'>Investor Relations</a></li><li class=""><a href="http://www.analog.com/en/about-adi/news-room.html" target="" title="News Room" name='News_Room_0b77676a-6e78-428a-b729-3b12f20cb0d0'>News Room</a></li><li class=""><a href="http://www.analog.com/en/about-adi/quality-reliability.html" target="" title="Quality &amp; Reliability" name='Quality_N_Reliability_9f2071ca-97a4-4e6c-85f8-a28480bc998c'>Quality &amp; Reliability</a></li><li class=""><a href="http://www.analog.com/en/about-adi/corporate-information/sales-distribution.html" target="" title="Sales &amp; Distributors" name='Sales_N_Distributors_c71f89eb-3bca-4ca9-a79d-73a1172cfa1a'>Sales &amp; Distribution</a></li><li class=""><a href="http://www.analog.com/en/landing-pages/001/analog-garage.html" target="" title="" name='analog-garage_be449ed0-c547-481c-a209-e5816db3b6ce'>Analog Garage</a></li></ul></div></div><div class="col-md-2" name='Footer_Social_Media_Links_eee39a50-a6b0-4426-9c6a-78dd1523c507'><div class="row"><div class="sociallinks"><span class="header4"><a href="#" class="footer-collapse dropdown-toggle" data-toggle="dropdown"> Social<span class="expand-icon visible-phone"></span></a></span><ul class="pull-right list-social footer-dropdown-menu"><li class="ez-color"><a href="https://ez.analog.com" target="" title="Join Analog Devices on EngineerZone"></a></li><li><a class="instagram" href="https://www.instagram.com/analogdevices/?hl=en" target="_blank" title="Follow us on Instagram"><i class="fab fa-instagram"></i></a></li><li><a class="facebook" href="http://www.facebook.com/AnalogDevicesInc" target="_blank" title="Visit Analog Devices on Facebook"><i class="fab fa-facebook-f"></i></a></li><li><a class="twitter" href="https://twitter.com/#!/adi_news" target="_blank" title="Follow Analog Devices on Twitter"><i class="fab fa-twitter"></i></a></li><li><a class="linkedin" href="http://www.linkedin.com/company/3450" target="_blank" title="Join Analog Devices on LinkedIn"><i class="fab fa-linkedin-in"></i></a></li><li><a class="youtube" href="http://www.youtube.com/user/AnalogDevicesInc" target="_blank" title="View Analog Devices on YouTube"><i class="fab fa-youtube"></i></a></li></ul><div id="weixin-modal" class="modal fade" role="dialog"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button></div><div class="modal-body"><img src="https://assets.analog.com/images/zh/weixin-qr-code.jpg" alt=""></div></div></div></div></div></div></div></div><!--[if gt IE 8]><!--><!--<![endif]--><div class="col-md-2 visible-desktop"><span class="header4">Languages</span><div class="quicklinks" name="adi_footer_languages_quicklinks"><ul class="list-unstyled"><li><a href="https://www.analog.com/en/" target="" title="English" name='English_2c0dae2c-e343-42a4-8ce2-cd8350c8ec55'>English</a></li><li><a href="https://www.analog.com/cn/" target="" title="简体中文" name='Chinese_8f00bfa0-df96-41b4-b43b-9937d78c4452'>简体中文</a></li><li><a href="https://www.analog.com/jp/" target="" title="日本語" name='Japanese_28d4203f-f1f1-4a94-acf1-e5023759cda3'>日本語</a></li><li><a href="https://www.analog.com/ru/" target="" title="Руccкий" name='Russian_08ad222c-9e19-46af-997d-9e7a12a99c0b'>Руccкий</a></li></ul></div></div><div class="col-md-4 visible-desktop"><div class="newsletter" name='Callouts_Newsletter_b24a4bad-d9d0-4b9a-bb7d-149bf3a624cf'><span class="header4">Newsletters</span><p>Interested in the latest news and articles about ADI products, design tools, training and events? Choose from one of our 12 newsletters that match your product area of interest, delivered monthly or quarterly to your inbox.</p><div class="control-form"><a class="btn btn-primary" name='Newsletter_Sign Up_b24a4bad-d9d0-4b9a-bb7d-149bf3a624cf' href="https://my.analog.com/en/app/subscriptions">Sign Up</a></div></div><div class="switch-mobile-view"><a href="" id="btn-force-mobile-view" class="btn btn-primary">Switch to mobile view</a></div></div></div><div class="col-md-12 clearfix visible-phone"><div class="container text-center"><button type="button" id="btn-force-desktop-view" class="btn btn-primary"> Desktop View </button></div></div><div class="col-md-12"><div class="row copyright" name="adi_footer_copyright"><div class="col-md-5 visible-phone"><div data-src="https://assets.analog.com/images/footer_logo.gif" class="visible-phone"><img src="https://assets.analog.com/images/footer_logo.gif" alt="Analog Logo" width="100"></div><span class="copy">&copy;</span> 1995 - 2020 Analog Devices, Inc. All Rights Reserved <span id="CN-ICP-number" style="display:none;">沪ICP备09046653号</span></div><ul class="list-inline pull-left visible-desktop links"><li> &copy; </li><li> 1995 - 2020 Analog Devices, Inc. All Rights Reserved </li><li id="CN-ICP-number"> 沪ICP备09046653号 </li></ul><ul class="list-inline pull-right visible-desktop" name="adi_footer_horizontal_links"><li class=""><a href="http://www.analog.com/en/sitemap.html" target="" title="Sitemap" name='Sitemap_b8effdcc-bc20-42ab-af7b-e2a546667326'>Sitemap</a></li><li class=""><a href="http://www.analog.com/en/about-adi/landing-pages/001/privacy_security_statement.html" target="" title="Privacy &amp; Security" name='Privacy_N_Security_7bd22b0b-d67b-4530-ae22-266045bc4d73'>Privacy & Security</a></li><li class=""><a href="http://www.analog.com/en/landing-pages/001/privacy-settings.html" target="" title="Privacy Settings" name='Privacy_Settings_c3370251-faa8-4c65-b2b4-1bfeab8d75ea'>Privacy Settings</a></li><li class=""><a href="http://www.analog.com/en/about-adi/landing-pages/001/terms_of_use.html" target="" title="Terms of use" name='Terms_of_Use_fd8a5f4a-6e7a-4d1d-9605-56488afcf6c6'>Terms of use</a></li></ul></div></div></div></div><script type="text/javascript"> var ADIAssetsPath = "https://assets.analog.com"; var cookiesToDelete = [ { "Domain": ".analog.com", "Cookie": [ "__qca", "adiHintCookie", "bCrumbs", "dmdbase_cdc", "ELOQUA", "FedAuthentication", "gpv_p14", "gpv_v100", "myAnalog_id", "Mysite_info", "s_cc", "s_dfa", "s_fid", "s_gad", "s_gpv", "s_invisit", "s_lv", "s_nr", "s_ptc", "s_sq", "s_vi", "s_vnum", "es_visited", "AdiSessionAuthCookie", "AdiSecureDlCookie" ] }, { "Domain": ".investor.analog.com", "Cookie": [ "ADI_BRIEFCASE", "ADI_SESSION" ] }, { "Domain": "careers.analog.com", "Cookie": [ "in_ref", "Per_UniqueID", "PLAY_SESSION", "VISITED_COUNTRY", "VISITED_LANG", "ext_trk", "_gat_UA-84784380-31" ] }, { "Domain": "distiadmin-dev.corpnt.analog.com", "Cookie": [ "ASP.NET_SessionId" ] }, { "Domain": "distributor-dev.corpnt.analog.com", "Cookie": [ "FedAuth1", "FedAuth", "ipe_30155_fov", "ipe.30155.pageViewedCount", "ipe_s", "_sdsat_Email Address", "dmdbase", "_sdsat_DevQaOrProd" ] }, { "Domain": "ez.analog.com", "Cookie": [ "containerSecurityToken", "jive.security.context", "X-JCAPI-Token ", "BIGipServerpool_vanity_analog.jiveon.com", "JSESSIONID", "jive.login.ts" ] }, { "Domain": "form.analog.com", "Cookie": [ "AdiSessionAuthCookie", "FedAuth1", "FedAuth", "ASP.NET_SessionId", "AlteonP", "ipe_30155_fov", "ipe.30155.pageViewedCount", "ipe_s", "_sdsat_DevQaOrProd", "adicftlassetdata", "AdiSessionAuthCookie", "_sdsat_Membership Status", "_sdsat_Email Address" ] }, { "Domain": "registration.analog.com", "Cookie": [ "ipe_30155_fov", "ipe.30155.pageViewedCount", "ipe_s", "registration-dev.corpnt.analog.com", "_sdsat_Email Address", "FedAuth1", "FedAuth", "_sdsat_Membership Status", "AlteonP", "ASP.NET_SessionId" ] }, { "Domain": "sdk.analog.com", "Cookie": [ "dmdbase", "_sdsat_DevQaOrProd", "ipe_30155_fov", "ipe.30155.pageViewedCount", "_sdsat_Membership Status", "_sdsat_Email Address", "ipe_s", "AdiSessionAuthCookie", "FedAuth1" ] }, { "Domain": "shoppingcart.analog.com", "Cookie": [ "ipe_30155_fov", "ipe.30155.pageViewedCount", "ipe_s", "dmdbase", "_sdsat_DevQaOrProd", "_sdsat_Membership Status", "_sdsat_Email Address", "ASP.NET_SessionId", "adiSessionAuth", "FedAuth", "FedAuth1", "analogp", "USERID", "SHOPPINGCARTID", "DISTI_COUNTRY_CODE", "AlteonP" ] }, { "Domain": "webuseradmin.analog.com", "Cookie": [ "ASP.NET_SessionId" ] }, { "Domain": "wiki.analog.com", "Cookie": [ "DokuWiki", "DW<hash>", "DOKU_PREFS" ] }, { "Domain": "www.analog.com", "Cookie": [ "__atuvc", "__atuvs", "_sdsat_Email Address", "_sdsat_Membership Status", "DisclaimerConfirmation", "dmdbase", "downloadGoals", "sc.ASP.NET_SESSIONID", "sc.Status", "SC_ANALYTICS_GLOBAL_COOKIE", "website#lang", "ipe.30155.pageViewedCount", "ipe_30155_fov", "ipe_s", "_sdsat_DevQaOrProd", "ASP.NET_SessionId" ] } ]; </script></footer> 
+
+
+
+
+<script type="text/javascript">
+
+                (function (d) {
+                    var scripts = [];
+                    scripts.push("//assets.adobedtm.com/bc68b7886092/2a726ea8b70d/launch-a4a6d55de309.min.js");
+
+            function loadScript(src) {
+                var script = d.createElement('script');
+                script.src = src;
+                script.async = true;
+                d.body.appendChild(script);
+            }
+
+            function loadScripts() {
+                scripts.forEach(loadScript);
+            }
+
+            window.addEventListener('load', loadScripts, false);
+
+        })(document);
+</script>
+
+
+<script id="image-modal-template" type="text/x-handlebars-template">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="image-label">{{{title}}}</h4>
+    </div>
+    <div class="modal-body">
+        <ul class="control-icons">
+            <li>
+                {{#if data_download}}
+                <a class="downloadimagelink" href="{{data_download}}" download="{{data_download}}">
+                    <span id="downbutton" class="icon-download"></span>
+                </a>
+                {{else}}
+                <a class="downloadimagelink" href="{{src}}" download="{{src}}">
+                    <span id="downbutton" class="icon-download"></span>
+                </a>
+                {{/if}}
+            </li>
+            <li><a class="print pull-right"><span class="icon-print"></span></a></li>
+        </ul>
+        <br />
+        <img alt="{{{title}}}" class="img-responsive" title="{{{title}}}" src="{{src}}" />
+        <br />
+    </div>
+
+</script>
+<div class="modal fade product-modal" id="image-modal" tabindex="-1" role="dialog" aria-labelledby="product-modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content"></div>
+    </div>
+</div>
+<div class="modal" id="adi-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade product-modal modal-video-window" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">Modal title</h4>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+<script id="html5Videoplayer" type="text/x-handlebars-template">
+    <div class="deferred-video-player"
+         data-account="{{accountid}}"
+         data-application-id
+         data-controls
+         data-embed="{{embed}}"
+         data-player="{{playerid}}"
+         data-video-id="{{videoid}}">
+        <i class="fa fa-spinner fa-spin fa-2x"></i>
+    </div>
+</script>
+                <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5757892e4bf633f7"></script>
+
+
+<link href="https://assets.analog.com/css/vendor.css" rel="stylesheet">
+<script src="https://assets.analog.com/js/adi/global.js" type="text/javascript"></script>
+
+
+
+
+<input id="MediaFramework_ItemId" name="MediaFramework_ItemId" type="hidden" value="683796068E4E4ACB879916A0C2F26155">
+</body>
+</html>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1"
+	 id="svg2" inkscape:output_extension="org.inkscape.output.svg.inkscape" inkscape:version="0.91+devel r14536 custom" sodipodi:docname="EM-spectrum.svg" sodipodi:version="0.32" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1920 1440"
+	 style="enable-background:new 0 0 1920 1440;" xml:space="preserve">
+<style type="text/css">
+	.st0{opacity:0.502;fill:url(#rect8745_1_);enable-background:new    ;}
+	.st1{font-family:'Helvetica';kerning:auto;}
+	.st2{font-size:72px;}
+	.st3{font-size:60px;}
+	.st4{fill:#FFFFFF;stroke:#000000;}
+	.st5{stroke:#000000;}
+	.st6{font-size:42px;}
+	.st7{fill:#000080;}
+	.st8{fill:#FFCC00;}
+	.st9{fill:#0000FF;}
+</style>
+<sodipodi:namedview  bordercolor="#666666" borderopacity="1.0" fit-margin-bottom="0" fit-margin-left="0" fit-margin-right="0" fit-margin-top="0" gridtolerance="10000" guidetolerance="10" height="400px" id="base" inkscape:current-layer="layer1" inkscape:cx="208.77119" inkscape:cy="144.07567" inkscape:document-units="px" inkscape:grid-points="true" inkscape:guide-bbox="true" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:snap-center="true" inkscape:window-height="874" inkscape:window-maximized="0" inkscape:window-width="1382" inkscape:window-x="68" inkscape:window-y="26" inkscape:zoom="2.0000001" objecttolerance="10" pagecolor="#ffffff" showgrid="false" showguides="true" width="675px">
+	
+		<inkscape:grid  color="#3f3fff" empcolor="#3f3fff" empopacity="0.38" empspacing="5" id="GridFromPre046Settings" opacity="0.15" originx="-195" originy="0.60765263" spacingx="5px" spacingy="5px" type="xygrid">
+		</inkscape:grid>
+</sodipodi:namedview>
+<g id="g13999" transform="matrix(0.7,0,0,0.7,209.73907,64.266504)">
+</g>
+<linearGradient id="rect8745_1_" gradientUnits="userSpaceOnUse" x1="502.8946" y1="1031.9065" x2="1029.8945" y2="1031.9065" gradientTransform="matrix(1.282 0 0 -41.8596 285.5836 44023.4805)">
+	<stop  offset="0" style="stop-color:#000000;stop-opacity:0"/>
+	<stop  offset="0.3398" style="stop-color:#000000;stop-opacity:0"/>
+	<stop  offset="0.461" style="stop-color:#FF0000"/>
+	<stop  offset="0.4774" style="stop-color:#FF6100"/>
+	<stop  offset="0.4948" style="stop-color:#FFE000"/>
+	<stop  offset="0.5093" style="stop-color:#00FF00"/>
+	<stop  offset="0.5288" style="stop-color:#007C9E"/>
+	<stop  offset="0.5536" style="stop-color:#000071"/>
+	<stop  offset="0.5709" style="stop-color:#830087"/>
+	<stop  offset="0.586" style="stop-color:#FF37C3"/>
+	<stop  offset="0.7143" style="stop-color:#000000;stop-opacity:0"/>
+	<stop  offset="1" style="stop-color:#000000;stop-opacity:0"/>
+</linearGradient>
+<rect id="rect8745" x="-12.2" y="250.5" class="st0" width="2127" height="1155.5"/>
+<text transform="matrix(1 0 0 1 139.9562 142.3766)" class="st1 st2">Non-ionising</text>
+<text transform="matrix(1 0 0 1 1497.6008 142.3766)" class="st1 st2">Ionising</text>
+<text transform="matrix(1 0 0 1 1217.75 688.0992)" class="st1 st3">Visible</text>
+<text transform="matrix(1 0 0 1 1217.75 760.0992)" class="st1 st3">Light</text>
+<text transform="matrix(1 0 0 1 1170.05 385.599)" class="st1 st3">Infrared</text>
+<text transform="matrix(1 0 0 1 1337.6499 500.5992)" class="st1 st3">Ultraviolet</text>
+<rect id="rect4910" x="1217.8" y="778.2" class="st4" width="119.7" height="19.7"/>
+<rect id="rect4912" x="1337.6" y="513.2" class="st4" width="62.2" height="19.7"/>
+<rect id="rect4914" x="1170.1" y="400.6" class="st4" width="60" height="20"/>
+<text transform="matrix(1 0 0 1 1412.55 618.0992)" class="st1 st3">X-ray</text>
+<rect id="rect4920" x="1412.6" y="633.1" class="st4" width="210" height="20"/>
+<text transform="matrix(1 0 0 1 1642.7505 688.0992)" class="st1 st3">Gamma</text>
+<text transform="matrix(1 0 0 1 1642.7505 760.0992)" class="st1 st3">Rays</text>
+<rect id="rect4928" x="1642.8" y="778.2" class="st4" width="242.2" height="19.7"/>
+<text transform="matrix(1 0 0 1 900.3502 618.0992)" class="st1 st3">Microwave</text>
+<rect id="rect4938" x="900.3" y="633.4" class="st4" width="246.9" height="19.4"/>
+<text transform="matrix(1 0 0 1 695.25 430.5992)" class="st1 st3">Radio</text>
+<rect id="rect4944" x="695.2" y="445.7" class="st4" width="222.2" height="19.7"/>
+<text transform="matrix(1 0 0 1 60.05 550.1005)" class="st1 st3">Extremely low frequency</text>
+<rect id="rect4954" x="60" y="568.1" class="st4" width="615" height="20"/>
+<rect id="rect4956" y="810.6" class="st5" width="1920" height="12.5"/>
+<rect id="rect4958" x="744.8" y="840.6" class="st4" width="402.5" height="55"/>
+<rect id="rect4960" x="1147.4" y="840.6" class="st4" width="197.5" height="55"/>
+<rect id="rect4962" x="1344.9" y="840.6" class="st4" width="555" height="55"/>
+<rect id="rect4966" x="47.3" y="840.6" class="st4" width="697.5" height="55"/>
+<text transform="matrix(1 0 0 1 1180.7415 885.5466)" class="st1 st6">Optical</text>
+<text transform="matrix(1 0 0 1 1490.4336 885.5466)" class="st1 st6">Broken Bonds</text>
+<text transform="matrix(1 0 0 1 869.0831 885.5466)" class="st1 st6">Thermal</text>
+<text transform="matrix(1 0 0 1 280.559 885.5466)" class="st1 st6">Non-thermal</text>
+<text transform="matrix(1 0 0 1 1170.0503 961.1382)" class="st1 st6">Excites</text>
+<text transform="matrix(1 0 0 1 1170.0503 1018.7382)" class="st1 st6">Electrons</text>
+<text transform="matrix(1 0 0 1 1170.0503 1145.5991)" class="st1 st6">Photo</text>
+<text transform="matrix(1 0 0 1 1170.0503 1203.1992)" class="st1 st6">Chemical</text>
+<text transform="matrix(1 0 0 1 1170.0503 1260.7992)" class="st1 st6">Effects</text>
+<text transform="matrix(1 0 0 1 767.55 1260.7999)" class="st1 st6">Heating</text>
+<text transform="matrix(1 0 0 1 77.55 1260.7999)" class="st1 st6">???</text>
+<text transform="matrix(1 0 0 1 42.55 1338.0992)" class="st7 st1 st6">Static</text>
+<text transform="matrix(1 0 0 1 42.55 1395.6992)" class="st7 st1 st6">Field</text>
+<text transform="matrix(1 0 0 1 295.05 1338.0992)" class="st7 st1 st6">Power</text>
+<text transform="matrix(1 0 0 1 295.05 1395.6992)" class="st7 st1 st6">Line</text>
+<text transform="matrix(1 0 0 1 695.05 1338.0992)" class="st7 st1 st6">AM</text>
+<text transform="matrix(1 0 0 1 695.05 1395.6992)" class="st7 st1 st6">Radio</text>
+<text transform="matrix(1 0 0 1 840.05 1338.0992)" class="st7 st1 st6">FM</text>
+<text transform="matrix(1 0 0 1 840.05 1395.6992)" class="st7 st1 st6">Radio</text>
+<text transform="matrix(1 0 0 1 995.05 1338.0992)" class="st7 st1 st6">Wifi</text>
+<text transform="matrix(1 0 0 1 1337.6499 1338.0992)" class="st7 st1 st6">Tanning</text>
+<text transform="matrix(1 0 0 1 1337.6499 1395.6992)" class="st7 st1 st6">Booth</text>
+<text transform="matrix(1 0 0 1 1545.05 1338.0992)" class="st7 st1 st6">Medical</text>
+<text transform="matrix(1 0 0 1 1545.05 1395.6992)" class="st7 st1 st6">X-ray</text>
+<text transform="matrix(1 0 0 1 75.8117 961.1382)" class="st1 st6">Induces</text>
+<text transform="matrix(1 0 0 1 75.8117 1018.7383)" class="st1 st6">Low</text>
+<text transform="matrix(1 0 0 1 75.8117 1076.3383)" class="st1 st6">Currents</text>
+<text transform="matrix(1 0 0 1 763.3117 961.1382)" class="st1 st6">Induces</text>
+<text transform="matrix(1 0 0 1 763.3117 1018.7383)" class="st1 st6">High</text>
+<text transform="matrix(1 0 0 1 763.3117 1076.3383)" class="st1 st6">Currents</text>
+<text transform="matrix(1 0 0 1 1485.8118 961.1382)" class="st1 st6">Damages</text>
+<text transform="matrix(1 0 0 1 1485.8118 1018.7383)" class="st1 st6">DNA</text>
+<rect id="rect5216" x="1378.9" y="204.9" class="st8" width="541" height="20"/>
+<rect id="rect5218" y="204.9" class="st9" width="1379.7" height="20"/>
+</svg>

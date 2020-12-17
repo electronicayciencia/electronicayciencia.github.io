@@ -1,3 +1,63 @@
-theme: jekyll-theme-cayman
-title: Electrónica y Ciencia
-description: Recopilación de mis proyectos personales.
+# Welcome to Jekyll!
+#
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
+
+title: Electronica y Ciencia
+email: electronicayciencia@gmail.com
+description: >- # this means to ignore newlines until "baseurl:"
+  Blog técnico sobre proyectos caseros de electrónica, informática y física.
+#baseurl: "/pruebas-blog" # the subpath of your site, e.g. /blog
+url: "https://electronicayciencia.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+permalink: /:year/:month/:title:output_ext
+
+lang: es
+
+show_excerpts: true
+show_tags: true
+show_image: true
+
+#logo: "/assets/logo_dvd.jpg"
+logo: "/assets/favicon.png"
+favicon: "/assets/favicon.png"
+
+# Build settings
+markdown: kramdown
+
+theme: minima
+
+
+disqus:
+    shortname: electronicayciencia
+
+google_analytics: UA-15570327-6
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-paginate
+
+twitter_username: electronicaycie
+github_username:  electronicayciencia
+linkedin_username: reinosoguzman
+
+minima:
+  date_format: "%-d %b %Y"
+  social_links:
+    twitter: electronicaycie
+    github: electronicayciencia
+    linkedin: reinosoguzman
+
+paginate: 6
+
+# Exclude from processing.
+# The following items will not be processed, by default. Create a custom list
+# to override the default setting.
+# exclude:
+#   - Gemfile
+#   - Gemfile.lock
+#   - node_modules
+#   - vendor/bundle/
+#   - vendor/cache/
+#   - vendor/gems/
+#   - vendor/ruby/

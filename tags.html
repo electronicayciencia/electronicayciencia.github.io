@@ -1,0 +1,68 @@
+---
+layout: page
+title: "Temas"
+description: "Electrónica y ciencia - Por temas"
+permalink: /tags/
+---
+
+<div class="tags">
+{% assign sorted_tags = site.tags | sort %}
+    <h2 class="post-list-heading">Selecciona un tema</h2>
+        <p>
+        {% for tag in sorted_tags %}
+            <a class="post-tag" href="{{ site.baseurl }}/tags/#{{ tag[0] | slugify }}">{{ tag[0] }}</a>
+        {% endfor %}
+        </p>
+
+    <h2 class="post-list-heading">Artículos</h2>
+      {%- for tag in sorted_tags -%}
+
+	  <div class="tag-posts-list {{ tag[0] | slugify }}">
+	  <h3 id="{{ tag[0] | slugify }}" class="tag-posts-header">{{ tag[0] }}</h3>
+
+      <ul class="post-list">
+        {%- for post in tag[1] -%}
+        <li>
+		  <div class="post-card{% if post.featured %} featured{% endif %}">
+		  {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+		  <span class="post-meta">{{ post.date | date: date_format }}</span>
+		  {% if post.featured %}
+		  <div class="featured-label">
+			<i class="fa fa-bell" aria-hidden="true"></i> Destacado
+		  </div>
+		  {% endif %}
+		  <h3>
+			<a class="post-link" href="{{ post.url | relative_url }}">
+			  {{ post.title | escape }}
+			</a>
+		  </h3>
+
+		  {%- if post.image -%}
+		  <a href="{{ post.url | relative_url }}">
+			<div class="teaser-image-frame">
+			  <img src="{{post.image | relative_url}}"/>
+			</div>
+		  </a>
+		  {%- endif -%}
+
+		  {%- if site.show_excerpts -%}
+			<div class="post-excerpt">
+			{{ post.excerpt }}
+		  {%- if site.show_tags -%}
+		  {% for tag in post.tags %}
+			 <a class="post-tag" href="{{ site.baseurl }}/tags/#{{ tag | slugify }}">{{ tag }}</a>
+		  {% endfor %}
+		  {%- endif -%}
+			</div>
+		  {%- endif -%}
+
+		  </div>
+		</li>
+        {%- endfor -%}
+      </ul>
+	  </div>
+      {% endfor %}
+
+
+</div>
+

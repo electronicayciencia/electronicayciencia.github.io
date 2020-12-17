@@ -1,0 +1,11 @@
+<div class="postimage">
+<figure>
+  <a href="{{page.assets | relative_url}}/img/{{include.file}}">
+	<img 
+	  src="{{page.assets | relative_url}}/img/{{include.file}}" 
+      class="{{include.size}}"
+      alt=""/>
+  </a>
+  <figcaption>{{ include.caption | markdownify }}</figcaption>
+</figure>
+</div>

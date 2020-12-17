@@ -1,0 +1,222 @@
+/* Images and video */
+.postvideo {
+    height: 0;
+    overflow: hidden;
+    padding-bottom: 56.25%;
+    padding-top: 30px;
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.postvideo iframe, .postvideo object, .postvideo embed {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.postimage {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: block;
+}
+
+.postimage figure img {
+    vertical-align: top;
+	max-width: 100%;
+}
+
+.postimage figure figcaption {
+    text-align: center;
+  	margin-top: 0.5rem;	  
+}
+
+/* Blogger sizes 
+200px small
+320px medium
+400px big
+640px huge
+For now, leave all images -but small ones- its original size with a max-width: 100%.
+*/
+.small {
+  width: 200px;
+}
+
+.medium {
+}
+
+.big {
+}
+
+.huge {
+}
+
+.full {
+}
+
+
+/* Pagination links */
+.prev-next {
+    display: block;
+    overflow: hidden;
+    font-size: 1rem;
+}
+
+.prev-next .half {
+    display: block;
+    width: 50%;
+    float: left;
+    margin: 1rem 0
+}
+
+.prev-next .next {
+    text-align: right
+}
+
+
+/* Tags */
+.post-tag {
+  display: inline-block;
+  background: $grey-color-light;
+  padding: 0 .5rem;
+  margin-right: .5rem;
+  margin-bottom: .5rem;
+  border-radius: 4px;
+  color: $text-color;
+  font-size: 90%;
+  &:before {
+    content: "\f02b";
+    font-family: FontAwesome;
+    padding-right: .5rem;
+  }
+  &:hover {
+    text-decoration: none;
+    background: $grey-color;
+    color: $background-color;
+  }
+}
+
+/* TOC */
+#my_toc::before {
+  content: "Secciones";
+  margin-left: -$spacing-unit;
+  line-height: 200%;
+  font-weight: bold;
+  @include relative-font-size(1.25);
+  @include media-query($on-laptop) {
+    @include relative-font-size(1.125);
+  }
+}
+
+/* Tags page */
+.tag-posts-header {
+  @include relative-font-size(1.25);
+  border-bottom: solid;
+  border-width: thin;
+  border-color: gray;
+}
+
+.post-list {
+  margin-top: 2rem;
+}
+
+.tag-posts-list .post-link {
+  @include relative-font-size(1.125);
+}
+.tag-posts-list .post-meta {
+  @include relative-font-size(0.90);
+}
+
+/* Post list image */
+.post-card {
+  overflow: auto;
+}
+
+.featured {
+  padding: 0.5rem;
+  background-color: lightsteelblue;
+  border-radius: 4px;
+}
+
+.teaser-image-frame {
+  width: 200px;
+  height: 150px;
+  overflow: hidden;
+  float: left;
+  margin-right: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.teaser-image-frame img {
+  object-fit: cover;
+  width: inherit;
+  height: inherit;
+  border-radius: 4px;
+}
+
+.post-card .post-excerpt {
+  overflow: hidden;
+}
+
+@media screen and (max-width: 450px) {
+  .teaser-image-frame { 
+    float: none;
+    width: 100%;
+    height: 175px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 1rem;
+  }
+}
+
+.featured-label {
+  float: right;
+  color: steelblue;
+}
+
+@media (min-width: 1599px) {
+  .teaser-image-frame { 
+    width: 200px;
+    height: 150px;
+  }
+  .wrapper {
+    max-width: -webkit-calc(#{$content-width}*1.2 - (#{$spacing-unit} * 2));
+    max-width:         calc(#{$content-width}*1.2 - (#{$spacing-unit} * 2));
+  }
+  html {
+    font-size: 1.2em;
+  }
+}
+
+@media (min-width: 2000px) {
+  .teaser-image-frame { 
+    width: 300px;
+    height: 225px;
+  }
+  .wrapper {
+    max-width: -webkit-calc(#{$content-width}*1.5 - (#{$spacing-unit} * 2));
+    max-width:         calc(#{$content-width}*1.5 - (#{$spacing-unit} * 2));
+  }
+  html {
+    font-size: 1.5em;
+  }
+}
+
+/* Site icon next to Title */
+
+.site-title img {
+  width: 2rem;
+  margin-right: 0.5rem;
+}
+
+/* Github username too long and wraps in social-list */
+
+.username {
+    font-size: smaller;
+}
+
+

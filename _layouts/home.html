@@ -1,0 +1,84 @@
+---
+layout: default
+---
+
+<div class="home">
+  {%- if page.title -%}
+    <h1 class="page-heading">{{ page.title }}</h1>
+  {%- endif -%}
+
+  {{ content }}
+
+  {%- if site.posts.size > 0 -%}
+  <h2 class="post-title">{{ page.list_title | default: "Posts" }}
+    {% if paginator.page > 1 %}
+    - página {{ paginator.page }}
+    {% endif %}
+  </h2>
+    <ul class="post-list">
+      {%- for post in paginator.posts -%}
+      <li onclick="location.href='{{ post.url | relative_url }}';">
+        <div class="post-card{% if post.featured %} featured{% endif %}">
+        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+        <span class="post-meta">{{ post.date | date: date_format }}</span>
+        {% if post.featured %}
+        <div class="featured-label">
+          <i class="fa fa-bell" aria-hidden="true"></i> Destacado
+        </div>
+        {% endif %}
+        <h3>
+          <a class="post-link" href="{{ post.url | relative_url }}">
+            {{ post.title | escape }}
+          </a>
+        </h3>
+        
+        {%- if post.image -%}
+        <a href="{{ post.url | relative_url }}">
+          <div class="teaser-image-frame">
+            <img src="{{post.image | relative_url}}"/>
+          </div>
+        </a>
+        {%- endif -%}
+
+        {%- if site.show_excerpts -%}
+          <div class="post-excerpt">
+          {{ post.excerpt }}
+        {%- if site.show_tags -%}
+        {% for tag in post.tags %}
+           <a class="post-tag" href="{{ site.baseurl }}/tags/#{{ tag | slugify }}">{{ tag }}</a>
+        {% endfor %}
+        {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        </div>
+      </li>
+      {%- endfor -%}
+    </ul>
+
+    {% include prev_next.html prev_url=paginator.previous_page_path prev_text='Página anterior' next_url=paginator.next_page_path next_text='Página siguiente' %}
+  {%- endif -%}
+
+</div>
+
+
+<!-- swipe code -->
+<script language="javascript">
+  nextpage = document.querySelector('link[rel="next"]');
+  prevpage = document.querySelector('link[rel="prev"]');
+
+  if (nextpage) {
+    document.addEventListener('swiped-left', function(e) {
+      //console.log("goto " + nextpage.href);
+      location.href = nextpage.href;
+    });
+  }
+  
+  if (prevpage) {
+    document.addEventListener('swiped-right', function(e) {
+      //console.log("goto " + prevpage.href);
+      location.href = prevpage.href;
+    });
+  }
+</script>
+<!-- end of swipe code -->
