@@ -50,6 +50,10 @@ minima:
 
 paginate: 6
 
+# For jekyll seo
+twitter:
+  username: electronicayciencia
+
 exclude:
   - notas
 
