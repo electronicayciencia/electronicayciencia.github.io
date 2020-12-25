@@ -1,7 +1,7 @@
 ---
-no-title: Draft pages must have no 'title'
+no-title: Los borradores no deben tener definida la variable título
 layout: post
-assets: /assets/yyyy/mm/slugified-title
+assets: /assets/drafts/cheatsheet
 image: /assets/yyyy/mm/slugified-title/img/featured.jpg
 featured: false
 tags:
@@ -21,6 +21,10 @@ tags:
   - Sensores
   - Sonido
 ---
+
+Esta página no aparece en el menú de navegación porque no tiene título. 
+Tampoco aparece en el *sitemap* porque `/drafts/**` está excluido en la configuración. 
+Para llegar a ella utiliza este enlace: `/drafts/cheatsheet.html`.
 
 ## Formato
 
@@ -68,17 +72,27 @@ da error. En jekyll 4.0.0, post_url ya tiene incorporado relative_url.
 
 ### Link a un asset no imagen
 
-[datasheet]({{page.assets | relative_url}}/lm2903-n.pdf)
+[datasheet]({{page.assets | relative_url}}/file1.txt)
 
 ## Elementos externos
 
 ### Imágenes
 
-{% include image.html size="small" file="fob_foto.jpg" caption="Llave de acceso RFID a 125kHz. EyC." %}
+{% include image.html size="small" file="a-cat.png" caption="Un gato pequeño. Foto de Google." %}
+{% include image.html size="medium" file="a-cat.png" caption="Un gato mediano. Foto de Google." %}
+{% include image.html size="big" file="a-cat.png" caption="Un gato grande. Foto de Google." %}
+{% include image.html file="a-cat.png" caption="Un gato al 100%. Foto de Google." %}
 
-En las etiquetas de las imágenes se ùede usar markdown pero no se pueden usar variables, por tanto si hay que enlazar a un asset se debe poner la ruta entera.
+Las imágenes no se amplian, o bien se reducen o se muestran a tamaño natural.
 
-{% include image.html size="medium" file="detector_de_envolvente.gif" caption="Detector de envolvente. [Wikipedia.](/assets/2019/12/leer-tarjetas-de-acceso-rfid-sin-arduino/C_Simple_envelope_detector.gif)" %}
+{% include image.html size="small" file="mouse_400x400.jpg" caption="Un raton pequeño. Foto de Google." %}
+{% include image.html size="medium" file="mouse_400x400.jpg" caption="Un raton mediano. Foto de Google." %}
+{% include image.html size="big" file="mouse_400x400.jpg" caption="Un raton grande. Foto de Google." %}
+{% include image.html file="mouse_400x400.jpg" caption="Un raton al 100%. Foto de Google." %}
+
+En las etiquetas de las imágenes se puede usar markdown pero no se pueden usar variables, por tanto si hay que enlazar a un asset se debe poner la ruta entera.
+
+{% include image.html size="medium" file="a-cat.png" caption="Un gato. [Asset del post](/assets/drafts/cheatsheet/file1.txt)" %}
 
 ### Videos
 
