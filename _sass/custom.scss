@@ -27,6 +27,9 @@
 
 .postimage figure img {
     vertical-align: top;
+}
+
+.fullwidth {
 	max-width: 100%;
 }
 
@@ -41,21 +44,46 @@
 400px big
 640px huge
 For now, leave all images -but small ones- its original size with a max-width: 100%.
+Image have a desired width but:
+ - If original width is less than desired: keep original, do not grow
+ - If screen size is narrower than desired: fall back to 100% of avaiable width
 */
+$img-small-width: 200px;
+$img-medium-width: 400px;
+$img-big-width: 600px;
+$img-huge-width: 600px;
+$img-full-width: 100%;
+
 .small {
-  width: 200px;
+  max-width: $img-small-width;
+  @media (max-width: $img-small-width + 50) {
+    max-width: 100%;
+  }
 }
 
 .medium {
+  max-width: $img-medium-width;
+  @media (max-width: $img-medium-width + 50) {
+    max-width: 100%;
+  }
 }
 
 .big {
+  max-width: $img-big-width;
+  @media (max-width: $img-big-width + 50) {
+    max-width: 100%;
+  }
 }
 
 .huge {
+  max-width: $img-huge-width;
+  @media (max-width: $img-huge-width + 50) {
+    max-width: 100%;
+  }
 }
 
 .full {
+  max-width: 100;
 }
 
 
