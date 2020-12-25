@@ -1,5 +1,5 @@
 ---
-title: Cheatsheet
+no-title: Draft pages must have no 'title'
 layout: post
 assets: /assets/yyyy/mm/slugified-title
 image: /assets/yyyy/mm/slugified-title/img/featured.jpg
