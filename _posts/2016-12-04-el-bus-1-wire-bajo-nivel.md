@@ -13,7 +13,7 @@ Hoy os traigo una entrada sobre el bus 1-Wire y el sensor de temperatura DS1820,
 
 En la [entrada anterior]({{site.baseurl}}{% post_url 2016-11-20-conexion-gpio-de-raspberry-pi-3 %}) vimos cómo manejar de forma básica la conexión **GPIO** de una Raspberry Pi 3. En esta nos comunicaremos con un sensor digital modelo DS1820, sin utilizar ningún driver ni librería, es decir implementando a **bajo nivel** el protocolo 1-Wire empleado por el dispositivo.
 
-{% include image.html size="" file="ds1820.jpg" caption="Sensor digital de temperatura DS18B20." %}
+{% include image.html class="original-width" file="ds1820.jpg" caption="Sensor digital de temperatura DS18B20." %}
 
 <!--more-->
 
@@ -27,7 +27,7 @@ El sensor que vais a encontrar más fácilmente es el ds18s20. Es el sucesor del
 
 Por último, también tenéis a la venta la versión más barata ds1822. Se trata de un modelo económico con mayor margen de error. Si los anteriores tienen un error de más/menos 0.5ºC, en este puede llegar hasta los 2ºC.
 
-{% include image.html size="big" file="2815.png" caption="Esquema de bloques del DS18S20. [Maxim integrated](https://www.maximintegrated.com/en/products/analog/sensors-and-sensor-interface/DS18S20.html)." %}
+{% include image.html class="large-width" file="2815.png" caption="Esquema de bloques del DS18S20. [Maxim integrated](https://www.maximintegrated.com/en/products/analog/sensors-and-sensor-interface/DS18S20.html)." %}
 
 En la imagen superior está esquematizado el funcionamiento del sensor. Veamos primero cómo funciona el bloque más a la derecha, el llamado *Temperature Sensor*.
 
@@ -89,19 +89,19 @@ De todas formas el tiempo que tarda la linea en recuperarse depende de varios fa
 
 **Presencia**. El máster lleva el bus a nivel bajo durante entre 480 y 600us. El condensador se descarga y como resultado todos los dispositivos conectados se reinician. Acto seguido el máster libera la linea, y esta vuelve a nivel alto. Los esclavos 1-Wire al iniciar esperan un momento y llevan el bus a nivel bajo. Así el máster determina que hay al menos un elemento 1Wire conectado. A esa secuencia se le llama presencia.
 
-{% include image.html size="big" file="1w-presence.png" caption="Secuencia de reinicio. En azul el pulso de presencia." %}
+{% include image.html class="large-width" file="1w-presence.png" caption="Secuencia de reinicio. En azul el pulso de presencia." %}
 
 **Escribir 0 y escribir 1**. Es parecido al código morse. Para escribir un dato el máster lleva a cero el bus durante un breve periodo. Si es un poco más de 1us y hasta 15us el receptor interpreta un 1. Si es más largo, 60us, el receptor interpreta un cero.
 
 El mecanismo realmente es más sencillo. Cuando el receptor detecta que la tensión ha caído a 0, espera entre 15 y 45us y vuelve a comprobar la linea. Si para entonces ha vuelto a nivel alto se trata de un 1, si continúa en nivel bajo, entonces se trata de un 0. Tras escribir un bit hay que esperar un tiempo de reposo. Dicho tiempo recibe el nombre de *timeslot*, y está entre 60 y 120us.
 
-{% include image.html size="big" file="1w-w1w0.png" caption="Escritura por el máster de 1 y 0." %}
+{% include image.html class="large-width" file="1w-w1w0.png" caption="Escritura por el máster de 1 y 0." %}
 
 **Leer 0 y leer 1**. Según el diseño del bus 1-Wire, el máster es quien inicia la lectura. Cuando el máster quiere leer transmite un pulso breve, como si fuera a enviar un 1. Espera unos instantes y muestrea. Si el chip quiere transmitir un uno, no hará nada, dejará que la linea suba y el máster al tomar el valor leerá un uno. Si el chip quería transmitir un 0 mantendrá la linea sujeta durante unos 15us. En tal caso cuando el máster vuelva a mirar el valor, leerá cero.
 
 El máster debe muestrear el estado del bus tras el tiempo de recuperación, siempre antes de los 15us, y anotar el valor leído.
 
-{% include image.html size="big" file="1w-r1r0.png" caption="Pulsos de lectura. En azul la reacción del esclavo." %}
+{% include image.html class="large-width" file="1w-r1r0.png" caption="Pulsos de lectura. En azul la reacción del esclavo." %}
 
 ## Esperar microsegundos
 
@@ -167,7 +167,7 @@ Encontramos la razón mirando el código de WiringPi. Cuando el tiempo de espera
 
 En la siguiente imagen se aprecia mucho mejor el salto. En el eje horizontal están los tiempos de espera solicitados hasta 500us. En el eje vertical el exceso de espera. En color azul los casos comprendidos entre el mínimo y el máximo error. Y en gradiente una distribución normal con la media y la varianza obtenidas. Si bien no tenemos garantía de que la distribución de los errores siga una normal, con una varianza pequeña nos sirve para hacernos una idea.
 
-{% include image.html size="big" file="microseconds_distr_100000.png" caption="Tiempos esperados con 100.000 iteraciones. Click para ampliar." %}
+{% include image.html class="large-width" file="microseconds_distr_100000.png" caption="Tiempos esperados con 100.000 iteraciones. Click para ampliar." %}
 
 Podemos forzar la espera en bucle llamando a la función *delayMicrosecondsHard*. Este es el resultado:
 
@@ -219,7 +219,7 @@ Lo más fácil de escribir a continuación es la secuencia de **presencia**. Si 
 
 A continuación, según vemos en la imagen, los esclavos esperan entre 15 y 60us y ellos mismos llevan la línea a 0V durante un breve tiempo. Suficiente para medirlo sin dificultad.
 
-{% include image.html size="big" file="1w-presence.datasheet.PNG" caption="Secuencia de reinicio. Datasheet DS1820. Dallas Semiconductor." %}
+{% include image.html class="large-width" file="1w-presence.datasheet.PNG" caption="Secuencia de reinicio. Datasheet DS1820. Dallas Semiconductor." %}
 
 Así pues, bajamos el bus durante 960us, esperamos 60 y leemos. Si hemos leído un nivel bajo significa que hay algo conectado (devolveremos 1). De lo contrario no hay nada en el bus (devolveremos 0). En otras palabras, devolvemos lo contrario al valor leído.
 
@@ -243,7 +243,7 @@ Lo siguiente será una función para transmitir un bit 0 o 1, la llamaremos **se
 
 Para enviar un **uno**, el máster debe bajar la linea durante un tiempo minúsculo de entre 1 y 5us y luego liberarla hasta el siguiente timeslot, o dejarla así si no va a enviar más datos. En el datasheet recomiendan más de 1us y menos de 15. Como las rutinas de espera siempre esperan más de lo necesario, programamos 2us por ejemplo.
 
-{% include image.html size="big" file="1w-writing.datasheet.PNG" caption="Secuencia para escritura. Datasheet DS1820. Dallas Semiconductor." %}
+{% include image.html class="large-width" file="1w-writing.datasheet.PNG" caption="Secuencia para escritura. Datasheet DS1820. Dallas Semiconductor." %}
 
 Así es como funciona en la práctica: el chip 1-Wire detecta la bajada de la linea, espera entre 15 y 60us y lee el estado del bus. Si es positivo entiende un 1 y si es negativo entiende 0. Ya está. No olvidéis que si la dejamos en 0 durante mucho tiempo, más de 480us, a los chips se les agota el condensador y se reinician.
 
@@ -266,7 +266,7 @@ void send_bit(int pin, int bit) {
 
 Lo siguiente es **leer** un bit. Para leer un bit el máster debe llevar la línea a nivel bajo durante más de un microsegundo. El dispositivo detecta la bajada. Cuando el máster libera la línea  pueden pasar dos cosas: si el esclavo quiere escribir un 1 libera la línea y vuelve a nivel alto, pero si quiere escribir 0 la retiene en nivel bajo hasta 15us.
 
-{% include image.html size="big" file="1w-reading.datasheet.PNG" caption="Secuencia de lectura. Datasheet DS1820. Dallas Semiconductor." %}
+{% include image.html class="large-width" file="1w-reading.datasheet.PNG" caption="Secuencia de lectura. Datasheet DS1820. Dallas Semiconductor." %}
 
 Así pues, en esta rutina bajamos el bus durante dos microsegundos, e inmediatamente leemos el valor. Devolvemos el valor leído. La rutina *low* ya esperaba el tiempo necesario para la recuperación del nivel.
 
@@ -330,7 +330,7 @@ En otros ámbitos, sobre todo cuando el mensaje es numérico, se recurre a calcu
 
 El CRC es una forma de calcular el resto un tanto especial. No voy a explicar el fundamento matemático porque daría para un artículo entero. Pero básicamente funciona con un registro de desplazamiento por el que pasan todos los bits. A medida que se desplazan de un lugar a otro, pueden invertirse o no dependiendo del nuevo bit y del resultado del bit anterior.
 
-{% include image.html size="big" file="crc8.png" caption="CRC8 para 1wire. Datasheet DS1820. Dallas Semiconductor." %}
+{% include image.html class="large-width" file="crc8.png" caption="CRC8 para 1wire. Datasheet DS1820. Dallas Semiconductor." %}
 
 **¿Un lío?** Sí, precisamente. Se trata de hacer una operación enrevesada con la intención de hacer improbable que una cascada de errores aleatorios dé casualmente el mismo resultado.
 
@@ -520,7 +520,7 @@ El resultado leído es este:
 
 Aquí vemos el significado de cada byte según viene descrito en el datasheet:
 
-{% include image.html size="medium" file="scratchpad.png" caption="Contenido del scratchpad. Datasheet DS1820. Dallas Semiconductor." %}
+{% include image.html class="small-width" file="scratchpad.png" caption="Contenido del scratchpad. Datasheet DS1820. Dallas Semiconductor." %}
 
 Los bytes 1º y 2º (numerados 0 y 1) indican la **temperatura** de un modo directo en grados centígrados. Para temperaturas positivas es muy sencillo interpretarlo: el primero da la temperatura con resolución de medio grado, y el segundo es cero. Para temperaturas negativas hay que interpretarlo de otra manera. El datasheet proporciona una tabla de conversión.
 
@@ -530,7 +530,7 @@ Hay una forma de obtener más precisión. Fijaos en los últimos bytes, *COUNT R
 
 Si han quedado 9 pulsos hasta llegar a los 16, eso significa que habían entrado ya 7 pulsos. De ahí se puede deducir la temperatura con una precisión mayor. Para empezar olvidemos el medio grado de resolución quedándonos sólo con la parte entera. Y a continuación debemos aplicar la siguiente formula:
 
-{% include image.html size="big" file="formula_temp.png" caption="Fórmula para calcular la temperatura. Datasheet DS1820. Dallas Semiconductor." %}
+{% include image.html class="large-width" file="formula_temp.png" caption="Fórmula para calcular la temperatura. Datasheet DS1820. Dallas Semiconductor." %}
 
 En nuestro caso arroja un resultado de 17.1875ºC, lo redondearemos a 17.19ºC.
 

@@ -18,7 +18,7 @@ A este proyecto le he dedicado otras entradas en el blog. Se trata de diseñar y
 
 Hoy voy a presentaros el hardware. Para que luego sea más fácil entender el software. He aquí el esquema:
 
-{% include image.html size="big" file="esquema_dimmerIr.png" caption="" %}
+{% include image.html class="large-width" file="esquema_dimmerIr.png" caption="" %}
 
 No difiere mucho de los esquemas que encontraréis en otras páginas. Como cabe esperar el corazón del circuito es el **microcontrolador** que se ve a la derecha. Yo he usado un **12F683** porque es el que tengo para las pruebas pero vosotros podeis usar otros modelos si lo preferís. Para examinar el esquema lo dividimos en cinco partes.
 
@@ -52,7 +52,7 @@ Una vez tenemos el PIC alimentado necesitamos saber cuando la tensión de red pa
 
 Mirad el datasheet de un PIC como el 12F683 y fijaos cómo son por dentro las entradas de tipo IO *entrada/salida*:
 
-{% include image.html size="small" file="entrada.png" caption="" %}
+{% include image.html class="small-width" file="entrada.png" caption="" %}
 
 La imagen no está sacada del datasheet, sino de esta **Nota de Aplicación** donde viene más simplificado: [Interfacing to AC Power Lines]({{page.assets | relative_url}}/00521c.pdf). El caso es que tienen dos diodos limitadores. Lo que quiere decir que aunque apliquemos 220V directamente al pin del PIC **no se dañará** siempre y cuando limitemos la intensidad. **R2** es una resistencia de un valor muy elevado, suficiente para elevar la tensión hasta nivel alto, pero con una intensidad muy baja para no destruir los diodos. La tensión en el puerto GP2 oscilará entre 0 cuando la tensión de red pase por el semiciclo negativo hasta 5V como máximo en el semiciclo positivo. En cualquiera de las dos transiciones sabemos que la tensión acaba de pasar o va a pasar inmediatamente por cero.
 
@@ -95,13 +95,13 @@ Lo bueno de usar microcontroladores es que el circuito es muy simple y siempre s
 
 Esta es la PCB con las pistas vistas por el lado de cobre:
 
-{% include image.html size="medium" file="pistas1.png" caption="" %}
+{% include image.html class="medium-width" file="pistas1.png" caption="" %}
 
-{% include image.html size="medium" file="pistas2.png" caption="" %}
+{% include image.html class="medium-width" file="pistas2.png" caption="" %}
 
 Y así es como quedaría el circuito ya montado:
 
-{% include image.html size="big" file="BENQ0008.JPG" caption="" %}
+{% include image.html class="large-width" file="BENQ0008.JPG" caption="" %}
 
 Observad que el condensador **C1** no es de **47nF** sino de **100nF**. En realidad con un consumo tan bajo no es crítico, eso sí cuanta mayor capacidad más margen de maniobra tendremos.
 

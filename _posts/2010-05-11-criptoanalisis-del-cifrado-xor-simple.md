@@ -27,11 +27,11 @@ Para los muy profanos, no iba a decir lo que es un xor y en su lugar iba a pegar
 
 En un or **exclusivo** sería:
 
-{% include image.html size="" file="XOR_TABLE.jpg" caption="" %}
+{% include image.html class="original-width" file="XOR_TABLE.jpg" caption="" %}
 
 Si separamos la tabla en dos veremos una propiedad curiosa: cuando A es 0, entonces la salida es lo mismo que B (cuadro azul), pero si A vale 1, entonces la salida es lo contrario de B (B negado). Una forma de ver la función XOR es que nos permite invertir bits a voluntad.
 
-{% include image.html size="" file="XOR_TABLE_cuadros.jpg" caption="" %}
+{% include image.html class="original-width" file="XOR_TABLE_cuadros.jpg" caption="" %}
 
 Otras propiedades interesantes de esta operación:
 
@@ -67,7 +67,7 @@ Vamos con el análisis de un texto cifrado. Lo primero será averiguar la longit
 
 El caso es que en un texto cifrado eso no se cumple. Si cogemos un texto cifrado parecen caracteres aleatorios. Y si lo desplazamos y lo superponemos no va a coincidir más de un 1% o como mucho 2%, porque una 'a' estará cifrada con la primera letra de la clave que puede ser 'E' mientras que más adelante otra 'a' puede estarlo con la cuarta letra de la clave, una 'h'. Pero seguimos desplazándolo y superponiéndolo consigo mismo, 2 caracteres, 3, 4... hasta que llegamos a la longitud de la clave. En ese momento, como la clave es cíclica, las coincidencias aumentan súbitamente hasta el 6%. Serán coincidencias de caracteres raros, pero coincidencias. Así vamos rotando el texto y superponiéndolo. Y esos picos se producen justamente cuando el desplazamiento del texto es un múltiplo exacto de la longitud de la clave.
 
-{% include image.html size="big" file="xor.png" caption="" %}
+{% include image.html class="large-width" file="xor.png" caption="" %}
 
 Ved arriba cómo varían las coincidencias al superponer consigo mismo un texto cifrado con una clave de 16 caracteres de longitud. Los picos están en los múltiplos de 16. A partir de ahí inmediatamente deducimos la longitud de la clave. Este efecto sólo funciona cuando:
 

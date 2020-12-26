@@ -17,7 +17,7 @@ La espectroscopía es una ciencia cuyo objetivo es conocer la composición de un
 
 Hay dos formas para separar las distintas frecuencias que componen una onda, los métodos directos y los métodos indirectos. Los métodos directos son los que aíslan una determinada frecuencia por medio de algún dispositivo (que se llama monocromador aunque se trate de radiación no visible, tal como infrarrojos). Por ejemplo usando un prisma o una rejilla de difracción para descomponer el haz de luz visible y luego medir la intensidad de luz en cada ángulo. Ese sería un método directo.
 
-{% include image.html size="medium" file="old_espectrocope.jpg" caption="Espectroscopio antiguo. Usa un prisma para dispersar la luz. [Smithsonian](http://americanhistory.si.edu/blog/what-emerging-science-got-public-excited-1860s-spectroscopy)." %}
+{% include image.html class="medium-width" file="old_espectrocope.jpg" caption="Espectroscopio antiguo. Usa un prisma para dispersar la luz. [Smithsonian](http://americanhistory.si.edu/blog/what-emerging-science-got-public-excited-1860s-spectroscopy)." %}
 
 <!--more-->
 
@@ -35,7 +35,7 @@ $$
 
 Tal vez nunca lo estudiaste, tal vez usabas otras letras, tal vez usabas el coseno en lugar del seno, o puede que fuera con signo más, o que los términos estén cambiados de orden. Me da igual. Insisto, todo eso son detalles irrelevantes. Lo importante, lo más importante, yo diría *lo único importante* es que se trata de una función armónica con doble dependencia: del tiempo y de la posición. Y lo demás son letras.
 
-{% include image.html size="" file="Wave_packet_-dispersion-.gif" caption="Onda propagándose. Wikipedia." %}
+{% include image.html class="original-width" file="Wave_packet_-dispersion-.gif" caption="Onda propagándose. Wikipedia." %}
 
 Las constantes de proporcionalidad que multiplican a las variables de las que depende algo periódico son frecuencias. Las frecuencias indican con qué rapidez se repite algo ¿no?
 
@@ -45,7 +45,7 @@ Y la **k**, pues es otra frecuencia. Pero en lugar de ser una frecuencia tempora
 
 Así funciona la propagación de una onda de sonido en el aire (es un gif animado, hay varios en el artículo, lo aviso por si tienes desactivadas las animaciones):
 
-{% include image.html size="big" file="longipatm.gif" caption="Onda de presión. [ISVR, U. of Southampton](http://resource.isvr.soton.ac.uk/spcg/tutorial/tutorial/Tutorial_files/Web-basics-sound.htm)." %}
+{% include image.html class="large-width" file="longipatm.gif" caption="Onda de presión. [ISVR, U. of Southampton](http://resource.isvr.soton.ac.uk/spcg/tutorial/tutorial/Tutorial_files/Web-basics-sound.htm)." %}
 
 Para medir la frecuencia temporal nos fijamos continuamente en el mismo punto. Como por ejemplo en el inicio. La onda sube y baja a un ritmo constante. Eso es la frecuencia temporal, si es lineal f o ν; si es frecuencia angular ω.
 
@@ -71,19 +71,19 @@ Para frecuencias más altas la cosa ya se complica. La radiación infrarroja la 
 
 Y sin embargo una técnica muy empleada es la llamada **FTIR (Fourier Transform Infrared Spectroscopy)**. Cabe preguntarse, ¿cómo aplicas la FFT a una señal que oscila tan rápidamente que no puedes muestrear varias veces en un periodo?
 
-{% include image.html size="medium" file="ftir.jpg" caption="Espectroscopio FTIR comercial. [andersonmaterials.com](http://www.andersonmaterials.com/ftir.html)" %}
+{% include image.html class="medium-width" file="ftir.jpg" caption="Espectroscopio FTIR comercial. [andersonmaterials.com](http://www.andersonmaterials.com/ftir.html)" %}
 
 Aquí es donde viene la genialidad del método. Todo el rato hablamos de "periodo" refiriéndonos al periodo temporal, a la duración en segundos de un ciclo. Pero la variable temporal es demasiado rápida para medirla. Vamos a cambiar de perspectiva, y tratar de medir la onda en su dependencia espacial.
 
 Con la tecnología actual medir distancias pequeñas es fácil. Y para dejar la onda "estática" podemos recurrir a un interferómetro. En los espectroscopios de verdad se utiliza generalmente un interferómetro de Michelson. Consiste en que el haz de luz que viene de la fuente se divide en dos y se hace interferir consigo mismo. Es el mismo tipo de interferómetro que usaron Michelson y Morley en 1887 para medir la velocidad de arrastre del "viento del ether" y que, lógicamente, no pudieron medir. Dando lugar a una serie de elucubraciones que años más tarde recopiló Einstein en su Relatividad Especial.
 
-{% include image.html size="big" file="michelson_fft_spec.gif" caption="Interferómetro de Michelson con un brazo movil. [Wolfram](http://scienceworld.wolfram.com/physics/FourierTransformSpectrometer.html)." %}
+{% include image.html class="large-width" file="michelson_fft_spec.gif" caption="Interferómetro de Michelson con un brazo movil. [Wolfram](http://scienceworld.wolfram.com/physics/FourierTransformSpectrometer.html)." %}
 
 En un espectroscopio uno de los espejos es móvil. Un detalle: en realidad, por motivos prácticos, no son espejos sino retroreflectores, reflectores de esquina o catadióptricos. De ese modo uno de los rayos recorre siempre un camino fijo, mientras que el camino del otro rayo se varía moviendo el espejo. El resultado es que la interferencia sigue una sucesión de máximos y mínimos dependiendo de la posición del espejo móvil.
 
 Hay vídeos en Youtube donde se aprecia muy bien el fenómeno. En este por ejemplo, [Michelson Interferometer &amp; Path Variations](https://www.youtube.com/watch?v=87pPoGuLSuw&amp;t=1m10s). Por si en el futuro retiran el vídeo o cambia el enlace os dejo un GIF animado con unos segundos para que veáis a lo que me refiero:
 
-{% include image.html size="big" file="michelson_path_variations_lowres.gif" caption="Anillos de interferencia en un interferómetro de Michelson. [Youtube](https://www.youtube.com/watch?v=87pPoGuLSuw&amp;t=1m10s)." %}
+{% include image.html class="large-width" file="michelson_path_variations_lowres.gif" caption="Anillos de interferencia en un interferómetro de Michelson. [Youtube](https://www.youtube.com/watch?v=87pPoGuLSuw&amp;t=1m10s)." %}
 
 Cuando el operador mueve el tornillo micrométrico (a la derecha de la imagen), varia la longitud de uno de los brazos, y los anillos de interferencia se desplazan hacia afuera o hacia adentro. Si medimos la luz en el centro, por ejemplo, detectaremos una sucesión de máximos y mínimos. La distancia entre los anillos depende de la longitud de onda de la luz. Con un láser verde, de longitud de onda más corta que el rojo del vídeo, estarían más juntos.
 
@@ -93,7 +93,7 @@ Por si no habéis leído otras entradas del blog, me empeño en ilustrar experim
 
 En lugar de un interferómetro de Michelson, que es poco práctico para ondas sonoras, utilizaré una forma de interferencia más sencilla: las ondas estacionarias dentro de un tubo de longitud variable. Lo que viene a ser muy parecido a un [tubo de Kundt](https://es.wikipedia.org/wiki/Tubo_de_Kundt).
 
-{% include image.html size="big" file="montaje.png" caption="Esquema del montaje. EyC." %}
+{% include image.html class="large-width" file="montaje.png" caption="Esquema del montaje. EyC." %}
 
 Se trata de un tubo de aproximadamente un metro de longitud. En un extremo he acoplado un altavoz y un micrófono. Y en el otro, un pistón. El pistón va conectado a un hilo que pasa por el rodillo de un ratón que me servirá como sensor de desplazamiento, tal como habíamos visto en la entrada anterior llamada *[Medir distancias con un ratón de bola]({{site.baseurl}}{% post_url 2015-07-16-medir-distancias-con-un-raton-de-bola %})*.
 
@@ -101,7 +101,7 @@ Ya se puede intuir que instrumento no es de precisión, pero servirá. El funcio
 
 Por tanto cabe esperar que, a medida que desplazo el émbolo a lo largo del tubo, habrá unas posiciones en que el micrófono captará un máximo y otras donde captará un mínimo. Y así es. Este es un gráfico del volumen frente a la distancia recorrida por el émbolo cuando generamos por el altavoz una frecuencia de 4kHz:
 
-{% include image.html size="big" file="interf_4kHz_picos.png" caption="Cuenta de máximos en un interferograma. EyC." %}
+{% include image.html class="large-width" file="interf_4kHz_picos.png" caption="Cuenta de máximos en un interferograma. EyC." %}
 
 Contemos los picos. Salen 20 en una distancia de unos 85cm. Haciendo una regla de tres son 23.5 picos por metro. Las ondas estacionarias, por su naturaleza, generan los máximos cada media longitud de onda, por lo que los 23.5 hay que dividirlos entre dos, para obtener los periodos por metro. 11.76 picos/metro o directamente 11.76 m<sup>-1</sup> porque el "pico" no es una unidad del SI.
 
@@ -189,7 +189,7 @@ Si os fijáis en el programa, lo que hace es utilizar SOX para leer el micrófon
 
 El circuito que podría medir eso es un rectificador y un filtro, como el que se usa en los receptores de AM:
 
-{% include image.html size="medium" file="am_diode_detector.png" caption="Detector de envolvente. EyC." %}
+{% include image.html class="medium-width" file="am_diode_detector.png" caption="Detector de envolvente. EyC." %}
 
 Sin embargo resulta más sencillo emular el circuito por software. De tal manera que muestreamos el sonido para después rectificarlo y filtrarlo usando conceptos de DSP. Esto se hace en la línea
 
@@ -312,7 +312,7 @@ En el gráfico inferior representamos el espectro de frecuencias del interferogr
 
 Veamos el resultado para la señal de 4000Hz de la que hablábamos antes, puedes hacer click para ampliar, o click con el botón central para abrir las imágenes en otra pestaña aparte:
 
-{% include image.html size="big" file="interf_4kHz.png" caption="Resultados para una frecuencia de 4kHz. Click para ampliar. EyC." %}
+{% include image.html class="large-width" file="interf_4kHz.png" caption="Resultados para una frecuencia de 4kHz. Click para ampliar. EyC." %}
 
 Además del pico en 4kHz, clavado, se aprecian algunos armónicos en 8, 12 y un pelín en 16kHz. Y no debería ser así, porque la fuente era una sinusoidal pura.
 
@@ -322,7 +322,7 @@ Pero obviemos por un momento las imperfecciones y apreciemos la belleza de calcu
 
 Subamos la frecuencia hasta 15kHz:
 
-{% include image.html size="big" file="interf_15kHz.png" caption="Resultados para una frecuencia de 15kHz. Click para ampliar. EyC. " %}
+{% include image.html class="large-width" file="interf_15kHz.png" caption="Resultados para una frecuencia de 15kHz. Click para ampliar. EyC. " %}
 
 Aquí se aprecia el pico de 15kHz y, algo muy especial, un segundo armónico en 30kHz. La tarjeta de sonido con la que captaba la onda muestrea como mucho a 48kHz; por lo que la máxima frecuencia que podría arrojar es 24kHz, y sin embargo aquí vemos claramente un pico en 30.
 
@@ -339,7 +339,7 @@ Y, ya que hemos visto que salen armónicos donde no deben, ¿qué pasa si a la e
 
 Por ejemplo en este caso mezclamos 4kHz y 11kHz? Esperamos ver dos picos de 4 y 11kHz pero...
 
-{% include image.html size="big" file="interf_4_11.png" caption="Resultados para una frecuencia de 4+11kHz. Click para ampliar. EyC. " %}
+{% include image.html class="large-width" file="interf_4_11.png" caption="Resultados para una frecuencia de 4+11kHz. Click para ampliar. EyC. " %}
 
 Ya habíamos visto en esta otra entrada lo que pasa al introducir dos frecuencias en un sistema no lineal: [La Distorsión Armónica Total (THD)]({{site.baseurl}}{% post_url 2013-03-26-la-distorsion-armonica-total-thd %}). Y lo podemos observar de nuevo en este resultado.
 

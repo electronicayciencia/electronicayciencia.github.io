@@ -44,7 +44,7 @@ El resultado de programa son dos ficheros. Uno en modo texto por si queremos exp
 
 Hay que pensar despacio cómo presentar los resultados ya que de ello depende la visibilidad del estudio. No quería complicarme demasiado con esta entrada así que voy a presentaros los resultados en forma de HTML estático. Id a esta dirección: [http://eyciencia.000a.biz/simurisk/](http://eyciencia.000a.biz/simurisk/). Allí encontraréis una tabla como esta:
 
-{% include image.html size="" file="tabla.png" caption="" %}
+{% include image.html class="original-width" file="tabla.png" caption="" %}
 
 Los atacantes crecen hacia abajo, mientras que los defensores lo hacen hacia la derecha.
 
@@ -60,25 +60,25 @@ En general tras una tirada pueden pasar tres cosas, hay casos particulares en qu
 
 Teniendo en cuenta eso, hay casos que son más favorables que otros. Fijaos en el caso de 4 contra 4:
 
-{% include image.html size="" file="6v9.png" caption="" %}
+{% include image.html class="original-width" file="6v9.png" caption="" %}
 
 A priori no está decidido. Y sigue sin estarlo si empatan. Pero cuando el atacante o el defensor pierden dos ejércitos la batalla se decanta hacia el contrario y es muy difícil recuperar. Esto sería un caso más o menos justo. Pero mirad el 6 contra 9.
 
-{% include image.html size="" file="4v4.png" caption="" %}
+{% include image.html class="original-width" file="4v4.png" caption="" %}
 
 En principio podría ganar cualquiera, pero es claramente desfavorable para el atacante, porque tanto si empata como si pierde disminuyen mucho sus posibilidades. Para el atacante, ganar la primera tirada no le proporciona tanta ventaja como al defensor.
 
 Elegid un caso, por ejemplo 10 atacantes contra 9 defensores. El navegador indica que hay un 65% de probabilidades de ganar (para el atacante) y muestra tres gráficos.
 
-{% include image.html size="big" file="rojo.png" caption="" %}
+{% include image.html class="large-width" file="rojo.png" caption="" %}
 
 Estas son las bajas del atacante. Que van desde 0 hasta N-1. Se ha eliminado el caso de N bajas porque si el atacante pierde todos sus ejércitos pierde la batalla. Se debe interpretar como: *si el atacante gana, cuantas bajas espera tener durante la contienda*. aquí vemos que lo más probable es que tengamos 5, 6 ó 7 bajas. No es frecuente tener 1 o 2 bajas cuando luchamos contra 9 defensores, de hecho sólo ocurre en un 2% de los casos. Tampoco esperamos ganar teniendo 8 ó 9 bajas, porque en esas circunstancias lo normal es que perdamos ya que no atacaríamos con los 3 dados sino con 2 o con 1.
 
-{% include image.html size="big" file="azul.png" caption="" %}
+{% include image.html class="large-width" file="azul.png" caption="" %}
 
 Este es el mismo gráfico pero para el defensor. Se debe leer como *en el hipotético caso de que gane el defensor y pierda el atacante, cómo de mermadas quedarán sus tropas.* Aquí vemos cómo el hecho de luchar en inferioridad resulta muy perjudicial, y en caso de que consiga resistir el ataque se esperan 6 ó 7 bajas. Al igual que en el del atacante, no es de esperar que gane con 8 bajas porque en ese caso pasa de defensor con 2 a defender con 1 y lo frecuente es perder.
 
-{% include image.html size="big" file="verde.png" caption="" %}
+{% include image.html class="large-width" file="verde.png" caption="" %}
 
 Este gráfico muestra el número de tiradas de dados. Lo normal es que la batalla dure entre 6 y 9 tiradas. Es matemáticamente imposible que sea inferior a 5.
 

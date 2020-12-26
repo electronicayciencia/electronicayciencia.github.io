@@ -27,23 +27,23 @@ Por simplificar, ya que los datos que tengo van agrupados por prefijo telefónic
 
 Una vez coloreado el mapa que nos servirá de plantilla, queda así:
 
-{% include image.html size="big" file="prov_prefijos.png" caption="" %}
+{% include image.html class="large-width" file="prov_prefijos.png" caption="" %}
 
 ## Gradientes
 
 Sobre esta plantilla, he pegado el gradiente con la escala de color que voy a utilizar. En el código fuente se puede elegir usar un gradiente u otro. En esta página [http://local.wasp.uwa.edu.au/~pbourke/texture_colour/colourramp/](http://local.wasp.uwa.edu.au/%7Epbourke/texture_colour/colourramp/) hay varios ejemplos de gradientes que se pueden usar para visualizar datos. Yo me he quedado con el gradiente 1: azul-(cielo)-verde-(amarillo)-rojo, que creo que es el que mejor representa gráficamente los valores que voy a visualizar.
 
-{% include image.html size="" file="ramp1.gif" caption="" %}
+{% include image.html class="original-width" file="ramp1.gif" caption="" %}
 
 Los gradientes de **tres colores** son apropiados cuando la mayoría de los datos están agrupados en torno a una media central (verde) y se quiere ver cuales son las provincias que se desvían por encima (rojo) o por debajo (azul). En este se han añadido dos colores más en los puntos de unión para que no se pierda luminancia. Comparar con cómo sería un gradiente azul-verde-rojo gradual:
 
-{% include image.html size="" file="16.gif" caption="" %}
+{% include image.html class="original-width" file="16.gif" caption="" %}
 
 Cuando lo normal es un valor límite, ya sea bajo o alto, y se quiere resaltar la desviación hacia el otro extremo se usan **gradientes de dos colores**, como el clásico verde-rojo (para los indicadores), o azul-marrón (altura de los planos). Aunque por estética o legibilidad a veces se incorpora un tercer valor ya sea en el medio, amarillo por ejemplo para dar verde-amarillo-rojo como en un semáforo; o en un extremo, blanco en la altura máxima azul-marrón-blanco, recordando al nivel del mar para la altura cero, y a las nieves perpetuas en las cimas más altas.
 
 Cuando los valores son centrales y no importa hacia qué lado se produce la desviación, se emplea un **gradiente simétrico** como este por ejemplo:
 
-{% include image.html size="" file="07.gif" caption="" %}
+{% include image.html class="original-width" file="07.gif" caption="" %}
 
 En ocasiones, cuando tenemos valores muy distintos en la misma imagen se emplean gradientes de 6 o más colores. Ejemplos típicos son las escalas de calor que evolucionan desde negro a blanco pasando por azul, verde, amarillo y rojo. Hay multitud de modelos.
 
@@ -74,6 +74,6 @@ Para usarlo sólo hay que rellenar un hash con el prefijo telefónico como clave
 
 Después la imagen se guarda en un archivo con formato PNG y se inserta el título (si es preciso) en la esquina superior derecha. El resultado es un mapa como este:
 
-{% include image.html size="big" file="mapacolor_ej1.png" caption="" %}
+{% include image.html class="large-width" file="mapacolor_ej1.png" caption="" %}
 
 Os dejo el programita **[aquí]({{page.assets | relative_url}}/mapacolor.zip)** listo para descargar**.**

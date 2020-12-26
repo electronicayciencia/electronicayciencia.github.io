@@ -16,7 +16,7 @@ En este artículo describiremos primero analógicamente cómo funcionan transmis
 
 Utilizaremos transductores ultrasónicos a 40kHz como los que podéis encontrar en estos módulos para medir distancias. No he encontrado la referencia exacta, pero a la vista se parecen mucho a los que vienen en el datasheet del modelo [400ST160]({{page.assets | relative_url}}/1686089.pdf).
 
-{% include image.html size="medium" file="mod_ultrasonido.png" caption="Medidor de distancia por ultrasonidos. Circuito de partida." %}
+{% include image.html class="medium-width" file="mod_ultrasonido.png" caption="Medidor de distancia por ultrasonidos. Circuito de partida." %}
 
 <!--more-->
 
@@ -28,13 +28,13 @@ Un buen circuito es el que **funciona** y sirve a nuestros propósitos. Después
 
 En este artículo quiero centrarme en el receptor, y por esa razón el esquema del transmisor debía ser muy sencillo. Decidí utilizar un microcontrolador PIC 12F386. Este tendrá ya preprogramado el mensaje, y generará la portadora de 40kHz necesaria para activar el altavoz. Utilizaremos modulación ASK (o más concretamente OOK) por ser la más sencilla.
 
-{% include image.html size="big" file="sch_transmisor.png" caption="Esquema eléctrico del transmisor. EyC." %}
+{% include image.html class="large-width" file="sch_transmisor.png" caption="Esquema eléctrico del transmisor. EyC." %}
 
 El transductor podría requerir más corriente de la que puede suministrar el PIC, para no arriesgarlo lo excitamos mediante **Q1** y no directamente, así puedo darle la corriente necesaria sin preocuparme de si será muy alta para el PIC. Otras posibilidades habrían sido una salida push-pull como la que vimos en [Cómo funcionan las etiquetas acustomagnéticas]({{site.baseurl}}{% post_url 2013-07-03-etiquetas-antihurto-magneto-acusticas %}) o un buffer usando inversores.
 
 A propósito, cuando queráis excitar un led, un relé o cualquier cosa con un transistor NPN en modo conmutación, siempre emisor a tierra y carga al colector. Nunca al revés.
 
-{% include image.html size="medium" file="buffer_emitter_to_ground.png" caption="Conexión de una carga a un transistor NPN. EyC." %}
+{% include image.html class="medium-width" file="buffer_emitter_to_ground.png" caption="Conexión de una carga a un transistor NPN. EyC." %}
 
 Un transistor NPN está diseñado para trabajar con tensión de base positiva respecto al emisor. Si colocáramos la carga entre emisor y masa, el emisor ya no estaría a 0V porque la carga tendrá una caída de tensión. Haciendo más positivo el emisor del NPN empeoramos su rendimiento.
 
@@ -58,7 +58,7 @@ La máxima frecuencia de reloj para el 12F683 es 20MHz. Este será el valor de *
 
 Nuestro transmisor montado sobre una protoboard. Se aprecia el zócalo para el PIC, y el conector ICSP que usaremos para programarlo y para alimentar el circuito. Los cables de la derecha van al altavoz.
 
-{% include image.html size="medium" file="pcb_transmisor.jpg" caption="Transmisor montado sobre una placa perforada. EyC." %}
+{% include image.html class="medium-width" file="pcb_transmisor.jpg" caption="Transmisor montado sobre una placa perforada. EyC." %}
 
 Más abajo hablaremos del firmware.
 
@@ -68,7 +68,7 @@ Una vez construido (y programado) el transmisor, tomamos el osciloscopio para ve
 
 En amarillo los pulsos transmitidos a 2000 *baudios*, aproximadamente 0.5ms de duración. Sus bordes están bien delimitados. En verde los pulsos recibidos: los bordes son difusos, llegándose a perder la distinción de dónde acaba un pulso y comienza el siguiente.
 
-{% include image.html size="big" file="resonancia_indeseada.png" caption="Resonancia indeseada. Impide la transmisión a mayor velocidad. EyC." %}
+{% include image.html class="large-width" file="resonancia_indeseada.png" caption="Resonancia indeseada. Impide la transmisión a mayor velocidad. EyC." %}
 
 ¿Por qué ocurre esto? Porque transmisor y receptor son cavidades resonantes de Helmholtz con un factor de calidad muy elevado. Es decir, están ajustados para transmitir y recibir eficazmente una frecuencia de 40kHz, y sólo de 40kHz con un margen muy estrecho.
 
@@ -78,19 +78,19 @@ Los pulsos se solapan con los siguientes. Aún se está extinguiendo la resonanc
 
 Esperar a que la señal del símbolo previo se debilite lo suficiente significa bajar hasta una velocidad de transmisión más lenta, por ejemplo 1000 baudios.
 
-{% include image.html size="big" file="resonancia_indeseada_1kHz.png" caption="La máxima velocidad de transmisión no va mucho más allá de 1000 baudios. EyC." %}
+{% include image.html class="large-width" file="resonancia_indeseada_1kHz.png" caption="La máxima velocidad de transmisión no va mucho más allá de 1000 baudios. EyC." %}
 
 Ahora se distingue mejor. Con todo, cuando diseñemos el circuito hemos de tener en cuenta el arranque suave y la terminación exponencial de los pulsos.
 
 A propósito, ¿sabéis otra causa de la interferencia entre símbolos? Caminos múltiples (**multipath**). La onda se propaga en distintas direcciones y rebota en varios obstáculos antes de llegar al receptor. Por tanto se solapan señales de distintas amplitudes y fases. Con ultrasonidos se aprecia muy bien sin más que orientar el transmisor hacia una pared cualquiera de la habitación.
 
-{% include image.html size="big" file="multipath.png" caption="Los caminos múltiples son otra causa de interferencia. EyC." %}
+{% include image.html class="large-width" file="multipath.png" caption="Los caminos múltiples son otra causa de interferencia. EyC." %}
 
 En cuanto al nivel captado, la señal recibida a un metro aproximadamente tiene una amplitud de unos 20mV. Varía mucho en función de la alineación. Pero ojo, cuando micrófono y altavoz están pegados mutuamente, la amplitud supera los 10V, luego será imprescindible un potenciómetro de volumen a la entrada.
 
 Antes de construir el receptor haremos algunas simulaciones. Para dotar a la simulación de cierto realismo primero crearemos una señal similar a la señal recibida anteriormente.
 
-{% include image.html size="big" file="mic_resonante.png" caption="Simulación de la señal recibida. EyC." %}
+{% include image.html class="large-width" file="mic_resonante.png" caption="Simulación de la señal recibida. EyC." %}
 
 Se trata de un generador a 40kHz **V2** interrumpido periódicamente por el interruptor **S1** el cual se activa y desactiva a intervalos de 0.5ms. **C3** y **L1** forman un resonador para crear la forma de onda que veis a la derecha.
 
@@ -98,7 +98,7 @@ El receptor que diseñemos será, en esencia, un circuito capaz de llevar su sal
 
 Por supuesto hay infinidad de circuitos así. Dependiendo de los conocimientos, materiales disponibles, experiencias previas e inspiración se nos podría ocurrir algo como esto:
 
-{% include image.html size="big" file="sch_alternativa2.png" caption="Una -mala- idea para el circuito receptor. EyC." %}
+{% include image.html class="large-width" file="sch_alternativa2.png" caption="Una -mala- idea para el circuito receptor. EyC." %}
 
 Una etapa amplificadora formada por el operacional **U1** en configuración no inversora, y las resistencias **R1** y **R2**. La amplificación teórica de esta etapa es de 301. Más que suficiente para amplificar la señal de entrada hasta los 0.7V necesarios para activar el diodo **D1** y cargar **C2**.
 
@@ -108,7 +108,7 @@ Cuando la señal de entrada cese, **C2** se descargará a través de **R3**. La 
 
 Resultado de la simulación:
 
-{% include image.html size="medium" file="alternativa2_output.png" caption="Forma de onda de entrada (x100) y de salida en el receptor anterior. EyC." %}
+{% include image.html class="medium-width" file="alternativa2_output.png" caption="Forma de onda de entrada (x100) y de salida en el receptor anterior. EyC." %}
 
 Si bien funciona en la simulación con **LTSpiceIV** (muy fiable por otra parte), se pueden mejorar algunos aspectos.
 
@@ -132,7 +132,7 @@ La tensión de salida en un operacional casi siempre está limitada superior e i
 
 Si hay algo que podría descartar definitivamente el LM358 para operar a 40kHz, es su **Slew Rate**. Como ya dijimos, es un operacional lento. Tan lento que la salida no puede cambiar más deprisa de 0.3V/us. O sea 300.000V/s.
 
-{% include image.html size="big" file="slew_rate_datasheet.png" caption="Slew Rate y Unity-gain bandwidth para el LM358. Datasheet." %}
+{% include image.html class="large-width" file="slew_rate_datasheet.png" caption="Slew Rate y Unity-gain bandwidth para el LM358. Datasheet." %}
 
 Puede parecer muchísimo. ¿A cuanto cambia la tensión en una señal de 40kHz? Permitidme omitir las cuentas. Básicamente se deriva y se busca el máximo. Resulta [251327 V/s](https://www.wolframalpha.com/input/?i=max+of+derivative+of+sin(40000*2*pi*t)) por cada voltio de amplitud. Es decir, que para no exceder el *slew rate* de 300000V/s la amplitud debe ser como mucho 1.19V. Como teníamos antes la limitación de 1V de salida, **nos vale**.
 
@@ -140,7 +140,7 @@ Puede parecer muchísimo. ¿A cuanto cambia la tensión en una señal de 40kHz? 
 
 Para el uso que le vamos a dar, no necesitamos ni precisión, ni fidelidad. Decidimos usar el LM358 igualmente; ahora sí, conociendo sus limitaciones.
 
-{% include image.html size="big" file="sch_receptor2.png" caption="Esquema del receptor completo. EyC." %}
+{% include image.html class="large-width" file="sch_receptor2.png" caption="Esquema del receptor completo. EyC." %}
 
 La señal captada por el micrófono -o simulada en este caso- alcanza el potenciómetro de volumen **POT1** y atraviesa dos etapas amplificadoras compuestas por sendos LM358 en cascada. Ambos operacionales están configurados como amplificador inversor con alimentación simple.
 
@@ -148,7 +148,7 @@ La tensión en la patilla no inversora de **U1** y **U2** es igual a la mitad de
 
 La primera etapa amplificadora, formada por **U1**, **R3** y **R4**, tiene una ganancia de (en teoría) 22. Si el producto ganancia por ancho de banda es realmente 1MHz y operamos a 40kHz, la ganancia máxima para cada etapa sería de 25. Pero si resulta ser menor, 0.7MHz, entonces la amplificación máxima será, como mucho, de 18 y no de 22 veces.
 
-{% include image.html size="big" file="ampli1.png" caption="Amplificación de la señal de entrada. EyC." %}
+{% include image.html class="large-width" file="ampli1.png" caption="Amplificación de la señal de entrada. EyC." %}
 
 La segunda etapa, compuesta por **U2**, **R5** y **R6**, es idéntica a la primera pero con una ganancia de x10. La primera etapa debe ser siempre la de mayor ganancia. Ya que de lo contrario estaríamos amplificando de forma innecesaria el ruido originado por el propio integrado en la etapa anterior.
 
@@ -162,31 +162,31 @@ Cuando la tensión en la entrada inversora de **U3** supere el umbral de referen
 
 En este esquema el funcionamiento del condensador **C6** es inverso a cómo lo hacía en el anterior. Aquí está siempre cargado hasta casi la tensión positiva salvo cuando llega una señal, que se vacía por completo.
 
-{% include image.html size="big" file="carga-descarga-c.png" caption="Carga y descarga del condensador de acuerdo a la señal de entrada. EyC." %}
+{% include image.html class="large-width" file="carga-descarga-c.png" caption="Carga y descarga del condensador de acuerdo a la señal de entrada. EyC." %}
 
 ¿Y qué hace **R10**? Pues es nuestra histéresis. Por cómo está planteado circuito, parte de la tensión en la entrada no inversora de **U3** depende de la carga de **C6** en un momento dado. Gracias a esta resistencia, una vez se ha detectado una señal por encima del margen de ruido, este umbral **bajará**:
 
-{% include image.html size="big" file="histeresis-dinamica.png" caption="Actuación de la histéresis al detectar una señal. EyC." %}
+{% include image.html class="large-width" file="histeresis-dinamica.png" caption="Actuación de la histéresis al detectar una señal. EyC." %}
 
 Cuando el transductor capta una señal, esta se amplifica, se compara y acaba descargando el condensador **C6**. Si la onda supera cierta frecuencia, la descarga se producirá tan a menudo que la carga del condensador se mantendrá por debajo de un cierto nivel mientras ésta dure.
 
-{% include image.html size="big" file="umbral2.png" caption="Umbral del segundo comparador frente a la carga del condensador. EyC." %}
+{% include image.html class="large-width" file="umbral2.png" caption="Umbral del segundo comparador frente a la carga del condensador. EyC." %}
 
 Ahí es donde entra el segundo comparador **U4**. Fijamos un límite por debajo del cual consideramos que el circuito debe estar activo.
 
-{% include image.html size="big" file="umbral2-detalle.png" caption="Detalle del umbral en el segundo comparador. EyC." %}
+{% include image.html class="large-width" file="umbral2-detalle.png" caption="Detalle del umbral en el segundo comparador. EyC." %}
 
 Cuando la carga de **C6** es mayor que esta segunda referencia es porque no hay señal a la entrada. La salida de **U4** está puesta a tierra y en en el punto *Out* encontraremos una tensión de 0 voltios. Cuando se registre un pulso, bajará la carga del condensador, **U4** dejará de conducir y la tensión subirá hasta los 3.3V debido al divisor resistivo formado por **R14** y **R15**. Nivel apto para conectarlo a una Raspberry por ejemplo.
 
-{% include image.html size="big" file="output.png" caption="El receptor transforma los pulsos de entrada en niveles lógicos. EyC." %}
+{% include image.html class="large-width" file="output.png" caption="El receptor transforma los pulsos de entrada en niveles lógicos. EyC." %}
 
 Este es el receptor montado. Se aprecian los integrados **LM358** y **LM393**, el operacional y el comparador antes descritos. Así como los conectores para la alimentación, la salida y el micro.
 
-{% include image.html size="big" file="pcb_receptor.jpg" caption="Receptor montado en una placa perforada. EyC." %}
+{% include image.html class="large-width" file="pcb_receptor.jpg" caption="Receptor montado en una placa perforada. EyC." %}
 
 Además, aquí os dejo otra **alternativa** más. Esta vez sin usar operacionales ni comparadores (al menos no como componentes discretos). Los valores los he puesto un poco a ojo. No la he montado, os recomiendo mejor la anterior.
 
-{% include image.html size="big" file="sch_alternativa3.png" caption="Otra posibilidad para el receptor. EyC." %}
+{% include image.html class="large-width" file="sch_alternativa3.png" caption="Otra posibilidad para el receptor. EyC." %}
 
 En este caso la etapa de entrada está construida con transistores bipolares. **Q1** está configurado como amplificador en emisor común. La segunda etapa, compuesta por **Q2** y sus resistencias de polarización, no trabaja linealmente. Su función es entregar a **Q3** la tensión necesaria para activarse durante un semiciclo de la señal de entrada.
 
@@ -196,7 +196,7 @@ La histéresis nos la proporciona el propio integrado con sus patillas *trigger*
 
 Probablemente sea preciso afinar los valores de las resistencias. De todas formas la simulación dice que podría funcionar:
 
-{% include image.html size="big" file="alternativa3_output.png" caption="Funcionamiento del esquema de receptor anterior. EyC." %}
+{% include image.html class="large-width" file="alternativa3_output.png" caption="Funcionamiento del esquema de receptor anterior. EyC." %}
 
 ## Firmware del transmisor
 
@@ -282,7 +282,7 @@ void main()
 
 El resultado es un tren de pulsos como el siguiente:
 
-{% include image.html size="big" file="serial_P_100bauds.png" caption="Tren de pulsos generado por el transmisor. EyC." %}
+{% include image.html class="large-width" file="serial_P_100bauds.png" caption="Tren de pulsos generado por el transmisor. EyC." %}
 
 Nada más iniciarse empieza a generar la **portadora** de 40kHz. En este momento, si hubiera un receptor serie al otro lado activaría la señal [DCD *Data Carrier Detect*](https://en.wikipedia.org/wiki/Data_Carrier_Detect).
 
@@ -304,7 +304,7 @@ La función *wait_for*, dependiendo de sus parámetros, espera a que la línea p
 
 La función *main* configura la ejecución y comienza un bucle en el que lo primero es buscar la portadora. Para lo cual llama a *wait_for* y espera hasta que la línea pase a nivel alto. Si no se recibe en unos segundos, el programa termina por *timeout* con el mensaje **NO CARRIER**.
 
-{% include image.html size="medium" file="putty_no_carrier.png" caption="Si no se detecta la portadora en unos segundos, el programa termina. EyC." %}
+{% include image.html class="medium-width" file="putty_no_carrier.png" caption="Si no se detecta la portadora en unos segundos, el programa termina. EyC." %}
 
 Una vez tenemos la portadora fijada, invocamos a la función *read_byte*. Ahí es donde ocurre todo lo importante.
 
@@ -312,13 +312,13 @@ Primero aguarda la interrupción de la portadora, indicativo de comiendo de la t
 
 Ahora llama a *wait_for* nuevamente para esperar a que la línea vuelva a nivel alto con el byte de stop, pues debería ser el siguiente.
 
-{% include image.html size="medium" file="putty_debug.png" caption="Recepción de un byte. EyC." %}
+{% include image.html class="medium-width" file="putty_debug.png" caption="Recepción de un byte. EyC." %}
 
 De no volver a línea a nivel alto en el tiempo preestablecido, se considerará como *condición de ruptura* y devolverá un error (representado por el carácter 0xFF). El programa volverá entonces a la búsqueda de la portadora como inicialmente.
 
 Si ejecutamos el programa con el transmisor conectado leeremos el mismo mensaje repetido en bucle tal como lo habíamos programado. ¡Estamos transmitiendo información usando ultrasonidos!
 
-{% include image.html size="big" file="putty_nodebug.png" caption="Prueba de comunicación serie por ultrasonidos. EyC." %}
+{% include image.html class="large-width" file="putty_nodebug.png" caption="Prueba de comunicación serie por ultrasonidos. EyC." %}
 
 ## Un poco más allá
 
@@ -326,7 +326,7 @@ Vayamos un poquito más allá del propósito inicial, lo que llaman los ingleses
 
 Hemos escrito un software para recibir los mensajes y funciona. Es como un **puerto serie**, pero con ultrasonidos. Sin embargo, al puerto serie físico, uno *de verdad* podría conectársele una consola tal que así:
 
-{% include image.html size="big" file="getty_rasp.png" caption="En un puerto serie de verdad se pueden conectar consolas serie. EyC." %}
+{% include image.html class="large-width" file="getty_rasp.png" caption="En un puerto serie de verdad se pueden conectar consolas serie. EyC." %}
 
 Mientras que nuestro receptor de ultrasonidos sigue siendo poco más que un interruptor muy rápido para poner una patilla GPIO a 0 o a 1. No puedo conectarle una consola, no puedo interactuar con él mediante ningún terminal serie, en definitiva: no está integrado en el sistema operativo.
 
@@ -338,7 +338,7 @@ El idioma es el de Mordor, que no pronunciaré aquí. En la lengua común implem
 
 Tras actualizar Raspbian, instalar las *kernel headers* y alguna otra cosilla más, compilamos, lo cargamos y...
 
-{% include image.html size="big" file="minicom.png" caption="Ya podemos usar el receptor por ultrasonidos como un terminal serie. EyC." %}
+{% include image.html class="large-width" file="minicom.png" caption="Ya podemos usar el receptor por ultrasonidos como un terminal serie. EyC." %}
 
 Ahora tenemos un dispositivo hardware, parte del sistema operativo a todos los efectos. No vamos a conectar una consola serie porque no es bidireccional, pero podríamos.
 

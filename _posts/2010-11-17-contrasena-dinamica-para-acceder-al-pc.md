@@ -16,7 +16,7 @@ La solución pasa entonces por tener una clave que cambie cada día, o mejor aú
 
 Pero la pregunta es, si cada vez que entre la clave es distinta ¿cómo sé yo con qué clave tengo que entrar? Pues una solución sencilla podría ser que el ordenador nos mande un desafío y nosotros tengamos que responder siguiendo un algoritmo que hayamos programado previamente. Esa es la dinámica del programa que os quiero presentar hoy.
 
-{% include image.html size="big" file="capturaescudo.png" caption="" %}
+{% include image.html class="large-width" file="capturaescudo.png" caption="" %}
 
 ## El algoritmo
 

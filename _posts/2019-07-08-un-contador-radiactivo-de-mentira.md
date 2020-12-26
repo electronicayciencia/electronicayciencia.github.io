@@ -16,7 +16,7 @@ Había pensado proyectar un contador de radiación de verdad. Al fin y al cabo t
 
 Durante todo este artículo hablaremos de radiactividad. Describiremos cómo funciona un tubo Geiger-Müller y lo simularemos en el firmware de un PIC. Después hablaremos de contadores y construiremos un indicador analógico. Para terminar, nos centraremos en las unidades radiológicas y programaremos un dosímetro digital.
 
-{% include image.html size="medium" file="uranium-cloud-chamber.gif" caption="Uranio *disparando* partículas dentro de una cámara de niebla." %}
+{% include image.html class="medium-width" file="uranium-cloud-chamber.gif" caption="Uranio *disparando* partículas dentro de una cámara de niebla." %}
 
 <!--more-->
 
@@ -24,23 +24,23 @@ Durante todo este artículo hablaremos de radiactividad. Describiremos cómo fun
 
 Un tubo Geiger-Müller se compone de dos electrodos dentro de un recipiente lleno de gas a baja presión.
 
-{% include image.html size="medium" file="geiger_corriente.png" caption="Esquema de uso de un tubo Geiger-Müller. Wikipedia" %}
+{% include image.html class="medium-width" file="geiger_corriente.png" caption="Esquema de uso de un tubo Geiger-Müller. Wikipedia" %}
 
 Se aplica una tensión del orden de 600v entre los dos electrodos y como los gases secos no conducen pues ahí se queda. Cuando la radiación ionizante atraviesa el tubo, ioniza algunos átomos del gas. Los átomos cargados se aceleran hacia el electrodo contrario y van cogiendo velocidad. Esos iones, a su vez, ionizan más átomos del gas. Se produce una pequeña corriente y podemos detectarla. Muy bien explicado [en este enlace](https://sites.google.com/site/anilandro/04010-geiger-01).
 
 Sólo necesitamos un altavoz en serie con el tubo para escuchar un chasquido cuando entra una partícula y lo descarga. A más radiación mayor probabilidad; y de ahí su sonido **aleatorio**. Esos tics o pulsos luego se cuentan. El resultado se da en conteo por minuto (CPM) o por segundo (CPS).
 
-{% include image.html size="big" file="SBM-20_Geiger_tube_SBM-20U.jpg" caption="Tubos SBM20 y SBM20U (más corto). pocketmagic.net" %}
+{% include image.html class="large-width" file="SBM-20_Geiger_tube_SBM-20U.jpg" caption="Tubos SBM20 y SBM20U (más corto). pocketmagic.net" %}
 
 Pero ¿a cuánta radiación equivalen cuántos tics? Depende de la construcción del tubo, su geometría, composición, y otros factores. Es un dato que suele venir en el datasheet. Por ejemplo para el tubo SBM-20 -muy común-, su datasheet dice:
 
-{% include image.html size="big" file="datasheet_SBM-20.png" caption="Extracto de la hoja de características de un tubo SBM-20. [gstube.com](https://www.gstube.com/data/2398/)" %}
+{% include image.html class="large-width" file="datasheet_SBM-20.png" caption="Extracto de la hoja de características de un tubo SBM-20. [gstube.com](https://www.gstube.com/data/2398/)" %}
 
 Algunos parámetros son la tensión de trabajo o la resistencia en serie recomendada. Por cómo está construido este tubo, cada pulso va inutilizando un gas de su interior hasta quedar inservible. Por lo tanto, también se indica el tiempo de vida. En este caso 2x10<sup>10</sup> pulsos.
 
 Otro ejemplo, el LND-712, tiene además una ventana para detectar partículas alfa:
 
-{% include image.html size="big" file="datasheet_LND712.PNG" caption="Datasheet del LND-712. [lndinc.com](https://www.lndinc.com/products/geiger-mueller-tubes/712/)" %}
+{% include image.html class="large-width" file="datasheet_LND712.PNG" caption="Datasheet del LND-712. [lndinc.com](https://www.lndinc.com/products/geiger-mueller-tubes/712/)" %}
 
 Para aprender más sobre distintos tubos y sus características podéis visitar [ GM Tube Info](https://sites.google.com/site/diygeigercounter/technical/gm-tubes-supported)
 
@@ -50,7 +50,7 @@ Ahora bien, radiaciones hay de muchos tipos. Hay partículas **alfa**, tan gorda
 
 Para un detector genérico de campo lo importante es encontrar objetos con contaminación radiactiva o sea **fotones**. La radiactividad más penetrante, común y dañina. Después, una vez determinada la fuente y el grado de contaminación, ya habrá tiempo de tomar una muestra, llevarla al laboratorio y analizarla. Pueden saberse los isótopos radiactivos en la muestra mirando la energía de los fotones gamma que emite.
 
-{% include image.html size="big" file="spectrum-with-Cs-137.png" caption="Espectro Gamma desconocido con marcadores en  
+{% include image.html class="large-width" file="spectrum-with-Cs-137.png" caption="Espectro Gamma desconocido con marcadores en  
 algunos elementos conocidos. [researchgate.net](https://www.researchgate.net/figure/Unknown-spectrum-with-Cs-137-and-background-gamma-ray-positions-marked_fig64_244395084) " %}
 
 ¿Y clasificando las **betas** no se podría saber también? No es tan fácil. El espectro de la emisión beta es mucho más difuso. ¿Por qué? Eso fue algo que intrigó a los físicos durante décadas. El descubrimiento del neutrino es una historia fascinante...
@@ -63,13 +63,13 @@ El valor del datasheet sólo es orientativo porque luego los tubos tienen cierta
 
 Sólo por la radiactividad natural de fondo, un tubo GM puede contar desde 10 a más de 75 cpm dependiendo de la sensibilidad del tubo y de la zona geográfica. En cada lugar del mundo la radiactividad natural es distinta. Podéis ver un mapa actualizado en tiempo real en [GMCmap](https://www.blogger.com/blogger.g?blogID=1915800988134045998).
 
-{% include image.html size="big" file="geiger_network_spain_20190625.png" caption="Mapa de contadores en tiempo real. [GMCMap](https://www.gmcmap.com/)" %}
+{% include image.html class="large-width" file="geiger_network_spain_20190625.png" caption="Mapa de contadores en tiempo real. [GMCMap](https://www.gmcmap.com/)" %}
 
 ## Esquema eléctrico
 
 El propósito de este medidor es simular el chisporroteo de un contador radiactivo en función de la temperatura. Lo haremos así: generaremos un número aleatorio y, dependiendo de la temperatura, ese número aleatorio tendrá una probabilidad mayor o menor de excitar un altavoz. Luego veremos el software pero por ahora aquí está el esquema eléctrico:
 
-{% include image.html size="big" file="termo-geiger.png" caption="Esquema eléctrico del contador. EyC." %}
+{% include image.html class="large-width" file="termo-geiger.png" caption="Esquema eléctrico del contador. EyC." %}
 
 El circuito está basado en un microcontrolador PIC modelo 12F683. Es barato, pequeño, fácil de programar y versátil. No es especialmente rápido ni potente, pero nos servirá. *Hay electrónica más allá de Arduino y Raspberry.*
 
@@ -85,7 +85,7 @@ Las patillas **4, 6** y **7** las destinamos para programación ICSP de momento.
 
 Este es el prototipo del detector, montado sobre una placa universal perforada:
 
-{% include image.html size="big" file="placa-tg.jpg" caption="Prototipo del contador. EyC." %}
+{% include image.html class="large-width" file="placa-tg.jpg" caption="Prototipo del contador. EyC." %}
 
 ## Firmware
 
@@ -151,11 +151,11 @@ Si vamos a imitar un contador de verdad lo primero es imitar la radiación de fo
 
 Por ejemplo al máximo de temperatura, pongamos 125ºC le correspondería el máximo de cpm que diera nuestro medidor -como podéis intuir, esto depende de la duración del bucle principal-. Este tarda unos 450us en ejecutarse. Eso son unas 2222.2 veces por segundo. Las 133333.3 veces por minuto que veis como máximo.
 
-{% include image.html size="small" file="temp_cpm.png" caption="Tabla de temperatura y CPM asociado. EyC." %}
+{% include image.html class="small-width" file="temp_cpm.png" caption="Tabla de temperatura y CPM asociado. EyC." %}
 
 La cual nos da este gráfico.
 
-{% include image.html size="big" file="grafica_temp_cpm.png" caption="Representación gráfica de la tabla anterior. Escala logarítmica. EyC." %}
+{% include image.html class="large-width" file="grafica_temp_cpm.png" caption="Representación gráfica de la tabla anterior. Escala logarítmica. EyC." %}
 
 La temperatura hará variar la resistencia NTC de acuerdo a una curva característica no lineal. Hay una explicación muy buena en [ Measuring the temperature with NTCs](http://www.giangrandi.ch/electronics/ntc/ntc.shtml).
 
@@ -163,11 +163,11 @@ Las NTC se modelan usando dos parámetros: la resistencia a 25ºC y el parámetr
 
 Con eso calculamos la resistencia a una temperatura dada:
 
-{% include image.html size="medium" file="temp_R_cpm.png" caption="" %}
+{% include image.html class="medium-width" file="temp_R_cpm.png" caption="" %}
 
 La resistencia del divisor **R1** es de 10k. De ahí calcularemos la tensión en la **patilla 3** del integrado y también el valor del ADC correspondiente a dicha tensión.
 
-{% include image.html size="medium" file="temp_R_ADC_cpm.png" caption="" %}
+{% include image.html class="medium-width" file="temp_R_ADC_cpm.png" caption="" %}
 
 El programa no entiende de temperaturas, sino de valores recogidos en el ADC. Por eso la columna es **verde**. Este es un dato del programa.
 
@@ -177,7 +177,7 @@ El generador aleatorio tiene una salida de 16bit, su valor máximo es 65535 y el
 
 Repetimos el mismo cálculo para las demás temperaturas:
 
-{% include image.html size="medium" file="temp_adc_cpm_apertura.png" caption="" %}
+{% include image.html class="medium-width" file="temp_adc_cpm_apertura.png" caption="" %}
 
 Y ahora, para cualquier otro valor que no esté en la tabla, tan sólo debemos interpolar entre los dos valores más cercanos. La ecuación de una interpolación lineal es así:
 
@@ -211,11 +211,11 @@ B &= Ax_{0} - y_{0}
 \end{split}
 $$
 
-{% include image.html size="big" file="temp_R_ADC_cpm_a_b.png" caption="" %}
+{% include image.html class="large-width" file="temp_R_ADC_cpm_a_b.png" caption="" %}
 
 Operar en coma flotante tampoco es buena idea. Ya lo vimos antes en [La presión atmosférica, BMP280]({{site.baseurl}}{% post_url 2018-10-07-la-presion-atmosferica-bmp280 %}). Pasaremos a punto fijo para ahorrarle trabajo al procesador y nos queda:
 
-{% include image.html size="big" file="temp_adc_cpm_a_b_final.png" caption="" %}
+{% include image.html class="large-width" file="temp_adc_cpm_a_b_final.png" caption="" %}
 
 De nuevo las columnas en verde son los datos del programa. Ahora tenemos todo listo para calcular la apertura.
 
@@ -297,13 +297,13 @@ En un detector de radiactividad el feedback acústico es muy práctico. Sobre to
 
 A principios del siglo XX se situaba el material radiactivo sobre una pantalla especial y se contaban de forma manual los centelleos en un tiempo dado.
 
-{% include image.html size="small" file="contador_manual-.jpg" caption="Contador manual." %}
+{% include image.html class="small-width" file="contador_manual-.jpg" caption="Contador manual." %}
 
 Más adelante, conforme se fueron popularizando los componentes eléctricos, condensadores, resistencias o amperímetros se usó un indicador analógico.
 
 El que vamos a hacer nosotros consiste simplemente en un circuito rectificador formado por un transistor, un condensador y algunas resistencias:
 
-{% include image.html size="medium" file="contador_analogico_sch.png" caption="Esquema del contador analógico. EyC." %}
+{% include image.html class="medium-width" file="contador_analogico_sch.png" caption="Esquema del contador analógico. EyC." %}
 
 Los pulsos entran por la izquierda, atravesando **R12**. Su propósito es limitar la corriente a través de la base del transistor **Q2**. Hay mucho margen. La corriente debe ser lo suficientemente alta como para llevar al transistor a saturación, pero a la vez lo suficientemente baja como para no exceder el máximo de salida del PIC (20mA).
 
@@ -311,7 +311,7 @@ Durante el tiempo que Q2 está activo, **C3** se carga a través de **R9**. La m
 
 El transistor también actúa como rectificador. **C3** se descargará a través de **R10** y **R11**. La primera está actuando de [shunt](https://es.wikipedia.org/wiki/Shunt_(electr%C3%B3nica)) para proporcionar al condensador una vía de descarga paralela al medidor. La segunda limita la corriente que atraviesa el micro amperímetro y será quien determine el fondo de escala. Entre las dos determinarán la velocidad con la que la aguja vuelve a cero.
 
-{% include image.html size="big" file="contador_analogico.png" caption="Contador analógico. EyC." %}
+{% include image.html class="large-width" file="contador_analogico.png" caption="Contador analógico. EyC." %}
 
 En el siguiente vídeo podemos ver nuestro medidor. Primero midiendo el fondo de nuestro laboratorio: 10uA. Y posteriormente midiendo la *actividad* de un vaso de **agua caliente**. No hemos tenido en cuenta ni calibración ni escala, la lectura es meramente cualitativa.
 
@@ -319,7 +319,7 @@ En el siguiente vídeo podemos ver nuestro medidor. Primero midiendo el fondo de
 
 Esta es la aguja de un [CDV-700](https://en.wikipedia.org/wiki/CD_V-700). El típico medidor amarillo, grande, con un asa que sale en casi todas las películas antiguas. Como podéis ver está calibrada en CPM en la parte de abajo y en miliroentgen por hora en la de arriba. 300 cpm equivalen en esa escala a 0.5mR/h. O sea, 100 cpm por miliroentgen/h.
 
-{% include image.html size="medium" file="CDV_700_Gauge.jpg" caption="Medidor de un [CDV-700](https://en.wikipedia.org/wiki/CD_V-700). Wikipedia." %}
+{% include image.html class="medium-width" file="CDV_700_Gauge.jpg" caption="Medidor de un [CDV-700](https://en.wikipedia.org/wiki/CD_V-700). Wikipedia." %}
 
 A falta de mejores medios, el CDV-700 puede calibrarse con una fuente radiactiva de uranio empobrecido que lleva en el lateral. Debe medir 2mR/h. Pero eso significa que este medidor va calibrado con Uranio, antes habíamos dicho que generalmente los medidores modernos se calibran con Cesio.
 
@@ -329,7 +329,7 @@ Cuando la electrónica avanzó lo suficiente, los medidores analógicos fueron s
 
 Para este proyecto empleo un PIC16F88. El esquema eléctrico se limita a lo imprescindible para leer los pulsos del detector y conectar la LCD. Todo lo demás lo hacemos por software en el PIC.
 
-{% include image.html size="medium" file="contador_lcd_sch.png" caption="Esquema del contador digital. EyC." %}
+{% include image.html class="medium-width" file="contador_lcd_sch.png" caption="Esquema del contador digital. EyC." %}
 
 La entrada se hace a través de la resistencia **R8** hacia la **patilla 3**. Esta patilla se puede configurar como contador asíncrono. Cada transición de nivel bajo a alto en la patilla 3 incrementará *Timer0*. Hace años habíamos usado este mismo método para hacer un frecuencímetro en [Frecuencímetro para el PC]({{site.baseurl}}{% post_url 2011-07-20-frecuencimetro-para-el-pc %}).
 
@@ -410,16 +410,16 @@ Mientras, se iban sucediendo avances en la comprensión de los efectos biológic
 
 La dosis absorbida no era suficiente para pronosticar las consecuencias. Deberíamos multiplicar la dosis absorbida por algún factor para tener en consideración el tipo de radiación. A esa dosis la llamaremos *dosis equivalente*. Los científicos que aún usaban el roentgen definieron para esto el **rem** (röntgen equivalent man) en 1971. O más bien lo redefinieron, porque se llevaba hablando de *dosis biológica* desde hacía 20 años. Los científicos que ya habían adoptado el Sistema Internacional no tardaron en crear una nueva unidad: el *Sievert*.
 
-{% include image.html size="big" file="factor_wr.png" caption="Factor de ponderación biológico según radiación (Wr). [Wikipedia](https://en.wikipedia.org/wiki/Relative_biological_effectiveness)" %}
+{% include image.html class="large-width" file="factor_wr.png" caption="Factor de ponderación biológico según radiación (Wr). [Wikipedia](https://en.wikipedia.org/wiki/Relative_biological_effectiveness)" %}
 
 Por otro lado, y para terminar, algunos órganos son más **sensibles** que otros. La piel por ejemplo es poco sensible, el tiroides en cambio lo es mucho más. Por otro lado es más fácil irradiar la piel que los órganos internos. Así pues, se define otra dosis, la *dosis efectiva*. También se mide en Sievert, y no es más que la dosis equivalente multiplicada por un coeficiente que depende de la sensibilidad de la zona irradiada.
 
-{% include image.html size="big" file="factor_wt.png" caption="Factor de ponderación según el tejido irradiado (Wt).  
+{% include image.html class="large-width" file="factor_wt.png" caption="Factor de ponderación según el tejido irradiado (Wt).  
 [Commission on Radiological Protection](https://journals.sagepub.com/doi/pdf/10.1177/ANIB_37_2-4) - Annals of the ICRP, 103 " %}
 
 Un pequeño esquema para resumirlo:
 
-{% include image.html size="huge" file="SI_Radiation_dose_units.png" caption="Dosis de radiación en el SI. [Wikipedia](https://en.wikipedia.org/wiki/Equivalent_dose)" %}
+{% include image.html class="x-large-width" file="SI_Radiation_dose_units.png" caption="Dosis de radiación en el SI. [Wikipedia](https://en.wikipedia.org/wiki/Equivalent_dose)" %}
 
 Igual que antes, al ser los efectos **acumulativos**, necesitamos introducir la unidad de tiempo. Por conveniencia la dosis equivalente suele medirse en microsievert por hora (µSv/h), o milisievert por año (mSv/a).
 
@@ -449,10 +449,10 @@ La última variable es la *dosis acumulada*. Es decir, la dosis total recibida p
 
 En este vídeo comenzamos con 50 CPM, un valor estándar que da nuestro tubo para la actividad de fondo del laboratorio. Estos 50 cpm corresponderían a 0.16 µSv/h o a 1.39 mSv/a. Si queréis calcular la dosis que recibís normalmente durante un año, podéis usar este formulario: [Radiation Dose Calculator](http://www.ans.org/pi/resources/dosechart/msv.php).
 
-{% include image.html size="big" file="counter_lcd_50cpm.png" caption="Nuestro contador midiendo la radiación natural. EyC." %}
+{% include image.html class="large-width" file="counter_lcd_50cpm.png" caption="Nuestro contador midiendo la radiación natural. EyC." %}
 
 Cuando exponemos el medidor a un foco caliente, la detección alcanza las 4000 CPM. Esto equivale a 115 mSv/a, entre 40 y 80 veces la dosis natural. Al término de la medición habríamos acumulado 2.80 µSv. Sin ser estrictos, el equivalente a 3 radiografías según la [Radiation Dose Chart (xkcd)](https://xkcd.com/radiation/).
 
-{% include image.html size="big" file="counter_lcd_4000cpm.png" caption="Contador midiendo un objeto caliente. EyC." %}
+{% include image.html class="large-width" file="counter_lcd_4000cpm.png" caption="Contador midiendo un objeto caliente. EyC." %}
 
 El código fuente y los esquemas para construir este medidor os los dejo aquí: [GitHub de Electronicayciencia - TermoGeiger](https://github.com/electronicayciencia/termogeiger).

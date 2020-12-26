@@ -27,11 +27,11 @@ Además, en lugar de usar un pulso de una sola frecuencia, vamos a combinar tres
 
 Este es el aspecto de nuestra señal:
 
-{% include image.html size="big" file="pulso.png" caption="" %}
+{% include image.html class="large-width" file="pulso.png" caption="" %}
 
 Como veis son tres sinusoides sumadas y hemos hecho una aparición y desvanecimiento graduales. Nada especial. El resto del tiempo es silencio. Lo reproducimos en bucle cada 320ms y esto es lo que capta el micrófono:
 
-{% include image.html size="small" file="pulsos.png" caption="" %}
+{% include image.html class="small-width" file="pulsos.png" caption="" %}
 
 Vemos perfectamente el periodo, de 320ms con silencios incluidos. Las tres frecuencias son 512Hz a la izquierda, 1068Hz en el centro y de 1404Hz a la derecha. El centro del pulso se ve limpio porque la suma de sinusoides no está alterada, en los extremos se ve un espectro ensanchado y borroso debido al motivo que hemos dicho antes. También de aprecian ruidos de fondo.
 
@@ -39,21 +39,21 @@ Vemos perfectamente el periodo, de 320ms con silencios incluidos. Las tres frecu
 
 Eso es sólo con el micrófono y el altavoz, veamos lo que pasa cuando intercalo una copa, no voy a decir cual, porque resulta evidente:
 
-{% include image.html size="" file="alternando_detalle.png" caption="" %}
+{% include image.html class="original-width" file="alternando_detalle.png" caption="" %}
 
 Sólo se ve afectada la frecuencia 1404Hz, correspondiente al segundo sistema resonante. Tal como sabíamos la copa absorbe energía y se pone a vibrar en su frecuencia de resonancia, mientras que *ignora* el resto de frecuencias.
 
 Veamos lo que ocurre si alternamos una copa y la otra entre micrófono y altavoz:
 
-{% include image.html size="" file="alternando_ancha.png" caption="" %}
+{% include image.html class="original-width" file="alternando_ancha.png" caption="" %}
 
 Se puede apreciar perfectamente qué copa está puesta en cada momento pues al ser sistemas resonantes muy buenos sólo absorben energía y vibran en una, o varias, frecuencias concretas. Dos cosas que podemos observar aquí, una es que la frecuencia de control de 512Hz no se altera. Y dos, para eso he ensanchado la imagen, es que la segunda copa no resuena exactamente en la frecuencia del pulso sino en una frecuencia ligeramente más baja (más a la izquierda). Por eso el efecto es bastante menor que en la copa del centro. Aquí se ve claramente la diferencia entre la frecuencia del pulso y de resonancia:
 
-{% include image.html size="" file="desfase_copa2_1394_1404.png" caption="" %}
+{% include image.html class="original-width" file="desfase_copa2_1394_1404.png" caption="" %}
 
 Las oscilaciones la copa 2 ocurren en 1394Hz y no en 1404Hz como esperábamos. Por otro lado, viendo ahora la copa 1, es claro que la energía tiende a concentrarse en torno a la frecuencia de resonancia. Ved cómo se estrecha el pulso de 1068 cuando interponemos la copa 1:
 
-{% include image.html size="" file="centrado_de_frecuencia.png" caption="" %}
+{% include image.html class="original-width" file="centrado_de_frecuencia.png" caption="" %}
 
 Aún no estando perfectamente centrada, no está tan desplazada como la anterior, y el efecto se nota mucho más. El desplazamiento de la frecuencia se deberá seguramente a que tenía cogidas las copas para ir alternándolas. Es un buen ejemplo de cómo afectan las fuerzas externas, produciendo un desplazamiento en frecuencia o alterando el tiempo de relajación. Es precisamente en lo que se basa la Resonancia Magnética Nuclear.
 
@@ -66,7 +66,7 @@ Hemos usado varias veces la expresión *absorbe energía y vibra*. Pensad lo que
 
 Es decir que si metemos la copa 1 en el campo debemos observar una atenuación justo en la frecuencia de resonancia momento antes de ponerse a vibrar. Lo habíamos visto en la otra entrada, pero aquí lo tenemos más claro:
 
-{% include image.html size="medium" file="absorcion.png" caption="" %}
+{% include image.html class="small-width" file="absorcion.png" caption="" %}
 
 Se aprecia que mientras las frecuencias derecha e izquierda no notan apenas la introducción de la copa, sí se atenúa la recepción de la frecuencia central.
 

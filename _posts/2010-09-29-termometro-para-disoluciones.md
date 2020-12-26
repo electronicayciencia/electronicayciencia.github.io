@@ -22,7 +22,7 @@ Por otro lado el margen de alimentación para el LM35 llega hasta los 30V, sin e
 
 No pongo el esquema eléctrico, porque es fácil verlo sobre las pistas de la placa.
 
-{% include image.html size="" file="termoboli.png" caption="" %}
+{% include image.html class="original-width" file="termoboli.png" caption="" %}
 
 He soldado un par de condensadores cerámicos para darle estabilidad. Todos los componentes van soldados por el lado de cobre. Tenéis dos opciones, o usáis componentes SMD o usáis componentes normales y recortáis las patillas. Por ejemplo una resistencia de 1/8W tiene un tamaño similar a una SMD grande.
 
@@ -34,11 +34,11 @@ Una vez hemos soldado los componentes y hemos comprobado que el circuito entra d
 
 Luego alojamos el sensor en el extremo del bolígrafo, para lo que (dependiendo de la forma) habremos tenido que cortar el borde. Lo sellamos con pegamento termofusible, o silicona líquida al gusto para hacerlo estanco.
 
-{% include image.html size="" file="BENQ0032.JPG" caption="" %}
+{% include image.html class="original-width" file="BENQ0032.JPG" caption="" %}
 
 Finalmente **sellamos** también el extremo por donde sale el cable de alimentación, importante que quede también estanco. De lo contrario entraría agua cuando lo lavemos y el circuito funcionará de manera errática.
 
-{% include image.html size="" file="BENQ0025.JPG" caption="" %}
+{% include image.html class="original-width" file="BENQ0025.JPG" caption="" %}
 
 Una vez terminado, soldad por ejemplo un clip para pilas de 9V y podréis leer la temperatura con cualquier voltímetro. El consumo es muy pequeño y con que la pila esté apenas cargada os servirá.
 

@@ -15,7 +15,7 @@ Hoy quería hablaros de un electrodoméstico digamos intermedio entre los ventil
 
 Primero vamos a introducir unos conceptos básicos de psicrometría para usarlos después. Después veremos las partes de un evaporativo y el principio de funcionamiento. Conectaremos un sensor **HTU21D** para medir la temperatura y humedad a la salida del aparato. Y, de postre, haremos algunas pruebas de rendimiento en distintas condiciones.
 
-{% include image.html size="medium" file="20170807_192905.jpg" caption="Panel de celulosa corrugada." %}
+{% include image.html class="small-width" file="20170807_192905.jpg" caption="Panel de celulosa corrugada." %}
 
 <!--more-->
 
@@ -41,23 +41,23 @@ Si el agua se enfría al evaporarse, cabe preguntarse ¿hasta qué temperatura?.
 
 Pero resulta que la temperatura de bulbo húmedo depende de cuán seco esté el ambiente. Podríamos utilizar dos termómetros, uno normal y el otro humedecido para medir la humedad relativa. Tal aparato se llama **psicrómetro**. Luego ambos termómetros se agitan en el aire y se miran las temperaturas de uno y otro.
 
-{% include image.html size="small" file="2340_89288_p1.jpg" caption="Psicrómetro de carraca. Fuente: Ebay." %}
+{% include image.html class="small-width" file="2340_89288_p1.jpg" caption="Psicrómetro de carraca. Fuente: Ebay." %}
 
 Si el aire está saturado de humedad al 100%, dará igual que mojemos el termómetro porque del agua no se va a evaporar nada. En tal caso la temperatura húmeda será la misma que la seca. Los psicrómetros vienen con una tabla de doble entrada que nos da la humedad relativa en función de ambas temperaturas o en función de la temperatura seca y de la diferencia entre ambas.
 
-{% include image.html size="medium" file="detalle-tabla-psicrometrica.png" caption="Tabla de diferencias psicrométricas. [termometros.com](http://m.termometros.com/es/Psicr%C3%B3metro-medidor-de-humedad-an%C3%A1logico)" %}
+{% include image.html class="medium-width" file="detalle-tabla-psicrometrica.png" caption="Tabla de diferencias psicrométricas. [termometros.com](http://m.termometros.com/es/Psicr%C3%B3metro-medidor-de-humedad-an%C3%A1logico)" %}
 
 Suponed, por ejemplo, la temperatura del termómetro seco es 20ºC y el húmedo marca 16ºC. Hay una diferencia de 4ºC. Según la tabla anterior la humedad relativa sería del 63%.
 
 Realmente con un termómetro húmedo lo que estamos midiendo es una aproximación. Porque *la temperatura húmeda es, en teoría, la temperatura a la que quedaría una región de aire si lo saturamos al 100%*. Cosa que no hacemos con el termómetro húmedo. Para saturar el aire necesitaríamos algo como esto:
 
-{% include image.html size="big" file="sat_adiabatico.png" caption="Saturador adiabático." %}
+{% include image.html class="large-width" file="sat_adiabatico.png" caption="Saturador adiabático." %}
 
 El montaje anterior se llama **saturador adiabático** y si lo pensáis, es muy parecido a la brisa del mar o al aire cerca de una piscina. Un enfriador evaporativo, luego lo veremos, es parecido. Entonces la termodinámica nos lleva a preguntarnos: dadas unas condiciones iniciales de temperatura y humedad ¿A qué temperatura saldría el aire, si lo saturamos del todo?
 
 Para responder a eso están las **cartas psicrométricas**, que son una representación gráfica más elaborada que la tabla de antes, donde están representadas las variables más importantes. Aquí tenéis una simplificada para las variables que nos interesan. Podéis abrir la imagen en otra pestaña para ampliarla:
 
-{% include image.html size="big" file="PsychrometricChart.SeaLevel.SI_editado.png" caption="Tabla psicrométrica simplificada. Click para ampliar." %}
+{% include image.html class="large-width" file="PsychrometricChart.SeaLevel.SI_editado.png" caption="Tabla psicrométrica simplificada. Click para ampliar." %}
 
 La línea recta de abajo representa la temperatura ambiente, la del termómetro seco. La curva superior representa la temperatura del bulbo húmedo, muy próxima a la temperatura de saturación. Las curvas entre medias representan distintas humedades relativas. De hecho la recta de temperatura seca sería la correspondiente al 0% de humedad y la de temperatura de saturación correspondería a la curva del 100%. Las líneas verticales nos sirven de referencia para la temperatura seca, y las líneas oblicuas para la húmeda.
 
@@ -67,7 +67,7 @@ Y para ver hasta donde bajaría la temperatura del aire al saturarlo de humedad,
 
 Con el mismo aire inicial, 30ºC y 20% RH ¿Qué temperatura obtendríamos a la salida si en lugar de llevar la saturación al 100% la dejáramos en el 60%?
 
-{% include image.html size="medium" file="PsychrometricChart.3020-60.png" caption="Proceso de saturación adiabática desde el 20% al 60%." %}
+{% include image.html class="medium-width" file="PsychrometricChart.3020-60.png" caption="Proceso de saturación adiabática desde el 20% al 60%." %}
 
 El resultado es 20.6ºC. Hemos logrado una reducción de temperatura de 9.4ºC nada más que moviendo el aire cerca del agua. Y todo sin intercambiar calor con ningún otro elemento, aquí todo se enfría, el ambiente, el agua, todo, simplemente hemos aprovechado el proceso de conversión de líquido a gas.
 
@@ -77,11 +77,11 @@ En esta página tenéis una tabla psicrométrica para practicar: [Free Online In
 
 Aunque os voy a enseñar el interior de un aparato concreto, ya podéis intuir que el principio de funcionamiento es el mismo en todos. Sólo cambia un poco la disposición en sistemas industriales o domésticos, pero los portátiles son parecidos: Se trata de un ventilador normal y corriente al que se le ha incorporado un panel en la toma de aire, una cubeta con agua, y una bomba para humedecerlo.
 
-{% include image.html size="small" file="20170807_193049.jpg" caption="Vista trasera del enfriador." %}
+{% include image.html class="small-width" file="20170807_193049.jpg" caption="Vista trasera del enfriador." %}
 
 Esta es la vista por detrás. Lo primero que encontramos es un filtro de rejilla. Por un lado evita el paso de suciedad al panel de celulosa haciendo que dure más, y por otro homogeniza el flujo de aire. Se aprecia debajo la cubeta con agua.
 
-{% include image.html size="medium" file="20170807_192853.jpg" caption="Panel de celulosa, vista lateral." %}
+{% include image.html class="small-width" file="20170807_192853.jpg" caption="Panel de celulosa, vista lateral." %}
 
 Este es el panel de *celulosa corrugada*. El corazón del sistema y lo que realmente enfría el aire. Los hay de distintos tipos: esponja de fibra, lana de madera, celulosa...
 
@@ -89,11 +89,11 @@ Según el panel sea de una cosa u otra tendremos un rendimiento mejor o peor. Pe
 
 Un motor bombea agua desde la cubeta hasta unas salidas que hay en la parte superior y la vierte en el panel. El agua sobrante se recoge de la parte inferior y se lleva de nuevo a la cubeta de forma cíclica.
 
-{% include image.html size="big" file="20170807_192931.jpg" caption="El panel se humedece mediante una bomba de agua." %}
+{% include image.html class="large-width" file="20170807_192931.jpg" caption="El panel se humedece mediante una bomba de agua." %}
 
 Lo que hay a continuación es un ventilador, en este caso cilíndrico. Sirve  para bombear aire humedecido hacia el exterior. En este modelo concreto, se puede intercalar también una resistencia para calentar el aire los días de frío.
 
-{% include image.html size="medium" file="20170807_192618.jpg" caption="Vista trasera una vez retirado el panel." %}
+{% include image.html class="small-width" file="20170807_192618.jpg" caption="Vista trasera una vez retirado el panel." %}
 
 Podemos considerar que el aire se satura durante el tiempo que está atravesando el panel. Asumiendo un flujo uniforme el grado de saturación alcanzado depende de tres variables:
 
@@ -119,13 +119,13 @@ Por eso hay dos precauciones a tener en cuenta para el mantenimiento de estos el
 
 La pregunta clave aquí es si refresca y cuánto refresca. Para responder a eso vamos a utilizar un pequeño sensor **HTU21D**. También emplearemos una sonda de temperatura DS18B20 más adelante.
 
-{% include image.html size="small" file="htu21d.jpg" caption="Módulo HTU21D. [sparkfun.com](https://www.sparkfun.com/products/retired/12064)" %}
+{% include image.html class="small-width" file="htu21d.jpg" caption="Módulo HTU21D. [sparkfun.com](https://www.sparkfun.com/products/retired/12064)" %}
 
 El HTU21D es un pequeño sensor de temperatura y humedad de tipo capacitivo con comunicación por I2C ([Datasheet HTU21D](http://eu.mouser.com/pdfdocs/HTU21DF.PDF)). Este sensor nos da hasta 12 bits de precisión para la humedad y 14 para la temperatura.
 
 Si utilizais cable de cinta de más de 15cm y la línea de reloj y la de datos son contiguas, la comunicación cruzada puede convertirse en un problema. Tenéis que tener especial cuidado con el cross-talk sobre todo al usar las resistencias de pull-up internas tan débiles de la Raspberry (100k). Si no queréis usar resistencias externas de pull-up, entonces lo mejor es dedicarles las líneas de los extremos de la cinta, dejando el positivo de alimentación y masa entre ambas. Eso minimizará el ruido.
 
-{% include image.html size="small" file="20170806_130532.jpg" caption="Vista del enfriador con la Raspberry como data logger." %}
+{% include image.html class="small-width" file="20170806_130532.jpg" caption="Vista del enfriador con la Raspberry como data logger." %}
 
 Los sensores de humedad suelen ser inexactos por naturaleza. Un sensor de temperatura se puede calibrar fácilmente poniéndolo en contacto con un líquido a temperatura conocida. Porque los líquidos transmiten muy bien sus propiedades. Un sensor de humedad relativa debe medir y ser calibrado necesariamente en el aire. Y las medidas en el aire no son tan fiables como en un líquido. En el siguiente enlace tenéis una comparativa muy interesante entre diferentes sensores: [ Compare DHT22, AM2302, AM2320, AM2321, SHT71, HTU21D, Si7021, BME280](https://www.kandrsmith.org/RJS/Misc/Hygrometers/calib_many.html).
 
@@ -183,7 +183,7 @@ La lectura ha sido 0x69CC, el CRC es AC. Lo primero que debemos hacer es poner l
 
 A continuación el datasheet nos da una fórmula para convertir la lectura a grados centígrados. El resultado es [25.77ºC](https://www.google.es/search?q=-46.85+%2B175.72+*+0x69CC+%2F+2**16).
 
-{% include image.html size="small" file="conversion_temp.png" caption="" %}
+{% include image.html class="small-width" file="conversion_temp.png" caption="" %}
 
 En cuanto al CRC, esta vez no lo voy a comprobar; me fío del resultado. Tenéis una explicación de cómo funciona un CRC en la entrada dedicada a [El bus 1-Wire a bajo nivel]({{site.baseurl}}{% post_url 2016-12-04-el-bus-1-wire-bajo-nivel %}).
 
@@ -207,7 +207,7 @@ Como ya hemos explicado, un evaporativo es un ventilador más un humidificador. 
 
 Llenamos la cubeta de agua y lo encendemos a la máxima potencia, y lo graficamos. En el eje izquierdo está la temperatura en grados centígrados. En el eje derecho la humedad relativa en tanto porciento.
 
-{% include image.html size="big" file="RHT_interior.png" caption="Enfriador evaporativo funcionando en interior. Click para ampliar." %}
+{% include image.html class="large-width" file="RHT_interior.png" caption="Enfriador evaporativo funcionando en interior. Click para ampliar." %}
 
 La temperatura de partida es de 31ºC con una humedad relativa del 20%. La temperatura final es de 26ºC tras haber conseguido saturar el aire al 40%. Una bajada de 5ºC no es nada espectacular. Aunque por supuesto recibir aire a 26ºC es más agradable que hacerlo a 31ºC.
 
@@ -237,7 +237,7 @@ $$
 
 Con esta definición siempre hablamos de rendimiento termodinámico, no lo confundais con el rendimiento eléctrico. Y siempre para modelo descrito arriba. Vamos a hacer otra prueba esta vez en el **exterior**. Con aire muy seco y muy cálido.
 
-{% include image.html size="big" file="RHT_exterior.png" caption="Enfriador evaporativo funcionando en el exterior. Click para ampliar." %}
+{% include image.html class="large-width" file="RHT_exterior.png" caption="Enfriador evaporativo funcionando en el exterior. Click para ampliar." %}
 
 En esta prueba el aire que entra está prácticamente seco (0% RH) y a una temperatura de 33.7ºC. El evaporativo tan sólo es capaz de llegar al 20% de saturación reduciendo la temperatura hasta los 27.2ºC. O sea unos 5ºC.
 
@@ -247,7 +247,7 @@ Teóricamente, la temperatura de saturación serían 12ºC, pero ya hemos visto 
 
 ¿Significa eso que el cacharro no sirve para nada? No, significa que baja la temperatura pero sólo un poco, quizá menos de lo esperado. Además también sube la humedad, y eso en ambientes muy secos es muy recomendable.
 
-{% include image.html size="small" file="20170807_170420.jpg" caption="La evaporación funciona muy bien para climas secos." %}
+{% include image.html class="small-width" file="20170807_170420.jpg" caption="La evaporación funciona muy bien para climas secos." %}
 
 ## Sensación térmica
 
@@ -265,7 +265,7 @@ El cálculo del Heat Index lo tenéis propuesto en
 
 El Heat Index se calcula como una regresión con múltiples ajustes, por tanto tomadlo como una aproximación y no como valores exactos. Esta es la gráfica anterior añadiendo la línea con la sensación térmica (línea roja más gruesa):
 
-{% include image.html size="big" file="HI_interior.png" caption="Temperatura aparente durante en funcionamiento en interior." %}
+{% include image.html class="large-width" file="HI_interior.png" caption="Temperatura aparente durante en funcionamiento en interior." %}
 
 Como véis, los 31ºC se traducen en 29 por la baja humedad del ambiente. Cuando encendemos el aparato, hay un pico en la temperatura aparente por la subida súbita de la humedad hasta que empieza a descender la temperatura. Después, con una humedad del 40% se considera que la temperatura aparente es similar a la temperatura seca.
 
@@ -273,7 +273,7 @@ Según la ecuación anterior hay una cierta disminución de la sensación térmi
 
 Lo que véis a continuación es una tabla de Temperatura Aparente según la ecuación del Índice Térmico en función de la humedad relativa y la temperatura seca. Es una buena forma de visualizarlo porque además se corresponde con el estado de fases del sistema.
 
-{% include image.html size="big" file="aparente_flechas.png" caption="Temperatura Aparente. Click para ampliar." %}
+{% include image.html class="large-width" file="aparente_flechas.png" caption="Temperatura Aparente. Click para ampliar." %}
 
 He dibujado en la imagen tres direcciones partiendo de un mismo punto:
 
@@ -283,23 +283,23 @@ He dibujado en la imagen tres direcciones partiendo de un mismo punto:
 
 Este es el proceso en interiores pero dibujado sobre la temperatura aparente:
 
-{% include image.html size="big" file="aparente_ventilacion.png" caption="Temperatura aparente durante el proceso de enfriamiento en interior." %}
+{% include image.html class="large-width" file="aparente_ventilacion.png" caption="Temperatura aparente durante el proceso de enfriamiento en interior." %}
 
 ## Ventilación
 
 Para terminar el artículo vamos a hacer algo contrario a las normas de uso y al sentido común: dejar funcionando el enfriador en una sala pequeña (3m<sup>2</sup>), cerrada sin ventilación. Como el fresco se consigue a base de evaporar agua, si no renovamos el aire cada vez tendrá más. El proceso será menos eficiente y, peor aún, la temperatura aparente subirá por el exceso de humedad, y eso es justo lo que no queremos.
 
-{% include image.html size="big" file="RHT_cerrada.png" caption="Proceso de enfriamiento en una habitación sin ventilación." %}
+{% include image.html class="large-width" file="RHT_cerrada.png" caption="Proceso de enfriamiento en una habitación sin ventilación." %}
 
 Partimos de una sala a poco más de 30ºC con un 40% de humedad. Encendemos el aparato y lo dejamos refrigerando el ambiente durante dos horas. En los primeros minutos conseguimos un descenso de la temperatura hasta los 27.7ºC. No es mucho porque antes de estabilizarse, en poco tiempo, la temperatura comienza a **subir de nuevo**.
 
 En una hora el proceso ya no funciona y la temperatura vuelve a su temperatura inicial. Es más, habíamos explicado antes cómo un ventilador homogeniza la temperatura del aire. Y en esta ocasión una de las paredes da a la calle mientras el resto son interiores. El ventilador está moviendo el aire cercano a la pared exterior y eso hace subir la temperatura global de la habitación medio grado. Mientras tanto la humedad relativa ha superado el **80%**.
 
-{% include image.html size="big" file="HI_cerrada.png" caption="Enfriamiento en una habitación cerrada. Sensación térmica." %}
+{% include image.html class="large-width" file="HI_cerrada.png" caption="Enfriamiento en una habitación cerrada. Sensación térmica." %}
 
 En la gráfica de temperatura aparente se ve como esta tan solo disminuye durante los primeros 5 minutos de la prueba. A partir de entonces se situará por encima de la inicial. ¿Recordáis la flecha 2 del apartado anterior?
 
-{% include image.html size="big" file="aparente_sin_ventilacion.png" caption="Temperatura aparente durante el enfriamiento sin ventilación." %}
+{% include image.html class="large-width" file="aparente_sin_ventilacion.png" caption="Temperatura aparente durante el enfriamiento sin ventilación." %}
 
 Normalmente una habitación tiene mucho más de 3m<sup>2</sup> pero el efecto de realimentación se produce igualmente. No en unos minutos, claro, pero sí a lo largo de todo el día.
 

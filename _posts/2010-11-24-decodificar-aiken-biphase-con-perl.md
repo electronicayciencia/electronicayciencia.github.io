@@ -23,7 +23,7 @@ Pero los osciladores no son tan exactos como nos gustaría. Los relojes se atras
 
 Vamos a ver un ejemplo de esto que os digo. En una codificación *Aiken Biphase* la frecuencia del cero es la mitad que la del uno. En el gráfico siguiente hay un pico de señal en cada transición. Es decir, dos picos juntos es un uno, dos picos separados es un cero. Veremos esto más despacio pues por ahora lo que me interesa que veáis es cómo hacia el final se van juntando los impulsos.
 
-{% include image.html size="big" file="acelerando.png" caption="" %}
+{% include image.html class="large-width" file="acelerando.png" caption="" %}
 
 Pinchad para ampliar la imagen. Fijaos que lo que hay al comienzo y al final son ceros. Y entre medias hay algunos unos. Pero los ceros del final están más juntos que los del principio. Es decir que la trnasmisión se ha ido acelerando en el tiempo. Y si el receptor no se adapta, e insiste en interpretar la señal del final con el mismo patrón que la del principio acabará detectando los ceros más juntos como unos.
 
@@ -94,11 +94,11 @@ Y ya sabíamos que al cambiar el flujo magnético en un solenoide se induce una 
 
 Ya os habéis dado cuenta de que sólo se induce cuando cambia el flujo, y ese cambio va a ser casi instantáneo. Así que esperamos ver picos puntuales. Pero ya sabéis que en la naturaleza **la línea recta no existe**, y en la electrónica [menos aún](http://en.wikipedia.org/wiki/Gibbs_phenomenon). Luego lo que vamos a ver es esto:
 
-{% include image.html size="big" file="captura010_sep.png" caption="" %}
+{% include image.html class="large-width" file="captura010_sep.png" caption="" %}
 
 Ya veis la que la regla del Aiken Biphase es sencilla, os pego esta imagen de la Wikipedia.
 
-{% include image.html size="medium" file="bmc.png" caption="" %}
+{% include image.html class="medium-width" file="bmc.png" caption="" %}
 
 ## Preamplificador de entrada
 
@@ -106,7 +106,7 @@ Hemos dicho que no se necesita electrónica ninguna para conectar el lector a la
 
 Aunque no es necesario un amplificador, yo sí voy a utilizarlo porque facilita captar correctamente la señal. Este es el circuito, que como veis no es más que un amplificador inversor que [habíamos explicado ya]({{site.baseurl}}{% post_url 2010-05-28-preamplificador-microfono-electret %}). Este tiene una ganancia de 7.5 veces aproximadamente. Los componentes no son críticos, sirve casi cualquier operacional y las resistencias que tengáis por el taller.
 
-{% include image.html size="medium" file="amplificador.png" caption="" %}
+{% include image.html class="medium-width" file="amplificador.png" caption="" %}
 
 El condensador de entrada merece mención aparte. Si usamos capacidades muy bajas, por debajo de 47nF vamos a hacer que las frecuencias bajas estén muy atenuadas. Y el *valle* que hay entre los picos se deformará apareciendo un pico secundario a modo de rebote. Y el lector se va a confundir con esos picos. En cambio si usamos una capacidad alta por encima de 10uF la forma de la onda no se va a deformar apenas, y los picos aparecerán claros y contundentes. Pero también se van a colar ruidos de baja frecuencia que hacen que el tren de pulsos suba y baje como en una montaña rusa. Aunque el algoritmo adaptativo que os presento tolera esas variaciones, si podemos es mejor que nos las quitemos. Yo he hecho las pruebas con una capacidad de 470nF y funciona aceptablemente.
 
@@ -116,15 +116,15 @@ Conectando la cabeza lectora a la entrada de micro de la tarjeta ya llega con su
 
 Os cuento ahora algunos pasos que damos en la detección para que entendáis mejor el programa que sigue. Lo primero que vamos a hacer es tomar el valor absoluto de la señal recibida. Porque sólo nos interesa saber cuando hay un pico. Si es positivo o negativo no nos importa. Lo segundo es pensar si filtramos la señal. Como siempre que nos interesa detectar picos, una solución socorrida es elevar la señal a alguna potencia para aumentar la relación señal-ruido. Esta es la señal en valor absoluto:
 
-{% include image.html size="big" file="vabsoluto.png" caption="" %}
+{% include image.html class="large-width" file="vabsoluto.png" caption="" %}
 
 La imagen que sigue es al cuadrado. Vemos que el ruido ha disminuido y los picos están más claros. Observad el cambio de escala porque estamos elevando valores menores que uno.
 
-{% include image.html size="big" file="vcuadrado.png" caption="" %}
+{% include image.html class="large-width" file="vcuadrado.png" caption="" %}
 
 Pero hay que tener cuidado con esta técnica. Primero porque en un ordenador es muy fácil elevar a una potencia, pero si usamos un integrado tipo PIC o DSP es bastante más chungo. Y segundo porque tiene sus desventajas. Esta es la misma señal a la cuarta potencia:
 
-{% include image.html size="big" file="vcuarta.png" caption="" %}
+{% include image.html class="large-width" file="vcuarta.png" caption="" %}
 
 Mirad como se amplifica la diferencia entre los picos. Esta técnica viene muy bien si lo que hacemos es fijar un umbral y todo lo que hay por encima decimos que es un pico.
 
@@ -707,7 +707,7 @@ sub any { $_ && return 1 for @_; 0 }
 
 Y para terminar os acompaño una captura para que veais cómo una secuencia de dominios magnéticos apropiadamente colocados se traduce en unos y ceros, y esa información binaria se decodifica en información útil. La salida no es del programa de arriba sino de una versión anterior.
 
-{% include image.html size="big" file="2lecturastrab.png" caption="" %}
+{% include image.html class="large-width" file="2lecturastrab.png" caption="" %}
 
 A veces cuesta un poco leer las pistas de alta densidad porque el lector que usamos es más estrecho para el ancho de la banda. Pero no quiere decir que no vayamos a poder leer, sino que cuesta más obtener una señal válida.
 

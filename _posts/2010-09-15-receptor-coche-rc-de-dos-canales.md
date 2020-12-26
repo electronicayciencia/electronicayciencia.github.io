@@ -30,15 +30,15 @@ Por supuesto que hay muchos más esquemas. Pero estos y sus variantes son los m�
 
 Este es el receptor de un coche RC se dos canales: adelante/atrás y parado en ausencia de señal. Primero veamos la placa para hacernos una idea:
 
-{% include image.html size="" file="alzado_placa.JPG" caption="" %}
+{% include image.html class="original-width" file="alzado_placa.JPG" caption="" %}
 
-{% include image.html size="" file="receptor_componentes.JPG" caption="" %}
+{% include image.html class="original-width" file="receptor_componentes.JPG" caption="" %}
 
-{% include image.html size="" file="receptor_pistas.JPG" caption="" %}
+{% include image.html class="original-width" file="receptor_pistas.JPG" caption="" %}
 
 Podríamos reproducir el circuito desde las pistas, como [ya hicimos con el emisor]({{site.baseurl}}{% post_url 2010-04-30-obtener-el-esquema-desde-una-placa-de %}). Pero es muy **aburrido**, además en el [datasheet del RX-3](http://www.alldatasheet.com/datasheet-pdf/pdf/156482/SILAN/RX-3.html) viene un esquema propuesto por el fabricante del integrado. Cabe esperar que el nuestro no se aparte demasiado y de hecho es muy parecido, suprimiendo algunos componentes para ahorrar costes.
 
-{% include image.html size="big" file="esquema_RX-3_retocado.png" caption="" %}
+{% include image.html class="large-width" file="esquema_RX-3_retocado.png" caption="" %}
 
 He coloreado algunas secciones para que las veáis mejor (clic para ampliar). Veamos cómo funciona.
 

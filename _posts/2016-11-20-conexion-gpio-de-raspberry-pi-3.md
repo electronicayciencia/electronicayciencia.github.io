@@ -15,7 +15,7 @@ Si habéis leído otros artículos de este blog dedicados a microcontroladores s
 
 Comenzaremos con un repaso básico a lo que es la Raspberry Pi y sus accesorios a modo de introducción. Seguiremos con el manejo básico de los pines I/O usando la shell. Después pasaremos al **PWM** mediante la utilidad **gpio** de **WiringPi** y controlaremos un servo como ejemplo. Finalmente, para probar el **I2C** manejaremos un ADC tipo **PCF8591** por medio de los drivers internos.
 
-{% include image.html size="small" file="300px-Pi-GPIO-header.png" caption="" %}
+{% include image.html class="small-width" file="300px-Pi-GPIO-header.png" caption="" %}
 
 <!--more-->
 
@@ -23,7 +23,7 @@ Comenzaremos con un repaso básico a lo que es la Raspberry Pi y sus accesorios 
 
 Empecemos por un repaso básico. Estos dispositivos se llaman Low Cost Single Board Computers, que quiere decir que es un ordenador completo, de bajo consumo, con características modestas que está contenido en una placa un poco mayor que una tarjeta de crédito. Hay de varias marcas, distintos precios y diseños. El más común es de marca Raspberry. Fue también el primero en tener una acogida masiva. Hay otras marcas como ODroid o Banana Pi, cada uno con sus características y sus precios.
 
-{% include image.html size="big" file="pi_board_pinout.jpg" caption="Placa y conexionado de Raspberry Pi3. [stackexchange](http://raspberrypi.stackexchange.com/questions/40318/raspberry-pi-2-can-gpio-pins-29-40-be-used-gpio-gen-input-output-configurable-in)." %}
+{% include image.html class="large-width" file="pi_board_pinout.jpg" caption="Placa y conexionado de Raspberry Pi3. [stackexchange](http://raspberrypi.stackexchange.com/questions/40318/raspberry-pi-2-can-gpio-pins-29-40-be-used-gpio-gen-input-output-configurable-in)." %}
 
 La versión 3, que es la que voy a usar, salió en febrero de 2016 y cuenta con WiFi incorporada, Ethernet, varios puertos USB, HDMI y conectores para cámara, display, etc. Está basada en el BCM2837, evolución del BCM2835, un SoC (System on Chip) de Broadcom bien conocido. Un System on Chip no es más que un procesador, GPU y demás funciones integradas en un sólo componente. Se parece mucho a la electrónica de un smartphone. Este modelo es un ARM de 64bits a 1.2GHz, quad core y con 1Gb de RAM.
 
@@ -37,7 +37,7 @@ Lo importante es que todas las versiones cuentan con una conexión GPIO (General
 
 Lo primero que compraría sería una **caja** apropiada para el uso que estéis pensando. La que yo veo más práctica para experimentar es la Pibow Coupé. Las cajas con este formato permiten acceder fácilmente a todos los conectores con un detalle muy útil: tiene serigrafiada la numeración de los pines. Lo único que no me gusta es que los pines GPIO sobresalen ligeramente de la caja y podrían engancharse con algo.
 
-{% include image.html size="medium" file="coupe_flotilla.jpg" caption="Caja de acrílico tipo Pibow Coupe, color \"flotilla\"." %}
+{% include image.html class="medium-width" file="coupe_flotilla.jpg" caption="Caja de acrílico tipo Pibow Coupe, color \"flotilla\"." %}
 
 El **adaptador**, para un uso ocasional sirve perfectamente con un cargador de móvil de 5v. Eso sí, en cuanto queráis conectar un disco duro externo, por ejemplo, se os va a venir abajo. Recomiendan un cargador de 3 amperios, que también os puede servir para cargar un móvil que soporte carga rápida.
 
@@ -49,7 +49,7 @@ Otros accesorios que considero muy útiles son un latiguillo de **cable de red**
 
 También os vendrá bien un juego de cables con conectores **Dupont** para experimentar:
 
-{% include image.html size="medium" file="dupont_wire.jpg" caption="Cable arco-iris con conectores Dupont macho-hembra." %}
+{% include image.html class="medium-width" file="dupont_wire.jpg" caption="Cable arco-iris con conectores Dupont macho-hembra." %}
 
 A propósito, ¿os habéis fijado que el cable que llaman "arco iris" en realidad tiene los mismos colores que las resistencias?
 
@@ -71,7 +71,7 @@ Habitualmente el acceso a memoria sólo se podría hacer como root, sin embargo 
 
 La conexión gpio de este modelo tiene 40pin, con un conector igual al que usaban los discos duros IDE hace tiempo. Venden cables para conectarlos con una protoboard, pero no os lo recomiendo a menos que sólo vayáis a usar la Raspberry para experimentar porque estas clavijas una vez encajadas cuesta mucho quitarlas y se rompen con facilidad. En su lugar es preferible que compréis cables con conectores Dupont hembra-hembra y también macho-hembra.
 
-{% include image.html size="medium" file="GPIO-RP3.png" caption="Disposición de los terminales GPIO. [techgeeks](http://techgeeks.de/). " %}
+{% include image.html class="medium-width" file="GPIO-RP3.png" caption="Disposición de los terminales GPIO. [techgeeks](http://techgeeks.de/). " %}
 
 Entre los 40 terminales contamos con:
 
@@ -93,7 +93,7 @@ Entrando un poco en detalles tenemos:
 
 **Terminales de GPIO**. Es la conexión para periféricos del BCM.
 
-{% include image.html size="medium" file="raspberry-pi-circuit-gpio-input-pins.png" caption="Equivalente electrónico de un terminal GPIO. [mosaic-industries](http://www.mosaic-industries.com/embedded-systems/microcontroller-projects/raspberry-pi/gpio-pin-electrical-specifications)" %}
+{% include image.html class="medium-width" file="raspberry-pi-circuit-gpio-input-pins.png" caption="Equivalente electrónico de un terminal GPIO. [mosaic-industries](http://www.mosaic-industries.com/embedded-systems/microcontroller-projects/raspberry-pi/gpio-pin-electrical-specifications)" %}
 
 En general cada pin se puede configurar individualmente para funcionar como una salida o entrada de alta impedancia, con posibilidad de tener pull-up y pull-down ambas de 50kohm.
 
@@ -109,7 +109,7 @@ El primer punto problemático es la numeración. Básicamente hay 3 sistemas:
 - El número de terminal físico del conector de 40 pin.
 - La numeración de wiringPi, que usa numeración propia pero a diferencia de las anteriores no varía entre versiones de Raspberry Pi.
 
-{% include image.html size="big" file="gpio1.png" caption="Tabla de equivalencia numeración. [WiringPi](http://wiringpi.com/pins/)." %}
+{% include image.html class="large-width" file="gpio1.png" caption="Tabla de equivalencia numeración. [WiringPi](http://wiringpi.com/pins/)." %}
 
 Así pues, tenemos el GPIO7, que en numeración de BCM es el 4, corresponde al pin 7 del conector y lleva la numeración WiringPi 7.
 
@@ -193,17 +193,17 @@ $ gpio read 25
 
 Quizá una de las características más útiles es leer el estado de toda la interfaz GPIO y mostrarlo en forma de tabla; además nos sirve como tabla de equivalencia entre las diferentes numeraciones:
 
-{% include image.html size="big" file="gpio_readall.png" caption="Tabla de equivalencia obtenida al ejecutar gpio readall." %}
+{% include image.html class="large-width" file="gpio_readall.png" caption="Tabla de equivalencia obtenida al ejecutar gpio readall." %}
 
 ## PWM
 
 El siguiente experimento es controlar un servo. Como sabéis, un servo es simplemente un motor con unos engranajes reductores y un control de posición integrado. El modelo que vamos a controlar es el TowerPro MG995, que ya usamos otra entrada anterior: [Controlar un servomotor con el PC]({{site.baseurl}}{% post_url 2010-12-17-controlar-un-servomotor-con-el-pc %}).
 
-{% include image.html size="medium" file="prod_560163449c7bf.jpg" caption="Servo para RC modelo TowerPro MG995." %}
+{% include image.html class="medium-width" file="prod_560163449c7bf.jpg" caption="Servo para RC modelo TowerPro MG995." %}
 
 Habíamos visto que para este servo se deben mandar impulsos de entre 1 y 2 ms, con una frecuencia de 50Hz. Siendo 1.5ms el pulso para que el servo se sitúe en la posición central, 1ms equivale a -60º y 2ms a 60º. Hay otros servos que giran 90º pero este se indica que sólo 60.
 
-{% include image.html size="medium" file="servo_datasheet.png" caption="Forma de onda indicada en el datasheet del servo." %}
+{% include image.html class="medium-width" file="servo_datasheet.png" caption="Forma de onda indicada en el datasheet del servo." %}
 
 Se puede hacer de dos formas, por software haciendo un bucle, o por hardware usando el módulo de PWM.
 
@@ -248,7 +248,7 @@ Por ejemplo si quisiésemos un **periodo de 5s**, con un tiempo alto de 250ms, s
 1. 5 segundos son 5.000.000us, por tanto el periodo **pwmr** debe ser 5 000 000/0.104 = 48 000 000.
 1. El tiempo en nivel alto queremos que sean 250ms, que son 250000us, por tanto el valor del **pwm** será 250000/0.104 = 2 400 000.
 
-{% include image.html size="big" file="pwm_5seg.png" caption="PWM configurado para un periodo de 5s y un tiempo on de 250ms." %}
+{% include image.html class="large-width" file="pwm_5seg.png" caption="PWM configurado para un periodo de 5s y un tiempo on de 250ms." %}
 
 Según indica el datasheet, el registro de Rango PWM es de 32 bit, suponemos que sin signo. Eso nos daría un **máximo de 7.45 minutos** cuando pwmc=2. Con una precisión de 0.1us. Mucho más que suficiente para cualquier aplicación.
 
@@ -302,7 +302,7 @@ En su lugar he optado por conectar un módulo ya montado con el integrado **PCF8
 
 El PCF8591 es, como su datasheet indica, un dispositivo de adquisición de datos en un solo chip con interfaz I2C. Tiene 4 entradas analógicas de 8 bit, lo cual nos vendrá muy bien para suplir la carencia analógica de Raspberry. También tiene una salida DAC. Venden módulos con este integrado ya soldados y serigrafiados como el de la foto y son muy populares.
 
-{% include image.html size="medium" file="PCF8591.jpg" caption="Modulo de pruebas con PCF8591. Se vende ya montado." %}
+{% include image.html class="medium-width" file="PCF8591.jpg" caption="Modulo de pruebas con PCF8591. Se vende ya montado." %}
 
 El módulo que encontraréis viene configurado con los siguientes canales:
 
@@ -332,7 +332,7 @@ Conectamos el módulo PCF8591 teniendo en cuenta que la línea de datos SDA va c
 
 Todos los dispositivos I2C tienen un identificador de 7 bit, que se compone de una parte fija de 4 bit (1001 en el caso del PCF8591) y otra parte programable de 3 bit. El 8º bit indica el tipo de operación: 1 para lectura, 0 para escritura.
 
-{% include image.html size="big" file="i2c_addressbyte.png" caption="Formato del primer byte I2C. Datasheet PCF8591." %}
+{% include image.html class="large-width" file="i2c_addressbyte.png" caption="Formato del primer byte I2C. Datasheet PCF8591." %}
 
 La parte programable de 3 bit normalmente se fija conectando patillas del integrado a Vcc o a masa. Eso nos permite poder identificar hasta 8 integrados que compartan bus con la misma parte fija.
 
@@ -362,7 +362,7 @@ Las tramas I2C suelen tener la misma estructura:
 - Si se tratara de una operación de lectura el **máster** llevaría la linea de reloj alternativamente a valor alto y bajo leyendo por la linea de datos un flujo de bytes. Igualmente puede ser una respuesta de 1 o varios bytes dependiendo del comando que hayamos lanzado.
 - Para terminar se lanza una señal **Stop**, definida como la inversa de la señal Start, es decir se libera lleva la linea de datos y por tanto se va a nivel alto mientras el reloj permanece en nivel alto. Cualquier dispositivo que lea esta señal da por finalizada la transmisión y vuelve a estar listo para recibir otro comando.
 
-{% include image.html size="big" file="i2c_start_stop.png" caption="Condiciones de Start y Stop I2C. Dathasset PCF8591." %}
+{% include image.html class="large-width" file="i2c_start_stop.png" caption="Condiciones de Start y Stop I2C. Dathasset PCF8591." %}
 
 Las herramientas i2cset e i2cget nos dan la posibilidad de hacer operaciones simples.
 
@@ -379,7 +379,7 @@ Sin embargo como la operación del PCF8591 es sumamente simple no hay problema. 
 1. Terminar la transmisión con una marca de **stop**.
 1. Lanzar una operación de **lectura**. Los sucesivos bytes recibidos son las lecturas del ADC. El primer resultado no es una lectura actual, sino la última lectura que tenía almacenada el chip.
 
-{% include image.html size="medium" file="pcf8591_control.png" caption="Contenido del byte de control. Datasheet PCF8591." %}
+{% include image.html class="medium-width" file="pcf8591_control.png" caption="Contenido del byte de control. Datasheet PCF8591." %}
 
 La primera parte podemos conseguirla con i2cget. Nos dirigimos al chip en el bus 1 (el único que hay) con la dirección 0x48, y le enviamos el control 0x01 (canal 1, la LDR por ejemplo):
 

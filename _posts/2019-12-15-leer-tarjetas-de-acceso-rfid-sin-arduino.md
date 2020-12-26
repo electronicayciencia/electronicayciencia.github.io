@@ -19,7 +19,7 @@ Empezaremos por construir un oscilador muy sencillo, al que añadiremos un buffe
 
 En su día ya dedicamos un artículo a [Las oscilaciones amortiguadas]({{site.baseurl}}{% post_url 2011-05-18-el-circuito-rlc-serie-oscilaciones %}). Este lo vamos a dedicar a las oscilaciones forzadas y uno de sus usos más habituales en nuestro día a día.
 
-{% include image.html size="small" file="fob_foto.jpg" caption="Llave de acceso RFID a 125kHz. EyC." %}
+{% include image.html class="small-width" file="fob_foto.jpg" caption="Llave de acceso RFID a 125kHz. EyC." %}
 
 <!--more-->
 
@@ -31,13 +31,13 @@ Como decía, para hacer el oscilador quería un circuito muy sencillo y fácil d
 
 A propósito, los osciladores de relajación se llaman así porque van acumulando tensión lentamente hasta que se desahogan. Ejemplos típicos son los géiseres, o la fuente esa japonesa con un [ palo hueco de bambú que sube y baja](https://en.wikipedia.org/wiki/Shishi-odoshi) (*Shishi-odoshi*). Al principio están en un estado en el que acumulan energía (presión, agua o carga eléctrica). Con el tiempo se va incrementando la tensión hasta que -en un momento dado- superan cierto umbral y descargan. La descarga suele ser rápida y tras ella vuelven a su estado anterior.
 
-{% include image.html size="" file="Shishi-odoshi.jpg" caption="El Shishi-odoshi es el ejemplo típico de oscilador de relajación. [Wikipedia.](https://en.wikipedia.org/wiki/Shishi-odoshi) " %}
+{% include image.html class="original-width" file="Shishi-odoshi.jpg" caption="El Shishi-odoshi es el ejemplo típico de oscilador de relajación. [Wikipedia.](https://en.wikipedia.org/wiki/Shishi-odoshi) " %}
 
 A estas alturas ya todos sabéis cómo funciona un comparador. Tiene dos entradas y una salida. Está continuamente comprobando cuál de las dos entradas está a mayor voltaje. Si gana la entrada inversora (signo -), la salida del conmutador está a nivel bajo; conectada a masa. Mientras que si gana la entrada no inversora (signo +), la salida queda **flotante**. No positiva, porque la salida del **LM393** es de colector abierto. O sea, o conecta a negativo o no. Pero no puede suministrar corriente, sólo puede drenarla.
 
 Con un comparador se puede hacer un oscilador de relajación siguiendo este esquema:
 
-{% include image.html size="medium" file="osci1.png" caption="Oscilador de relajación construido con un comparador LM393. EyC." %}
+{% include image.html class="medium-width" file="osci1.png" caption="Oscilador de relajación construido con un comparador LM393. EyC." %}
 
 La tensión en la entrada no inversora es fija y viene determinada por el divisor resistivo que forman **R1** y **R2**. Como ambas tienen el mismo valor, la tensión en la unión será la mitad de la de alimentación (2.5V).
 
@@ -60,11 +60,11 @@ Los valores de los componentes no son críticos pero sí conviene tener presente
 
 Aquí una simulación, en verde está la salida del comparador y en azul la carga y descarga del condensador:
 
-{% include image.html size="small" file="osci1_oscill.png" caption="Simulación del circuito anterior. EyC." %}
+{% include image.html class="small-width" file="osci1_oscill.png" caption="Simulación del circuito anterior. EyC." %}
 
 ¿Qué pasa si queremos conectar algo a la salida? Pues **C1** que se descarga más rápido porque ahora hay otro circuito consumiendo de él. Necesitaremos desacoplar la salida, y para eso se utiliza un *buffer*:
 
-{% include image.html size="medium" file="osci1buffer.png" caption="Oscilador y etapa de salida tipo buffer. EyC." %}
+{% include image.html class="medium-width" file="osci1buffer.png" caption="Oscilador y etapa de salida tipo buffer. EyC." %}
 
 Este segundo comparador tiene una de sus entradas a tensión fija por el divisor resistivo. Su salida dependerá de la tensión presente en la otra entrada. También he incluido a **C2** como condensador de desacople de alimentación.
 
@@ -72,7 +72,7 @@ Pero excitar una bobina no es como encender un LED. Las bobinas se oponen a los 
 
 Recuerda que el comparador sólo puede con 20mA y sólo drenar, ni siquiera puede suministrar corriente. Para protegerlo vamos a terminar el circuito con una etapa de salida push-pull. Esta configuración permite tanto suministrar como drenar corriente. Ya la habíamos usado antes en: [Cómo funcionan las etiquetas magneto-acústicas]({{site.baseurl}}{% post_url 2013-07-03-etiquetas-antihurto-magneto-acusticas %}).
 
-{% include image.html size="big" file="osci1bufferpushpull.png" caption="Oscilador con salida push-pull. EyC." %}
+{% include image.html class="large-width" file="osci1bufferpushpull.png" caption="Oscilador con salida push-pull. EyC." %}
 
 Cuando la salida de **U2** esté a nivel flotante, apenas circula corriente por **R8**, por tanto no cae tensión en ella y en la base de **Q1** está presente una tensión próxima a la de alimentación, 5V. En su emisor habrá 0 voltios. **Q1** es NPN, luego conduce cuando su base está 0.7V por encima de su emisor, ahora conduce mucho. Mientras, en el colector de **Q2** están presentes los 5V de alimentación menos la caída colector-emisor de **Q1**, aproximadamente 0.7V.
 
@@ -80,7 +80,7 @@ En **D1** caen unos 0.7V, y en **D2** otros 0.7. Por tanto la base de **Q2** est
 
 Cuando la salida de **U2** pasa a nivel bajo, la situación es justo la contraria. **Q2** se pone a conducir, y **Q1** se encuentra justo en el límite. El resultado es que **Q1** y **Q2** conducen semiciclos alternos de corriente hacia y desde la carga sin zonas muertas entre ellos. Se llama amplificador de *clase AB*.
 
-{% include image.html size="medium" file="osci1bufferpushpull_oscill.png" caption="En un amplificador AB cada transistor conduce un semiciclo completo. EyC." %}
+{% include image.html class="medium-width" file="osci1bufferpushpull_oscill.png" caption="En un amplificador AB cada transistor conduce un semiciclo completo. EyC." %}
 
 ## Medir bobinas con un osciloscopio
 
@@ -102,13 +102,13 @@ $$
 
 Ajustamos nuestro oscilador a una frecuencia relativamente baja 5 o 10kHz por ejemplo. Midiendo la tensión en la bobina en el osciloscopio aparece esta señal:
 
-{% include image.html size="big" file="10periodos.png" caption="Contamos los periodos para determinar la frecuencia de oscilación. EyC." %}
+{% include image.html class="large-width" file="10periodos.png" caption="Contamos los periodos para determinar la frecuencia de oscilación. EyC." %}
 
 Eso se llama respuesta escalón. Es una oscilación armónica amortiguada cuya frecuencia es la frecuencia **natural** de oscilación. Medimos el periodo con el osciloscopio y lo apuntamos. Para mayor precisión, también podemos medir dos o diez periodos en lugar de uno sólo y multiplicar.
 
 Con una medida ya tendríamos suficiente para calcular la L, pero el condensador puede estar mal y no tener la capacidad que dice tener, o podríamos habernos equivocado al contar los periodos, por ejemplo. Lo mejor es probar varios condensadores de distinta capacidad y apuntar las frecuencias. Calculamos la L en cada caso y hacemos la media o -si nos ponemos serios- una [regresión lineal](https://www.graphpad.com/quickcalcs/linear2/).
 
-{% include image.html size="medium" file="condensadores.jpg" caption="Podríamos determinar el valor de la inductancia midiendo con  
+{% include image.html class="medium-width" file="condensadores.jpg" caption="Podríamos determinar el valor de la inductancia midiendo con  
 varios condensadores y haciendo después una regresión lineal. EyC" %}
 
 Resumiendo: mi bobina es de **940 ± 20 μH**. Despreciando la resistencia (30Ω), la capacidad parásita de los transistores, el efecto de carga de las sondas y el osciloscopio, la propia capacidad de la bobina y otros errores de medida.
@@ -137,7 +137,7 @@ Pero si la resonancia de nuestro circuito está en los 100kHz, por ejemplo, la i
 
 Aquí tenemos la tensión en la unión de **Q1** y **Q2** (en verde) y la tensión en la bobina (amarillo). Fijaos en la escala de esta última: 20 V/div y la amplitud pico a pico es 80V.
 
-{% include image.html size="big" file="resonancia_push_pull.png" caption="En los extremos de la bobina se miden  
+{% include image.html class="large-width" file="resonancia_push_pull.png" caption="En los extremos de la bobina se miden  
 tensiones mucho mayores que la de alimentación. EyC." %}
 
 Depende de la inductancia y de la frecuencia. A mayor frecuencia, capacidades más pequeñas y mayor tensión en los extremos de la bobina, pudiendo llegar a millones de voltios. Es el fundamento de la [Bobina de Tesla](https://es.wikipedia.org/wiki/Bobina_de_Tesla).
@@ -152,7 +152,7 @@ En este clip podéis apreciar la el fenómeno de resonancia con una capacidad pe
 
 Para medir fácilmente la tensión en la bobina conectaremos un *detector de envolvente*. Sólo tiene tres componentes: un diodo detector, un condensador y una resistencia. Os sonará el esquema de las radios AM.
 
-{% include image.html size="medium" file="detector_de_envolvente.gif" caption="Detector de envolvente. [Wikipedia.](/assets/2019/12/leer-tarjetas-de-acceso-rfid-sin-arduino/C_Simple_envelope_detector.gif)" %}
+{% include image.html class="medium-width" file="detector_de_envolvente.gif" caption="Detector de envolvente. [Wikipedia.](/assets/2019/12/leer-tarjetas-de-acceso-rfid-sin-arduino/C_Simple_envelope_detector.gif)" %}
 
 El diodo es fácil: un **1N4148**. Salvo que nos vayamos a frecuencias muy altas, a voltajes muy bajos o a corrientes altas siempre será el 1N4148.
 
@@ -164,7 +164,7 @@ La descarga de **C** sí se hace sobre **R**. Ya sabéis que la carga y descarga
 
 Este sería el esquema completo:
 
-{% include image.html size="big" file="circuito_completo.png" caption="Esquema completo incluyendo el demodulador. Click para ampliar. EyC." %}
+{% include image.html class="large-width" file="circuito_completo.png" caption="Esquema completo incluyendo el demodulador. Click para ampliar. EyC." %}
 
 Para **R12** hemos usando un trimmer en lugar de una resistencia fija, así nos servirá también para reducir la tensión. Como si fuera un control de volumen. La salida del detector la enviamos a otro comparador LM393 llamado **U3**. De nuevo tomamos como referencia la mitad de la tensión de alimentación usando **R12** y **R13** como divisor resistivo. Para **R14** probaremos varios valores, 220k funciona bien. U3 admite configuración inversora o no inversora según lo que queramos hacer después con la señal.
 
@@ -184,7 +184,7 @@ Hasta ahora nos hemos limitado a la **capa física**. El receptor puede inducir 
 
 Al título. Lo de **tarjetas** tiene poco que explicar, a veces son tarjetas, a veces llaveros, a veces pegatinas y a veces chips subcutáneos.
 
-{% include image.html size="medium" file="tres_tarjetas.jpg" caption="Dispositivos RFID. EyC." %}
+{% include image.html class="medium-width" file="tres_tarjetas.jpg" caption="Dispositivos RFID. EyC." %}
 
 Las tarjetas **identificativas** suelen ser de sólo lectura, y se limitan a transmitir un código. Desde que las arrimas al sensor hasta que las alejas, todo el rato están transmitiendo ese código en bucle. Cuando se activan o desactivan, en realidad ingresamos el código en una base de datos para conceder o denegar el acceso. Pero en la tarjeta no se cambia nada.
 
@@ -198,11 +198,11 @@ El principio físico, lo de modular el campo emitido por el emisor, es válido p
 
 Vamos a probar con esta tarjeta:
 
-{% include image.html size="medium" file="fermax_foto.png" caption="Tarjeta de acceso típica a 125kHz. EyC." %}
+{% include image.html class="medium-width" file="fermax_foto.png" caption="Tarjeta de acceso típica a 125kHz. EyC." %}
 
 Ajustamos la frecuencia a **125kHz** conectamos el osciloscopio para ver la señal. Arriba está la envolvente (acoplada en AC) y abajo la onda cuadrada tras pasar por el comparador.
 
-{% include image.html size="big" file="fermax_scope.png" caption="Señal emitida por la tarjeta. EyC." %}
+{% include image.html class="large-width" file="fermax_scope.png" caption="Señal emitida por la tarjeta. EyC." %}
 
 En el siguiente vídeo vemos cómo al acercar una tarjeta a nuestra bobina, obtenemos una señal modulada en amplitud. Con el detector de envolvente la demodulamos y, finalmente, con el comparador la convertimos en una onda cuadrada. La primera tarjeta y el llavero se comportan de forma parecida, sin embargo hay una segunda tarjeta cuyo protocolo aún nos es **desconocido**.
 
@@ -214,15 +214,15 @@ El chip EM4100 se ha convertido en un estándar habitual. Su protocolo consta en
 
 Lo llevamos al analizador lógico:
 
-{% include image.html size="big" file="fermax_logic.png" caption="Señal digital interpretada por el analizador lógico. EyC." %}
+{% include image.html class="large-width" file="fermax_logic.png" caption="Señal digital interpretada por el analizador lógico. EyC." %}
 
 Y estos son los bits. Es el mismo mensaje repetido en bucle.
 
-{% include image.html size="big" file="fermax_unosyceros.png" caption="Las tarjetas RFID repiten en bucle el mensaje. EyC." %}
+{% include image.html class="large-width" file="fermax_unosyceros.png" caption="Las tarjetas RFID repiten en bucle el mensaje. EyC." %}
 
 Conocemos el protocolo porque lo describe el datasheet. Empieza por nueve unos seguidos, luego vienen 10 grupos de 5 bits (siendo el quinto un bit de paridad de los otros 4). A continuación 4 bits más como paridad de cada columna y finalmente un bit de stop.
 
-{% include image.html size="big" file="em4100_bits.png" caption="Campos de un mensaje EM4100. EyC." %}
+{% include image.html class="large-width" file="em4100_bits.png" caption="Campos de un mensaje EM4100. EyC." %}
 
 Nuestro mensaje en binario es:
 
@@ -254,11 +254,11 @@ Es decir, esta tarjeta corresponde al código **0AB49789**. No encuentro la rela
 
 Vamos a hacer otra prueba con un llavero. Fijaos en que tiene grabado por fuera el código **6869636**:
 
-{% include image.html size="small" file="fob_foto.jpg" caption="Llavero RFID. EyC." %}
+{% include image.html class="small-width" file="fob_foto.jpg" caption="Llavero RFID. EyC." %}
 
 En el osciloscopio nos aparece una señal más débil porque el diámetro de la bobina es menor que el de la tarjeta.
 
-{% include image.html size="big" file="fob_scope.png" caption="Señal transmitida por el llavero y convertida en onda cuadrada. EyC." %}
+{% include image.html class="large-width" file="fob_scope.png" caption="Señal transmitida por el llavero y convertida en onda cuadrada. EyC." %}
 
 Obtenemos la siguiente ristra de bits:
 
@@ -293,15 +293,15 @@ El código transmitido es **0x0068D284**. Ese número pasado a decimal es justam
 
 Ahora vamos a probar con esta otra tarjeta:
 
-{% include image.html size="medium" file="hid_foto.png" caption="Otra tarjeta de acceso a 125kHz. EyC." %}
+{% include image.html class="medium-width" file="hid_foto.png" caption="Otra tarjeta de acceso a 125kHz. EyC." %}
 
 En lugar de la señal modulada que veíamos antes, ahora tenemos una señal de otra forma:
 
-{% include image.html size="big" file="hid_scope1.png" caption="Señal al osciloscopio. No se parece a las anteriores. EyC." %}
+{% include image.html class="large-width" file="hid_scope1.png" caption="Señal al osciloscopio. No se parece a las anteriores. EyC." %}
 
 Si la ampliamos un poco:
 
-{% include image.html size="medium" file="hid_scope2.png" caption="Modulación de la tarjeta ampliada. EyC." %}
+{% include image.html class="medium-width" file="hid_scope2.png" caption="Modulación de la tarjeta ampliada. EyC." %}
 
 No parece ni Manchester ni nada conocido. El comparador ya no nos sirve, el analizador lógico tampoco.
 
@@ -311,13 +311,13 @@ La señal dura a nivel alto 4 o 5 períodos y luego desciende otros tantos. Pong
 
 Lo grabamos y abrimos en Audacity:
 
-{% include image.html size="big" file="hid_audacity.png" caption="La señal transmitida por la tarjeta está en el rango audible. EyC." %}
+{% include image.html class="large-width" file="hid_audacity.png" caption="La señal transmitida por la tarjeta está en el rango audible. EyC." %}
 
 Tiene pinta de ser **dos** frecuencias distintas. Es decir una señal **FSK**. Ese patrón lo hemos visto antes, por ejemplo cuando decodificamos la señal del Tren-Tierra en [Demodular AFSK, desde cero]({{site.baseurl}}{% post_url 2017-10-28-demodular-afsk-desde-cero %}).
 
 Las dos frecuencias podrían ser 14kHz y 17.5kHz. No importa la frecuencia exacta porque para demodularla vamos a aplicar un filtro **paso bajo**. Así la frecuencia alta se atenuará más que la frecuencia baja. Después identificaremos la duración del mínimo periodo en alto o en bajo y segmentaremos en partes iguales.
 
-{% include image.html size="big" file="hid_LH.png" caption="Análisis manual del mensaje. Click para ampliar. EyC." %}
+{% include image.html class="large-width" file="hid_LH.png" caption="Análisis manual del mensaje. Click para ampliar. EyC." %}
 
 Nos da el siguiente mensaje:
 
@@ -367,14 +367,14 @@ Buscando por el principio del mensaje 0x01002 y por la marca -HID- llegamos a es
 
 Las tarjetas Wiegand fueron de las primeras tarjetas de acceso. En lugar de banda magnética, llevaban el número codificado en unos hilos magnéticos que se leen por [efecto Wiegand](https://en.wikipedia.org/wiki/Wiegand_effect). No se podían reprogramar ni tampoco borrar fácilmente. En definitiva, aptas para uso industrial.
 
-{% include image.html size="big" file="Wiegand-wiring.png" caption="El código de las tarjetas Wiegand está grabado en hilos magnéticos en su interior.  
+{% include image.html class="large-width" file="Wiegand-wiring.png" caption="El código de las tarjetas Wiegand está grabado en hilos magnéticos en su interior.  
 [Hacking HID with Wiegand Protocol Vulnerability](https://www.getkisi.com/blog/hid-keycard-readers-hacked-using-wiegand-protocol-vulnerability)" %}
 
 Y aunque estas ya no se usan, el formato Wiegand continúa vigente hoy día en muchos controles de acceso. En muchos sitios lo que se ha cambiado han sido los lectores y las tarjetas que ahora usan tecnología RFID. Pero la interfaz -y por tanto el resto del sistema- son los mismos desde los años 80 con escasas modificaciones.
 
 Un mensaje Wiegand consta de **26 bits**. El primer bit es un bit de paridad de los 13 primeros bits. Luego vienen 8 bits del llamado *Factory Code* (código de empresa). Le siguen 16 bits del *Card Number*. Y el último es un bit de paridad de los últimos 13 bits. Así:
 
-{% include image.html size="big" file="hid_wiegand_format.png" caption="Formato de un mensaje Wiegand.  
+{% include image.html class="large-width" file="hid_wiegand_format.png" caption="Formato de un mensaje Wiegand.  
 [Understanding Card Data Formats - HID Global](https://www.hidglobal.com/sites/default/files/hid-understanding_card_data_formats-wp-en.pdf)" %}
 
 El mensaje anterior sería:

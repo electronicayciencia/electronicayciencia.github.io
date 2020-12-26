@@ -47,7 +47,7 @@ Un vicio habitual es que una vez se conocen y se aprenden a usar los microcontro
 
 Para las pruebas he usado un PIC12F683. Se podría hacer con cualquier otro modelo más básico ya que no usamos ninguna función avanzada.
 
-{% include image.html size="medium" file="esquema.png" caption="" %}
+{% include image.html class="medium-width" file="esquema.png" caption="" %}
 
 Esta es la configuración de los pines:
 
@@ -184,11 +184,11 @@ Se podría haber hecho la transformación en el micro, y suavizar los datos haci
 
 Durante la puesta de Sol, entre las 19:00 y las 19:30 la luz da directamente contra la ventana, lo que provoca ese pico de luminosidad comparado con la luz durante la noche. Como sabemos que el tiempo de descarga aumenta cuando se oscurece y disminuye con la luz, graficaremos la inversa de este, así un tiempo muy pequeño indicará mucha luz. Como en este gráfico:
 
-{% include image.html size="big" file="an_20100830_lineal.png" caption="" %}
+{% include image.html class="large-width" file="an_20100830_lineal.png" caption="" %}
 
 Sin embargo por la diferencia de escala tan grande que hay entre unas medidas y otras, no podemos ver apenas detalles a partir de las 21:00. En estos casos es útil recurrir a la escala logarítmica. No paséis por alto que el eje Y crece hacia abajo, porque a mayor luminosidad menor tiempo de descarga.
 
-{% include image.html size="big" file="an_20100830_completo.png" caption="" %}
+{% include image.html class="large-width" file="an_20100830_completo.png" caption="" %}
 
 Aquí el pico anterior se ve mucho más reducido, y ya sí apreciamos otros detalles. Por ejemplo a partir de las 19:00 hemos dicho que el Sol incide directamente contra el sensor, y se ve como va bajando la intensidad luminosa. Sin embargo es cuando el Sol está próximo al horizonte, a partir de las 20:30, cuando desaparece rápidamente. En cuestión de 45 minutos ya se ha hecho casi de noche.
 
@@ -204,7 +204,7 @@ Ya habéis visto que tenemos sensibilidad tanto en niveles altos como en niveles
 
 Para terminar el experimento. Vamos a ver qué pasa si damos la luz de la habitación en cuya ventana tenemos puesto el sensor. Recordemos que está rodeado de un tubo de cartón y apuntando hacia el cielo. ¿Se notará en la medida? Este es el gráfico:
 
-{% include image.html size="big" file="detalle_luces_ventana.png" caption="" %}
+{% include image.html class="large-width" file="detalle_luces_ventana.png" caption="" %}
 
 A las 22:55 comienzo a probar con la lámpara de interior y con un flexo de escritorio. Es resultado es claro. Cualquier leve cambio en la iluminación ambiente, ya sea de dia o de noche, lo puede captar el sensor sin ningún problema. Claro está, siempre que el cambio sea proporcional al valor actual. Igual que los sentidos humanos. Es lógico que, durante un concierto, no escuchemos un susurro; al igual que es difícil ver la pantalla del móvil a plena luz del día. En alguna entrada tengo intención de hablar de la ley de Weber y de Stevens, ya anticipamos algo al diseñar la [curva de respuesta de un dimmer]({{site.baseurl}}{% post_url 2010-06-23-curva-de-respuesta-del-dimmer-ir %}).
 
@@ -229,11 +229,11 @@ Para saber cuál es la causa de todo lo que hemos desarrollado en esta entrada h
 
 Este es por dentro el diodo en estado de reposo, o sea sin que le apliquemos ningún potencial:
 
-{% include image.html size="small" file="diode13.gif" caption="" %}
+{% include image.html class="small-width" file="diode13.gif" caption="" %}
 
 Ahora vamos a aplicarle un potencial inverso. Digamos que los *portadores de carga* (electrones y huecos) se apiñan atraídos por el potencial a los lados del material. Si ahora quitamos la batería (cortamos el potencial sin juntar las patillas) se habrá quedado un campo eléctrico. Es el principio de un condensador.
 
-{% include image.html size="small" file="diode6.gif" caption="" %}
+{% include image.html class="small-width" file="diode6.gif" caption="" %}
 
 Si medimos inmediatamente, habrá la misma tensión que habíamos aplicado al principio. Y lentamente se irá descargando para llegar a la imagen primera. Cuando los portadores estén otra vez distribuidos ya no habrá campo eléctrico ni por tanto tensión en las patillas. Estará descargado.
 

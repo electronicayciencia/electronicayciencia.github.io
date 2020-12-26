@@ -33,7 +33,7 @@ Es decir:
 
 El circuito que usé en las pruebas es malísimo e improvisado -de hecho no pasó de la protoboard-. Así que, para preservar mi imagen no lo voy a poner, jeje. Si en otro momento retomo las pruebas con un circuito un poco más elaborado ya publicaré el esquema y la placa para que lo tengáis quien quiera hacerlo en casa. Está basado en este esquema:
 
-{% include image.html size="" file="con624.gif" caption="" %}
+{% include image.html class="large-width" file="con624.gif" caption="" %}
 
 En esencia era eso, sólo que sin el filtro basa-bajos a la salida. Precisamente lo que ahora nos interesa es filtrarlo por software.
 
@@ -41,7 +41,7 @@ Bien, ya tenemos nuestro circuito. Los tres electrodos los hacemos soldando mone
 
 Conectamos la salida del circuito a la entrada de micrófono de la tarjeta de sonido. Y con nuestro precario montaje lo que captamos es esto:
 
-{% include image.html size="" file="xoscope.png" caption="" %}
+{% include image.html class="medium-width" file="xoscope.png" caption="" %}
 
 ## Filtrar el ECG
 
@@ -97,7 +97,7 @@ end
 
 Graficamos la forma de la onda. **Como en todas la imágenes de este blog, haced click para ampliar:**
 
-{% include image.html size="" file="ecg_t_sinfiltrar.png" caption="" %}
+{% include image.html class="large-width" file="ecg_t_sinfiltrar.png" caption="" %}
 
 Y de igual modo el espectro de frecuencias:
 
@@ -112,7 +112,7 @@ xlabel('Frecuencia (Hz)')
 title("Electrocardiograma - sin filtrar") 
 ```
 
-{% include image.html size="" file="ecg_f_sinfiltrar.png" caption="" %}
+{% include image.html class="large-width" file="ecg_f_sinfiltrar.png" caption="" %}
 
 ¿Qué destacamos de este espectro?
 
@@ -133,7 +133,7 @@ end
 
 Cuando lo aplicamos, tenemos este espectro:
 
-{% include image.html size="" file="ecg_f_sinarmo.png" caption="" %}
+{% include image.html class="large-width" file="ecg_f_sinarmo.png" caption="" %}
 
 Ahora deshacemos la FFT para obtener la onda resultante. Pero antes, si recordáis la FFT es un vector complejo que tiene esta forma:
 
@@ -158,13 +158,13 @@ c = c/max(abs(c)); % normalizamos
 
 Y este es el resultado:
 
-{% include image.html size="" file="ecg_t_sinarmo.png" caption="" %}
+{% include image.html class="large-width" file="ecg_t_sinarmo.png" caption="" %}
 
 Mejor que antes; pero francamente aún es una mierda. Hay que filtrar un poco más. Un electro se compone sobre todo de bajas frecuencias. La frecuencia cardiaca viene a estar entre pongamos 50 y 180 latidos por minuto. Esto es entre 1 y 3 Hercios. Realmente el filtro pasa-altos nos la está jugando, pero aunque sea muy tenue aún tenemos que poder ver algo. Vamos a suavizar la onda. Por ejemplo con una [media móvil](http://es.wikipedia.org/wiki/Media_m%C3%B3vil). Bueno, da la casualidad (o quizá no tanta casualidad) de que aplicar una media móvil es un caso particular de un filtro gausiano, y los filtros gausianos en el dominio del tiempo resulta que se traducen en aplicar una campana de Gauss al dominio de la frecuencia.
 
 Si no habéis entendido el párrafo anterior ni a la tercera no pasa nada; es normal, a mi también me pasa. El caso es que como nos interesan las frecuencia bajas pues nos cepillamos las que estén por encima de un umbral. Pero si metemos un tajo en seco a la FFT, cuando vayamos a recuperar la onda hace cosas raras. Para minimizar el efecto lo mejor es cortar de forma progresiva, como en una campana de Gauss. Así:
 
-{% include image.html size="" file="ecg_f_gausiana.png" caption="" %}
+{% include image.html class="large-width" file="ecg_f_gausiana.png" caption="" %}
 
 Cuando apliquemos esa ventana al espectro todas las frecuencias mayores de unos 75Hz van a quedarse a cero. A efectos prácticos es un filtro pasa-bajos.
 
@@ -180,7 +180,7 @@ function gauss = gauss(x,a,b,c)
 end
 ```
 
-{% include image.html size="" file="ecg_f_pasabajos.png" caption="" %}
+{% include image.html class="large-width" file="ecg_f_pasabajos.png" caption="" %}
 
 Para aplicar este proceso a varias muestras de datos lo mejor es hacemos un pequeño script en Octave. Lo llamaremos ECGfiltra:
 
@@ -221,7 +221,7 @@ end
 
 El resultado es algo mejor, y se intuye más o menos la forma de un ECG.
 
-{% include image.html size="" file="ecg_t_pasabajos.png" caption="" %}
+{% include image.html class="large-width" file="ecg_t_pasabajos.png" caption="" %}
 
 Aún queda algo de ruido, pero cada vez es más difícil filtrarlo. Pensad que aunque lo llame *ruido* puede ser una señal legítima, otra cosa es que no sea la que queremos. Pero, por ejemplo, algunas ondulaciones pueden deberse a la respiración u otros movimientos musculares.
 
@@ -235,7 +235,7 @@ El corazón no es el único órgano que genera tensiones fácilmente medibles. E
 
 El procedimiento es sencillo, como en el electro colocamos dos electrodos, uno en el pómulo cerca del ojo y otro en la sien. Hay varias formas de estimular la retina dependiendo de lo que nos interese comprobar, voy a hacer la más simple: respuesta a un impulso luminoso aislado. Necesitamos un flash de una cámara fotográfica. Se trata de ver qué señales envía nuestro nervio óptico cuando disparamos el flash. El efecto es más notable si reducimos la luz ambiente y dejamos que el ojo se adapte a la oscuridad
 
-{% include image.html size="" file="erg_t_sinfiltrar.png" caption="" %}
+{% include image.html class="large-width" file="erg_t_sinfiltrar.png" caption="" %}
 
 Poco nítido; o más bien digamos que no se ve nada. Está claro que la señal está al mismo nivel que el ruido. Formas de mejorar la medida, varias:
 
@@ -246,23 +246,23 @@ Poco nítido; o más bien digamos que no se ve nada. Está claro que la señal e
 
 Vamos a hablar del **perfil del ruido**. Esta es la señal antes de disparar el flash. Se supone que el ojo está adaptado a la oscuridad.
 
-{% include image.html size="" file="erg_t_ruido.png" caption="" %}
+{% include image.html class="large-width" file="erg_t_ruido.png" caption="" %}
 
 Y aquí vemos un detalle más ampliado:
 
-{% include image.html size="" file="erg_t_ruido2.png" caption="" %}
+{% include image.html class="large-width" file="erg_t_ruido2.png" caption="" %}
 
 El perfil, lo que nos serviría para construir la máscara del ruido es el módulo de la FFT:
 
-{% include image.html size="" file="erg_f_maskruido.png" caption="" %}
+{% include image.html class="large-width" file="erg_f_maskruido.png" caption="" %}
 
 Sin embargo ya os he dicho que **no vamos a aplicar este método**, sino que haremos un filtrado similar al que hicimos antes con el ECG. Si nos quedamos con las frecuencias bajas, apreciamos la forma de onda en su conjunto. Las ondas a y b. De nuevo yo no puedo explicaros a qué corresponden. Si os interesa aquí hay una explicación detallada: [Webvision - The Electroretinogram](http://webvision.med.utah.edu/book/the-electroretinogram-erg/the-electroretinogram-erg/).
 
-{% include image.html size="" file="erg_t_filtrado_ayb.png" caption="" %}
+{% include image.html class="large-width" file="erg_t_filtrado_ayb.png" caption="" %}
 
 Eso si nos quedamos con las frecuencias bajas. Aunque la respuesta al flash dura mucho más que una décima de segundo. Porque tras el fogonazo seguimos viendo chiribitas, hay un momento de desconcierto... en una palabra *hay actividad*, y en esa gráfica no la apreciamos. Sin embargo mirad lo que pasa si incluimos en la gráfica algunas frecuencias un poco mayores. Esto es lo que sale:
 
-{% include image.html size="" file="erg_t_filtrado_altas.png" caption="" %}
+{% include image.html class="large-width" file="erg_t_filtrado_altas.png" caption="" %}
 
 ## Conclusión
 

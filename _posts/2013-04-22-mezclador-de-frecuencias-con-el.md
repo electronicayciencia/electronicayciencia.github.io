@@ -34,7 +34,7 @@ Como lo que queremos es multiplicar dos frecuencias hemos optado por la solució
 
 El circuito que os presento es el siguiente. He coloreado las partes que lo componen y así será más sencillo seguir la explicación. Haced click en cualquier imagen o abridla en una ventana nueva para verla ampliada.
 
-{% include image.html size="big" file="mixer1_sch_t.png" caption="" %}
+{% include image.html class="large-width" file="mixer1_sch_t.png" caption="" %}
 
 Consta de cinco secciones:
 
@@ -56,7 +56,7 @@ La tensión de alimentación se conecta a **SL1**. El circuito funciona sin prob
 
 A menudo se utilizan estos circuitos para captar frecuencias ultrasónicas tal como los radares de los murciélagos. Un micrófono electret no sirve para estas frecuencias, por lo que se utiliza un micrófono piezoeléctrico (o un zumbador piezoeléctrico reutilizado como micrófono). Lo peor de los micrófonos piezoeléctricos es que tienen una **impedancia de salida** altísima, del orden de los megaohmios. Y cómo la apliquemos a un preamplificador de baja impedancia se nos va a atenuar tanto que más que amplificar, perderemos señal.
 
-{% include image.html size="big" file="entradanoinversor.png" caption="" %}
+{% include image.html class="large-width" file="entradanoinversor.png" caption="" %}
 
 En este esquema aparte vemos cómo la impedancia de la fuente Rs y la impedancia de entrada del preamplificador, prácticamente **R4**, forman un divisor resistivo. De manera que si aplicáramos una fuente con una impedancia muy alta, a un preamplificador de muy baja impedancia la señal quedaría tan atenuada que no oiríamos nada. Y por tanto necesitaremos un amplificador con una impedancia de entrada lo más alta posible.
 
@@ -72,7 +72,7 @@ Como ya sabéis, la amplificación viene determinada por **R2** y **R3**. En nue
 
 Otro parámetro al que tenemos que prestar especial atención cuando diseñamos un amplificador es el producto [**ganancia - ancho de banda**](https://en.wikipedia.org/wiki/Gain%E2%80%93bandwidth_product). Que no es otra cosa que "a mayor ganancia, menor banda pasante". Es un parámetro típico, aunque no exclusivo, de los circuitos con operacionales.
 
-{% include image.html size="medium" file="gbp.gif" caption="" %}
+{% include image.html class="medium-width" file="gbp.gif" caption="" %}
 
 Aquí los valores de **C1** y **R4** tienen un papel decisivo, pues forman un filtro paso-alto que desplaza el comienzo de la banda pasante hacia frecuencias mayores. Así, en lugar de amplificar frecuencias entre 0 y 10kHz, por ejemplo, amplificaríamos entre 20 y 30kHz que nos interesan más.
 
@@ -88,7 +88,7 @@ La configuración no es nada complicada: **R11** y **C7** deciden la frecuencia 
 
 **R11** y **C7** se calculan usando unas tablas que vienen en el datasheet. Por ejemplo, para una resistencia **R11** de 10kohm y una tensión de alimentación de 8 o 9V el valor de **C7** tiene que ser del orden de 1nF. ¿Veis ahora por qué decía antes que la frecuencia depende de la tensión de alimentación?
 
-{% include image.html size="medium" file="calculo_rc.png" caption="" %}
+{% include image.html class="medium-width" file="calculo_rc.png" caption="" %}
 
 La salida del oscilador será la que controle el mezclador.
 
@@ -98,7 +98,7 @@ Siguiendo lo que dijimos al principio, todo se trata de multiplicar dos señales
 
 El integrado **IC2** es un sencillo [CD4066](http://www.natalnet.br/~aroca/afron/CD4066BC.pdf) que contiene 4 interruptores analógicos.
 
-{% include image.html size="medium" file="cd4066.png" caption="" %}
+{% include image.html class="medium-width" file="cd4066.png" caption="" %}
 
 La señal de entrada preamplificada se aplica a la los interruptores C y D. Mientras que la señal del oscilador local que viene de **IC3** la aplicamos a los pines de control que abren o cierran estos interruptores.
 
@@ -106,7 +106,7 @@ En el caso de **IC2C** le aplicamos la señal de control tal cual. Sin embargo a
 
 ¿Qué conseguimos abriendo y cerrando los interruptores? Pues "cortar" la señal cada cierto tiempo. A efectos teóricos la multiplicamos, pero en la práctica lo que está ocurriendo es esto (abrid la imagen en otra ventana para ampliar):
 
-{% include image.html size="big" file="out4kHz_t.png" caption="" %}
+{% include image.html class="large-width" file="out4kHz_t.png" caption="" %}
 
 Para hacer este gráfico hemos aplicado dos frecuencias separadas por 4kHz. La **diferencia de fase** de ambas señales, **integrada** por los condensadores **C3** y **C6** a la entrada del amplificador de salida, nos da la frecuencia resultante.
 
@@ -120,7 +120,7 @@ Recordad que en los amplificadores diferenciales **R5** tiene que ser igual a **
 
 A la salida de **IC1B** colocamos un **filtro pasa-banda** formado por **R7**, **C4** y **C5**. Este corta a una frecuencia inferior de 350Hz, con la intención de suprimir la tensión continua y el ruido. Y a una frecuencia superior de unos 5kHz para eliminar los residuos de mezclado y la frecuencia imagen. Es bueno que cortemos en una frecuencia relativamente baja ya que, como avisamos al empezar, las tarjetas de sonido pueden captar señales por encima de 20kHz si están mal filtradas y estas causarán interferencias que no podremos separar de la señal real. Esta banda, además, coincide con la máxima sensibilidad de las tarjetas de sonido.
 
-{% include image.html size="big" file="filtrosalida.png" caption="" %}
+{% include image.html class="large-width" file="filtrosalida.png" caption="" %}
 
 ## Funcionamiento
 
@@ -128,7 +128,7 @@ Lo siguiente es un espectro en el que vemos el circuito sintonizado en 50kHz. La
 
 Si aplicamos a la entrada una señal de 54kHz, en verde de unos 75mV en la salida obtendremos una frecuencia de 4kHz (en rojo) y con una amplitud un poco mayor gracias al preamplificador de salida.
 
-{% include image.html size="big" file="fft4kHz.png" caption="" %}
+{% include image.html class="large-width" file="fft4kHz.png" caption="" %}
 
 Con este circuito ya podemos explorar con la tarjeta de sonido las frecuencias no audibles. Ahora todo depende de lo que conectemos a la entrada:
 
@@ -138,6 +138,6 @@ Con este circuito ya podemos explorar con la tarjeta de sonido las frecuencias n
 
 Una vez terminado, la placa nos queda más o menos así. Digo más o menos porque esta foto es de una versión anterior y he cambiado algunos componentes.
 
-{% include image.html size="medium" file="IMAG0415.jpg" caption="" %}
+{% include image.html class="medium-width" file="IMAG0415.jpg" caption="" %}
 
 En [este enlace]({{page.assets | relative_url}}/mixer4066.zip) tenéis algunos archivos interesantes, incluyendo los gráficos y los archivos de Eagle (version 6) para el esquema y la PCB.

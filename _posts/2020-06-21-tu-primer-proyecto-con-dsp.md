@@ -17,7 +17,7 @@ Si buscas en Google *cómo usar Arduino* encontrarás millones de resultados, we
 
 En cualquier caso, déjame darte la clave del artículo nada más empezar: una **instrucción** binaria. Una operación aritmética tan específica que cuesta entender por qué revolucionó el mundo digital. Consiste en **multiplicar** dos números y **sumar** el resultado en un acumulador. Sólo eso. Esa instrucción se llama **MAC** y podríamos decir que marca la diferencia entre un procesador de uso general y un DSP.
 
-{% include image.html size="huge" file="filtrosinc.png" caption="Pues esto es un filtro digital, aunque no lo parezca. EyC." %}
+{% include image.html class="x-large-width" file="filtrosinc.png" caption="Pues esto es un filtro digital, aunque no lo parezca. EyC." %}
 
 <!--more-->
 
@@ -29,7 +29,7 @@ Hay filtros de todo tipo. Algunos dejan pasar las frecuencias bajas, altas, o ap
 
 Pero un DSP no es un filtro. Siendo un microprocesador (o microcontrolador) se parece más a una calculadora. Para entender cómo filtra un DSP imagínate una señal mezcla de varias frecuencias, como por ejemplo esta:
 
-{% include image.html size="huge" file="filtro_orig.png" caption="Señal original, sin filtrar. EyC." %}
+{% include image.html class="x-large-width" file="filtro_orig.png" caption="Señal original, sin filtrar. EyC." %}
 
 Supón que quieres quedarte con la sinusoide de mayor amplitud, porque asumes que las oscilaciones pequeñitas de mayor frecuencia son ruido y no nos interesan. En otras palabras, quieres **suavizar** la señal.
 
@@ -53,7 +53,7 @@ Las frecuencias altas varían mucho entre puntos cercanos. Y cuando promediamos 
 
 Aplicando una media móvil de tres puntos a la señal anterior obtenemos esta curva:
 
-{% include image.html size="huge" file="filtro_mediamovil3p.png" caption="Señal suavizada con media móvil. EyC." %}
+{% include image.html class="x-large-width" file="filtro_mediamovil3p.png" caption="Señal suavizada con media móvil. EyC." %}
 
 Aquí tenemos un ejemplo sencillo de filtro **paso bajo**. Tan sencillo que no controlamos ni frecuencia de corte ni atenuación. Es un filtro rudimentario, pero la idea básica está ahí. Para filtrar mejor podríamos hacer la media con, por ejemplo, 5 puntos o más. O, mejor aún, aplicar varias pasadas.
 
@@ -90,7 +90,7 @@ El punto i-1 multiplicado por -0.333 más ...
 
 A ver, en realidad esto último vale porque son sólo tres puntos. Si haces el mismo razonamiento con más puntos es mentira, pero se parece mucho a la verdad y en este momento es más fácil de creer. Si lo aplicamos a la señal anterior aquí tenemos el resultado:
 
-{% include image.html size="huge" file="filtro_pasoalto3p.png" caption="Misma señal filtrada con un paso-alto. EyC." %}
+{% include image.html class="x-large-width" file="filtro_pasoalto3p.png" caption="Misma señal filtrada con un paso-alto. EyC." %}
 
 Sabiendo hacer filtros paso alto y paso bajos, ya podemos combinarlos para hacer otro tipo de filtros. Un pasa banda o banda eliminada.
 
@@ -138,7 +138,7 @@ Los primeros ordenadores no tenían FPU. No les hacía falta. Las empresas prefe
 
 Durante mucho tiempo llamábamos *coprocesador matemático* a la Unidad de Punto Flotante y se compraba como un chip aparte ([Intel 8087](https://es.wikipedia.org/wiki/Intel_8087)), bastante caro. Algunos programas, que necesitaban hacer cálculos intensivos, tenían **dos versiones**: una para quienes tenían coprocesador, y otra para los que no. La segunda versión era más grande y más lenta pues tenían que emular estas operaciones complejas a partir de operaciones más sencillas.
 
-{% include image.html size="big" file="IT-vs-ITNCP.png" caption="Algunos programas tenían dos versiones, NCP significa sin co-procesador. EyC." %}
+{% include image.html class="large-width" file="IT-vs-ITNCP.png" caption="Algunos programas tenían dos versiones, NCP significa sin co-procesador. EyC." %}
 
 Desde el i486 (principio de los 90) la arquitectura Intel y compatibles incluyen una FPU **integrada**. Algunas arquitecturas como la que usa Raspberry Pi también tienen FPU y ciertos microcontroladores avanzados como el ESP32. Pero otros muy conocidos, sin embargo, no tienen, es el caso de Arduino, ESP8266 o los PIC clásicos.
 
@@ -162,11 +162,11 @@ Otra característica de los DSP es el ***buffer circular*.** Si trabajamos con l
 
 Hablando de hardware para generar direcciones de memoria de forma enrevesada tenemos lo que se llama *Bit Reverse Mode*. A ver cómo te lo explico... Si vas a contar de 0 a 7 puedes hacerlo en orden 0, 1, 2, 3, 4, 5, 6 y 7. O puedes darle la vuelta a los bits poniendo el menos significativo a la izquierda. Lo cual daría esta secuencia: 0, 4, 2, 6, 1, 5, 3 y 7. ¿Para qué? mira esta imagen de Wikipedia sobre [Fast Fourier Transform](https://en.wikipedia.org/wiki/Fast_Fourier_transform).
 
-{% include image.html size="medium" file="DIT-FFT-butterfly.png" caption="Uno de los algoritmos más usados para calcular la FFT utiliza Bit Reverse Mode. Wikipedia." %}
+{% include image.html class="medium-width" file="DIT-FFT-butterfly.png" caption="Uno de los algoritmos más usados para calcular la FFT utiliza Bit Reverse Mode. Wikipedia." %}
 
 Por supuesto también necesitaremos instrucciones **específicas** y optimizadas como la ya mencionada MAC y otras:
 
-{% include image.html size="huge" file="dsp-especificas.png" caption="Los DSP incluyen operaciones concretas de uso habitual en cálculo de señal. Microchip." %}
+{% include image.html class="x-large-width" file="dsp-especificas.png" caption="Los DSP incluyen operaciones concretas de uso habitual en cálculo de señal. Microchip." %}
 
 Los DSP tienen cosas más específicas, como **prefetch**, aritmética de saturación, FPU o similar, desplazador de barril. Otros cuentan con controladoras de DMA para acceder al ADC o al PWM sin pasar por código. Temporizadores, interfaces I2C, SPI o USB, codecs para captura de audio, instrucciones de compresión o descompresión por hardware, rutinas de cifrado, multicore, soporte de vídeo, puertos ethernet, etc. Y, eso sí, patillas, cientos de patillas.
 
@@ -187,7 +187,7 @@ Los DSP son **complicados** y su curva de aprendizaje algo dura. Al principio, s
 - **[dsPIC30F2011/2012/3012/3013 Data Sheet]({{page.assets | relative_url}}/70139g.pdf)**. Te cuenta qué módulos tiene concretamente este chip y los detalles sobre su programación.
 - **[dsPIC30F3012/3013 Family Silicon Errata and Data Sheet Clarification]({{page.assets | relative_url}}/80448D.pdf)**. Te explica por qué tu proyecto no funciona y llevas horas intentando arreglar un error que no es tuyo.
 
-{% include image.html size="huge" file="errata-chip-bugs.png" caption="El silicio también tiene *bugs*. Microchip." %}
+{% include image.html class="x-large-width" file="errata-chip-bugs.png" caption="El silicio también tiene *bugs*. Microchip." %}
 
 Si fallan los enlaces podéis buscar directamente por el título del documento.
 
@@ -199,7 +199,7 @@ El ADC se puede temporizar para trabajar a una frecuencia prefijada con un timer
 
 De los 16 registros de trabajo, no siempre podemos usarlos todos, ya que algunos tienen funciones prefijadas en algunas instrucciones:
 
-{% include image.html size="huge" file="working_registers.png" caption="Algunos registros tienen funciones prefijadas en ciertas instrucciones. Microchip." %}
+{% include image.html class="x-large-width" file="working_registers.png" caption="Algunos registros tienen funciones prefijadas en ciertas instrucciones. Microchip." %}
 
 En la tabla anterior se hace referencia a memoria X y memoria Y. Para llevar a cabo la instrucción MAC en un solo ciclo, los dsPIC30F pueden acceder a **dos bancos** de memoria a la vez. Bueno, realmente la memoria es la misma, pero hay una zona que se puede direccionar en paralelo al resto. Eso sí, sólo en operaciones de lectura. A la memoria global se le llama X, y a esta zona especial la llamamos Y.
 
@@ -209,7 +209,7 @@ Una vez visto por encima, lo mejor para conocer el integrado es empezar **usarlo
 
 Este es el esquema. Tendemos una entrada analógica, comunicación por puerto serie para depuración, los pines para conectar el programador ICSP y algunos LEDs.
 
-{% include image.html size="huge" file="esquema-dspic.jpg" caption="Esquema propuesto para empezar a practicar con el dsPIC. Click para ampliar. EyC." %}
+{% include image.html class="x-large-width" file="esquema-dspic.jpg" caption="Esquema propuesto para empezar a practicar con el dsPIC. Click para ampliar. EyC." %}
 
 La alimentación la tomaremos del programador **ICSP**. **C1** y **C2** se encargarán de filtrar los picos de consumo. El LED **L1** indica cuándo el circuito está alimentado.
 
@@ -223,7 +223,7 @@ Tras el amplificador viene un segundo filtro **paso bajo** compuesto por **R8** 
 
 La etapa de entrada que acabamos de describir tiene una ganancia de 34dB. Y su respuesta en **frecuencia** será el resultado de combinar tres filtros: un filtro paso alto de primer orden en 16Hz, y dos paso bajo de primer orden en 3386Hz.
 
-{% include image.html size="huge" file="bode-plot.png" caption="Respuesta en frecuencia de la etapa de entrada. EyC." %}
+{% include image.html class="x-large-width" file="bode-plot.png" caption="Respuesta en frecuencia de la etapa de entrada. EyC." %}
 
 Y te preguntarás, ¿por qué usar un filtro **analógico** si es más fácil usar uno digital ya dentro del DSP? Debido al efecto de ***aliasing***. Todas las frecuencias que superen la mitad de la de muestreo se representarán como frecuencias inferiores. Sin el filtro, y con una frecuencia de muestreo de 20kHz -por ejemplo- una señal de 2kHz y otra de 18kHz se verían idénticas. Con este filtro la señal de 18kHz se verá muy atenuada.
 
@@ -235,13 +235,13 @@ Los márgenes inferior y superior servirán como referencias al Conversor Analó
 
 Como **oscilador** usaremos un cristal de cuarzo de 20MHz. El dsPIC30F3012 cuenta con múltiples modos de oscilación, incluyendo oscilador interno o cristal externo. Su **PLL** es capaz de multiplicar internamente la frecuencia del oscilador x4, x8 o x16 y también tiene un divisor por 2 y por 3 lo cual permite múltiples combinaciones. Siempre que no sobrepasemos los 120MHz. Esta tabla muestra los diferentes modos:
 
-{% include image.html size="huge" file="modos-oscilacion-dspic.png" caption="Modos de oscilación del dsPIC. Microchip." %}
+{% include image.html class="x-large-width" file="modos-oscilacion-dspic.png" caption="Modos de oscilación del dsPIC. Microchip." %}
 
 Los modos válidos para un cristal de **alta frecuencia** son los HS, marcados en verde. Podríamos usar todas las combinaciones a excepción de la marcada en rojo; pues 20MHz entre 2 da 10MHz, y multiplicado por 16 serían 160MHz. Dicha frecuencia está por encima de la máxima admitida. Elegiré el modo ***HS/2 w/PLL8x*** para funcionar a 80MHz.
 
 Los LED **L2** a **L5** están conectados a patillas de I/O y los usaremos libremente en función del proyecto que vayamos a hacer. Finalmente, aquí tenemos el esquema ya montado sobre una protoboard:
 
-{% include image.html size="huge" file="bread-dspic-opamp.jpg" caption="Esquema anterior sobre una placa de pruebas. EyC." %}
+{% include image.html class="x-large-width" file="bread-dspic-opamp.jpg" caption="Esquema anterior sobre una placa de pruebas. EyC." %}
 
 ## Proyectos para explorar
 
@@ -249,7 +249,7 @@ Lo siguiente es ir haciendo pequeños proyectos para aprender. Tu crees que ya t
 
 Lo siguiente será definir variables en una **zona de memoria** u otra, aquí cada compilador es diferente. Aprenderemos a configurar un buffer circular. A usar la instrucción **MAC** con el **prefech**. Y a trabajar con el formato **fraccionario**. Finalmente habrá que ver cómo se configura el ADC temporizado.
 
-{% include image.html size="medium" file="buffer_circular.png" caption="Un búfer circular se configura fácilmente." %}
+{% include image.html class="medium-width" file="buffer_circular.png" caption="Un búfer circular se configura fácilmente." %}
 
 Con todo lo anterior estamos listos para hacer un detector de señal, por ejemplo. Y si además añadimos un filtro puede convertirse en un detector de bajos. Con un filtro para bajos, otro para medios y uno más de agudos podríamos convertirlo en un **psicodélico**.
 

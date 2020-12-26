@@ -69,7 +69,7 @@ $$
 
 O sea que la intensidad, está adelantada 90º respecto a la tensión. No significa que el condensador sea un adivino que sabe en cuánto va a estar la tensión para poner la intensidad en ese valor un momento antes. Hablamos de señales que se repiten, y lo mismo se puede decir que está adelantada 90º como que está retrasada 270º. Son sólo formas de hablar. Fijaos en esta gráfica, los picos en la I suceden un tiempo antes que los de la V. Ese tiempo es un cuarto del periodo total, lo que es justamente 90 grados.
 
-{% include image.html size="big" file="VI_C.png" caption="" %}
+{% include image.html class="large-width" file="VI_C.png" caption="" %}
 
 Podéis hacer click en los gráficos para verlos más grandes.
 
@@ -101,7 +101,7 @@ Por eso se dice que hay un desfase entre la tensión y la intensidad, igual que 
 
 Ahora vemos lo que pasa cuando le aplicamos una una senoidal:
 
-{% include image.html size="big" file="VI_L.png" caption="" %}
+{% include image.html class="large-width" file="VI_L.png" caption="" %}
 
 Sí, los picos en la V ocurren antes que en la I. Decimos que la corriente va retrasada respecto a la tensión, o bien que la tensión se adelanta respecto a la intensidad. Como son señales periódicas lo mismo nos da.
 
@@ -139,7 +139,7 @@ $$
 
 Esto que voy a hacer normalmente se hace con la carga, pero la carga almacenada en una bobina es un concepto difícil de imaginar, así que voy a hacerlo con la intensidad.
 
-{% include image.html size="small" file="rlc.png" caption="" %}
+{% include image.html class="small-width" file="rlc.png" caption="" %}
 
 Tenemos este circuito RLC serie, sin fuentes de alimentación externas. Se trata de una malla cerrada y por primera ley de Kirchoff o [Ley de Tensiones de Kirchoff](http://es.wikipedia.org/wiki/Leyes_de_Kirchhoff_de_circuitos_el%C3%A9ctricos#Ley_de_tensiones_de_Kirchhoff) la suma de todas las tensiones debe ser cero.
 
@@ -233,7 +233,7 @@ $$
 
 Recordad que tenemos que quedarnos sólo con la parte real de esa ecuación, que será un seno o un coseno. Es un resultado lógico. Una oscilación pura, sin más efectos. La intensidad sube y baja con el tiempo.
 
-{% include image.html size="big" file="rlc_spice_PI.png" caption="" %}
+{% include image.html class="large-width" file="rlc_spice_PI.png" caption="" %}
 
 Para ver cuánto vale A tomamos la expresión de antes cuando $t=0$ , aprovechando que cualquier número elevado a 0 vale 1.
 
@@ -271,7 +271,7 @@ Y la frecuencia de oscilación es justamente $\omega_0 = {1 \over  \sqrt {LC}}$ 
 
 ¿Por qué le llamo $\omega_0$  con el subíndice 0? Pues para indicar que es el caso ideal, porque en la siguiente parte la frecuencia variará.
 
-{% include image.html size="big" file="rlc_spice_0ohm.png" caption="" %}
+{% include image.html class="large-width" file="rlc_spice_0ohm.png" caption="" %}
 
 ## Oscilador sobre-amortiguado
 
@@ -279,7 +279,7 @@ El primero que vamos a suponer es el caso en que tenemos una resistencia muy gra
 
 Fijaos, físicamente pasa esto:
 
-{% include image.html size="big" file="rlc_spice_220ohm.png" caption="" %}
+{% include image.html class="large-width" file="rlc_spice_220ohm.png" caption="" %}
 
 Matemáticamente por debajo, en la ecuación de movimiento que vimos antes está actuando la diferencia que hay dentro de la raíz cuadrada:
 
@@ -299,7 +299,7 @@ $$
 
 Esa situación se llama amortiguamiento crítico. Y en un gráfico se ve así:
 
-{% include image.html size="big" file="rlc_spice_63ohm.png" caption="" %}
+{% include image.html class="large-width" file="rlc_spice_63ohm.png" caption="" %}
 
 Tiene la propiedad de que la energía decae más rápido que en los otros casos. ¿Y para qué sirve? Pues para detener las oscilaciones en el menor tiempo posible. Si hablamos de un oscilador mecánico nos referimos a, por ejemplo, los amortiguadores de los coches. ¿Verdad que no nos interesa que después de pillar un bache el coche bote arriba y abajo durante un rato? Pero por otro lado no podemos hacerlos rígidos, porque entonces no amortiguan nada.
 
@@ -363,11 +363,11 @@ El cuánto duran va a depender del término $\frac{R}{2L}$ , curiosamente aquí 
 
 Mirad en este gráfico como la oscilación pierde amplitud en con el tiempo.
 
-{% include image.html size="big" file="rlc_spice_10ohm.png" caption="" %}
+{% include image.html class="large-width" file="rlc_spice_10ohm.png" caption="" %}
 
 Y aquí variando el condensador. La amplitud al final es la misma en ambos casos.
 
-{% include image.html size="big" file="rlc_spice_10ohm_100nF.png" caption="" %}
+{% include image.html class="large-width" file="rlc_spice_10ohm_100nF.png" caption="" %}
 
 Y ahora que sabemos la duración, vamos a ver la frecuencia. ¿Os acordáis del caso ideal? La habíamos llamado $\omega_0$  y valía $\omega_0 = {1 \over  \sqrt {LC}}$ , o también puede decirse
 
@@ -397,15 +397,15 @@ Lo que os decía antes es aumentar la frecuencia (reduciendo el condensador) par
 
 Este es el caso sub-amortiguado.
 
-{% include image.html size="big" file="rlc_spice_10ohm_100pF.png" caption="" %}
+{% include image.html class="large-width" file="rlc_spice_10ohm_100pF.png" caption="" %}
 
 Este es el amortiguamiento crítico. Veis que las oscilaciones se paran más o menos en el mismo tiempo que el caso de baja frecuencia.
 
-{% include image.html size="big" file="rlc_spice_63ohm_100pF.png" caption="" %}
+{% include image.html class="large-width" file="rlc_spice_63ohm_100pF.png" caption="" %}
 
 Y este es el sobre-amortiguado:
 
-{% include image.html size="big" file="rlc_spice_220ohm_100pF.png" caption="" %}
+{% include image.html class="large-width" file="rlc_spice_220ohm_100pF.png" caption="" %}
 
 Vaya, era demasiado bonito. Algo no cuadra. Porque en el de antes tardaba mucho en decaer, más que en el crítico, sin embargo aquí decae en seguida. Pero tiene explicación porque antes el circuito no oscilaba en los últimos dos casos y en estos ejemplos oscila en todos. La comparación es válida en el sub-amortiguado y en el crítico. Pero ya deja de ser válida y se hace muy evidente en el sobre-amortiguado.
 

@@ -12,7 +12,7 @@ title: La Transformada de Fourier no es magia
 
 Este no es el típico artículo en plan "¡Ey, no es magia: sólo son matemáticas avanzadas y te da igual porque no vas a entender ni jota!".
 
-{% include image.html size="" file="captura_snd.png" caption="" %}
+{% include image.html class="large-width" file="captura_snd.png" caption="" %}
 
 Hace tiempo que quería hablaros de la Transformada de Fourier. Pero no encontraba una forma de presentar el artículo sin que me quedara demasiado matemático. Espero que el enfoque que le voy a dar hoy os sirva para aclarar algunas dudas. Como no quiero entrar en demostraciones muchos puntos los tendré que introducir por las buenas y otros dejarlos a medias. Si algo no os termina de convencer profundizad en el tema, necesitaréis cierto nivel de matemáticas pero comprobaréis que todo está atado y bien atado.
 
@@ -26,13 +26,13 @@ $$
 
 mientras que los aficionados al sonido (sobre todo, pero también a la imagen) lo conocen como esto otro:
 
-{% include image.html size="" file="anal_espectr.png" caption="" %}
+{% include image.html class="medium-width" file="anal_espectr.png" caption="" %}
 
 En ambos casos parece algún tipo de operación, a la que le damos una función y nos saca un gráfico, o nos resuelve una ecuación diferencial. Se habla además del *dominio del tiempo* y el *dominio de la frecuencia*, nombres que para el profano no hacen más que acentuar su carácter incomprensible.
 
 Sin embargo lo que hoy os voy a mostrar, si me lo permitís, es que no se trata de ninguna **magia negra**, o sutiles trucos matemáticos. Sino más bien se parece a un proceso de ensayo y error en el cual -casi de manera tosca- intentamos descubrir el espectro de frecuencias de una señal comparándola con otras. Hablaré sobre todo de sonido, por no complicar las cosas; aunque de aquí a unas semanas veremos un uso de esta operación en dos dimensiones.
 
-{% include image.html size="" file="audacity_pr_real.png" caption="" %}
+{% include image.html class="large-width" file="audacity_pr_real.png" caption="" %}
 
 Tenemos una señal, por ejemplo la de arriba. [Escuchadla]({{page.assets | relative_url}}/prueba_real.wav). Es un sonido suave, pero ¿de qué frecuencia? ¿Es sólo de una frecuencia pura o es una mezcla de varias?
 
@@ -57,15 +57,15 @@ x  = [inicio:bw:fin-bw];
 
 x es nuestro intervalo. Ahora definimos una función en ese intervalo, por ejemplo el seno de x:
 
-{% include image.html size="" file="senx.png" caption="" %}
+{% include image.html class="large-width" file="senx.png" caption="" %}
 
 Ahora vamos a multiplicar $$\sin(x)$$ por $$\sin(kx)$$ . Iremos variando *k*. Cuando k es 1, en realidad tenemos $$\sin(x)\times\sin(x)$$ . Que es el seno al cuadrado, y todos los valores son cero o positivos.
 
-{% include image.html size="" file="sencuadx.png" caption="" %}
+{% include image.html class="large-width" file="sencuadx.png" caption="" %}
 
 Pero veamos qué pasa cuando lo multiplicamos por un k distinto de 1, por ejemplo 2:
 
-{% include image.html size="" file="sinxsin2x.png" caption="" %}
+{% include image.html class="large-width" file="sinxsin2x.png" caption="" %}
 
 La función es **simétrica** (antisimétrica si multiplicáramos por el coseno). El resultado llama mucho más la atención si cogemos los valores de cada punto en el intervalo y los **sumamos**. Porque en el caso del cuadrado, como todos los valores eran positivos su suma es positiva. Pero ahora al ser simétrica el resultado es cero:
 
@@ -118,7 +118,7 @@ $$
 anal\_frec = \cos 2x +\cos 5x +\sin 6x
 $$
 
-{% include image.html size="" file="anal_frec.png" caption="" %}
+{% include image.html class="large-width" file="anal_frec.png" caption="" %}
 
 Lo llamamos *anal_frec* para que sea más fácil de leer. Esto es lo que pasa cuando multiplicamos y sumamos con las diferentes frecuencias. Probamos sólo hasta la 9:
 
@@ -166,7 +166,7 @@ $$
 anal\_ampl = 1\cos 3x  + \frac{1}{2} \cos 4x
 $$
 
-{% include image.html size="" file="anal_ampl.png" caption="" %}
+{% include image.html class="large-width" file="anal_ampl.png" caption="" %}
 
 Ahora hago el mismo análisis que antes, hasta el 5 para abreviar:
 
@@ -265,7 +265,7 @@ Recibe como argumentos la frecuencia con la que queremos probar, la señal incó
 
 Es hora de analizar una señal de prueba desconocida:
 
-{% include image.html size="" file="senal_ig_1.png" caption="" %}
+{% include image.html class="large-width" file="senal_ig_1.png" caption="" %}
 
 Lo primero en que hay que fijarse es en las amplitudes. No tendremos en cuenta los valores por debajo de un límite, y los consideraremos 0. Y después la fase: porque la fase no nos importa nada si la amplitud es muy pequeña. De hecho la fase es un **cociente**, y cuando el divisor se hace cada vez más pequeño es propensa a ir dando tumbos.
 
@@ -299,7 +299,7 @@ Las frecuencias con amplitud distinta de 0 son 2 y 5, la frecuencia 2 tiene 1/2 
 
 No está nada mal. Vamos con la **segunda señal incógnita**:
 
-{% include image.html size="" file="senal_ig_2.png" caption="" %}
+{% include image.html class="large-width" file="senal_ig_2.png" caption="" %}
 
 Esas ondulaciones parecen de una frecuencia mucho más alta que 5. Así que si nos ponemos a hacerlo a mano nos vamos a aburrir. Mejor lo metemos dentro de un bucle y hacemos que el programa pruebe automáticamente las frecuencias desde 1 hasta, por ejemplo 50 y que escriba por pantalla únicamente las amplitudes que superen un valor, digamos 0.001:
 
@@ -442,11 +442,11 @@ Como a priori no tenemos idea de por donde andan las amplitudes, no tiene sentid
 
     plot(frecs, abs(fourier))
 
-{% include image.html size="" file="tr_f_lineal.png" caption="" %}
+{% include image.html class="large-width" file="tr_f_lineal.png" caption="" %}
 
 La verdad es que así no se ve mucho. Por eso las amplitudes suelen expresarse en unidades logarítmicas: el Belio, o más usado el **decibelio**. Así que vamos a tomar logaritmos para ver si conseguimos recortar un poco los picos y ver también la parte baja:
 
-{% include image.html size="" file="tr_f_log.png" caption="" %}
+{% include image.html class="large-width" file="tr_f_log.png" caption="" %}
 
 Eso está mejor. Ahí vemos el **espectro de frecuencias** de la señal de entrada. En particular destacan tres, pero en ese gráfico es difícil decir cuales. Veamos qué frecuencias superan los -55dB en ese gráfico.
 
@@ -486,6 +486,6 @@ Y ya lo tenemos, las frecuencias que componen el tono son **50Hz** (probablement
 
 Por ejemplo *snd* tiene múltiples opciones de análisis. El resultado no puede ser idéntico por algunos detalles del proceso en los que no voy a entrar, pero sí es muy parecido tanto en las frecuencias de los picos como en su valor. Esa es precisamente la imagen con la que abríamos este artículo:
 
-{% include image.html size="" file="captura_snd.png" caption="" %}
+{% include image.html class="large-width" file="captura_snd.png" caption="" %}
 
 También supongo que habréis visto en sitios que en lugar de hacerlo con el módulo del resultado lo hacen con el **cuadrado**. Se hace cuando nos interesa más la **potencia** que la amplitud, pues esta varía con el cuadrado de la amplitud. No importa, como hemos tomado logaritmos calcular el cuadrado no es más que multiplicar por dos; al fin y al cabo un simple cambio de escala, pero el resultado es el mismo. Lo mismo que ocurría con la normalización. La diferencia sólo se nota si vamos a usar los resultados numéricos en cálculos posteriores.

@@ -15,13 +15,13 @@ Sigo utilizando el viejo micrófono que venía con el primer PC multimedia que c
 
 El circuito en cuestión es este:
 
-{% include image.html size="small" file="BENQ0013.JPG" caption="" %}
+{% include image.html class="small-width" file="BENQ0013.JPG" caption="" %}
 
 ## Análisis del circuito
 
 Me gustaría analizarlo por encima. Os pongo el esquema obtenido siguiendo la placa:
 
-{% include image.html size="big" file="ampli_antes.png" caption="" %}
+{% include image.html class="large-width" file="ampli_antes.png" caption="" %}
 
 Es un diseño bastante sencillo. Tiene cuatro terminales: entrada para el micro, salida a la tarjeta de sonido, alimentación y masa.
 
@@ -41,10 +41,10 @@ La idea es buena, pero adolece de algunos fallos típicos de los circuitos barat
 
 Vamos a arreglar los fallos 1 y 2. El esquema quedaría como sigue:
 
-{% include image.html size="big" file="ampli_despues.png" caption="" %}
+{% include image.html class="large-width" file="ampli_despues.png" caption="" %}
 
 El espacio libre que hay por encima del circuito es muy limitado. Por suerte tenía algunos electrolíticos en miniatura que desoldé de una lectora de CDROM. En esta imagen vemos el circuito una vez modificado.
 
-{% include image.html size="small" file="BENQ0017.JPG" caption="" %}
+{% include image.html class="small-width" file="BENQ0017.JPG" caption="" %}
 
 La tensión de alimentación puede ir desde los 3 a los 5V, para alimentarlo con 9 o 12 habría que recalcular algunas resistencias. Este circuito amplifica entre 50 y 100 veces la señal de entrada. Es difícil de determinar pues, al no tener el emisor degenerado, depende de la resistencia intrínseca del transistor. Si quisiéramos atenuar un poco la ganancia basta conectar una resistencia justo antes del emisor de Q1, digamos R7 de 220ohm. La ganancia sería aproximadamente R5/R7 = 2200/220 = 10 veces.

@@ -19,7 +19,7 @@ Hoy os presento un caso real de una radio que he estado reparando estas vacacion
 
 El "paciente" es un radio-casete con CD y MP3, modelo Daewoo SG-331. Vamos, toda una fusión de lo retro con lo digital. Por lo que parece la radio no se oye bien, hace ruido.
 
-{% include image.html size="" file="sg331.jpg" caption="" %}
+{% include image.html class="original-width" file="sg331.jpg" caption="" %}
 
 Ya sea a la hora de corregir bugs de software, diagnosticar enfermedades, o reparar averías el proceso es semejante. Se trata de, conocido el sistema, analizar qué puede estar fallando y cómo para que se comporte de manera errónea. Afortunadamente para nosotros, la máquina más compleja o el programa más enrevesado son infinitamente más sencillos que cualquier organismo vivo. Lo peor que puede pasarnos es que no solucionemos el problema y haya que tirarlo a la basura.
 
@@ -51,13 +51,13 @@ Pues nada, seguimos el procedimiento típico: vaselina y moverlo varias veces pa
 
 Es otra cosa. Vuelvo a soldar el potenciómetro en su sitio y vamos a por el siguiente candidato: el interruptor *CD-TAPE-RADIO*.
 
-{% include image.html size="" file="IMAG0377.jpg" caption="Interior del radio-casete. Dentro del circulo amarillo, el potenciómetro de volumen y el selector de funciones." %}
+{% include image.html class="original-width" file="IMAG0377.jpg" caption="Interior del radio-casete. Dentro del circulo amarillo, el potenciómetro de volumen y el selector de funciones." %}
 
 ## El interruptor de posición
 
 Hay un mando que selecciona la función, y si hace mal contacto también puede meter ruido. Se trata de un conmutador de 3 posiciones y 4 circuitos. Como este (imagen tomada de [eBay](http://www.ebay.com/itm/5-x-15mm-High-Knob-16-Pin-3-Position-4P3T-PCB-Vertical-Slide-Switch-0-5A-50V-DC-/150959203854?pt=LH_DefaultDomain_0&amp;hash=item2325dea60e)):
 
-{% include image.html size="" file="ux_a12022800ux0248_ux_c.jpg" caption="" %}
+{% include image.html class="original-width" file="ux_a12022800ux0248_ux_c.jpg" caption="" %}
 
 Por él tienen que pasar:
 
@@ -66,7 +66,7 @@ Por él tienen que pasar:
 
 Comprobamos con el tester y ¡sí!, hace mal contacto. Pues nada, vaselina y moverlo a ver si se soluciona. No hay suerte. Lo sacamos, lo limpiamos un poco mejor pero sigue fallando. Me dispongo a abrirlo para limpiarlo por dentro y me encuentro esto:
 
-{% include image.html size="" file="IMAG0375-1-1.jpg" caption="Pletinas interiores del interruptor. Falta metal debido al desgaste." %}
+{% include image.html class="original-width" file="IMAG0375-1-1.jpg" caption="Pletinas interiores del interruptor. Falta metal debido al desgaste." %}
 
 Lo que veis son pletinas deslizantes de cobre que comunican las patillas. Tendrán entre 3 y 5 milímetros de largo y están muy gastadas, e incluso rotas por el uso. Ya tenemos la causa de la avería: las pletinas del mando de posición hacen mal contacto y de ahí procede el ruido. Como el desgaste no es uniforme, en la posición radio hace más ruido que en CD.
 
@@ -100,7 +100,7 @@ El *manual de servicio*, *técnico* o *de reparaciones*, para quien no lo haya v
 
 He aquí el esquema. No vamos a interpretarlo completo, sólo algunas zonas que he coloreado para que os sea más fácil seguir las explicaciones. Abrid la imagen en una **ventana nueva** si queréis verla ampliada.
 
-{% include image.html size="" file="sg331_sch.png" caption="" %}
+{% include image.html class="large-width" file="sg331_sch.png" caption="" %}
 
 - La zona **azul**, arriba a la izquierda por si no distingues el color, es el sintonizador de radio (tuner).
 - En **verde**, arriba a la derecha, el amplificador de audio con su integrado UTC1316.
@@ -127,13 +127,13 @@ Ahora pulsamos el *play*, **LEAF** se cierra y lleva tensión al motor, al ampli
 
 Hago un inciso para explicar cómo funciona un retardo sencillo con un transistor. Este es un circuito semejante simplificado:
 
-{% include image.html size="" file="delay_sch.png" caption="" %}
+{% include image.html class="medium-width" file="delay_sch.png" caption="" %}
 
 La fuente de tensión **V1** se activa y desactiva una vez por segundo.
 
 Al comienzo **V1** (debajo, en rojo) suministra cero voltios. En tales condiciones el transistor no conduce. Al cabo de un segundo pasa a 12V, y el condensador **C1** empieza a cargarse lentamente a través de la resistencia **R3** de 22k. La tensión sube despacio y cuando alcanza el umbral de 0.6V, al cabo de unos 200ms, el transistor **Q1** conduce y la salida (en verde) cambia a nivel bajo.
 
-{% include image.html size="" file="delay_plot.png" caption="" %}
+{% include image.html class="large-width" file="delay_plot.png" caption="" %}
 
 Un segundo más tarde, cuando desaparece la tensión de **V1**, el condensador se descarga de golpe a través de la unión Base-Emisor. Esto podría dañar el transistor si no se protege con una resistencia en el emisor. Por lo que la conmutación es casi inmediata en este otro sentido. Una vez en corte, **C1** termina de descargarse a través de **R1**.
 
@@ -141,7 +141,7 @@ Volviendo al esquema anterior, cuando se cierra **LEAF** se alimenta el amplific
 
 Como puede ser un poco lioso ver todo esto en un esquema complejo y estéreo, este es el mismo esquema pero eliminando partes accesorias y dejando sólo uno de los canales:
 
-{% include image.html size="" file="sg331_ampli_simple.png" caption="" %}
+{% include image.html class="large-width" file="sg331_ampli_simple.png" caption="" %}
 
 A propósito ¿veis el interruptor **SW501**, que lo único que hace es cortocircuitar o no el condensador **C501**? Pues es nada menos que la función ***Bass Boost***. Cuando está apagado, la señal de audio está conectada a masa (atenuada) por la resistencia **R632** de 1k. Cuando activamos la función bass boost se intercala **C501** entre la resistencia y tierra, por lo que permanecen atenuadas la frecuencias altas -para las que el condensador no ofrece resistencia- mientras que las bajas se libran de la atenuación y se oyen más fuertes. No es un "*realce de bajos*" sino más bien una "*atenuación de todo menos los bajos*". Más sencillo no puede ser, pero consigue el efecto deseado.
 

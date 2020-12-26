@@ -51,7 +51,7 @@ Así, mandando pulsos breves al LED en cada transición no agotamos la fuente y 
 
 Este es un diagrama de flujo muy simplificado de las tareas en segundo plano.
 
-{% include image.html size="big" file="interrupciones.png" caption="" %}
+{% include image.html class="large-width" file="interrupciones.png" caption="" %}
 
 Hay tres eventos que queremos capturar:
 
@@ -63,7 +63,7 @@ Hay tres eventos que queremos capturar:
 
 Aquí tenemos un gráfico simplificado de llamadas:
 
-{% include image.html size="big" file="call_graph.png" caption="" %}
+{% include image.html class="large-width" file="call_graph.png" caption="" %}
 
 Hay una función que es **main**. Main tiene un bucle que se encarga de ver cuando hay un comando NEC listo y actúa llamando a la función comando que corresponda. La potencia va de 0% a 100%.
 

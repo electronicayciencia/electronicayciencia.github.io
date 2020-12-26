@@ -11,7 +11,7 @@ La primera entrada de este blog ([Conversor USB - RS232]({{site.baseurl}}{% post
 
 Recordemos que nos basamos en un adaptador comercial barato (2.86 USD) y de poca calidad: [http://www.dealextreme.com/details.dx/sku.24799](http://www.dealextreme.com/details.dx/sku.24799). En esta segunda versión voy a aportaros alguna foto con más calidad, para facilitaros el montaje. También quiero explicaros **por qué se hacen los puentes** que se hacen. Y por último voy a añadir un cuarto **cable de alimentación positiva** para alimentar el dispositivo directamente desde el puerto USB.
 
-{% include image.html size="big" file="BENQ0005.JPG" caption="" %}
+{% include image.html class="large-width" file="BENQ0005.JPG" caption="" %}
 
 Aquí tenemos cuatro cables:
 
@@ -32,9 +32,9 @@ Decía antes que es de mala calidad, pero son detalles que bien nos benefician o
 
 Se trata nada más de que eliminar las clavijas USB y RS232 y conectar sendos cables. Conectar la resistencia de la que hablábamos antes y hacer unos cuantos puentes para el handshake y el conrol de flujo. De qué lineas puentear hablaremos en el apartado siguiente.
 
-{% include image.html size="big" file="puente-1-6-4.png" caption="" %}
+{% include image.html class="large-width" file="puente-1-6-4.png" caption="" %}
 
-{% include image.html size="big" file="puente-7-8.png" caption="" %}
+{% include image.html class="large-width" file="puente-7-8.png" caption="" %}
 
 ## Handshake y control de flujo
 

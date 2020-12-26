@@ -30,7 +30,7 @@ que es como decir que *la salida es igual a la entrada multiplicada k veces*. O 
 
 ¿Qué tipo de funciones tienen este resultado? Pues las rectas:
 
-{% include image.html size="big" file="linea_recta.png" caption="" %}
+{% include image.html class="large-width" file="linea_recta.png" caption="" %}
 
 Arriba una recta de pendiente -ganancia- 2. A una amplitud de 1 le corresponde 2; a 2, 4 y a 3, 6.
 
@@ -47,7 +47,7 @@ $$
 
 donde *f* es una función que no es una línea recta. Por ejemplo:
 
-{% include image.html size="big" file="linea_curva.png" caption="" %}
+{% include image.html class="large-width" file="linea_curva.png" caption="" %}
 
 En comparación con la anterior, a 1 le corresponde *casi*  2, pero a 2 ya no le corresponde 4 y del 3 mejor no hablar.
 
@@ -65,7 +65,7 @@ $$
 
 Esta forma de aproximar una función por una serie de potencias de x, se llama **Serie de Taylor**. Por ejemplo mirad esta imagen tomada de la Wikipedia en la que aproximan una exponencial:
 
-{% include image.html size="small" file="taylor_wikipedia.gif" caption="" %}
+{% include image.html class="small-width" file="taylor_wikipedia.gif" caption="" %}
 
 Si todos los coeficientes k valieran 0 salvo k<sub>1</sub> saldría una función lineal como la recta del principio. k<sub>1</sub>x se llama *término lineal*.
 
@@ -81,7 +81,7 @@ Cuando multiplicamos un seno (una señal sinusoidal) por una constante, sigue si
 
 Si en vez de multiplicar, lo elevamos a una potencia ya no ocurre lo mismo. Vedlo gráficamente:
 
-{% include image.html size="big" file="senxysenx2.png" caption="" %}
+{% include image.html class="large-width" file="senxysenx2.png" caption="" %}
 
 Tenemos de nuevo un seno, pero hay algunas diferencias obvias:
 
@@ -92,7 +92,7 @@ Tenemos de nuevo un seno, pero hay algunas diferencias obvias:
 
 En el espectro de frecuencias lo vemos así. Por ejemplo tenemos una señal de 300 Hz y la elevamos al cuadrado, este es el resultado donde se ve que surge una frecuencia doble y una componente continua:
 
-{% include image.html size="big" file="300al2.png" caption="" %}
+{% include image.html class="large-width" file="300al2.png" caption="" %}
 
 Para explicarlo de manera sencilla recurrimos a la siguiente [identidad trigonométrica](http://es.wikipedia.org/wiki/Identidades_trigonom%C3%A9tricas#Paso_de_producto_a_suma):
 
@@ -116,15 +116,15 @@ ahí tenemos nuestro desplazamiento (el 1/2 inicial), nuestro cambio de fase (el
 
 Para el **cubo** se podría repetir lo anterior y reaparece la frecuencia original y también el **triple**.
 
-{% include image.html size="big" file="300al3.png" caption="" %}
+{% include image.html class="large-width" file="300al3.png" caption="" %}
 
 En la **cuarta** aparecen el doble (como en el cuadrado) y también el cuádruple:
 
-{% include image.html size="big" file="300al4.png" caption="" %}
+{% include image.html class="large-width" file="300al4.png" caption="" %}
 
 En la **quinta potencia** sale la **original** y los múltiplos **triple** y **quíntuple**.
 
-{% include image.html size="big" file="300al5.png" caption="" %}
+{% include image.html class="large-width" file="300al5.png" caption="" %}
 
 En general en las potencias pares aparecen los múltiplos pares de la frecuencia de entrada -f- (0, 2f, 4f, 8f ...) y en las impares los múltiplos impares (f, 3f, 5f, 7f ...). Esos múltiplos de la frecuencia original, como habréis podido intuir ya, son los **armónicos**.
 
@@ -134,7 +134,7 @@ Por eso decimos que cuando la amplificación no es lineal aparecen **armónicos*
 
 Vamos a ver, en la práctica, de dónde sale la distorsión. Tened en cuenta que los resultados y gráficos del Spice están basados en un modelo, que puede estar más o menos simplificado. Este es nuestro circuito:
 
-{% include image.html size="small" file="sch_bc547_600_720mv_1k.png" caption="" %}
+{% include image.html class="small-width" file="sch_bc547_600_720mv_1k.png" caption="" %}
 
 El transistor BC547 es un NPN muy utilizado. Lo polarizamos en **emisor común** de la forma más sencilla posible:
 
@@ -144,7 +144,7 @@ El transistor BC547 es un NPN muy utilizado. Lo polarizamos en **emisor común**
 
 Cuando variemos Vin, hará variar la **tensión de salida**:
 
-{% include image.html size="big" file="tension_bc547.png" caption="" %}
+{% include image.html class="large-width" file="tension_bc547.png" caption="" %}
 
 Pasamos por las tres zonas características de un transistor bipolar:
 
@@ -154,7 +154,7 @@ Pasamos por las tres zonas características de un transistor bipolar:
 
 Nos interesa saber cómo varía la **ganancia** durante todo el recorrido anterior. Para eso representamos el cociente entre la tensión de salida y la de entrada.
 
-{% include image.html size="big" file="ganancia_bc547.png" caption="" %}
+{% include image.html class="large-width" file="ganancia_bc547.png" caption="" %}
 
 Decíamos que para que un amplificador no tuviera distorsión la ganancia tendría que ser la misma para todos los valores de entrada. Es evidente que no igual en todo el recorrido. Varía y mucho, luego nuestro amplificador va a distorsionar.
 
@@ -164,7 +164,7 @@ La ganancia también puede variar con la temperatura o con el punto de trabajo..
 
 Aplicamos a la entrada una señal sinusoidal de 1000 Hz, centrada en 660 mV con una amplitud de 60 mV (es decir que irá desde los 600 mV a 720 mV). Según el gráfico anterior la tensión de salida es:
 
-{% include image.html size="big" file="tension_bc547_t.png" caption="" %}
+{% include image.html class="large-width" file="tension_bc547_t.png" caption="" %}
 
 Al menor valor de entrada, 600 mV -línea verde-, le corresponde una tensión de salida de casi 10 V. Es una amplificación de aproximadamente x16 (mirad la gráfica de la ganancia). Al mayor valor de entrada, 720 mV -línea roja- le corresponden 7 V. Una amplificación de algo menos de x10.
 
@@ -172,7 +172,7 @@ Ahora viene lo bueno, si el máximo son 10 V y el mínimo 7 V, el valor medio es
 
 Pero **NO** en este. Al valor medio de la entrada le corresponden 9.5V -línea gris-. Está desplazado porque las amplitudes no se amplifican por igual. Por ese motivo aunque la entrada puede ser una sinusoidal (en rojo), la salida (en verde) podrá ser cualquier cosa:
 
-{% include image.html size="medium" file="out_bc547_600_720mv_1k.png" caption="" %}
+{% include image.html class="medium-width" file="out_bc547_600_720mv_1k.png" caption="" %}
 
 Electrónicamente ya hemos visto por qué se ha deformado la onda. Pero matemáticamente se podría explicar de esta forma:
 
@@ -184,7 +184,7 @@ Electrónicamente ya hemos visto por qué se ha deformado la onda. Pero matemát
 
 Y por supuesto tales frecuencias indeseadas se ven claramente en el espectro:
 
-{% include image.html size="big" file="thd_bc547_600_720mv_1k.png" caption="" %}
+{% include image.html class="large-width" file="thd_bc547_600_720mv_1k.png" caption="" %}
 
 ## Medida de la distorsión: la THD
 
@@ -221,7 +221,7 @@ Además, tiene una fuerte componente continua, de casi 9V que deberíamos filtra
 
 Tomemos ahora un amplificador **bien diseñado** como este preamplificador que viene de ejemplo en el LTSpice (se llama HandFreePreamp por si queréis buscarlo).
 
-{% include image.html size="medium" file="thc_.05_sch.png" caption="" %}
+{% include image.html class="medium-width" file="thc_.05_sch.png" caption="" %}
 
 Este esquema me gusta porque da muchas otras especificaciones técnicas que caracterizan un amplificador:
 
@@ -234,7 +234,7 @@ Este esquema me gusta porque da muchas otras especificaciones técnicas que cara
 
 Si hacemos la misma gráfica que con el otro parece que no hay más frecuencias que la de entrada:
 
-{% include image.html size="big" file="thc_.05_lin.png" caption="" %}
+{% include image.html class="large-width" file="thc_.05_lin.png" caption="" %}
 
 Veamos qué sale en el análisis de Fourier:
 
@@ -261,13 +261,13 @@ La THD es mucho mejor, un 0.05%. Evidentemente el 35% del otro circuito es una b
 
 Como cabe esperar, en un amplificador bien diseñado la salida está centrada en cero, y los armónicos no son tan pronunciados como en el otro. En un gráfico con escala lineal como el de arriba no se aprecian pero sí en uno logarítmico. Mirad como el siguiente armónico, que es el tercero, está 25dB por debajo de la fundamental. Su amplitud es unas 20 veces menor.
 
-{% include image.html size="big" file="thc_.05_dB.png" caption="" %}
+{% include image.html class="large-width" file="thc_.05_dB.png" caption="" %}
 
 ¿Así que cuanto menos THD mejor es el amplificador? La teoría nos dice que sí, pero...
 
 En la siguiente imagen veis la evolución de la THD a lo largo del tiempo. Esta imagen está tomada de [http://www.nutshellhifi.com/library/tinyamps.html](http://www.nutshellhifi.com/library/tinyamps.html), lectura muy recomendable para todos los interesado en la Alta Fidelidad.
 
-{% include image.html size="big" file="evol_thd_nutshellhifi.gif" caption="" %}
+{% include image.html class="large-width" file="evol_thd_nutshellhifi.gif" caption="" %}
 
 Quitando los amplificadores baratos, la THD últimamente es tan baja que que ha perdido el significado. El oído no aprecia diferencia entre 0.01% y 0.001%. A veces incluso buscamos amplificadores con una THD un poco mayor. Porque una presencia ligera de armónicos y de otras frecuencias da la sensación de un sonido más rico o **más cálido**.
 
@@ -277,7 +277,7 @@ La música nunca es una sinusoide pura. ¿Qué pasa con la distorsión en este c
 
 Bueno, pues al igual que una función suave podía aproximarse por una serie de potencias, una función periódica (como una onda de la forma que sea) puede aproximarse como suma de varios senos (o cosenos). Es lo que se llama Serie de Fourier (ver [La Transformada de Fourier no es magia]({{site.baseurl}}{% post_url 2011-08-11-la-transformada-de-fourier-no-es-magia %})). Y se ve muy bien en esta imagen (tomada de [la Wikipedia](http://es.wikipedia.org/wiki/Serie_de_Fourier)).
 
-{% include image.html size="big" file="fourier_triangular_wikipedia.gif" caption="" %}
+{% include image.html class="large-width" file="fourier_triangular_wikipedia.gif" caption="" %}
 
 Tenemos una señal de entrada compuesta por dos frecuencias. Un tono **a** de 300 Hz y otro tono **b** de 500 Hz.
 
@@ -301,7 +301,7 @@ $$
 
 Cada frecuencia se amplifica por su parte, y no hay mayor problema. La forma de la salida es la misma que a la entrada sólo que más grande o más pequeña según k sea mayor o menor que 1. Lo mismo que antes.
 
-{% include image.html size="big" file="300y500.png" caption="" %}
+{% include image.html class="large-width" file="300y500.png" caption="" %}
 
 Pero ¿y si la amplificación no es del todo lineal y tiene un pequeño **término cuadrático**?
 
@@ -359,7 +359,7 @@ $$
 
 En total:
 
-{% include image.html size="" file="eq1.gif" caption="" %}
+{% include image.html class="original-width" file="eq1.gif" caption="" %}
 
 Los términos de arriba son las mismas frecuencias originales amplificadas. Pero los términos de abajo son armónicos, y frecuencias sumas y restas, estos son los llamados [**productos de intermodulación de segundo orden**](http://en.wikipedia.org/wiki/Intermodulation). Es decir, que entran 300 Hz y 500 Hz pero salen:
 
@@ -376,7 +376,7 @@ a+b =  800 Hz
 
 Visto en el espectro:
 
-{% include image.html size="big" file="300y500_2_t.png" caption="" %}
+{% include image.html class="large-width" file="300y500_2_t.png" caption="" %}
 
 ¿Y si hubiera **términos al cubo** que no se pudieran despreciar?
 
@@ -388,17 +388,17 @@ $$
 
 Ya vimos cómo frecuencia al cubo resulta en ella misma más el tercer armónico:
 
-{% include image.html size="" file="eq2.gif" caption="" %}
+{% include image.html class="original-width" file="eq2.gif" caption="" %}
 
 Aplicamos lo mismo para hacer las multiplicaciones intermedias:
 
-{% include image.html size="" file="eq3.gif" caption="" %}
+{% include image.html class="original-width" file="eq3.gif" caption="" %}
 
-{% include image.html size="" file="eq4.gif" caption="" %}
+{% include image.html class="original-width" file="eq4.gif" caption="" %}
 
 Luego la señal de salida estará compuesta por todas estas frecuencias:
 
-{% include image.html size="" file="eq5.gif" caption="" %}
+{% include image.html class="original-width" file="eq5.gif" caption="" %}
 
 Con las frecuencias del ejemplo son:
 
@@ -422,7 +422,7 @@ a-2b =  700Hz
 
 Vistas en el espectro, marcados los productos de intermodulación:
 
-{% include image.html size="big" file="300y500_2y3_t.png" caption="" %}
+{% include image.html class="large-width" file="300y500_2y3_t.png" caption="" %}
 
 Evidentemente cuanto más peso tengan los términos de orden superior más potencia tendrán estos productos de intermodulación.
 

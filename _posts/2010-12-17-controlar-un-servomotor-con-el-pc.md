@@ -29,7 +29,7 @@ En [esta página](http://es.wikipedia.org/wiki/Servomotor_de_modelismo) de la Wi
 
 Como ya os he dicho nunca había manejado un servo y no tenía muy claro cómo son los pulsos que hay que enviar. Según la Wikipedia es así:
 
-{% include image.html size="medium" file="pulsos_wikipedia.png" caption="" %}
+{% include image.html class="medium-width" file="pulsos_wikipedia.png" caption="" %}
 
 Pero los valores de 1ms y 2ms son orientativos y dependen del modelo de servo. Y como yo no he podido encontrar el datasheet del MG995 pues me he preparado un PIC para probar con varios.
 
@@ -220,7 +220,7 @@ Por si teneis curiosidad, el fichero *prueba1.h* es así
 
 Vamos a usar la tarjeta de sonido que nos curramos en otra entrada ([Medir valores lógicos con una tarjeta de sonido]({{site.baseurl}}{% post_url 2010-10-20-medir-valores-logicos-con-tarjeta-de %})) para ver cómo son los pulsos que genera el programa y cómo cambian cuando tecleamos los comandos.
 
-{% include image.html size="big" file="servo_pulsos.png" caption="" %}
+{% include image.html class="large-width" file="servo_pulsos.png" caption="" %}
 
 La imagen es una captura de pantalla del Audacity. En la primera pista vemos pulsos de 500us con un periodo de 30ms. En la segunda el periodo es el mismo pero los pulsos son de 2.5ms (los hemos cambiado enviando el comando *o2500*) y en la tercera mantenemos la duración del pulso pero el periodo cambia a 20ms (comando *p20000*).
 

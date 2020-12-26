@@ -78,21 +78,23 @@ da error. En jekyll 4.0.0, post_url ya tiene incorporado relative_url.
 
 ### Imágenes
 
-{% include image.html size="small" file="a-cat.png" caption="Un gato pequeño. Foto de Google." %}
-{% include image.html size="medium" file="a-cat.png" caption="Un gato mediano. Foto de Google." %}
-{% include image.html size="big" file="a-cat.png" caption="Un gato grande. Foto de Google." %}
-{% include image.html file="a-cat.png" caption="Un gato al 100%. Foto de Google." %}
+{% include image.html class="small-width" file="a-cat.png" caption="Un gato pequeño. Foto de Google." %}
+{% include image.html class="medium-width" file="a-cat.png" caption="Un gato mediano. Foto de Google." %}
+{% include image.html class="large-width" file="a-cat.png" caption="Un gato grande. Foto de Google." %}
+{% include image.html class="x-large-width" file="a-cat.png" caption="Un gato extra grande. Foto de Google." %}
+{% include image.html file="a-cat.png" caption="Un gato a tamaño natural, máximo 100% del ancho de la pantalla. Foto de Google." %}
 
 Las imágenes no se amplian, o bien se reducen o se muestran a tamaño natural.
 
-{% include image.html size="small" file="mouse_400x400.jpg" caption="Un raton pequeño. Foto de Google." %}
-{% include image.html size="medium" file="mouse_400x400.jpg" caption="Un raton mediano. Foto de Google." %}
-{% include image.html size="big" file="mouse_400x400.jpg" caption="Un raton grande. Foto de Google." %}
+{% include image.html class="small-width" file="mouse_400x400.jpg" caption="Un raton pequeño. Foto de Google." %}
+{% include image.html class="medium-width" file="mouse_400x400.jpg" caption="Un raton mediano. Foto de Google." %}
+{% include image.html class="large-width" file="mouse_400x400.jpg" caption="Un raton grande. Foto de Google." %}
+{% include image.html class="x-large-width" file="mouse_400x400.jpg" caption="Un raton extra grande. Foto de Google." %}
 {% include image.html file="mouse_400x400.jpg" caption="Un raton al 100%. Foto de Google." %}
 
 En las etiquetas de las imágenes se puede usar markdown pero no se pueden usar variables, por tanto si hay que enlazar a un asset se debe poner la ruta entera.
 
-{% include image.html size="medium" file="a-cat.png" caption="Un gato. [Asset del post](/assets/drafts/cheatsheet/file1.txt)" %}
+{% include image.html class="medium" file="a-cat.png" caption="Un gato. [Asset del post](/assets/drafts/cheatsheet/file1.txt)" %}
 
 ### Videos
 

@@ -17,7 +17,7 @@ El siguiente método que pensé es moviendo el micrófono a velocidad constante 
 
 Lo mejor sería con un encoder óptico, que es muy sensible y no hace ruido ninguno. El problema es que son componentes muy pequeños y ópticos, por lo que la alineación es muy importante y por eso son difíciles de construir. Fue entonces cuando caí en la cuenta de que podía conseguir muy fácilmente un dispositivo con dos encoders perfectamente funcionales ya montados, con un driver estándar para PC y con una botonera de tres botones como extra.
 
-{% include image.html size="medium" file="raton_y_conector.jpg" caption="Ratón de Paco, gracias Paco" %}
+{% include image.html class="medium-width" file="raton_y_conector.jpg" caption="Ratón de Paco, gracias Paco" %}
 
 <!--more-->
 
@@ -29,11 +29,11 @@ Antes de meterme en faena os voy a contar cómo funcionan los ratones mecánicos
 
 El encoder -y yo uso la palabra encoder aunque en español debería decirse "codificador óptico"- consta de un led y un fotodiodo, como podéis ver en esta imagen. El led es el componente de color claro, casi translúcido, y el fotodiodo es negro.
 
-{% include image.html size="small" file="ratonbola_2.png" caption="" %}
+{% include image.html class="small-width" file="ratonbola_2.png" caption="" %}
 
 Entre los dos hay una rueda que tiene ranuras muy finas, las cuales van interrumpiendo la luz que llega al receptor. A más velocidad, más veces por segundo se interrumpe el rayo luminoso.
 
-{% include image.html size="medium" file="ratonbola_1.png" caption="" %}
+{% include image.html class="medium-width" file="ratonbola_1.png" caption="" %}
 
 El truco está en que el **fotodiodo es doble**. Lleva un fotodiodo arriba y otro igual debajo. Así puede no deducir la velocidad a partir de la frecuencia con que se interrumpe la luz, sino también la dirección del movimiento: si primero se corta la luz en el fotodiodo inferior y luego en el superior, ese lado de la rueda está subiendo. Si primero se corta arriba y luego abajo, entonces está bajando ese lado de la rueda.
 
@@ -43,7 +43,7 @@ El circuito integrado que incorpora transforma los impulsos de luz en pulsos dig
 
 Mi intención es abrir el ratón, quitar la bola y hacer pasar un hilo por uno de los rodillos, por ejemplo el del eje vertical. Tal que así:
 
-{% include image.html size="medium" file="detalle_hilo.jpg" caption="Detalle del hilo que usaremos para medir" %}
+{% include image.html class="medium-width" file="detalle_hilo.jpg" caption="Detalle del hilo que usaremos para medir" %}
 
 Con el ratón sujeto o atornillado a la tabla, en un extremo del hilo anudaremos la punta de un destornillador pequeño y del otro colgaremos un contrapeso ligero. Al mover el destornillador una distancia determinada, arrastrará el rodillo y registraremos la posición con un programa.
 
@@ -313,11 +313,11 @@ Como habíamos descrito al principio, tenemos un hilo que pasa por el rodillo ve
 
 Lo que vamos a hacer es comenzar la grabación y, con ayuda de un metro fijo a la mesa, ir moviendo el destornillador cada centímetro y poniendo una marca en el log. Cuando hayamos recorrido ya varios centímetros terminaremos la grabación y procesaremos el log. Este es el resultado:
 
-{% include image.html size="big" file="regresion_1cm_01.png" caption="Medida a intervalos de 1cm (clic para ampliar)" %}
+{% include image.html class="large-width" file="regresion_1cm_01.png" caption="Medida a intervalos de 1cm (clic para ampliar)" %}
 
 Calculando la pendiente de la recta de regresión resulta que se avanzan 146 pulsos por cada centímetro recorrido. En una segunda prueba el resultado es 145, es normal que la medida varíe un poco. Para tener más precisión repetimos la misma prueba pero esta vez de 10 en 10cm.
 
-{% include image.html size="big" file="regresion_10cm_01.png" caption="Medida a intervalos de 10cm (clic para ampliar)" %}
+{% include image.html class="large-width" file="regresion_10cm_01.png" caption="Medida a intervalos de 10cm (clic para ampliar)" %}
 
 El resultado es 1451 pulsos cada 10cm. Concretamente el intervalo de confianza al 95% está entre 1446 y 1456. Nos quedaremos con la media que para nuestros fines es suficiente. Esto es **145.1 pulsos por cm.** O sea ¡un pulso cada 0.07mm!
 
@@ -331,11 +331,11 @@ Si embargo la clave aquí está en que sólo podemos fiarnos de la medida hasta 
 
 Ahora que sabemos que cada centímetro vienen a ser 145 pulsos vamos a graficar una de las pruebas de 10cm. El primer gráfico será de la posición respecto al tiempo.
 
-{% include image.html size="big" file="st_10cm_01.png" caption="Gráfico posición/tiempo (clic para ampliar)" %}
+{% include image.html class="large-width" file="st_10cm_01.png" caption="Gráfico posición/tiempo (clic para ampliar)" %}
 
 Se ve que al aproximarse a un múltiplo de 10cm hay una pausa, se pone la marca y se continúa hasta el siguiente punto. Se aprecia muchísimo mejor en un gráfico de velocidad/tiempo. Recordad que la velocidad instantánea se calcula como la derivada de la posición respecto al tiempo.
 
-{% include image.html size="big" file="vt_10cm_01.png" caption="Gráfico velocidad/tiempo (clic para ampliar)" %}
+{% include image.html class="large-width" file="vt_10cm_01.png" caption="Gráfico velocidad/tiempo (clic para ampliar)" %}
 
 Aquí se ve que al salir de un punto salimos con mucha velocidad, llegando a alcanzar una velocidad media de 2 - 2.5 cm/s. Y al aproximarnos al siguiente punto paramos haciendo pequeños ajustes, que son los picos que se ven en las pendientes descendientes. A medida que avanza la prueba tenemos más confianza y por eso las velocidades medias van siendo mayores.
 
@@ -345,11 +345,11 @@ Ya os he contado antes cómo se sabe si hay movimiento y hacia dónde. Si primer
 
 ¿Sabéis eso que pasa en el cine con las ruedas de los coches que a veces parece que van al revés? Los ingleses lo llaman *Wagon Wheel Effect* ([https://en.wikipedia.org/wiki/Wagon-wheel_effect](https://en.wikipedia.org/wiki/Wagon-wheel_effect)) y se debe a la velocidad de muestreo. Pues lo mismo va a pasar con nuestra rueda del ratón. Si aumentamos la velocidad llegará un momento en que el sensor óptico, por la velocidad de muestreo que usa, verá la ruda girar en sentido contrario, y de repente la distancia recorrida empezará a decrecer en lugar de ir aumentando. Algo así:
 
-{% include image.html size="big" file="s_cuando_vmax.png" caption="Gráfico posición/tiempo excediendo la velocidad máxima (clic para ampliar)" %}
+{% include image.html class="large-width" file="s_cuando_vmax.png" caption="Gráfico posición/tiempo excediendo la velocidad máxima (clic para ampliar)" %}
 
 La imagen anterior está hecha tirando del hilo cada vez más deprisa. Y sabido este hecho cabe preguntarse cuál es la velocidad máxima para tenerlo en cuenta. Si en lugar de la posición, graficamos la velocidad en función del tiempo, llegará un momento en que se invierte y de ser positiva pasa a ser negativa bruscamente. Ese punto nos indicará claramente cuál es la velocidad máxima. En este caso ronda los **50cm/s**.
 
-{% include image.html size="big" file="v_max.png" caption="Al exceder la velocidad máxima, esta cambia de signo (clic para ampliar)" %}
+{% include image.html class="large-width" file="v_max.png" caption="Al exceder la velocidad máxima, esta cambia de signo (clic para ampliar)" %}
 
 ## Atwood
 
@@ -361,7 +361,7 @@ $$
 
 Y eso es precisamente lo que obtenemos, los datos se ajustan a una parábola con muy poco error:
 
-{% include image.html size="big" file="atwood.png" caption="Ajuste de MUA a ecuación parabólica (clic para ampliar)" %}
+{% include image.html class="large-width" file="atwood.png" caption="Ajuste de MUA a ecuación parabólica (clic para ampliar)" %}
 
 Ahora bien, si calculamos el parámetro **a** en la ecuación, que sería la aceleración, no va a salir 9.8m/s² como cabría esperar. Y no va a salir eso porque primero, hay un rozamiento bastante grande; y segundo porque no es una caída libre sino que al otro extremo **hay un contrapeso**.
 
@@ -369,7 +369,7 @@ En 1784 un matemático inglés llamado George Atwood quería comprobar la segund
 
 El asunto es que los cronómetros por entonces no eran como ahora y claro, medir el tiempo que tarda algo en caer con una aceleración de casi 10m/s² era complicado. Así que tenía que encontrar la manera de reducirla. Lo que sí estaba más avanzado eran las balanzas. Y lo que hizo fue poner dos pesos atados con una polea:
 
-{% include image.html size="small" file="330px-Atwood.svg.png" caption="Esquema de la máquina de Atwood. Wikipedia." %}
+{% include image.html class="small-width" file="330px-Atwood.svg.png" caption="Esquema de la máquina de Atwood. Wikipedia." %}
 
 Como medir pesos era por entonces más fácil que medir tiempos, podía regular la aceleración y obtener resultados más exactos. La fórmula concreta para la aceleración en función de los pesos, si os interesa, se puede ver en la Wikipedia: [https://en.wikipedia.org/wiki/Atwood_machine](https://en.wikipedia.org/wiki/Atwood_machine)
 

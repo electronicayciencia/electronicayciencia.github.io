@@ -47,7 +47,7 @@ En [esta pagina web](http://www.sbprojects.com/knowledge/ir/rc5.htm) hay unas im
 
 Supongamos que recibimos un tren de impulsos como este:
 
-{% include image.html size="big" file="rc5.png" caption="" %}
+{% include image.html class="large-width" file="rc5.png" caption="" %}
 
 No es un código RC5, ya que sólo consta de 5 bits de datos, no 11 y además uno de parada, pero la modulación es similar. Con un micro ¿cómo transformamos eso a unos y ceros?
 

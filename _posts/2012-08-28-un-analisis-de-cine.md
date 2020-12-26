@@ -22,7 +22,7 @@ Evidentemente una de las funciones básicas de la página es votar una película
 
 Vamos a fijarnos en dos buenas películas: [El señor de los anillos 3: El retorno del rey](http://www.filmaffinity.com/es/film226427.html) y [En el nombre del padre](http://www.filmaffinity.com/es/film376985.html). Ambas son películas muy buenas un 8.11 y 8.16 respectivamente. Sin embargo sus distribuciones se diferencian mucho. Aunque las podéis ver en la página las pego aquí por comodidad:
 
-{% include image.html size="" file="esdla-eendp.png" caption="" %}
+{% include image.html class="large-width" file="esdla-eendp.png" caption="" %}
 
 *El retorno del rey* es una película mayoritaria, bien hecha y para todos los públicos. Es cierto que a algunos sectores como a los seguidores de Tolkien les resultará especialmente buena (o mala dependiendo de lo tolerantes que estén dispuestos a ser con la adaptación). Una historia fantástica donde el bueno es muy bueno y el malo muy malo, al final triunfa el bien sobre el mal y todos felices. Por lo general este tipo de historias gustan, de ahí tenemos muchos dieces, nueves y ochos. Hay también quien no tolera los fallos de guión, quien esperaba más o quien simplemente le aburren estas historias por lineales y repetitivas. Por eso tenemos las notas bajas, hay bastantes votos por debajo del 6.
 
@@ -36,7 +36,7 @@ No hay que perder de vista que muchos de los votos se originan a partir de recom
 
 Vamos a ver dos películas también populares pero con otra distribución muy distinta. [Dos tontos muy tontos (1994)](http://www.filmaffinity.com/es/film688273.html) y [Ace Ventura: Operación África (1995)](http://www.filmaffinity.com/es/film557766.html).
 
-{% include image.html size="" file="dtmt-avoa.png" caption="" %}
+{% include image.html class="large-width" file="dtmt-avoa.png" caption="" %}
 
 ¿Por qué pasa esto? Es lo que nos preguntábamos hace unas líneas. La mayoría de la gente vemos películas que pensamos que nos van a gustar. Si antes de verla creyéramos que le vamos a poner un 1, no perderíamos el tiempo y directamente veríamos otra cosa. Se me ocurren varios motivos:
 
@@ -51,7 +51,7 @@ Vamos a ver dos películas también populares pero con otra distribución muy di
 
 Fijaos en otra distribución de una serie menos conocida, que tiene menos votos y precisamente por eso son de sus adeptos:
 
-{% include image.html size="" file="mn-lhc.png" caption="" %}
+{% include image.html class="large-width" file="mn-lhc.png" caption="" %}
 
 Por supuesto esas colas de unos y doses son señal de que el humor absurdo de estas series no gusta a todo el mundo que la ve.
 
@@ -261,13 +261,13 @@ votos = [C{1} C{3} C{4}  C{5}  C{6}  C{7}  C{8}  C{9}  C{10}  C{11}  C{12}  C{13
 
 Dibujamos primeramente un histograma para ver cómo se distribuye el número de votos. 43000 películas son muchas, así que vamos a buscar un criterio que nos permita diferenciar entre películas conocidas de minoritarias para intentar reducir el número.
 
-{% include image.html size="" file="hist_votos.png" caption="" %}
+{% include image.html class="large-width" file="hist_votos.png" caption="" %}
 
 Haced click en cualquiera de las imágenes para ampliarlas. ¿Qué significa este gráfico? Pues que Filmaffinity alberga muchísimas películas que sólo conocen unas pocas personas. Es una distribución muy típica de **páginas especializadas** donde hay muchas cosas muy específicas que sólo se conocen en círculos concretos. La buena noticia es que podremos reducir mucho el número de datos sin temor a dejarnos fuera películas conocidas.
 
 Con una escala tan amplia, si queremos explorar las barras inferiores tenemos que tomar logaritmos en el eje Y.
 
-{% include image.html size="" file="hist_logvotos.png" caption="" %}
+{% include image.html class="large-width" file="hist_logvotos.png" caption="" %}
 
 Ahora se ve un poco mejor. Podríamos decir que el máximo está en 2, y a partir de ahí decrece. Pero no hay realmente un valle, ni un descenso brusco, sino una cola que decrece gradualmente a cero. Significa que Filmaffinity tiene un **público muy variado** en cuanto a su criterio. Que cada persona ha visto y votado películas diferentes. Si hubiera público especialista y público erudito veríamos dos máximos, no es el caso.
 
@@ -293,17 +293,17 @@ Como el vector de porcentajes tiene dos dimensiones hay que replicar el multipli
 
 La productoras sacan multitud de películas todos los años. La mayoría serán mediocres, algunas serán malas, otras serán mejores. Si graficamos un histograma con la distribución de las notas esperaríamos que se pareciera a una distribución normal. Pero no es del todo así:
 
-{% include image.html size="" file="notas_todas.png" caption="" %}
+{% include image.html class="large-width" file="notas_todas.png" caption="" %}
 
 La mayoría de la gente no ve todas las películas, ni siquiera una muestra aleatoria. Conocemos películas en función de los círculos que frecuentemos, y de entre todas las que conocemos elegimos ver aquellas que creemos nos van a gustar mas. Por eso la distribución está desplazada hacia notas mayores.
 
 Las notas más frecuentes son 5, 6 o 6.5. El porcentaje de 3, 4 o 5 no es nada desdeñable. Vamos a tomar ahora películas populares, por ejemplo las que tengan más de 20000 votos:
 
-{% include image.html size="" file="notas_20k.png" caption="" %}
+{% include image.html class="large-width" file="notas_20k.png" caption="" %}
 
 Las notas mayores son más frecuentes que las menores, y hay un corte muy pronunciado por debajo del 5. Es obvio que entre las 43000 películas muchas son malas a rabiar (digamos que son para un público muy específico). Y otra cosa que también es lógica, mientras mejor sea la película más probable es que se haga popular. Por eso a medida que nos vamos quedando con las películas que tienen más votos, la nota media es mayor:
 
-{% include image.html size="" file="notas_votos.png" caption="" %}
+{% include image.html class="large-width" file="notas_votos.png" caption="" %}
 
 Ya habíamos visto cómo hay muchísimas películas con pocos votos, y unas pocas con muchos votos. Por ejemplo, el mínimo es 10 votos, mientras que las 10 películas más votadas tienen diez mil veces más:
 
@@ -326,7 +326,7 @@ Al quedarnos sólo con las que tienen un mínimo de votos estamos descartando ta
 >> plot(nvotos, pv, nvotos, pp);
 ```
 
-{% include image.html size="" file="descartados.png" caption="" %}
+{% include image.html class="large-width" file="descartados.png" caption="" %}
 
 Si nos quedáramos sólo con las que tienen más de 2000 votos, estaríamos descartando el 87% de todas las películas, pero sólo habríamos perdido el 10% de los votos. Si os interesa, al final del artículo tenéis los archivos con funciones de Matlab para generar estos gráficos.
 
@@ -344,13 +344,13 @@ ans =
     6.7107   13.7383   21.3029   22.9011   16.7085    8.9657    4.2818    2.7920    1.5945    1.0046
 ```
 
-{% include image.html size="" file="tipica20k.png" caption="" %}
+{% include image.html class="large-width" file="tipica20k.png" caption="" %}
 
 La media es casi 7. Lo que quiere decir que cuando votamos lo más normal es que pongamos un 7 o un 8. Es menos habitual poner un 9 o 10, y los unos son casi una excepción. A continuación vamos a hablar justamente de **películas excepcionales**.
 
 Si invertimos la distribución típica tenemos una idea de lo relevante que es ver un 1 en estas votaciones.
 
-{% include image.html size="" file="tipica20k_inv.png" caption="" %}
+{% include image.html class="large-width" file="tipica20k_inv.png" caption="" %}
 
 Cuando alguien escribe sobre una tienda o un producto, es más frecuente hacerlo para quejarse que para decir que todo ha ido bien. Aquí pasa lo mismo, esperamos ver una película buena (alrededor de 7), por lo que la gente dice; y sin embargo alguien opina que merece una nota más baja.
 
@@ -417,7 +417,7 @@ Pero al igual que hay películas "sobrevaloradas", también las hay infravalorad
 
 Todo el análisis es un artificio matemático, y sin embargo no puedo estar más de acuerdo con esta lista. Si quieres recomendar una película estas son las que, al menos, no van a decepcionar. Me explico. En el caso de *Cadena perpetua* o *Uno de los nuestros*, que tienen 114.000 y 75.000 votos, en el momento de escribir este artículo no tienen -hasta donde podemos saber, dado que los datos sólo tienen un dígito decimal- **ni un sólo 1 o 2**. De 114000 personas que la han visto (que no son pocas, el máximo es 142000 votos de *Forrest Gump*) nadie ha votado 1 o 2, contando con que estas dos son películas largas, sin efectos especiales, sin finales espectaculares, todo guión y como la vida misma. Me pregunto quién pudo poner 1 a *Doce hombres sin piedad* pero es significativo que no tenga ni 2 y 3. Eso, para mi, tiene más mérito que tener muchos 7 u 8.
 
-{% include image.html size="" file="cad_perp.png" caption="" %}
+{% include image.html class="large-width" file="cad_perp.png" caption="" %}
 
 Por ahora ya está bien, lo terminamos aquí. Os dejo otras listas obtenidas al ordenar los datos con diferentes criterios. Y si queréis hacer vuestros experimentos o ver cómo está hecho el Excel os recuerdo que al final tenéis un enlace a los programas y archivos escritos durante la elaboración de este artículo.
 

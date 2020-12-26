@@ -13,7 +13,7 @@ Siendo de los protocolos más utilizados, para algunos aficionados el bus I2C co
 
 Como la mejor forma de ver cómo funciona algo es practicándolo, he escrito unas funciones para emular un puerto I2C por software para Raspberry Pi utilizando por debajo las funciones de WiringPi. Los ficheros están [en el github del blog](https://electronicayciencia.github.io/wPi_soft_i2c/) y poco a poco los iremos desgranando a lo largo de esta entrada.
 
-{% include image.html size="small" file="I2c_logo.svg.png" caption=" Logo de I2C: Philips, ahora NXP semiconductor" %}
+{% include image.html class="small-width" file="I2c_logo.svg.png" caption=" Logo de I2C: Philips, ahora NXP semiconductor" %}
 
 <!--more-->
 
@@ -41,7 +41,7 @@ El bus I2C, como decíamos, tiene dos líneas. Una llamada SCL y la otra SDA, pa
 
 Cuando el máster (o uno de los máster, ya lo veremos) inicia una conversación, lleva y mantiene las líneas en nivel bajo. Primero la línea de datos y luego la de reloj. Es lo que se llama condición de inicio, o simplemente **start**.
 
-{% include image.html size="big" file="start_stop.png" caption="Señales de start y de stop. NXP Semiconductor." %}
+{% include image.html class="large-width" file="start_stop.png" caption="Señales de start y de stop. NXP Semiconductor." %}
 
 A partir de este momento, *la linea de datos no puede cambiar de estado mientras el reloj esté en nivel alto*.
 
@@ -49,7 +49,7 @@ Para transmitir un valor lógico debemos recordar dos cosas, una es que *el cont
 
 Para transmitir un 1 o un 0 hacia el esclavo, el maestro libera la línea SDA o la mantiene a 0 y acto seguido sube y vuelve a bajar el reloj. Durante este pulso el esclavo ha leído el dato.
 
-{% include image.html size="big" file="data_valid.png" caption="La línea de datos solo puede cambiar con el reloj a novel bajo. NXP." %}
+{% include image.html class="large-width" file="data_valid.png" caption="La línea de datos solo puede cambiar con el reloj a novel bajo. NXP." %}
 
 Para recibir un dato transmitido desde el esclavo, el maestro libera primero SCL. Luego libera SDA y la lee. Después vuelve a bajar SCL y SDA.
 
@@ -96,7 +96,7 @@ Ahora definimos unas constantes sencillas que harán más legible el código cua
 
 Más abajo veremos que cuando el maestro o el esclavo reciben un byte, contestan con un bit de **acknowledge**. Cuando la confirmación es positiva el bit que envían es un 0 (tiran de la linea). Y si no envían un 0, es porque no han recibido correctamente. En tal caso la linea se va solita a nivel alto. Por esa razón la recepción satisfactoria se indica con un 0.
 
-{% include image.html size="big" file="ack.png" caption="Bit de ack tras la recepción de un byte. NXP Semiconductor." %}
+{% include image.html class="large-width" file="ack.png" caption="Bit de ack tras la recepción de un byte. NXP Semiconductor." %}
 
 En la línea 11 definimos la frecuencia de trabajo, 100kHz. Este valor, más que guiar el reloj, influirá en los tiempos de retardo cuando cambiemos de estado una linea.
 
@@ -408,7 +408,7 @@ Ahora vamos al datasheet del integrado -[disponible aquí]({{page.assets | relat
 
 Para usarlo en modo ADC debemos empezar enviando el byte de control. Con este byte indicaremos cómo disponer las entradas y el canal que nos interesa leer.
 
-{% include image.html size="medium" file="pcf8591_control.png" caption="Byte de control en el PCF8591. [NXP](/assets/2017/02/el-bus-i2c-bajo-nivel/PCF8591.pdf)." %}
+{% include image.html class="medium-width" file="pcf8591_control.png" caption="Byte de control en el PCF8591. [NXP](/assets/2017/02/el-bus-i2c-bajo-nivel/PCF8591.pdf)." %}
 
 Según el dibujo anterior:
 

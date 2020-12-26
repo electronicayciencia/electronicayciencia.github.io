@@ -25,7 +25,7 @@ La señal que yo he empleado es el led del disco duro, es habitual que un PC lea
 
 ## Descripción del circuito
 
-{% include image.html size="" file="watchdog.png" caption="" %}
+{% include image.html class="original-width" file="watchdog.png" caption="" %}
 
 Empezaremos describiendo el circuito por la parte izquierda de IC2. Ambos 555 están montados como oscilador astable con un duty del 50% siguiendo el esquema en la figura 1.a de la [página 6 del datasheet](http://datasheets.maxim-ic.com/en/ds/ICM7555-ICM7556.pdf). Según la fórmula que acompaña a la figura, el periodo de esta parte izquiera puede variar entre 4.5 y 11 segundos aproximadamente según la posición de R10. Esta nos servirá como frecuencia de reloj que alimenta a IC1.
 

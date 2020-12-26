@@ -61,7 +61,7 @@ Con esto podríamos sumar y restar palabras tal como si fueran números, calcula
 
 Lo primero que vamos a analizar es una lista de palabras en español. Para eso he fusionado dos diccionarios. Uno es el de Open Office, y otro lo he encontrado buscando en Google, en [este enlace](http://tools.assembla.com/svn/homedevel/devel/ftrie/diccionario.txt). Como curiosidad mirad un histograma con la longitud de las palabras:
 
-{% include image.html size="big" file="lon_pal_es.png" caption="" %}
+{% include image.html class="large-width" file="lon_pal_es.png" caption="" %}
 
 Los números los podéis ver aquí: [datos originales](http://spreadsheets.google.com/pub?key=tuJhJL6EMffJAALar8b4tUw&amp;single=true&amp;gid=0&amp;output=html). Dicen que las palabras más usuales en español son de cinco letras. Eso es cierto si no contamos los tiempos verbales, plurales y demás derivaciones. A propósito, la palabra más larga (sin contar formas adverbiales terminadas en *mente*) tiene nada menos que 24 letras: **electroencefalografistas**.
 
@@ -69,23 +69,23 @@ El programa *dominio_espectral.pl* está preparado para obtener todas las palabr
 
 Este es el resultado de aplicarlo al diccionario **español** de OpenOffice:
 
-{% include image.html size="huge" file="es_ES.png" caption="" %}
+{% include image.html class="x-large-width" file="es_ES.png" caption="" %}
 
 Y este otro gráfico se obtiene cuando lo aplicamos al **inglés** estadounidense:
 
-{% include image.html size="huge" file="en_US.png" caption="" %}
+{% include image.html class="x-large-width" file="en_US.png" caption="" %}
 
 Si os fijáis, todo el rango de la 'W' que está muy presente en la lengua inglesa, no existe en el gráfico castellano. El segundo gráfico que genera el programa es detallado, sin embargo es muy grande para verlo de una pieza con claridad. Voy a comentar el espectro de la lista combinada de la que os hablé antes, os dejo [el enlace]({{page.assets | relative_url}}/esp_grande.png) y a continuación pego algunas partes interesantes:
 
-{% include image.html size="big" file="esp_a.png" caption="" %}
+{% include image.html class="large-width" file="esp_a.png" caption="" %}
 
 Ved por ejemplo la herencia árabe en nuestra lengua en las palabras que empiezan por *al*. En [esta web](http://www.libreopinion.com/members/jose_marmol/influencia_arabe.htm) hay una lista de palabras castellanas que son de origen árabe y como veis el intervalo 'AL' no tiene huecos en su interior.
 
-{% include image.html size="big" file="esp_p.png" caption="" %}
+{% include image.html class="large-width" file="esp_p.png" caption="" %}
 
 En esta zona vemos como detrás de una 'P' habitualmente viene una vocal. Salvo contados casos que son *PS*.
 
-{% include image.html size="medium" file="esp_co.png" caption="" %}
+{% include image.html class="small-width" file="esp_co.png" caption="" %}
 
 Y para terminar, estos son los intervalos que presentan un pico en el espectro. En la 'c' hay gran cantidad de palabras que empiezan por *con* o *com*. Y en la 'd' el pico se debe a *des*. ¿Por qué? Pues porque *con* y *des* son prefijos que combinan con multitud de palabras. Además si abrís el gráfico en grande veréis que no hay apenas palabras en las letras 'k', y al final del abecedario 'v,w, x, y,z'. Estas últimas letras no existía en el abecedario latino, del que procede el español, se incorporaron más tarde y por eso figuran las últimas.
 

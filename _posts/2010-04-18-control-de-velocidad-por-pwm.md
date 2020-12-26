@@ -20,7 +20,7 @@ Vamos a construir un sencillo circuito para controlar la tensión aplicada a una
 
 ## Descripción del circuito
 
-{% include image.html size="big" file="velomtr_sch.png" caption="" %}
+{% include image.html class="large-width" file="velomtr_sch.png" caption="" %}
 
 Lo primero que hacemos es llevar a masa lo que no vayamos a utilizar: las patillas 1, 2, 15 y 16 que corresponden a dos amplificadores pensados para sensar y corregir la tensión de salida. Y la patilla 13, que determina si las dos salidas que tiene actúan en *push-pull* o en paralelo. Como sólo vamos a usar una nos da igual, así que la conectamos a 0V y tenemos salidas en paralelo.
 
@@ -44,6 +44,6 @@ El circuito puede alimentarse entre 7 y 30V aunque los valores de R3 y R4 están
 
 Aquí tenéis una foto del circuito terminado.
 
-{% include image.html size="medium" file="BENQ0020.JPG" caption="" %}
+{% include image.html class="medium-width" file="BENQ0020.JPG" caption="" %}
 
 En [este enlace]({{page.assets | relative_url}}/velomotor.rar) os dejo los ficheros de Eagle, el datasheet, la nota de aplicación antes mencionada y las fotos.

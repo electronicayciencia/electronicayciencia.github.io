@@ -13,7 +13,7 @@ En el [artículo anterior]({{site.baseurl}}{% post_url 2019-12-15-leer-tarjetas-
 
 En este artículo vamos a **experimentar** con RFID de **baja frecuencia** (125kHz). Haremos nuestro propio lector/grabador usando un microcontrolador y algunos componentes discretos. Diseñaremos la electrónica, el firmware y el software para hablar con un chip regrabable.
 
-{% include image.html size="big" file="yellow_fob.jpg" caption="El llavero de la derecha no tiene número, puede hacerse pasar por los otros dos chips." %}
+{% include image.html class="large-width" file="yellow_fob.jpg" caption="El llavero de la derecha no tiene número, puede hacerse pasar por los otros dos chips." %}
 
 Una cosa más: este es un blog técnico. Si tu única intención es copiar tarjetas, un [clonador chino](https://www.ebay.com/sch/i.html?_nkw=RFID+125KHz+Copier) vale $7.45 y sólo tiene dos botones. No necesitas seguir leyendo, sabrás usarlo.
 
@@ -46,13 +46,13 @@ El fabricante nos presenta este chip enumerando sus características. Dice que t
 
 Sólo 9 de los 16 registros (del 5 al 13) sirven, de hecho, para grabar mensajes. El resto son para identificación, password y otras funciones.
 
-{% include image.html size="big" file="em4205_memory.png" caption="Registros del EM4305. Sólo del 4 al 8 son relevantes para este artículo." %}
+{% include image.html class="large-width" file="em4205_memory.png" caption="Registros del EM4305. Sólo del 4 al 8 son relevantes para este artículo." %}
 
 El **registro 4** es el de **configuración**. Ahí se pone si la modulación la queremos Manchester o Biphase. También la velocidad, indicada en periodos del campo magnético (125 kHz). El valor por defecto es RF/32, significa que cada bit dura 32 periodos (256µs). Dato importante más adelante.
 
 Como curiosidad, hay un bit de configuración llamado *pigeon mode*. Sirve para fijar unos parámetros concretos, bloquea ciertos bits y deja libres otros. Al parecer, un destino importante de estos chips es el control de tiempo en [carreras de palomas](https://es.wikipedia.org/wiki/Carrera_de_palomas#M%C3%A9todo_de_cronometraje_electr%C3%B3nico) mensajeras.
 
-{% include image.html size="medium" file="em4305-pigeon-foot-rings.jpg" caption="El EM4305 se usa en carreras de palomas mensajeras. Fuente Aliexpress." %}
+{% include image.html class="medium-width" file="em4305-pigeon-foot-rings.jpg" caption="El EM4305 se usa en carreras de palomas mensajeras. Fuente Aliexpress." %}
 
 El datasheet nos habla también de cinco comandos, entre ellos **read** y **write** para leer y escribir valores en los registros.
 
@@ -72,7 +72,7 @@ En estos proyectos de baja frecuencia la velocidad de transferencia también es 
 
 Buscamos un circuito que excite una bobina con una frecuencia de 125kHz, pueda interrumpa el campo cada cierto tiempo (µs), recoja las variaciones en la amplitud y las transforme en señales digitales. A mi se me ocurre el siguiente esquema: un microcontrolador, una etapa excitadora para la bobina y un detector de envolvente como demodulador AM.
 
-{% include image.html size="huge" file="main_schematic_texture.jpg" caption="Esquema principal. Click para ampliar." %}
+{% include image.html class="x-large-width" file="main_schematic_texture.jpg" caption="Esquema principal. Click para ampliar." %}
 
 No es tan bueno como uno comercial, el rango de lectura es menor y a veces falla. Pero cumplirá su objetivo: servir como *herramienta* para aprender cómo funciona uno de estos chips.
 
@@ -90,7 +90,7 @@ El valor de **C4** es crítico y depende de la velocidad de transmisión usada: 
 
 Por último, los pines **Rx** y **Tx** van al PC vía un conversor USB-Serie.
 
-{% include image.html size="huge" file="bread_board.jpg" caption="El circuito anterior construido sobre una protoboard." %}
+{% include image.html class="x-large-width" file="bread_board.jpg" caption="El circuito anterior construido sobre una protoboard." %}
 
 ## Protocolo físico
 
@@ -102,7 +102,7 @@ Enviar un **uno** es sencillo: dejar el campo encendido 32 periodos. Es decir, l
 
 Tras recibir el comando, el EM4305 responderá. Así enviamos el comando de leer el registro 0:
 
-{% include image.html size="huge" file="mod_field_noted.png" caption="Comunicación con el EM4305 vista en el osciloscopio. Click para ampliar." %}
+{% include image.html class="x-large-width" file="mod_field_noted.png" caption="Comunicación con el EM4305 vista en el osciloscopio. Click para ampliar." %}
 
 Abajo tenéis el campo de 125kHz tomado en la unión de **L** y **C2**. Arriba, la tensión presente en el comparador del PIC (patilla **6**). Venimos del modo *default read*. Enviamos el *First Field Stop (FFS)* y a continuación los bits del comando. Tras este sigue una pausa y finalmente la respuesta.
 
@@ -122,7 +122,7 @@ Nuestro beneficio está en vender impresoras, no en hacer software. Como no nos 
 
 Lo que he descrito es una [Winprinter](https://en.wikipedia.org/wiki/Graphics_Device_Interface#GDI_printers). A finales de los 90 era frecuente encontrarte [winmodems](https://www.tldp.org/HOWTO/Modem-HOWTO-2.html#ss2.6), que no eran sino [módems por software](https://es.wikipedia.org/wiki/M%C3%B3dem_por_software). Hoy ocurre menos, pero cierto hardware -barato y popular- nunca funcionará bien en Linux y esta es la razón. Generalmente es más fácil configurar el hardware de gama media/alta. No porque en Linux sean unos elitistas, sino porque el firmware hace lo que debe hacer y su driver es más sencillo. El firmware actúa como pantalla abstrayendo al driver de la electrónica. Cuando el driver está muy ligado al hardware, se vuelve demasiado **específico**. Con un problema añadido: el fabricante nunca hará público ese nivel de detalle. De hecho, en ocasiones se necesita ingeniería inversa para entender cómo funciona.
 
-{% include image.html size="huge" file="WinmodemAndRegularModem.jpg" caption="A la izquierda un Winmodem. El ahorro en componentes es a costa de un  
+{% include image.html class="x-large-width" file="WinmodemAndRegularModem.jpg" caption="A la izquierda un Winmodem. El ahorro en componentes es a costa de un  
 driver complejo y propietario. A la derecha un módem completo. Fuente: [Wikipedia](https://en.wikipedia.org/wiki/Softmodem)" %}
 
 Volviendo a nuestro proyecto, la idea es escribir un *firmware* lo más ligero posible y hacer por software todo lo demás.
@@ -159,7 +159,7 @@ En cuanto a leer del chip, me gusta **Biphase** porque es independiente de la po
 
 Con este dibujo se entenderá mejor:
 
-{% include image.html size="medium" file="Biphase.png" caption="Algoritmo de lectura Biphase en un microcontrolador." %}
+{% include image.html class="medium-width" file="Biphase.png" caption="Algoritmo de lectura Biphase en un microcontrolador." %}
 
 ¿Y si la codificación real que envía el chip es **Manchester** y no Biphase? Sin problema: nosotros lo leemos en biphase igualmente y ya traduciremos el mensaje por software. Es más fácil eso que implementar dos decodificadores diferentes en el firmware.
 
@@ -171,23 +171,23 @@ Para mandar un comando interrumpimos el *default read* con un First Field Stop, 
 
 El EM4305 maneja tres **estructuras** de datos. Una para los **comandos**. Tiene 4 bits, 3 bits del comando empezando por menos significativo y un bit de paridad par.
 
-{% include image.html size="big" file="struct_cmd.png" caption="Estructura para los comandos. Fuente: datasheet." %}
+{% include image.html class="large-width" file="struct_cmd.png" caption="Estructura para los comandos. Fuente: datasheet." %}
 
 Los bits cc0, cc1 y cc2 dependerán del comando en cuestión:
 
-{% include image.html size="big" file="cmd_bits.png" caption="Comandos del EM4305. Fuente: datasheet." %}
+{% include image.html class="large-width" file="cmd_bits.png" caption="Comandos del EM4305. Fuente: datasheet." %}
 
 Una segunda estructura, de 7 bits, para las **direcciones** de los registros. Se utiliza por ejemplo en los comandos *read* o *write*. Como tenemos 16 registros necesitamos al menos 4 bits, primero el menos significativo. Luego vienen dos bits reservados para uso futuro (que siempre son cero), y al final un bit más de paridad par como antes.
 
-{% include image.html size="huge" file="struct_addr.png" caption="Estructura para direcciones de memoria. Fuente: datasheet." %}
+{% include image.html class="x-large-width" file="struct_addr.png" caption="Estructura para direcciones de memoria. Fuente: datasheet." %}
 
 Y la tercera estructura, **datos**, es la más compleja. Son 45 bits y se usa para enviar el valor de un registro. Como el medio de comunicación no es muy fiable, han previsto un mecanismo de paridades parciales para asegurar la detección de errores. ¿Se podría haber hecho con un CRC? También. Los bits D0 a D31 son los bits de datos, los P son paridad por filas y los PC paridad por columnas. Ambas pares.
 
-{% include image.html size="huge" file="struct_register.png" caption="Estructura para datos. Fuente: datasheet." %}
+{% include image.html class="x-large-width" file="struct_register.png" caption="Estructura para datos. Fuente: datasheet." %}
 
 Con estas palabras ahora formamos frases. Para leer el registro 0 enviaríamos el FFS y un 0, luego la estructura para el comando *read* (1001), y después la estructura de dirección 0 (0000000). Ese es el comando que habíamos enviado cuando vimos esta imagen:
 
-{% include image.html size="huge" file="mod_field_noted.png" caption="Envío del comando READ(0) y recepción de la respuesta." %}
+{% include image.html class="x-large-width" file="mod_field_noted.png" caption="Envío del comando READ(0) y recepción de la respuesta." %}
 
 La **respuesta** empezará siempre con uno de estos dos valores, a los que llama ***preamble***. Si el preamble es 00001010 significa ejecución correcta. Si es 00000001 significa error. Ojo que el preamble lo ha podido mandar en Manchester o en Biphase, según cómo esté configurado.
 
@@ -195,7 +195,7 @@ En este caso nos ha dado **00001010**, ok. A continuación nos envía el valor d
 
 Para escribir en un registro, habríamos enviado la estructura del comando **write**, luego la estructura de dirección correspondiente, y después la estructura de datos con el valor que queramos tal como se describe en este esquema:
 
-{% include image.html size="huge" file="cmd_table.png" caption="Esquema de los comandos read y write. Fuente: datasheet." %}
+{% include image.html class="x-large-width" file="cmd_table.png" caption="Esquema de los comandos read y write. Fuente: datasheet." %}
 
 ## El software
 
@@ -388,14 +388,14 @@ Con la copia:
 
 Parecen idénticos. Pero... un momento, estamos haciendo todas las pruebas con un lector/grabador programado **por nosotros** mismos. ¿Hasta qué punto nos podemos fiar? No tengo un torno de verdad para probar, pero sí un lector comercial tipo RDM6300:
 
-{% include image.html size="big" file="rdm6300_reader.jpg" caption="Lector comercial RFID 125kHz. Fuente: Aliexpress." %}
+{% include image.html class="large-width" file="rdm6300_reader.jpg" caption="Lector comercial RFID 125kHz. Fuente: Aliexpress." %}
 
 Con ayuda de un sencillo programa (que os dejo en GitHub: [rdm6300.py]({{page.assets | relative_url}}/rdm6300.py)) comprobaremos si este lector también da la misma lectura para el original y la copia. Probaré a suplantar al *Sr. Jiminis* con mi llavero amarillo.
 
-{% include image.html size="huge" file="fake_acces_control.png" caption="Control de acceso simulado. Se identifica al Sr. Jiminis con ambos dispositivos." %}
+{% include image.html class="x-large-width" file="fake_acces_control.png" caption="Control de acceso simulado. Se identifica al Sr. Jiminis con ambos dispositivos." %}
 
 Suficiente. Confío que os haya resultado interesante esta revisión del mundo RFID de baja frecuencia, microcontroladores y software. Me despido no sin antes recomendar que, si aún estáis usando esta tecnología, **migréis** a otra más sofisticada.
 
 Os dejo el software, imágenes y otros archivos auxiliares en GitHub: [electronicayciencia/rfid-rw](https://github.com/electronicayciencia/rfid-rw).
 
-{% include image.html size="big" file="meme-rfid.png" caption="" %}
+{% include image.html class="large-width" file="meme-rfid.png" caption="" %}

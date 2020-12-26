@@ -43,17 +43,17 @@ Ahora hay que pensar un camino para trabajar con estos datos:
 
 En las columnas *Diferencia* está la cantidad de agua que contenía cada cucharada... y cada medida es distinta en cada vez. Aún empleando la misma cucharilla, no hay dos cucharadas que contengan exactamente la misma cantidad de líquido. Sabemos que en estos casos en que el error es aleatorio, los valores se distribuyen según la **distribución normal** o campana de Gauss. Con la muestra de la cucharilla 2 tendría esta forma.
 
-{% include image.html size="big" file="gausiana_2.png" caption="" %}
+{% include image.html class="large-width" file="gausiana_2.png" caption="" %}
 
 Simplificando, en el eje X está el valor y en el eje Y la probabilidad. Quiere decir esto que los valores más probables se sitúan hacia el centro de la gráfica, pero también pueden existir puntos en los laterales (colas). Pero no prestéis atención a la altura de los puntos, pues esta es aleatoria, lo que nos interesa es la concentración a lo largo del eje horizontal.
 
 Los valores típicos de la campana se miden en unidades de error, en *desviaciones típicas*. Así entre la media menos s y la media más s se espera que se sitúen el 68% de las medidas. Entre la media menos 2s y la media +2s se esperan que estén el 95%, etc. Ved [esta imagen de la Wikipedia]({{page.assets | relative_url}}/Standard_deviation_diagram_-decimal_comma-.svg).
 
-{% include image.html size="medium" file="gausiana_tipificada.png" caption="" %}
+{% include image.html class="medium-width" file="gausiana_tipificada.png" caption="" %}
 
 En nuestro caso las medidas se distribuyen de esta manera:
 
-{% include image.html size="big" file="gausiana_cuch2_tipif.png" caption="" %}
+{% include image.html class="large-width" file="gausiana_cuch2_tipif.png" caption="" %}
 
 ## El Teorema del Límite Central
 
@@ -93,7 +93,7 @@ Esta distribución se llama *t de Student*, o simplemente *t*. A medida de aumen
 
 La distribución de t nos dice cual es la probabilidad de que la media de la población origen sea X. Para nuestros datos, teniendo en cuenta la media, el número de medidas y la desviación típica, esta sería la gráfica:
 
-{% include image.html size="big" file="ci_media_cuch2.png" caption="" %}
+{% include image.html class="large-width" file="ci_media_cuch2.png" caption="" %}
 
 Como vemos, si la media de la muestra es 3.73 lo más probable es que la del total esté en torno a ese valor, simplemente porque no hay motivos para pensar que no sea así. No obstante también podría ser 3.70, o 3.75.
 

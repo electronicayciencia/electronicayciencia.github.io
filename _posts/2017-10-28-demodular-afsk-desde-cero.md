@@ -15,7 +15,7 @@ Hoy os quiero hablar sobre la modulación FSK. ¿Suena demasiado específico? Es
 
 Como te decía, vamos a tratar la modulación FSK, para mi gusto la mayoría de páginas son demasiado superficiales o demasiado matemáticas, o se quedan en la descripción o se pierden en detalles sin llegar a hilar el proceso completo.
 
-{% include image.html size="small" file="wargames-02.jpg" caption="Adaptador telefónico. Fotograma de Wargames (1983). [Fuente](https://pc-museum.com/046-imsai8080/wargames.htm)." %}
+{% include image.html class="small-width" file="wargames-02.jpg" caption="Adaptador telefónico. Fotograma de Wargames (1983). [Fuente](https://pc-museum.com/046-imsai8080/wargames.htm)." %}
 
 Esto no son apuntes de teleco, pero créeme: tampoco es una entrada ligera que puedes leer mientras te tomas el café. Es una demostración práctica de cómo se empezó a transmitir información digital. De principio a fin. Sin fórmulas, sin apenas hardware y sin más software que el que vamos a escribir.
 
@@ -45,13 +45,13 @@ Para modular en FSK se necesitan dos osciladores o bien un oscilador de frecuenc
 
 Imaginad por un momento que estamos explorando el espectro radioeléctrico. Buscamos una señal para ilustrar un artículo sobre modulaciones digitales, por ejemplo. Nos vamos a UHF, alrededor 447.700MHz nos llama la atención un grupo de señales bastante fuertes.
 
-{% include image.html size="medium" file="misteriosa_sdr2.png" caption="Grupo de señales misteriosas. EyC." %}
+{% include image.html class="medium-width" file="misteriosa_sdr2.png" caption="Grupo de señales misteriosas. EyC." %}
 
 Están emitiendo en FM estrecha (NFM), por diferenciarlo de FM ancha que serían las emisiones comerciales entre 88 y 108MHz. Emiten, como decía, un pitido monótono interrumpido de forma periódica por una trama modulada. Parece lo suficientemente simple como para servir de ejemplo. Y a la vez lo suficientemente raro como para despertar el interés que quien lo lea. ¿Qué puede ser ese grupo de señales?
 
 Grabamos un periodo de tiempo para después hacer un análisis de espectro. Así averiguaremos la frecuencia del pitido, y de paso miraremos también la forma de la trama modulada.
 
-{% include image.html size="big" file="misteriosa_freqs.png" caption="Frecuencias de la \"señal misteriosa\". EyC." %}
+{% include image.html class="large-width" file="misteriosa_freqs.png" caption="Frecuencias de la \"señal misteriosa\". EyC." %}
 
 El pitido es de **2280Hz**, mientras la trama se compone de dos frecuencias: **1300Hz** y **1700Hz**. Es decir, la portadora de 447.700MHz, se modula en FM, y transmite un sonido modulado mediante FSK. Cuando se usa una señal de audio modulada en FSK para modular a su vez una portadora de radio se denomina **AFSK (audio FSK**).
 
@@ -63,21 +63,21 @@ Intentemos demodularla. Habréis notado que la amplitud de la frecuencia de 1300
 
 Esta es nuestra señal analógica de partida. Con dos amplitudes representando dos estados diferentes:
 
-{% include image.html size="big" file="analogica.png" caption="Señal analógica original. Audio. EyC." %}
+{% include image.html class="large-width" file="analogica.png" caption="Señal analógica original. Audio. EyC." %}
 
 El proceso para demodular en amplitud es rectificar la señal y aplicar un filtro paso bajo para obtener la envolvente.
 
-{% include image.html size="big" file="demodulada.png" caption="Señal demodulada en AM (en naranja). EyC." %}
+{% include image.html class="large-width" file="demodulada.png" caption="Señal demodulada en AM (en naranja). EyC." %}
 
 Por lo general, en FSK la frecuencia más alta representa el espacio y la más baja la marca. Aquí, como la frecuencia más alta es la más atenuada, coincide con que los ceros (espacios) son de menor amplitud que los unos (marcas).
 
 Estamos suponiendo que la marca corresponde al 1 y el espacio al 0. Esta suposición se llama [*codificación unipolar sin retorno a 0 de tipo nivel*](https://es.wikipedia.org/wiki/C%C3%B3digos_NRZ#NRZ-L) (Unipolar non-return-to-zero level).
 
-{% include image.html size="big" file="discr_1_0.png" caption="Asignación de valores digitales en función de la amplitud. EyC." %}
+{% include image.html class="large-width" file="discr_1_0.png" caption="Asignación de valores digitales en función de la amplitud. EyC." %}
 
 La duración del 1 viene a ser 70 o 75 muestras. Dado que el muestro es a 44100Hz, redondeando viene a ser 600 unos o ceros por segundo. Se ajusta bastante bien al superponer una onda cuadrada. Ya tenemos un dato más: la velocidad de transmisión son 600 baudios. Ahora ponemos un comparador para fijar un umbral y ya tenemos nuestra señal **demodulada**:
 
-{% include image.html size="big" file="digital.png" caption="Representación de la onda digital extraída. EyC." %}
+{% include image.html class="large-width" file="digital.png" caption="Representación de la onda digital extraída. EyC." %}
 
 Como hemos supuesto que la codificación es por nivel, asignamos 0 al nivel bajo y 1 al nivel alto y tenemos nuestra señal **decodificada**:
 
@@ -99,7 +99,7 @@ Tenemos dos opciones para continuar: o buscamos en Internet con la información 
 
 El tren-tierra es un sistema de radioteléfono adoptado por Renfe en los 80. Sirve para comunicarse entre el puesto de mando y los maquinistas en circulación. Ha caído en desuso en favor de tecnologías más modernas, como GSM-R o el  teléfono móvil. Si os interesa, hay artículos muy buenos sobre él, como [Tren-Tierra, la radiotelefonía ferroviaria española](https://www.trenvista.net/descubre/mundo-ferroviario/tren-tierra-radiotelefonia-ferroviaria/) o [¿Cómo funcionan los trenes? - Comunicaciones ferroviarias](http://comofuncionanlostrenes.blogspot.com.es/2013/04/comunicaciones-ferroviarias.html) de donde es esta foto:
 
-{% include image.html size="big" file="Consola-TT-2.jpg" caption="Consola PMR de tren-tierra (centro). [Fuente](http://comofuncionanlostrenes.blogspot.com.es/2013/04/comunicaciones-ferroviarias.html)." %}
+{% include image.html class="large-width" file="Consola-TT-2.jpg" caption="Consola PMR de tren-tierra (centro). [Fuente](http://comofuncionanlostrenes.blogspot.com.es/2013/04/comunicaciones-ferroviarias.html)." %}
 
 Para tener ya cerca de 40 años es bastante sofisticado. Permite conversar en full-duplex con un tren en concreto sin que el resto escuchen la conversación, enviar determinadas órdenes o estados predefinidos, indica cuando se ha perdido la cobertura e incluso tiene la capacidad de enviar mensajes de texto.
 
@@ -132,7 +132,7 @@ Buscando en Internet no he podido encontrar la descripción técnica del tren-ti
 
 ¡Bingo! Coinciden frecuencias, velocidad de transmisión y hasta el tono de 2280Hz que indica *canal libre*. Ahora podemos interpretar el telegrama según la estructura descrita. Agrupamos los bits de 4 en 4 para hacerlo más legible.
 
-{% include image.html size="big" file="Tren-tierra-Msg.png" caption="Procedimiento para decodificar un telegrama tren-tierra. EyC." %}
+{% include image.html class="large-width" file="Tren-tierra-Msg.png" caption="Procedimiento para decodificar un telegrama tren-tierra. EyC." %}
 
 De acuerdo con lo anterior esta trama, emitida por el equipo fijo del Tren-Tierra, indicaría al maquinista del tren 20045 que el puesto de mando desea iniciar una comunicación telefónica.
 
@@ -156,7 +156,7 @@ Cuando Internet hizo popular esto cambió. Ahora puedes comprar por una miseria 
 
 Para construir el módem del que os hablaba fue preciso conseguir un chip TCM3105. Muy difícil de encontrar porque había dejado de fabricarse, según me dijeron. Tras unos meses de espera llegó a la tienda y me costó unos 20 euros (3000 pesetas). Como al final mi módem no funcionó, compramos uno ya montado y ahí quedó la cosa.
 
-{% include image.html size="medium" file="20171021_133107.jpg" caption="Integrado TCM3105 pedido por Ebay. EyC." %}
+{% include image.html class="medium-width" file="20171021_133107.jpg" caption="Integrado TCM3105 pedido por Ebay. EyC." %}
 
 Hace poco me dio por buscar en Ebay a ver qué precio tendría, si aún quedaban existencias, el TCM3105. ¡Y cuestan menos de 1 dólar! Sin duda algún fabricante chino ha reanudado su fabricación. Miré el datasheet, compré un par de integrados, tenía los demás componentes por aquí y decidí hacerlos funcionar.
 
@@ -187,25 +187,25 @@ Reproduzcamos aproximadamente el funcionamiento del TCM3105, obviando las primer
 
 Supongamos que esta es la señal original:
 
-{% include image.html size="big" file="etapa0-original.png" caption="Señal original AFSK-1200. EyC." %}
+{% include image.html class="large-width" file="etapa0-original.png" caption="Señal original AFSK-1200. EyC." %}
 
 Según la descripción del datasheet, la señal analógica de entrada pasa por un **comparador** y se convierte en una onda rectangular. Así eliminamos las variaciones de amplitud y nos centramos sólo en las de frecuencia.
 
-{% include image.html size="big" file="etapa1-cuadrada.png" caption="Señal original (en naranja) transformada en onda rectangular (azul). EyC." %}
+{% include image.html class="large-width" file="etapa1-cuadrada.png" caption="Señal original (en naranja) transformada en onda rectangular (azul). EyC." %}
 
 A continuación viene el paso principal, muy ocurrente por otra parte. Tomamos esta señal rectangular y la utilizamos para activar un **flip-flop de duración fija**. Este flip-flop se activa tanto en el flanco de subida como en el de bajada. Esto significa que oscilará al doble de la frecuencia original. Como el estado activado tiene siempre la misma duración, en las frecuencias bajas pasará más tiempo inactivo que durante las frecuencias altas. Más adelante, eso nos permitirá distinguirlas.
 
-{% include image.html size="big" file="etapa2-flipflop.png" caption="Efecto del flip-flop. EyC." %}
+{% include image.html class="large-width" file="etapa2-flipflop.png" caption="Efecto del flip-flop. EyC." %}
 
 Ahora aplicamos a la salida del flip-flop un **filtro paso bajo**. La salida de este filtro es proporcional a la componente continua de la señal, y esta a su vez, lo era a la frecuencia de entrada.
 
 Este sería el resultado, he dibujado dos líneas adicionales para indicar dónde estaría el nivel alto y el nivel bajo. Yo he usado un filtro paso bajo de **primer orden** (equivalente a un condensador y una resistencia); no porque sea el más apropiado, sino porque es el más fácil de hacer por software.
 
-{% include image.html size="big" file="etapa3-pasobajo.png" caption="Señal a la salida del filtro paso-bajo. EyC." %}
+{% include image.html class="large-width" file="etapa3-pasobajo.png" caption="Señal a la salida del filtro paso-bajo. EyC." %}
 
 Ya sólo nos queda pasar la señal por un comparador para determinar el nivel alto y bajo de salida. La tensión umbral se aplica en la patilla RXB del integrado, muy importante como veremos luego. Si el resultado de las etapas anteriores está por encima de este valor, la salida estará a nivel alto y si no, estará a nivel bajo. En el datasheet este paso se denomina *slicer*.
 
-{% include image.html size="big" file="etapa4-slicer.png" caption="Señal a la salida del comparador \"slicer\". EyC." %}
+{% include image.html class="large-width" file="etapa4-slicer.png" caption="Señal a la salida del comparador \"slicer\". EyC." %}
 
 Así es como el integrado transforma el ruido en una sucesión de marca - espacio. No digo de unos y ceros porque sería incorrecto.
 
@@ -217,7 +217,7 @@ Como la velocidad de transmisión es 1200 baudios, significa un símbolo cada 83
 
 Gráficamente sería así:
 
-{% include image.html size="big" file="etapa5-nrzi.png" caption="Duración en símbolos entre cada cambio de estado. EyC." %}
+{% include image.html class="large-width" file="etapa5-nrzi.png" caption="Duración en símbolos entre cada cambio de estado. EyC." %}
 
 El resultado será el número de unos que vienen antes del 0, o mejor dicho, el lugar que hace el 0. Por ejemplo si el resultado es 7 significa que el 0 es el séptimo lugar, luego habrá seis unos y luego el 0: 1111110. Si el resultado es 1, significa que no había ningún 1 antes, y directamente viene el 0. El mínimo resultado posible es un símbolo. Si la distancia es menor de un símbolo se trata de alguna interferencia.
 
@@ -454,19 +454,19 @@ Lo siguiente es hacer un pequeño software intermedio que lea los estados de un 
 
 En primer lugar definimos una interrupción que se invocará en cada cambio de estado de un pin determinado. Dicha interrupción llama a una rutina para cronometrar el tiempo transcurrido desde último cambio de estado. Se divide por el tiempo que dura un símbolo (1/1200s), se redondea al entero más cercano y se insertan tantos unos como dé este resultado menos uno, hasta un máximo de 7 unos. A continuación se escribe un 0 (porque recordad que en el código NRZI(S) un cambio de estado representa siempre un 0 y un no-cambio representa el 1).
 
-{% include image.html size="small" file="nrzis.png" caption="Ejemplo gráfico del código de línea NRZI(S). EyC." %}
+{% include image.html class="small-width" file="nrzis.png" caption="Ejemplo gráfico del código de línea NRZI(S). EyC." %}
 
 Para comprobar el funcionamiento de este *driver*, escribimos su inverso. Otro software que recibe por la entrada estándar una cadena formada por los dígitos 0 o 1 y conmuta adecuadamente otro pin GPIO. Dicho programa es [nrzienc](https://github.com/electronicayciencia/afsk-ax25/blob/master/nrzienc.c). A diferencia de los anteriores, necesitamos ejecutarlo con privilegios de **root** para garantizar tiempos más exactos.
 
 Ahora sólo hemos de conectar con una resistencia el pin configurado en nrzienc -supongamos el 25- con el configurado en nrzidec -pongamos el 24, por ejemplo-. El valor es lo de menos, cualquiera por encima de 1k serviría.
 
-{% include image.html size="small" file="esquema1.png" caption="Para probar el programa basta conectar los dos pines. EyC." %}
+{% include image.html class="small-width" file="esquema1.png" caption="Para probar el programa basta conectar los dos pines. EyC." %}
 
 Ahora dejamos escuchando el comando nrzidec en un terminal, y mientras invocamos en otro `./nrzienc &lt; test_data/UI.dat`. Debemos ver el mismo patrón de unos y ceros. Es más, si en lugar de mostrar por pantalla la salida de nrzidec, la redirigimos hacia el decodificador de AX.25 con un pipe, tal que así: `./nrzidec | ./decode_ax25` lo que veremos es el contenido del paquete.
 
 Ya sólo nos falta una pieza: el **hardware**. En lugar de simular los cambios de estado en el pin 25 a través del programa nrzienc, conectaremos el TCM3105 preparado para escuchar el estándar Bell 202. Hay abundantes esquemas en la red. El esquema más simple para nuestro propósito es así:
 
-{% include image.html size="big" file="esquema2.png" caption="Esquema utilizado para probar el integrado TCM3105. EyC." %}
+{% include image.html class="large-width" file="esquema2.png" caption="Esquema utilizado para probar el integrado TCM3105. EyC." %}
 
 El único componente especial -salvando el integrado- es el potenciómetro que va a la patilla RXB. Por cómo vimos que era el proceso de decodificación de las frecuencias se requiere un ajuste muy fino. Podría funcionar con un ajuste grueso, pero nuestro módem estará un poco "sordo". Lo ideal sería un trimmer **multivuelta**; pero si no tenemos, basta con poner un potenciómetro de, por ejemplo 5 o 10k en serie con el de 100k. Esto le restará linearidad, pero nos permitirá un ajuste más exacto.
 
@@ -474,7 +474,7 @@ Observad que la la salida **RXD** se conecta al puerto GPIO mediante un divisor 
 
 De todas las funciones del TCM3105, con este esquema sólo hacemos uso de la recepción. No utilizamos ni la detección de portadora, ni la transmisión de datos, ni la salida de reloj externo. En mi caso puse un potenciómetro más para usar la detección de portadora, pero no es necesario. Una vez construido el circuito podría quedar así:
 
-{% include image.html size="big" file="20171018_214716.jpg" caption="Circuito montado sobre una placa de prototipos. EyC." %}
+{% include image.html class="large-width" file="20171018_214716.jpg" caption="Circuito montado sobre una placa de prototipos. EyC." %}
 
 Conectaremos la salida del circuito, por ejemplo, al pin **25** de la Raspberry. Este era el pin en el que habíamos configurado el programa *nrzidec*. Y la entrada de audio la conectamos a la toma de auriculares de nuestra tarjeta de sonido.
 
@@ -486,11 +486,11 @@ Una vez lo tengamos, probaremos a decodificar alguno de los paquetes de ejemplo 
 
 Ahora tan sólo nos queda encender el receptor y ver cómo se van mostrando paquetes de tráfico real.
 
-{% include image.html size="big" file="captura1.png" caption="Decodificación de tráfico real (clic para ampliar). EyC." %}
+{% include image.html class="large-width" file="captura1.png" caption="Decodificación de tráfico real (clic para ampliar). EyC." %}
 
 Terminaré esta larga entrada con una **reflexión**. Por un lado, está la satisfacción de saber que hemos hecho todo el proceso nosotros mismos, desde *nada* hasta el final; por otro una nostalgia como la que queda tras aprender un truco de magia. ¿No ha perdido, en cierto modo, el misterio que lo hacía interesante?
 
-{% include image.html size="medium" file="bitton_postulate.png" caption="Postulado de Bitton sobre la electrónica actual:  
+{% include image.html class="medium-width" file="bitton_postulate.png" caption="Postulado de Bitton sobre la electrónica actual:  
 *Si lo entiendes, es que se ha quedado antiguo*. EyC." %}
 
 *A mi padre q.e.p.d.*

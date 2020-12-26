@@ -24,7 +24,7 @@ Hay programas tipo [Universal Radio Hacker](https://github.com/jopohl/urh), dest
 
 Hace tiempo estaba escaneando cerca de un rango de [trunking](https://en.wikipedia.org/wiki/Trunked_radio_system), cuando me encontré una señal muy fuerte. Tan fuerte como para saturar la etapa de entrada y causar todo tipo de interferencias en las frecuencias adyacentes. Bajé la ganancia del SDR y la sintonicé.
 
-{% include image.html size="big" file="frecuencias_editado.png" caption="Señal desconocida. Continua y periódica." %}
+{% include image.html class="large-width" file="frecuencias_editado.png" caption="Señal desconocida. Continua y periódica." %}
 
 A primera vista parece otro canal de control de Trunking. Sin embargo al oído es totalmente diferente al [MPT1327](https://www.sigidwiki.com/wiki/MPT_1327). Más bien suena como si transmitiera periódicamente alguna identificación. Aquí tenéis una muestra:
 
@@ -42,7 +42,7 @@ Capturamos una muestra y la abriremos en un editor de sonido. En un primer momen
 
 Usando Gnuradio programaremos un sencillo receptor de FM estrecha, este sería el diagrama de bloques:
 
-{% include image.html size="big" file="esquema_gnuradio.png" caption="Esquema del receptor FM." %}
+{% include image.html class="large-width" file="esquema_gnuradio.png" caption="Esquema del receptor FM." %}
 
 Consta de una fuente RTL-SDR, y a continuación un paso bajo con corte en 12kHz para quedarnos sólo con el canal principal.
 
@@ -92,11 +92,11 @@ Ya tenemos nuestra señal de audio. Lo siguiente es identificar su modulación. 
 
 Empecemos viendo la señal en un editor de sonido:
 
-{% include image.html size="big" file="captura_audacity.png" caption="Señal en los dominios del tiempo y la frecuencia." %}
+{% include image.html class="large-width" file="captura_audacity.png" caption="Señal en los dominios del tiempo y la frecuencia." %}
 
 La amplitud es más o menos constante, la fase también. Podría tratarse de alguna variante de FSK. Parece que la frecuencia predominante es 1200Hz. Lo siguiente es ver si podemos identificar una unidad mínima de cambio. A veces se puede ver a ojo. Todo este artículo va de reconocer patrones. Fijémonos en los periodos: hay periodos de una frecuencia entre semiperiodos de otra. Parecen existir dos frecuencias: 1200 y 2400Hz. Llamamos H a la alta y L a la baja frecuencia.
 
-{% include image.html size="big" file="ffsk2400.png" caption="Demodulación estimada \"a mano\"." %}
+{% include image.html class="large-width" file="ffsk2400.png" caption="Demodulación estimada \"a mano\"." %}
 
 En una modulación FSK binaria, una frecuencia suele ser doble de la otra. Y, además, el bitrate (la tasa de transmisión de datos) igual a la frecuencia inferior. Tal condición facilita las cosas a la hora de cambiar una frecuencia por la otra. Ya que los cambios se producen tras un periodo completo de la frecuencia inferior, o dos periodos completos de la frecuencia superior -por ser la frecuencia doble-. No hay inversión de la fase, ni discontinuidades en la amplitud.
 
@@ -108,7 +108,7 @@ Por tanto es una modulación de frecuencia, pero también de fase. Hay una modul
 
 Se trata de identificar los cruces por cero de la entrada y contar cuántas muestras separan dos cruces consecutivos. Por supuesto, sólo funciona correctamente si la señal está centrada. En cada semiperiodo se produce un paso por cero. De ahí haciendo un histograma del número de muestras entre ellos tenemos un análisis de frecuencias muy básico:
 
-{% include image.html size="big" file="msk_vs_ffsk.png" caption="Comparativa de pasos por cero entre FFSK y nuestra señal." %}
+{% include image.html class="large-width" file="msk_vs_ffsk.png" caption="Comparativa de pasos por cero entre FFSK y nuestra señal." %}
 
 No obstante, nos basta para apreciar la diferencia. En nuestra señal hay dos frecuencias perfectamente diferenciadas. Los cruces por cero se producen cada 18-19 muestras, o bien cada 36-37. En MSK hay un pico en las 24-25 muestras (equivalente a una frecuencia de 1800Hz) otro pico en la de 2400 y luego varias intermedias.
 
@@ -156,11 +156,11 @@ El más importante de todos es **la cabecera**. En general cualquier sistema esp
 
 En este caso es fácil porque la señal es un flujo continuo y se ve claramente donde empieza y donde acaba cada trama. Basta con tomar como un paquete cualquier cosa entre una secuencia de más de 10 unos seguidos.
 
-{% include image.html size="big" file="paquetes_value_heads.png" caption="Apreciamos que al principio de todos los paquetes hay ciertos bits invariantes." %}
+{% include image.html class="large-width" file="paquetes_value_heads.png" caption="Apreciamos que al principio de todos los paquetes hay ciertos bits invariantes." %}
 
 Lo siguiente es buscar una marca de final del paquete. A diferencia de la cabecera no siempre existe. Para averiguarlo alineamos los finales y comprobamos si tienen algo en común.
 
-{% include image.html size="small" file="paquetes_value_ends.png" caption="No se aprecia ningún patrón común al final de los paquetes." %}
+{% include image.html class="small-width" file="paquetes_value_ends.png" caption="No se aprecia ningún patrón común al final de los paquetes." %}
 
 No, parece. Sin embargo, el receptor debe tener alguna manera de saber si ha terminado de recibir la trama y la ha recibido completa. De no hay una marca al final la otra posibilidad es hacer constar la longitud dentro del mensaje. Habría otra posibilidad: dar por terminada la trama cuando hubiera una secuencia de unos suficientemente larga. Pero no resulta práctico.
 
@@ -170,7 +170,7 @@ Una vez tengamos una muestra más o menos amplia de tramas, pasaremos a analizar
 
 Hay protocolos orientados a bits y otros orientados a bytes. Los orientados a bits se caracterizan por ser tramas de corta duración, tal como mandos a distancia sencillos. En este caso no hay más que poner unos cuantos paquetes alineados y los grupos saltan a la vista.
 
-{% include image.html size="big" file="paquetes_value_groups.png" caption="Los grupos parecen separados por un 1 y un 0." %}
+{% include image.html class="large-width" file="paquetes_value_groups.png" caption="Los grupos parecen separados por un 1 y un 0." %}
 
 Hay grupos de 8 bits que varían separados siempre por un 1 y un 0. Lo de 8 bits está muy bien, pero lo de separarlos por un 1 y un 0 es raro.
 
@@ -251,7 +251,7 @@ Intentemos agrupar los bites con este código.
 
 Mediante el mismo procedimiento tratamos de separar los grupos. Tomamos varios paquetes, los alineamos y observamos.
 
-{% include image.html size="big" file="paquetes_nrzs_groups.png" caption="Cada 9 bits, el décimo es necesariamente 1." %}
+{% include image.html class="large-width" file="paquetes_nrzs_groups.png" caption="Cada 9 bits, el décimo es necesariamente 1." %}
 
 Cada 9 bits, el décimo siempre es un 1.
 
@@ -360,13 +360,13 @@ Un 0.39% es lo esperable en una distribución uniforme de 256 posibles valores. 
 
 Hemos convertido el puzle en una sopa de letras. ¿Te gustan la sopas de letras?
 
-{% include image.html size="medium" file="sopa-de-letras.png" caption="¿Te gustan las sopas de letras?" %}
+{% include image.html class="medium-width" file="sopa-de-letras.png" caption="¿Te gustan las sopas de letras?" %}
 
 Tenemos una muestra de tramas, con bytes hexadecimales que ni siquiera sabemos si están bien decodificados y mucho menos qué significan. ¿Cómo continuamos? ¿Os acordáis de que no había ninguna marca de final de paquete y que por lo tanto esperaríamos encontrar la longitud como dato en el paquete? Bien, pues ¡a buscarla!.
 
 Ordenaremos los paquetes que tengamos por longitud. Si de verdad algún byte indica el tamaño, este será igual para todos los paquetes de la misma longitud (o al menos para casi todos, porque siempre podríamos haber recibido paquetes incompletos).
 
-{% include image.html size="big" file="longitudes_gray.png" caption="El quinto byte es igual para paquetes de igual longitud." %}
+{% include image.html class="large-width" file="longitudes_gray.png" caption="El quinto byte es igual para paquetes de igual longitud." %}
 
 Sí, hay un byte, el quinto, igual para los paquetes de la misma longitud... pero es un poco raro. Empieza valiendo 39h, luego *aumenta* a 28h, después vale 2Bh y el siguiente es 2Eh. ¿Qué clase de sucesión creciente es esta?
 
@@ -481,7 +481,7 @@ Al menos tenemos algo para descartar los paquetes incompletos, y junto la parida
 
 Al margen de este procedimiento, casi siempre se suele dibujar un histograma de las longitudes más habituales.
 
-{% include image.html size="big" file="longitudes.png" caption="Estadística de longitudes más habituales. ¿Te dice algo?" %}
+{% include image.html class="large-width" file="longitudes.png" caption="Estadística de longitudes más habituales. ¿Te dice algo?" %}
 
 En mi opinión obedece más a la desesperación que a razones prácticas. Sencillamente, a menos que conozcas la estructura interna, el dato de la longitud en un protocolo complejo orientado a bytes es poco más que anecdótico. Aquí vemos tres grupos de paquetes, uno entre 30 y 43 bytes, otro aproximadamente entre 43 y 55 bytes, y finalmente un grupo de paquetes más largos.
 
@@ -512,7 +512,7 @@ No hay padding al final de texto, y puede estar tanto al principio como al final
 
 Seleccionaremos algunos paquetes con texto. Basándonos en los bytes correspondientes a caracteres imprimibles. A continuación alineamos el comienzo de los textos y observamos los bytes inmediatamente anteriores:
 
-{% include image.html size="big" file="longitud_en_campos_txt.png" caption="El byte recuadrado podría tener relación con la longitud del campo." %}
+{% include image.html class="large-width" file="longitud_en_campos_txt.png" caption="El byte recuadrado podría tener relación con la longitud del campo." %}
 
 Los bytes en rojo son de texto. A la derecha del todo queda el byte final del paquete, el checksum. El byte dentro de un recuadro rojo parece indicar la longitud. Es el mismo para todos los textos con la misma longitud. Cuando el texto se alarga tres bytes, pasa de valer 10 a valer 13. Cuando se extiende dos bytes más, pasa a valer 15. Así sucesivamente. Además en el primer caso 10 hexadecimal equivale a 16 en decimal. Y efectivamente hay 16 posiciones hasta el checksum.
 
@@ -592,7 +592,7 @@ Toda esta labor tenía como objetivo averiguar el origen de la señal y lo he co
 
 Sí explicaré, para satisfacer vuestra curiosidad y premiar a quienes habéis leído hasta el final que, a juzgar por el contenido de los mensajes, se trata del canal de bajada de un [sistema de gestión de flotas](https://es.wikipedia.org/wiki/Sistema_de_Gesti%C3%B3n_de_Flotas). En concreto un sistema que muchas empresas han venido a denominar [Sistema de Ayuda a la Explotación (SAE).](https://es.wikipedia.org/wiki/Sistema_de_ayuda_a_la_explotaci%C3%B3n)
 
-{% include image.html size="big" file="feliz_navidad.png" caption="La señal desconocida ya no lo es." %}
+{% include image.html class="large-width" file="feliz_navidad.png" caption="La señal desconocida ya no lo es." %}
 
 Imaginad la complicación de gestionar, por ejemplo, una flota de autobuses en una gran ciudad. Con calles cortadas, vehículos mal aparcados, coches que se averían, colisiones, atascos de tráfico, incidentes con viajeros, objetos perdidos, etc. La logística de mantener una frecuencia constante en una ruta exige conocer en todo momento la posición de la flota y su estado, así como enviar avisos en tiempo real a un coche, a toda la línea o a todos en general.
 

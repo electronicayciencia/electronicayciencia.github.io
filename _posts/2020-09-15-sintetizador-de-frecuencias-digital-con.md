@@ -20,7 +20,7 @@ Al poco vinieron las revistas de electrónica, el soldador, y las emisoras; el o
 
 El primer circuito que funcionó como debía fue un generador de baja frecuencia construido con el integrado CD4046. Y de él vengo a hablaros hoy.
 
-{% include image.html size="huge" file="HEF4046BP-8649.jpg" caption="El primer integrado que compré.  
+{% include image.html class="x-large-width" file="HEF4046BP-8649.jpg" caption="El primer integrado que compré.  
 Por el código parece fabricado en 1986. EyC." %}
 
 <!--more-->
@@ -33,7 +33,7 @@ Si bien la definición del libro sonaba razonable, no terminé de encontrarle la
 
 Yo sabía muy poco de integrados. Todo mi conocimiento acerca del **CD4046** (de todos los PLL, en realidad) era que tenía un Oscilador Controlado por Tensión. VCO, en inglés. Lo había aprendido montando un esquema de una revista. A decir verdad ese número había salido como diez años antes. Pero un **radioaficionado** conocido fue tan amable de dejarnos su colección y acabé por fotocopiar varios artículos. Entre ellos, este.
 
-{% include image.html size="huge" file="lx537.jpg" caption="El primer circuito que hice y funcionó.  
+{% include image.html class="x-large-width" file="lx537.jpg" caption="El primer circuito que hice y funcionó.  
 Economico Oscillatore di BF (N.E. 086-7)" %}
 
 El CD4046, explican en el artículo, pertenece al grupo de los PLL y contiene en su interior un VCO muy fácil de usar. Sólo necesita una **resistencia** en la patilla 11 y un **condensador** entre las patillas 5 y 6. En función de los valores de estos componentes, el VCO oscilará entre unas frecuencias máxima y mínima dependiendo de la tensión aplicada en la patilla 9. Con el diagrama anterior, el circuito oscila desde 10 Hz hasta 1 MHz en cinco bandas cambiando el condensador.
@@ -60,7 +60,7 @@ En la vida real la cosa no es tan simple. Si tu señal es simétrica necesitas a
 
 Sin embargo no vamos a empezar por ahí. Empezaremos por esta otra configuración. Mas simple. El seguidor de tensión:
 
-{% include image.html size="medium" file="op_amp_buffer.png" caption="Buffer no inversor o seguidor de tensión. EyC." %}
+{% include image.html class="medium-width" file="op_amp_buffer.png" caption="Buffer no inversor o seguidor de tensión. EyC." %}
 
 Cuando, como aficionado, lees sobre este circuito te cuentan cómo la salida es igual a la entrada. Eso es **casi** verdad. Salvo por una *millonésima* parte.
 
@@ -72,7 +72,7 @@ Ahora supón que ponemos **1 voltio** en *Vin*. Como *Vout* (y por tanto la otra
 
 Como la ganancia ronda el **millón**, una entrada quedará a una millonésima de voltio de la otra. A efectos prácticos sí, diremos que ambas entradas alcanzan el mismo valor, y que por tanto la salida es igual a la entrada. Pero sabemos que no es así, porque si las dos entradas fueran **idénticas**, la salida en realidad **sería cero**.
 
-{% include image.html size="huge" file="entrada-salida-buffer.png" caption="La tensión de salida es casi igual a la de entrada. El casi es la clave. EyC." %}
+{% include image.html class="x-large-width" file="entrada-salida-buffer.png" caption="La tensión de salida es casi igual a la de entrada. El casi es la clave. EyC." %}
 
 Un amplificador operacional es un dispositivo que amplifica la diferencia entre sus dos entradas. Si cerramos el bucle amplificará hasta ver en sus dos entradas el mismo valor. Él *quiere* ver sus entradas al **mismo potencial**.
 
@@ -80,7 +80,7 @@ Sigamos. El buffer no es la aplicación más típica de un operacional. Lo norma
 
 ¿Cómo lo conseguimos? *engañando* al circuito. Así:
 
-{% include image.html size="medium" file="op_amp_non_inv_ampl.png" caption="Amplificador no inversor. EyC." %}
+{% include image.html class="medium-width" file="op_amp_non_inv_ampl.png" caption="Amplificador no inversor. EyC." %}
 
 Esta vez no conectamos la otra entrada directamente a la salida, sino que lo hacemos a través de un **divisor resistivo**. El amplificador no está midiendo la tensión en la salida, sino sólo una fracción de la misma.
 
@@ -110,7 +110,7 @@ A la salida del comparador de fase encontraremos una tensión diferente según l
 
 Lo importante ahora no es cómo funciona por dentro, sino su utilidad práctica. Veamos el montaje más común. Como os decía, el equivalente al *seguidor de tensión*.
 
-{% include image.html size="huge" file="phase_comp_II.png" caption="El equivalente al seguidor de tensión, pero con frecuencias. EyC." %}
+{% include image.html class="x-large-width" file="phase_comp_II.png" caption="El equivalente al seguidor de tensión, pero con frecuencias. EyC." %}
 
 El comparador de fase de **tipo II** se comporta como un interruptor de tres posiciones. En este dibujo, la frecuencia **Fref** es más rápida que la del VCO. Por eso la salida del comparador emitirá pulsos **positivos**. Aumentará la **carga** del condensador, y también la **tensión de control** del VCO. Como la frecuencia del oscilador es proporcional a dicha tensión, aumentará con ella. Dicho de otra forma, si el oscilador va más lento que la señal de referencia, el PLL subirá su tensión de control para incrementar la velocidad de oscilación.
 
@@ -126,7 +126,7 @@ Sí, este esquema tiene su utilidad, igual que el seguidor de tensión de antes.
 
 Un divisor de frecuencia no es tan sencillo como uno resistivo, luego lo veremos, pero es relativamente fácil con electrónica digital.
 
-{% include image.html size="huge" file="phase_comp_II_div.png" caption="Insertando un divisor en el bucle de realimentación, multiplicamos la salida. EyC." %}
+{% include image.html class="x-large-width" file="phase_comp_II_div.png" caption="Insertando un divisor en el bucle de realimentación, multiplicamos la salida. EyC." %}
 
 Ahora el **comparador** no ve lo que hay a la salida, sino una fracción. Supongamos un divisor por 2. Si en *Fref* ponemos **1 kHz**, cuando el oscilador esté a 1 kHz el comparador sólo va a recibir la **mitad**, 500Hz. Por tanto va a cargar más el condensador. Así hasta conseguir imitar la frecuencia de entrada. Es decir, cuando el VCO llegue exactamente al **doble**, 2 kHz.
 
@@ -146,13 +146,13 @@ Pero no hay que irse a frecuencias tan altas. La estabilidad de los osciladores 
 
 Una de mis primeras emisoras fue una modesta [*President Wilson*](http://www.rigpix.com/cbfreeband/president_wilson.htm) de segunda mano. Cabe recordar que la marca President tenía distintos modelos de emisoras con nombres de presidentes estadounidenses. Desconozco el criterio para elegir el nombre, pero por ejemplo la President **Harry** o Wilson eran muy sencillas, 40 canales AM y (algunos modelos) FM. Mientras la **President Lincoln** era un equipo muy potente que -en teoría- ni siquiera era apropiado para CB.
 
-{% include image.html size="huge" file="president_wilson.jpg" caption="La President Wilson, una de mis primeras emisoras. [www.rigpix.com](http://www.rigpix.com/cbfreeband/president_wilson.htm)." %}
+{% include image.html class="x-large-width" file="president_wilson.jpg" caption="La President Wilson, una de mis primeras emisoras. [www.rigpix.com](http://www.rigpix.com/cbfreeband/president_wilson.htm)." %}
 
 Si no recuerdo mal, los diseños eran de Uniden (empresa japonesa) y los comercializaban otras marcas como President, Galaxy, Cobra o SuperStar. A veces tal cual, a veces mejorando algunas partes como los filtros.
 
 Los equipos más sencillos no contaban con LCD ni microcontrolador. Tan sólo un **doble display LED** de 7 segmentos donde se mostraba el canal del 01 al 40. Cuando, de pequeño, miraba las tripas siempre me preguntaba cómo podían dar esas 40 frecuencias diferentes con un sólo cuarzo. Un cristal, además, de 10 MHz. ¡Ni siquiera se acercaba a los 27 MHz!
 
-{% include image.html size="huge" file="Uniden-PRO-510XL-1987.JPG" caption="Interior de una Uniden PRO 510XL de 1987. Click para ampliar. www.elektroda.pl" %}
+{% include image.html class="x-large-width" file="Uniden-PRO-510XL-1987.JPG" caption="Interior de una Uniden PRO 510XL de 1987. Click para ampliar. www.elektroda.pl" %}
 
 Llevaban un **selector mecánico** de canal. Un encoder de 40 posiciones, parecido a un programador de lavadora. En la imagen es ese componente blanco y verde arriba a la izquierda.
 
@@ -166,7 +166,7 @@ A partir de ahí, obtener la frecuencia deseada sólo es cuestión de multiplica
 
 ¿Y cómo se selecciona el divisor? Pues fíjate el esquema propuesto por el fabricante ([datasheet]({{page.assets | relative_url}}/SM5124A.pdf)). Lo he simplificado para facilitar la lectura.
 
-{% include image.html size="huge" file="SM5124A_typical.png" caption="Aplicación típica del SM5124A. Datasheet del fabricante." %}
+{% include image.html class="x-large-width" file="SM5124A_typical.png" caption="Aplicación típica del SM5124A. Datasheet del fabricante." %}
 
 La líneas **P0 a P7** van conectadas en paralelo con ciertos segmentos del display LED. Mirando los **LEDs encendidos**, el chip "ve" el canal mostrado en pantalla y selecciona el divisor correspondiente. En mi opinión ingenioso y un buen ejemplo de *aplicación de nicho*.
 
@@ -174,7 +174,7 @@ Como el SM5124A no incorpora VCO debe usarse con un **oscilador externo**. Si bi
 
 El diagrama original lo obtuve de [www.cbtricks.com]({{page.assets | relative_url}}/uniden_pro_520e_sm_sch.jpg). He hecho una [copia en GitHub]({{page.assets | relative_url}}/uniden_pro_520e_sm_sch.jpg) por si en el futuro deja de estar disponible. Del original he eliminado todo salvo las partes que nos interesan: el PLL y el VCO. Para facilitar la legibilidad he eliminado algunos componentes, tal vez los echéis en falta.
 
-{% include image.html size="huge" file="uniden_pro_520e_vco.jpg" caption="Esquema de la Uniden Pro 520e mostrando sólo el VCO y el PLL. EyC." %}
+{% include image.html class="x-large-width" file="uniden_pro_520e_vco.jpg" caption="Esquema de la Uniden Pro 520e mostrando sólo el VCO y el PLL. EyC." %}
 
 Las patillas 10 a 17 van a los segmentos LED y le dicen al integrado el canal activo. Entre la 1 y la 2 se conecta el cuarzo de referencia. La patilla 7 es la salida del **detector de fase**. Tras filtrarla con un condensador, aplica la tensión de control al VCO. En esa línea hay un punto de ajuste (Test Point 1).
 
@@ -188,7 +188,7 @@ Ha llegado la hora de rescatar aquel **HEF4046BP** (era la versión moderna) que
 
 Para poner en práctica las ideas de este artículo programaré un **PIC**. Con él generaré la frecuencia de referencia y también lo usaré como divisor programable. Os pego el esquema y seguidamente lo comentamos:
 
-{% include image.html size="huge" file="esquema_editado.jpg" caption="Sintetizador digital a PLL. Click para ampliar. EyC." %}
+{% include image.html class="x-large-width" file="esquema_editado.jpg" caption="Sintetizador digital a PLL. Click para ampliar. EyC." %}
 
 El **PIC16F88** tiene un oscilador interno, no necesito usar un **cuarzo**. Lo he configurado para trabajar a 8 MHz, es decir, 2 MIPS. Teniendo esto en cuenta, ajusto el generador de PWM para una frecuencia de 1 kHz y un *duty-cycle* del 50%.
 
@@ -199,7 +199,7 @@ El **código fuente** del programa lo tenéis en GitHub. No lo pego para no alar
 
 Así quedaría montado sobre una protoboard:
 
-{% include image.html size="huge" file="pll_protoboard.jpg" caption="Circuito montado sobre la protoboard. EyC." %}
+{% include image.html class="x-large-width" file="pll_protoboard.jpg" caption="Circuito montado sobre la protoboard. EyC." %}
 
 Funciona de la siguiente manera. La señal cuadrada de 1 kHz sale por la patilla **6** del PIC, llamada **CCP1**, y la inyectamos como señal de referencia en la patilla **14** del 4046.
 
@@ -219,7 +219,7 @@ Si inicializamos TMR0 en 250, se producirá la interrupción al quinto pulso y v
 
 Para hacer una **división impar**, tendríamos que contar diferente número de pulsos en el semiperiodo positivo y en el negativo. Como en esta imagen. Dividimos por 5 haciendo que el semiperiodo positivo dure 2 periodos y el negativo 3. En total 5.
 
-{% include image.html size="huge" file="div_by_5.png" caption="Para dividir entre un número impar los semiperiodos deben ser desiguales. EyC." %}
+{% include image.html class="x-large-width" file="div_by_5.png" caption="Para dividir entre un número impar los semiperiodos deben ser desiguales. EyC." %}
 
 La frecuencia de entrada señala 5000 Hz (esquina inferior derecha), mientras la de salida es sólo 1000. El duty cycle ya no es del 50%. No importa, porque el PLL se encargará de **ajustar** la oscilación para generar una onda cuadrada centrada lo mejor que pueda en esa frecuencia.
 

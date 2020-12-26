@@ -12,7 +12,7 @@ Para otro experimento necesitaba una fuente de luz blanca cuyos rayos fueran má
 
 Intentemos dar un repaso dentro de lo posible a este asunto sin entrar en los detalles matemáticos.
 
-{% include image.html size="medium" file="Optical-dispersion.png" caption="Prisma de Newton. Esquema simplificado.  
+{% include image.html class="medium-width" file="Optical-dispersion.png" caption="Prisma de Newton. Esquema simplificado.  
 Fuente: The Dark Side of the Moon - Pink Floyd" %}
 
 <!--more-->
@@ -29,11 +29,11 @@ Para las ilustraciones vamos a usar una herramienta que se llama [Ray Optics Sim
 
 Hay dos tipos de fuentes de luz ideales: el frente de ondas plano, y la fuente de luz puntual. Ninguna de las dos existe en la realidad, pero podemos intentar aproximarnos.
 
-{% include image.html size="big" file="paralela-y-puntual.PNG" caption="Fuente paralela, arriba, y fuente puntual, abajo." %}
+{% include image.html class="large-width" file="paralela-y-puntual.PNG" caption="Fuente paralela, arriba, y fuente puntual, abajo." %}
 
 Una fuente de luz puntual se caracteriza porque todos los rayos salen del mismo punto. Además se asume que la densidad de radiación es igual en todas las direcciones del espacio; en otras palabras, es una onda esférica. A continuación vemos una fuente puntual ideal. La hemos metido en una "caja" para que solo radie hacia la derecha.
 
-{% include image.html size="big" file="puntual.png" caption="Sombras proyectadas por objetos iluminados por una fuente puntual." %}
+{% include image.html class="large-width" file="puntual.png" caption="Sombras proyectadas por objetos iluminados por una fuente puntual." %}
 
 Si interponemos un objeto entre la fuente y una pantalla se proyectará una sombra. Debido a que los rayos son divergentes, será mayor cuanto más cerca de la fuente esté el objeto.
 
@@ -43,7 +43,7 @@ La onda se propaga en forma de esfera, hemos dicho. A medida que nos alejemos de
 
 Además, cuando la luz viene de un área muy estrecha la potencia siempre es mayor en la dirección hacia la fuente. Y si proyectamos en una pantalla el efecto es que el centro siempre tiene más fuerza que los bordes. Esto en fotografía se llama viñeteo y sucede cuando, como en este caso, la intensidad luminosa es función del ángulo.
 
-{% include image.html size="medium" file="20170710_220616.jpg" caption="La sombra bajo una fuente plana o puntual está enfocada a cualquier distancia." %}
+{% include image.html class="medium-width" file="20170710_220616.jpg" caption="La sombra bajo una fuente plana o puntual está enfocada a cualquier distancia." %}
 
 En la práctica, si usamos una fuente puntual:
 
@@ -59,7 +59,7 @@ Un haz de luz plana se trata de una fuente plana que emite rayos en una única d
 
 Este tipo de fuentes se caracterizan porque su densidad de luz es uniforme. Además, al radiar en una única dirección no hay atenuación con la distancia (más allá de la absorción del medio). El ejemplo más práctico es un laser.
 
-{% include image.html size="big" file="plano-paralela.png" caption="Sombra proyectada por un frente de ondas plano." %}
+{% include image.html class="large-width" file="plano-paralela.png" caption="Sombra proyectada por un frente de ondas plano." %}
 
 Como los rayos no divergen ni convergen, si ponemos un objeto en mitad del recorrido la sombra proyectada es del mismo tamaño que el objeto. Da igual la distancia a la que se encuentre. Los bordes de la sombra son duros igual que en el caso puntual.
 
@@ -69,11 +69,11 @@ Con un haz ideal plano:
 - La sombra siempre es igual al tamaño del objeto, independientemente de la distancia a la fuente o a la pantalla.
 - La potencia de la luz es uniforme en toda la superficie iluminada y apenas varía con la distancia a la fuente.
 
-{% include image.html size="" file="lightbox3.jpg" caption="Rayos de luz paralelos. Fuente: [dynamicscience.com.au](http://www.dynamicscience.com.au/tester/solutions1/magicofsci/lightboxactivities.html)" %}
+{% include image.html class="original-width" file="lightbox3.jpg" caption="Rayos de luz paralelos. Fuente: [dynamicscience.com.au](http://www.dynamicscience.com.au/tester/solutions1/magicofsci/lightboxactivities.html)" %}
 
 Un haz de luz paralelo ideal se puede obtener con una fuente puntual puesta en el foco de una lente convergente ideal. Por supuesto, no se aprovecha toda la intensidad de la fuente, sino sólo la que la lente puede recoger. Aquí entran en juego el tamaño y la distancia focal.
 
-{% include image.html size="big" file="puntual-paralela.png" caption="Un haz paralelo se puede obtener a partir de un fuente puntual." %}
+{% include image.html class="large-width" file="puntual-paralela.png" caption="Un haz paralelo se puede obtener a partir de un fuente puntual." %}
 
 En física se habla de un concepto que se llama **coherencia espacial**. Se dice que *una fuente es coherente cuando la diferencia de fase entre dos puntos en el espacio es constante en el tiempo.* Esta condición es necesaria para los fenómenos de interferencia y está íntimamente ligada a la extensión de la fuente.
 
@@ -92,7 +92,7 @@ Digamos que tenemos una fuente de luz. En el mundo real las fuentes no son puntu
 
 Para simular una fuente extensa he editado el fichero JSON que genera el programa y he colocado multitud de fuentes ideales muy pegadas. Veamos qué tal funciona ahora lo de generar un haz paralelo con una lente convergente.
 
-{% include image.html size="big" file="extensa-paralela.png" caption="No se puede conseguir un haz paralelo a partir de una fuente extensa." %}
+{% include image.html class="large-width" file="extensa-paralela.png" caption="No se puede conseguir un haz paralelo a partir de una fuente extensa." %}
 
 Mal, muy mal, fatal. Eso es lo que normalmente obtendremos usando una bombilla o una vela, y eso sin contar con otros fenómenos debidos a la imperfección de la lente.
 
@@ -106,11 +106,11 @@ La fuente no es un punto, es una superficie. Pero el foco de la lente sí es un 
 
 Por ese motivo no podemos colimar un diodo led normal hasta convertirlo en un laser.
 
-{% include image.html size="small" file="led-no-puntual.jpg" caption="Un led no puede considerarse a priori una fuente puntual." %}
+{% include image.html class="small-width" file="led-no-puntual.jpg" caption="Un led no puede considerarse a priori una fuente puntual." %}
 
 Venden colimadores para LEDs, sí, son básicamente lentes convergentes de mucha potencia. Sin embargo, al no ser el LED una fuente puntual los rayos no salen paralelos y la lente solamente actúa como concentrador de luz. Sirve para concentrar el haz de luz en un ángulo menor, así ilumina menos superficie pero más intensamente. Los llevan por ejemplo los flash de los teléfonos móviles.
 
-{% include image.html size="big" file="extensa-lentecolimadora.png" caption="Habitualmente se utiliza una lente para concentrar el área de radiación." %}
+{% include image.html class="large-width" file="extensa-lentecolimadora.png" caption="Habitualmente se utiliza una lente para concentrar el área de radiación." %}
 
 ## Colimar una fuente real
 
@@ -132,7 +132,7 @@ A continuación el ejemplo de una fuente extensa a la que hemos bloqueado todo p
 
 En este caso he colocado también una lente divergente cuya única misión es engrosar el rayo de luz para que la ilustración no quedara muy alargada. Veamos la sombra proyectada por dos objetos a diferentes distancias.
 
-{% include image.html size="big" file="extensa-puntual-paralela.png" caption="Haz paralelo obtenido a partir de un pinhole." %}
+{% include image.html class="large-width" file="extensa-puntual-paralela.png" caption="Haz paralelo obtenido a partir de un pinhole." %}
 
 Por lo que podemos ver, el resultado es el siguiente:
 
@@ -148,7 +148,7 @@ Pero no os dejéis engañar. Las fuentes reales, además de extensas suelen no s
 
 Por ejemplo, este es el resultado de hacer pasar la luz procedente de un LED de 10w cuadrado a través de una lente y un pinhole al final de un tubo de cartón.
 
-{% include image.html size="medium" file="20170801_185606.jpg" caption="Imagen de un led proyectado en una pantalla tras hacerlo pasar por un pinhole." %}
+{% include image.html class="medium-width" file="20170801_185606.jpg" caption="Imagen de un led proyectado en una pantalla tras hacerlo pasar por un pinhole." %}
 
 Para evitarlo podemos utilizar un difusor entre el led y la lente, o bien una lente difusora con el lado plano especialmente pulido. Por supuesto, y como no podía ser de otra manera, perderemos luz.
 
@@ -168,7 +168,7 @@ Si aplicamos un filtro que sólo deje pasar los chorros en la dirección que que
 
 He simulado en el programa un colimador poniendo bloqueadores de luz paralelos muy juntos.
 
-{% include image.html size="big" file="extensa-paralela-colimador.png" caption="Utilizando un colimador también obtenemos un haz paralelo." %}
+{% include image.html class="large-width" file="extensa-paralela-colimador.png" caption="Utilizando un colimador también obtenemos un haz paralelo." %}
 
 En fotografía, a veces se utilizan filtros de rejilla en forma de colmena para el flash. El principio de trabajo es muy parecido, pero mucho más tosco. Sirven para dirigir la luz y crear sombras más duras como decíamos antes.
 
@@ -176,7 +176,7 @@ En fotografía, a veces se utilizan filtros de rejilla en forma de colmena para 
 
 Siguiendo con el montaje a base de pinhole y lente convergente, podemos mejorar el efecto de viñeteo colocando una segunda apertura, no tan estrecha como la primera, a modo de iris o diafragma.
 
-{% include image.html size="big" file="extensa-puntual-puntual-paralela.png" caption="El resultado mejora al utilizar sólo la parte de la lente más cercana al centro." %}
+{% include image.html class="large-width" file="extensa-puntual-puntual-paralela.png" caption="El resultado mejora al utilizar sólo la parte de la lente más cercana al centro." %}
 
 Independientemente de que mejore o no el resultado, lo cierto es que las lentes nunca son perfectas. Y las imperfecciones tienden a ser más intensas cuanto más nos alejamos del eje óptico del sistema. Ahora con las lentes asféricas se han reducido mucho las aberraciones pero no conviene aprovechar al máximo los bordes de la lente. Es preferible utilizar un diafragma. Eso también lo saben y aplican los fotógrafos.
 
@@ -184,7 +184,7 @@ Una vez puesto el diafragma y eliminados los bordes, dado que los rayos son para
 
 Nos lleva a la siguiente reflexión. Las lentes de gran apertura son caras, y las lentes de calidad más caras aún, y las grandes, de calidad y potentes no digamos. Por eso la opción más interesante es usar una [lente de Fresnel](https://es.wikipedia.org/wiki/Lente_de_Fresnel). Que de hecho es lo que llevaban los antiguos proyectores de diapositivas antes de que el Power Point los sustituyera.
 
-{% include image.html size="medium" file="lente-fresnel.png" caption="Lente de Fresnel tamaño folio. Fuente: Aliexpress." %}
+{% include image.html class="medium-width" file="lente-fresnel.png" caption="Lente de Fresnel tamaño folio. Fuente: Aliexpress." %}
 
 Recapitulando, un buen esquema para conseguir luz más o menos paralela sería:
 
@@ -197,11 +197,11 @@ Recapitulando, un buen esquema para conseguir luz más o menos paralela sería:
 
 Pero como os advertía, hemos perdido la mayor parte de la luz original. Este sería el diagrama:
 
-{% include image.html size="big" file="extensa-lentecolimadora-puntual-paralela.png" caption="Esquema propuesto para colimar una fuente extensa." %}
+{% include image.html class="large-width" file="extensa-lentecolimadora-puntual-paralela.png" caption="Esquema propuesto para colimar una fuente extensa." %}
 
 Con un esquema similar al descrito se alcanza un grado de paralelismo -o colimación- que ya nos permite ver con claridad fenómenos que no se aprecian con las fuentes extensas a simple vista. Por ejemplo en esta imagen veis el gas saliendo de un encendedor de cocina.
 
-{% include image.html size="medium" file="20170710_214323.jpg" caption="Gas saliendo de un encendedor de cocina." %}
+{% include image.html class="medium-width" file="20170710_214323.jpg" caption="Gas saliendo de un encendedor de cocina." %}
 
 En inglés, eso se llama un [Shadowgraph](https://en.wikipedia.org/wiki/Shadowgraph). El cambio de densidad del medio introduce alteraciones en el haz uniforme y estas se hacen visibles en la proyección. Es típico verlo por ejemplo en la sombra proyectada por una hoguera de día o por las olas del agua en una piscina. Y es la base sobre la que luego se elaboraría la [Fotografía Schlieren](https://es.wikipedia.org/wiki/Fotograf%C3%ADa_Schlieren).
 
@@ -211,20 +211,20 @@ Hay otra forma de conseguir luz más o menos coherente desde una fuente extensa:
 
 La distancia a la que una fuente podría considerarse puntual depende de su tamaño original. Por ejemplo, el Sol aún a millones de kilómetros de distancia es una fuente relativamente extensa. En la siguiente imagen fijaos en que los bordes de las sombras están difusos.
 
-{% include image.html size="medium" file="20170715_182100_HDR.jpg" caption="El Sol no es una fuente puntual.  
+{% include image.html class="medium-width" file="20170715_182100_HDR.jpg" caption="El Sol no es una fuente puntual.  
 Los bordes de las proyecciones no son nítidos." %}
 
 Los rayos del Sol pueden considerarse paralelos porque su divergencia es muy pequeña. De hecho la proyección no suele ser del mismo tamaño que la rendija, sino un poco mayor. Cuando nos movemos por ejemplo en coche o en tren, los objetos del paisaje cambian su ángulo de visión, se quedan atrás. El Sol en cambio parece seguirnos y moverse con nosotros. La razón es que está tan lejos que las distancias de un viaje en tren son insignificantes en comparación y por eso el ángulo bajo el que lo vemos apenas varía.
 
 Una fuente lejana puede considerarse paralela. La de una estrella lejana se podría considerar puntual, pero la del Sol no. Si queremos que sea puntual deberemos hacerla pasar por un pequeño agujero como en el caso anterior.
 
-{% include image.html size="big" file="lejana-puntual.png" caption="Una fuente suficientemente alejada puede considerarse paralela." %}
+{% include image.html class="large-width" file="lejana-puntual.png" caption="Una fuente suficientemente alejada puede considerarse paralela." %}
 
 En el pasado, sin luz eléctrica, era habitual "jugar" con los rayos de Sol que se cuelan por la rendija de una ventana cerrada. Y así fue como Newton hizo muchos de sus experimentos con lentes. Así fue como observó la famosa dispersión de la luz blanca en sus colores constituyentes.
 
 Este sería el montaje real para el experimento de la dispersión. Mucho menos vistoso que la imagen con la que abríamos este artículo:
 
-{% include image.html size="big" file="Newton.F2.large.jpg" caption="Montaje descrito por Newton para su experimento de la dispersión. Fuente: [Royal Society](http://rsta.royalsocietypublishing.org/content/373/2039/20140213)." %}
+{% include image.html class="large-width" file="Newton.F2.large.jpg" caption="Montaje descrito por Newton para su experimento de la dispersión. Fuente: [Royal Society](http://rsta.royalsocietypublishing.org/content/373/2039/20140213)." %}
 
 Probablemente también utilizara un espejo para dirigir el rayo de luz hacia la lente. Sólo cuando haces prácticas con un rayo de Sol te das cuenta de lo rápido que se mueve y lo poco que tarda en salirse de la pantalla.
 
@@ -236,7 +236,7 @@ Cuanto más coherente más fácil de colimar, sí. Pero a veces se nos olvida qu
 
 Esto es lo que pasa al interponer una aguja en un rayo de Sol pasando por un agujerito en la ventana:
 
-{% include image.html size="medium" file="20170716_171927.jpg" caption="La sombra de una aguja bajo luz coherente." %}
+{% include image.html class="medium-width" file="20170716_171927.jpg" caption="La sombra de una aguja bajo luz coherente." %}
 
 Siento que la imagen no sea de muy buena calidad. Cuesta enfocar estas cosas con un móvil porque tendría que enfocar a infinito y sin embargo el móvil se empeña en enfocar la pantalla. A simple vista la imagen es mucho más viva.
 
@@ -256,18 +256,18 @@ Young, a diferencia de como se explica en la escuela, no hizo un experimento con
 
 Después hizo varios experimentos. Uno que él mismo describe fue mirando una vela desde la distancia y a través de un trozo de papel con dos aberturas rectangulares. Se ve una especie de arco iris, parecido a cuando se mira una farola un día de niebla. Conociendo la anchura de las ranuras fue capaz de deducir la longitud de onda de diferentes colores.
 
-{% include image.html size="small" file="20170730_180840.jpg" caption="Plantilla para el experimento de Young.  
+{% include image.html class="small-width" file="20170730_180840.jpg" caption="Plantilla para el experimento de Young.  
 Las rendijas más uniformes proyectan patrones más nítidos." %}
 
 Habitualmente se enseña en las escuelas que el experimento de la doble rendija de Young fue lo que convenció a los científicos de la época de que la teoría corpuscular estaba equivocada y la luz era realmente una onda. Pero no fue del todo así.
 
-{% include image.html size="medium" file="20170730_165114.jpg" caption="Patrón de difracción con la plantilla anterior." %}
+{% include image.html class="small-width" file="20170730_165114.jpg" caption="Patrón de difracción con la plantilla anterior." %}
 
 La discordia llegó a su fin a principios de s. XIX, durante una congregación de la Academia Francesa para tratar de resolver el dilema de si la luz era una onda o un chorro de partículas. Poisson, partidario dogmático de la teoría corpuscular, propuso poner como obstáculo un objeto circular. Según su razonamiento las ondas pueden rodear obstáculos, y si la luz era una onda tenía que poder rodear ese círculo también. Lo cual era absurdo, por supuesto, según Poisson.
 
 François Arago, el presidente de la comisión, más partidario de la ciencia que de los razonamientos intuitivos quiso probar a ver. El resultado no pudo ser más contundente:
 
-{% include image.html size="" file="poisson-spot-wikipedia.jpg" caption="Punto de Arago o de Poisson. Fuente: [Wikipedia](https://en.wikipedia.org/wiki/Arago_spot)." %}
+{% include image.html class="original-width" file="poisson-spot-wikipedia.jpg" caption="Punto de Arago o de Poisson. Fuente: [Wikipedia](https://en.wikipedia.org/wiki/Arago_spot)." %}
 
 En mitad del círculo negro, justo donde debía haber opacidad total, aparece un pequeño puntito luminoso. Este hecho era completamente inexplicable si la luz está formada por partículas, y eso fue lo que convenció a la mayoría de los asistentes.
 

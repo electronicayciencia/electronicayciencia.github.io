@@ -63,7 +63,7 @@ Todo eso contando, claro, que vamos a usar el micrófono para captar señales en
 
 Hay decenas de páginas que explican cómo conectarla. Cuando compras una, a veces trae un papelito con el esquema. En esta imagen se ve bien (encontrada [aquí]({{page.assets | relative_url}}/electret.png)):
 
-{% include image.html size="" file="conn_electret.png" caption="" %}
+{% include image.html class="original-width" file="conn_electret.png" caption="" %}
 
 En realidad un micrófono electret no necesita ningún tipo de alimentación. Lo que ocurre es que los que encontramos en las tiendas son micrófono electret **preamplificados**. Es ese preamplificador interno lo que hay que alimentar, sin él, la salida que entrega el micrófono sería muy pequeña y difícil de manejar. El diagrama superior no está simplificado, el preamplificador es así de sencillo. Consta sencillamente de un FET conectado como *[Common Source](http://en.wikipedia.org/wiki/Common_source)*. Sólo que sin resistencia en la fuente. Esto último puede ser contraproducente, más abajo explico una modificación sencilla si nos trae problemas.
 
@@ -79,7 +79,7 @@ La **tensión de alimentación** no es que tengamos que calcularla, y en la mayo
 
 Decía que el amplificador era solamente un FET. He desmontado una cápsula electret y aquí veis sus partes:
 
-{% include image.html size="" file="BENQ0005.JPG" caption="" %}
+{% include image.html class="original-width" file="BENQ0005.JPG" caption="" %}
 
 - **A.** Cubierta metálica. Protege y aisla el dispositivo.
 - **B.** Arandela aislante. Se interpone entre las partes D y E para separarlas eléctricamente.
@@ -99,7 +99,7 @@ El que las cápsulas estén preamplificadas es una ventaja para registrar sonido
 1. Disminuir la resistencia en serie. Con un mayor paso de corriente es más difícil que el FET se sature. Como efecto colateral, reducir la resistencia también reduce la ganancia. Por supuesto hay un límite también. Porque el amplificador es muy básico, no tiene resistencia de realimentación ni degeneración del drenador.
 1. Modificar la conexión del FET. Se trata de cortar la pista de la parte G que habíamos nombrado antes. Para que el *source* ya no vaya conectado a masa. Así podemos reconectar el FET para que está conectado en **drenador común**, no hay amplificación pero a cambio la zona de trabajo es mucho más lineal. En esta imagen que sigue, obtenida de [http://sound.westhost.com/project58.htm](http://sound.westhost.com/project58.htm), veis a qué me refiero y en la web tenéis más explicaciones.
 
-{% include image.html size="" file="p58-f4a.gif" caption="" %}
+{% include image.html class="original-width" file="p58-f4a.gif" caption="" %}
 
 Es todo por ahora. Si os ha interesado el tema podéis encontrar mucha más información buscando un poco. En esta página he encontrado un interesante artículo sobre micrófonos [http://sound.westhost.com/articles/microphones.htm](http://sound.westhost.com/articles/microphones.htm).
 

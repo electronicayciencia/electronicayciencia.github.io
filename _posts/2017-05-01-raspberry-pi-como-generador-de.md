@@ -13,7 +13,7 @@ Hoy os quiero hablar sobre el generador de frecuencias de la Raspberry. Veremos 
 
 Sí, otra entrada de Raspberry con fuerte contenido técnico -vamos, un coñazo-.
 
-{% include image.html size="big" file="FreqOsc2.png" caption="Rango de frecuencias posibles utilizando las fuentes INTOSC y PLLD." %}
+{% include image.html class="large-width" file="FreqOsc2.png" caption="Rango de frecuencias posibles utilizando las fuentes INTOSC y PLLD." %}
 
 <!--more-->
 
@@ -56,7 +56,7 @@ La máxima frecuencia generable es la de la fuente, y la mínima es la de la fue
 
 Por supuesto el divisor es **un número entero**. Por tanto no podemos generar cualquier frecuencia sino sólo 4095 de ellas dentro de cada rango. Al representar los posibles resultados en un gráfico quedaría así:
 
-{% include image.html size="big" file="FreqOsc.png" caption="Comparación de las frecuencias generadas por INTOSC y PLLD." %}
+{% include image.html class="large-width" file="FreqOsc.png" caption="Comparación de las frecuencias generadas por INTOSC y PLLD." %}
 
 De lo anterior sacamos dos conclusiones: La primera es que la frecuencia mínima que podemos generar por este método es 4688Hz. La segunda es que ambas fuentes pueden usarse para el rango de frecuencias comprendido entre 122kHz y 19.2MHz.
 
@@ -64,7 +64,7 @@ Cuando se pueden usar ambas fuentes ¿cuál nos conviene más? Siempre la de may
 
 En el gráfico siguiente se aprecia muy bien. Esta es una simulación de cuál sería el error en la frecuencia generada desde 1 a 10MHz empleando una u otra fuente.
 
-{% include image.html size="big" file="error_freqs.png" caption="Comparación del error relativo al usar una fuente u otra." %}
+{% include image.html class="large-width" file="error_freqs.png" caption="Comparación del error relativo al usar una fuente u otra." %}
 
 **Un ejemplo:** Queremos generar 5.5MHz. Usando el oscilador interno a 19.2MHz tendríamos que dividir entre 3.49. Como tiene que ser entero nos quedamos con el divisor entero más cercano, 3. Dividiendo 19.2MHz entre 3 nos da  6.4MHz. Muy alejado de los 5.5MHz.
 
@@ -80,7 +80,7 @@ Hay un "*truco*" para dividir por un número no entero. No parece muy limpio per
 
 Vamos a empezar suponiendo una fuente de 10Hz, o sea genera 10 pulsos por segundo. Es fácil obtener una frecuencia de 5Hz: tendría que dividir por 2. Este caso está representado en la parte superior del dibujo:
 
-{% include image.html size="big" file="divifrac.png" caption="Ilustración gráfica de la técnica *pulse swallow* en un divisor fraccionario." %}
+{% include image.html class="large-width" file="divifrac.png" caption="Ilustración gráfica de la técnica *pulse swallow* en un divisor fraccionario." %}
 
 Arriba está mi frecuencia de reloj de 10 pulsos por segundo. Cada raya vertical es un pulso. He representado 3 segundos.
 
@@ -98,7 +98,7 @@ En el ejemplo de 3Hz, dividiendo por 3.3, las frecuencias que se generan serán 
 
 Esta es la señal obtenida al generar 6MHz con el oscilador interno a 19.2MHz. Ved como hay partes en las que la bajada se retrasa un pulso de reloj. Pero si abarcamos 10 periodos la frecuencia promedio es efectivamente 6MHz.
 
-{% include image.html size="big" file="oscill_6Mhz_mash1.png" caption="Tren de pulsos obtenido usando la fuente INTOSC con MASH=1 para generar 6MHz." %}
+{% include image.html class="large-width" file="oscill_6Mhz_mash1.png" caption="Tren de pulsos obtenido usando la fuente INTOSC con MASH=1 para generar 6MHz." %}
 
 La captura está captada con un osciloscopio USB Hantek modelo 6022BE de hasta 48MSps y los 6MHz no se aprecian con claridad. Pero es suficiente.
 
@@ -140,7 +140,7 @@ Mean frequency:    4.000Hz (Error: +0.00%)
 
 La salida consiste en una onda cuadrada cuya frecuencia promedio (main frequency) es 4Hz. Pero nosotros sabemos que en realidad está formada por frecuencias de 5 y de 3.3 alternándose periódicamente. Esas cosas se ven en el espectro de Fourier, no es una onda cuadrada digamos perfecta:
 
-{% include image.html size="big" file="4_1.png" caption="Resultado de generar 4Hz a partir de una fuente de 10Hz." %}
+{% include image.html class="large-width" file="4_1.png" caption="Resultado de generar 4Hz a partir de una fuente de 10Hz." %}
 
 Recordad el artículo sobre [La Distorsión Armónica Total (THD)]({{site.baseurl}}{% post_url 2013-03-26-la-distorsion-armonica-total-thd %}). A poco que pasemos esa onda por algún sistema no lineal los productos de intermodulación van a ser horribles.
 
@@ -158,13 +158,13 @@ Mean frequency:    2.188Hz (Error: -0.57%)
 
 Bueno, no salen 2.2Hz exactos, pero un error menor del 1% es aceptable. Veamos el resultado:
 
-{% include image.html size="big" file="fg_2.2_1.png" caption="Resultado de generar 2.2Hz a partir de una fuente de 10Hz." %}
+{% include image.html class="large-width" file="fg_2.2_1.png" caption="Resultado de generar 2.2Hz a partir de una fuente de 10Hz." %}
 
 ¡Ups! Claro, cuando se trata de quitar un pulso cada 9 o cada 4 o cada X, en general el resultado es pasable. Pero para generar 2.2 a partir de 10Hz habría que suprimir 1 pulso cada 8.333... periódico, y eso ya es más problemático. Por eso la frecuencia no es exacta.
 
 ¿Qué podemos hacer? Para tratar de ajustar la frecuencia, en lugar de  quitar un pulso cada 8.333... -que no se puede- probemos a quitar 10 cada 83 -que sí se puede- o 100 de 833, etc. Es una solución poco elegante porque ahora en vez de saltar entre dos frecuencias próximas saltamos entre dos más alejadas. Por ejemplo, quitando 10 pulsos seguidos de 83:
 
-{% include image.html size="big" file="fg_2.2_10.png" caption="Resultado de generar 2.2Hz quitando 10 pulsos cada 83." %}
+{% include image.html class="large-width" file="fg_2.2_10.png" caption="Resultado de generar 2.2Hz quitando 10 pulsos cada 83." %}
 
 Otra posible solución es recurrir a la estadística para quitar un pulso de cada 8.333. Obtenemos un número entre 0 y 1 y si es mayor de 1/8.333 nos tragamos el pulso. Este sería el bucle principal de nuestro programa ahora:
 
@@ -180,7 +180,7 @@ end
 
 y este es el resultado:
 
-{% include image.html size="big" file="fg_2.2_1rnd.png" caption="Resultado de generar 2.2Hz utilizando una distribución uniforme." %}
+{% include image.html class="large-width" file="fg_2.2_1rnd.png" caption="Resultado de generar 2.2Hz utilizando una distribución uniforme." %}
 
 Como veis las frecuencias se orientan alrededor de la buscada el resultado es bastante malo. Depende mucho de la distribución que elijamos, la distribución uniforme no es la mejor para esto.
 
@@ -225,7 +225,7 @@ Se usa muchísimo en tratamiento de señales. Con imágenes se ilustra muy bien 
 
 El resultado es bastante mejor al evitar patrones periódicos en la señal de salida, sin llegar al extremo aleatorio. Fijaos que el gráfico esta vez comienza en -120dB:
 
-{% include image.html size="big" file="fg_2.2_dither.png" caption="Resultado de generar 2.2Hz utilizando dithering." %}
+{% include image.html class="large-width" file="fg_2.2_dither.png" caption="Resultado de generar 2.2Hz utilizando dithering." %}
 
 ```
 Source frequency: 10.000Hz
@@ -269,7 +269,7 @@ El 0.85 multiplicando a e se llama *factor de realimentación*. No podemos poner
 
 El resultado es una señal de 2.2Hz más estrecha y potente. Con sus armónicos también más estrechos y más potentes.
 
-{% include image.html size="big" file="fg_2.2_dither_ns.png" caption="Resultado de generar 2.2Hz utilizando dithering y noise-shaping." %}
+{% include image.html class="large-width" file="fg_2.2_dither_ns.png" caption="Resultado de generar 2.2Hz utilizando dithering y noise-shaping." %}
 
 Pero lo más importante es una consecuencia de la técnica que no se aprecia en este caso de uso. Como el valor anterior influye en el valor futuro forzando el cambio (realimentación), las variaciones en la señal de salida se suceden más rápidamente de lo dictado por la pura estadística. O sea que el ruido será de una frecuencia más alta de lo normal. Por eso se dice que el ruido está desplazado hacia la parte alta del espectro de frecuencias. Resulta muy útil en frecuencias bajas, por ejemplo, ya que al mover el ruido fuera de la banda audible nos facilita filtrarlo a la salida.
 
@@ -323,7 +323,7 @@ La mínima frecuencia posible será 19.2MHz dividido entre 4096, o sea 4688Hz. Y
 
 Como práctica había pensado conectar un ADC a la salida para dibujar la respuesta en frecuencia de un circuito. Necesitaremos el generador, el circuito bajo prueba, rectificar y amplificar la señal y medirla. Este es diagrama de bloques:
 
-{% include image.html size="big" file="bodeplotter_bloques.png" caption="Esquema de bloques para realización de medidas." %}
+{% include image.html class="large-width" file="bodeplotter_bloques.png" caption="Esquema de bloques para realización de medidas." %}
 
 De izquierda a derecha:
 
@@ -335,11 +335,11 @@ De izquierda a derecha:
 
 Los esquemas serán lo más sencillos posible para no distraer la atención del tema principal del artículo. Empezamos por el esquema del rectificador. Un clásico [rectificador de media onda](http://www.circuitstoday.com/half-wave-rectifiers).
 
-{% include image.html size="medium" file="esq_rectificador.png" caption="Esquema del rectificador utilizado." %}
+{% include image.html class="medium-width" file="esq_rectificador.png" caption="Esquema del rectificador utilizado." %}
 
 Saber qué ocurre dentro de un circuito tan simple nos ayudará a escoger los valores para los componentes. Fijaos en esta forma de onda. El gráfico está exagerado para explicarlo, se distinguen 4 partes.
 
-{% include image.html size="big" file="plot_rectif.png" caption="Forma de onda típica en el interior del rectificador." %}
+{% include image.html class="large-width" file="plot_rectif.png" caption="Forma de onda típica en el interior del rectificador." %}
 
 - **Parte 1: subida.** La salida acaba de ponerse a 1. El condensador C se carga exponencialmente a través del diodo D. Recordad que D tiene una cierta caída de potencial. Pero también el circuito origen tiene su resistencia de salida llamémosla Rout. Dicha resistencia y R forman un divisor resistivo, pero puede simplificarse en nuestro caso porque R es mucho mayor que Rout.
 - **Parte 2: estable.** C está totalmente cargado y la tensión se estabiliza. Este será el valor máximo que midamos al conectar el ADC a la salida del rectificador.
@@ -364,35 +364,35 @@ D = 1N4148
 
 A continuación medimos la respuesta en frecuencia del rectificador.
 
-{% include image.html size="big" file="bp_rectificador.png" caption="Respuesta en frecuencia del rectificador." %}
+{% include image.html class="large-width" file="bp_rectificador.png" caption="Respuesta en frecuencia del rectificador." %}
 
 Es prácticamente plana hasta los 100MHz. Tiene ruido en las frecuencias bajas, pero no es importante porque lo usaremos sólo por encima de los 10kHz y tan sólo es una prueba cualitativa. En las frecuencias más altas tiene también un comportamiento inesperado. Tal vez por el diodo o tal vez por la propia salida de la Raspberry. Servirá.
 
 A continuación, el esquema del amplificador:
 
-{% include image.html size="medium" file="esq_amplificador.png" caption="Esquema del amplificador buffer utilizado." %}
+{% include image.html class="medium-width" file="esq_amplificador.png" caption="Esquema del amplificador buffer utilizado." %}
 
 Su función es proteger la salida de la Raspberry. Y como sólo tiene que amplificar ondas cuadradas no nos preocupamos de la distorsión. Sí debemos preocuparnos del ancho de banda y ahí es donde entra R3. Esta es la respuesta en frecuencia del amplificador tal como está con el emisor degenerado. Con este esquema tan simple hay una caída de la amplificación a partir de los 2MHz más o menos:
 
-{% include image.html size="big" file="bp_ampl_con_re.png" caption="Respuesta en frecuencia del amplificador **con** resistencia de emisor." %}
+{% include image.html class="large-width" file="bp_ampl_con_re.png" caption="Respuesta en frecuencia del amplificador **con** resistencia de emisor." %}
 
 De por sí el ancho de banda de un emisor común no es muy grande, pero si lo forzamos además eliminando la resistencia de emisor la caída comienza en los 700kHz y es muchísimo más acusada:
 
-{% include image.html size="big" file="bp_ampl_sin_re.png" caption="Respuesta en frecuencia del amplificador **sin** resistencia de emisor." %}
+{% include image.html class="large-width" file="bp_ampl_sin_re.png" caption="Respuesta en frecuencia del amplificador **sin** resistencia de emisor." %}
 
 ## Resonancia
 
 La resonancia LC es de las cosas que mejor se ven en una práctica de laboratorio. Además, es sorprendente lo bien que funciona cuando la inductancia es grande.
 
-{% include image.html size="medium" file="foto_inductancia.png" caption="Antena RFID similar a la utilizada en las pruebas." %}
+{% include image.html class="medium-width" file="foto_inductancia.png" caption="Antena RFID similar a la utilizada en las pruebas." %}
 
 Usaremos como inductancia una antena para etiquetas RFID de 125kHz y un condensador de 220pF. El amplificador es necesario porque la tensión en la unión de L con C puede superar con mucho la tensión de alimentación de la Raspberry. Usando el transistor como buffer en entrada no sobrecargaremos la salida.
 
-{% include image.html size="big" file="esq_resonante6.png" caption="Esquema completo del circuito resonante." %}
+{% include image.html class="large-width" file="esq_resonante6.png" caption="Esquema completo del circuito resonante." %}
 
 He tenido que usar un potenciómetro para reducir el nivel de salida. La respuesta en frecuencia es así:
 
-{% include image.html size="big" file="bp_resonancia.png" caption="Respuesta en frecuencia del circuito resonante." %}
+{% include image.html class="large-width" file="bp_resonancia.png" caption="Respuesta en frecuencia del circuito resonante." %}
 
 El pico se da en torno a los 330kHz. Pero vemos también que hay otros picos menores antes de llegar al máximo principal. ¿A qué se deben? De derecha a izquierda, los primeros picos antes del máximo son:
 

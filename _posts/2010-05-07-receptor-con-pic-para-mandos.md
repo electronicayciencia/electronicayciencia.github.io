@@ -21,11 +21,11 @@ Debido a lo anterior da la impresión de que esos mandos no van del todo finos. 
 
 Como es habitual, se transmite modulando una portadora de entre 36 y 40kHz. Dependiendo de cuando haya señal o no haya interpretamos un 0 o un 1. La información tiene esta forma:
 
-{% include image.html size="small" file="0_1.png" caption="" %}
+{% include image.html class="small-width" file="0_1.png" caption="" %}
 
 Podéis ver una explicación más extensa del protocolo en [esta web](http://www.sbprojects.com/knowledge/ir/nec.htm) o en [este enlace](http://www2.renesas.com/faq/en/mi_com/f_com_remo.html). La imagen anterior es desde el punto de vista del led. Pero nosotros vamos a utilizar un módulo detector cuya salida es un nivel 1 en ausencia de portadora, y se va a 0 cuando detecta la señal. Así que lo que vamos a ver es esa misma imagen pero invertida:
 
-{% include image.html size="small" file="0_1_inv.PNG" caption="" %}
+{% include image.html class="small-width" file="0_1_inv.PNG" caption="" %}
 
 A la vista de lo anterior, lo que voy a usar para distinguir el 0 del 1 es el lapso entre dos **transiciones hacia 0V**. Si transcurren 1125us lo que se transmitió fue un **0**, si transcurren 2250us entonces se tratará de un **1**.
 
@@ -188,17 +188,17 @@ Durante el bucle principal se comprueba *IR_Estado* en busca de un comando. En c
 
 Una vez escrita la rutina viene bien simularla con MPLAB para ver si funciona o no. Para eso necesitamos un **archivo de estímulos** que reproduzca lo que se recibiría desde el modulo receptor de IR. Hay varias formas de hacerlo, pero si queremos ser realistas, tener en cuenta las tolerancias de tiempo, etc. una forma de hacerlo es conectar el receptor a la tarjeta de sonido. Yo utilizo este esquema, con el potenciómetro se puede regular el volumen de los impulsos.
 
-{% include image.html size="medium" file="esquema+tarjeta.PNG" caption="" %}
+{% include image.html class="medium-width" file="esquema+tarjeta.PNG" caption="" %}
 
 Lo que recibimos es un tren de pulsos. Os recomiendo utilizar el programa Xoscope, que además de visualizar la señal nos permite grabar en un fichero las muestras. En la imagen siguiente vemos un gráfico de la señal recibida en rojo y su interpretación digital en azul. Os adjunto una utilidad sencilla en Perl para leer un fichero con las muestras guardado por Xoscope y generar un fichero de estímulos SBS para MPLAB. El programita se llama **dat2sbs.pl** y os lo incluyo junto a otros ficheros al final de la entrada. Únicamente tendréis que editar el código para poner vuestra frecuencia de muestreo y a los cuantos milisegundos queréis que se inicie la transmisión.
 
 ## Interpretación del código recibido
 
-{% include image.html size="" file="esquema_pic.png" caption="" %}
+{% include image.html class="original-width" file="esquema_pic.png" caption="" %}
 
 Tras programar el PIC con el código hex que os adjunto lo conectamos al puerto serie del PC con un montaje como el de la figura. Para esto resulta especialmente práctico el proyecto que os presenté [anteriormente]({{site.baseurl}}{% post_url 2010-03-22-conversor-usb-rs232 %}). Y ya estamos preparados para recibir los códigos.
 
-{% include image.html size="big" file="receptorNEC_gtkterm.png" caption="" %}
+{% include image.html class="large-width" file="receptorNEC_gtkterm.png" caption="" %}
 
 La interpretación del código es como sigue:
 
@@ -214,7 +214,7 @@ La interpretación del código es como sigue:
 
 Como veis, dentro de cada código el comando se transmite dos veces. Una vez normal y la siguiente invertido (cambiando los 1 por 0). Se hace así como comprobación de errores. Al recibir el código se debería comprobar si el comando invertido coincide con la última parte del código, y si no coincide es debido a algún error y descartarlo. En esta rutina no he incorporado ese mecanismo por simplicidad.
 
-{% include image.html size="big" file="tren_de_pulsos_desglosado.png" caption="" %}
+{% include image.html class="large-width" file="tren_de_pulsos_desglosado.png" caption="" %}
 
 En [este enlace]({{page.assets | relative_url}}/receptorNEC.rar) os dejo los ficheros utilizados:
 

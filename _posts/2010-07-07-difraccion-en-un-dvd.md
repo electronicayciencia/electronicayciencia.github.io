@@ -33,11 +33,11 @@ Ahora con el láser apuntando a la placa, localizad el rayo reflejado y colocad 
 
 Una vez situados los *soldaditos* le sacaremos una foto desde arriba. Importante que sea lo más vertical posible y centrada en la placa de DVD. Así los ángulos no se deforman con la perspectiva ni con la óptica de la cámara por mala que sea. El resultado es una foto así, fijaos que **el trozo de DVD no se ve** porque está completamente *de canto*:
 
-{% include image.html size="" file="Imagen095.jpg" caption="" %}
+{% include image.html class="original-width" file="Imagen095.jpg" caption="" %}
 
 La luz incide por la derecha (centro). A la izquierda está el rayo transmitido. El rayo reflejado no se ve porque hemos hecho que **coincida con el incidente**. A ambos lados del rayo principal veis los difractados. Estos provienen del **primer oden de difracción** tanto transmitida (izquierda) como reflejada (derecha). Con este ángulo de incidencia el segundo orden no aparece. Para que se vea más claro he hecho un esquema de la imagen:
 
-{% include image.html size="" file="esq_img095.png" caption="" %}
+{% include image.html class="original-width" file="esq_img095.png" caption="" %}
 
 Medir ángulos sobre la imagen es fácil. Sólo tenéis que unir los puntos dos a dos para obtener el centro. Y a partir de ahí cualquier programa de dibujo como GIMP os permite medir ángulos. Yo lo he hecho con el Xfig, que es *prehistórico* pero hace muy buenos apaños y me encanta.
 
@@ -75,50 +75,50 @@ La conclusión es que un DVD se comporta como una red de difracción de **1360 l
 
 He preparado una hoja de cálculo para este apartado. Está en [este enlace](https://spreadsheets.google.com/ccc?key=0AjHcMU3xvtO8dHBpdHdWQ3BNWU54MkY5bzlBTzVkQXc&amp;hl=es&amp;authkey=CIjFp_UF). Ahora uso el dato de 0.74µm. Con el ángulo incidente 0, totalmente perpendicular tenemos este caso.
 
-{% include image.html size="" file="dvd_0_720.png" caption="" %}
+{% include image.html class="original-width" file="dvd_0_720.png" caption="" %}
 
 Además del láser hay dos columnas más. Una corresponde a la longitud de onda del rojo y la otra la del violeta. ¿Para qué? Pues para cubrir todo el espectro visible. La captura anterior nos dice que, con el ángulo de incidencia 0, *la difracción en primer orden del espectro visible cubre un ángulo que va desde 77º a los 33º, por tanto tiene una anchura angular de 44º*. Los ángulos se cuentan desde la perpendicular, como en el esquema de antes. No os dejéis despistar por los signos, solamente indican si se cuentan hacia la izquierda o hacia la derecha.
 
 Con 1300 líneas/mm la difracción en primer orden es muy brillante, pero las líneas están poco separadas; la resolución es muy pobre. Para ver algo mejor el espectro recurriremos al segundo o tercer orden. Habrá que variar el ángulo de incidencia. Este es un esquema de lo que obtenemos si situamos el **láser donde estaría el R<sub>1</sub>**.
 
-{% include image.html size="" file="esq_img105.png" caption="" %}
+{% include image.html class="original-width" file="esq_img105.png" caption="" %}
 
 Aparecen máximos de segundo orden. Pero esto es para una longitud de onda de 650nm. Como lo que nos interesa es el espectro visible aún tenemos que decidir qué ángulo es el que más nos conviene.
 
 Veamos esta otra tabla en la que aparece el principio y el final de los dos primeros órdenes en un DVD según variemos el ángulo de incidencia. He tenido que **recortar la zona del rojo** de los 750nm a los 700, para que el segundo orden apareciera completo. La difracción en segundo orden de 750nm no aparece por ser una longitud de onda tan larga, necesitaríamos un ángulo de incidencia mayor de 90º, y eso es imposible.
 
-{% include image.html size="" file="incidencias_dvd.png" caption="" %}
+{% include image.html class="original-width" file="incidencias_dvd.png" caption="" %}
 
 El segundo orden comienza a verse a los 5º, pero sólo las ondas cortas como el violeta. Para ver el espectro hasta el rojo habrá que esperar hasta los 65º. Con un ángulo incidente de 65º ya veríamos el espectro completo en segundo orden. A 80º veríamos el rojo y a 10º el violeta. Pero hay un problema, que a 65º, más o menos a la mitad, tenemos **el propio rayo reflejado** y nos lo jode. Así que no nos vale. Con 85º o 90º ya no pasa esto, el problema es ahora que los rayos llegan demasiado oblicuos y el espectro se ve muy débil.
 
 El ángulo óptimo parece que es 80º.
 
-{% include image.html size="" file="dvd_60gr_700.png" caption="" %}
+{% include image.html class="original-width" file="dvd_60gr_700.png" caption="" %}
 
 Sin embargo vemos como el violeta de tercer orden se superpone ya a los 40º. El tercer orden empieza a superponerse a partir de los 460nm. En general no supone un problema pues además de ser mucho más débil, es fácil distinguir por el color las líneas que son producto de la superposición. Nos interesa este segundo orden porque **el ancho (60º) es mayor que el primero (sólo 24º)**. *Nota: el orden 0 no se dispersa.* La cámaras de fotos de los móviles tienen una apertura angular de unos 60º precisamente (es fácil medirlo: dibujad dos puntos en un papel y separad la cámara hasta que los puntos coincidan con los extremos de la pantalla, sabiendo la separación entre los puntos y la distancia del papel a la cámara lo demás es trigonometría).
 
 Para que os hagáis una idea, cuando observamos el espectro de una luz con un DVD realmente estamos haciendo esto (no he dibujado el tercer orden):
 
-{% include image.html size="big" file="dvd.png" caption="" %}
+{% include image.html class="large-width" file="dvd.png" caption="" %}
 
 ## Con un CD
 
 Como un CD tiene menos líneas por milímetro los números cambian, pero **la ley es la misma**. Así que con las mismas hojas de cálculo que antes obtenemos la posición de los máximos. Por ejemplo cuando el ángulo incidente es 0:
 
-{% include image.html size="" file="cd_0.png" caption="" %}
+{% include image.html class="original-width" file="cd_0.png" caption="" %}
 
 Poniendo el rayo incidente donde antes estaba el rojo. Vemos hasta el tercer orden completo. Sin bien todos los espectros están superpuestos entre sí.
 
-{% include image.html size="" file="cd_rj_en-1.png" caption="" %}
+{% include image.html class="original-width" file="cd_rj_en-1.png" caption="" %}
 
 Y lo que es más importante, es que para obtener la anchura de 60º que teníamos antes con un DVD en segundo orden, con un CD tenemos que recurrir al tercer orden, y será mucho más débil.
 
 En la imagen de abajo veis los rayos que produce un CD. Si os fijáis bien en el mazo de cartas se ve el rayo difractado de tercer orden que debería coincidir con el transmitido (puntero). Aquí lo he desviado un poco para que se vea. Digamos que en lugar de estar a 54º le láser está a 50º respecto a la normal del CD.
 
-{% include image.html size="" file="Imagen128_editada.jpg" caption="" %}
+{% include image.html class="original-width" file="Imagen128_editada.jpg" caption="" %}
 
 Los ángulos no los he medido, son sólo un ejemplo de lo que sale en la hoja de cálculo si suponemos que el láser está a 50º. Observad siempre el **criterio de signos**.
 
-{% include image.html size="" file="cd_lr_en_2.png" caption="" %}
+{% include image.html class="original-width" file="cd_lr_en_2.png" caption="" %}
 
 Más adelante estos cálculos nos servirán para hacer un espectroscopio casero.

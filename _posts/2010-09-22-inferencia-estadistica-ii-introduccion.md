@@ -40,19 +40,19 @@ Al igual que en un programa de bricolaje casero (los españoles podéis leerlo c
 
 En primer lugar, hemos dibujado una t de Student:
 
-{% include image.html size="" file="t_normalizada_m1m2.png" caption="" %}
+{% include image.html class="original-width" file="t_normalizada_m1m2.png" caption="" %}
 
 Pero a diferencia de la normal, en la que se indica la media y la varianza, la t sólo depende de un parámetro que es el número de grados de libertad de la muestra. Que para nosotros viene a ser el número de puntos menos uno. Así que habrá que incorporar estos parámetros jugando con el eje X de la gráfica.
 
 A continuación, hemos desplazado la gráfica. En lugar de graficar t<sub>df</sub>(x) hemos graficado t<sub>df</sub>(x-media). Así conseguimos que la gráfica que antes estaba centrada en cero, quede centrada en nuestra media. La forma de la gráfica es la misma, sólo cambia el eje X.
 
-{% include image.html size="" file="t_desplazada_m2.png" caption="" %}
+{% include image.html class="original-width" file="t_desplazada_m2.png" caption="" %}
 
 Ya sólo nos queda incorporar las unidades al eje X. Ahora mismo está en unidades de error de la media. Para lo cual, procedemos a multiplicar la variable por la unidades que queramos. Como está en *errores de la media* multiplicaremos por la inversa, o lo que es lo mismo, dividiremos por el error de la media (que habíamos llamado MSE -Mean Squared Error-).
 
 Así pues, en vez de t<sub>df</sub>(x-media) graficamos t<sub>df</sub>( (x-media)/SEM ).
 
-{% include image.html size="" file="t_xcorregida_m2.png" caption="" %}
+{% include image.html class="original-width" file="t_xcorregida_m2.png" caption="" %}
 
 Y es todo, chicos. Con eso ya tenemos nuestra distribución t parametrizada al gusto.
 
@@ -98,7 +98,7 @@ La cota inferior se va reduciendo y la superior aumenta, por lo que el intervalo
 
 Ahora que ya recordamos esto, vamos a calcular la media para la segunda cucharilla. Resulta que la capacidad para esta está entre 3.95 y 4.25ml al 95%. Un criterio para decidir que las medias no coinciden es que los intervalos de confianza no solapen. Mirad esta imagen:
 
-{% include image.html size="" file="intervalos_crecientes.png" caption="" %}
+{% include image.html class="original-width" file="intervalos_crecientes.png" caption="" %}
 
 Fijaos en los primeros intervalos, los de 95%. Como el intervalo de primera cucharilla acaba en 3.846 y el de la segunda empieza en 3.951 decidimos que **no solapan**. Luego las cucharillas tienen distinta capacidad.
 

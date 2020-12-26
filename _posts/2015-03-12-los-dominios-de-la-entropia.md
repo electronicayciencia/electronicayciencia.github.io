@@ -189,7 +189,7 @@ Pues desde el punto de vista entrópico, la frecuencia de los caracteres en los 
 
 **(todas las imágenes las podéis ampliar haciendo clic)**
 
-{% include image.html size="" file="distribs_letras.png" caption="" %}
+{% include image.html class="large-width" file="distribs_letras.png" caption="" %}
 
 ## La decisión
 
@@ -224,7 +224,7 @@ Reflexiona lo anterior con esta frase, y cuando te marees sigue leyendo:
 
 Por ejemplo, ¿qué tal si representamos en un gráfico la relación entre positivos y falsos positivos? Cuando esta relación sea máxima, maximizaremos los positivos minimizando los errores. Suena bien.
 
-{% include image.html size="" file="rel_tp_fp_letras.png" caption="" %}
+{% include image.html class="large-width" file="rel_tp_fp_letras.png" caption="" %}
 
 El punto óptimo según este criterio está en entropía 3.6, punto en que cometeríamos un fallo por cada 12 aciertos. Oye, es un 90% de eficacia; la leche.
 
@@ -236,9 +236,66 @@ En otros tipos de test, como las pruebas clínicas, el criterio hay que pensarlo
 
 Así que lo mejor es que representemos en un gráfico la fracción de falsos positivos que estamos dispuestos a aceptar, y la fracción de positivos reales que conseguiríamos con ello:
 
-{% include image.html size="" file="ROC_letras.png" caption="" %}
+{% include image.html class="large-width" file="ROC_letras.png" caption="" %}
 
-{% include image.html size="" file="ROC_letras.png" caption="" %}
+<a href="http://1.bp.blogspot.com/-_PaJoc2Qz-g/VQC2eMBG1zI/AAAAAAAAA-s/9yt5CjQqgug/s1600/ROC_letras.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+
+</a>
+
+Habitualmente se escoge un umbral tal que detecte el 80% de positivos y luego, junto con el test, indicamos la probabilidad de que sea un falso positivo. Dado el gráfico anterior ya nos hacemos una idea de lo bueno o lo malo que es el test según la curva se acerque más a la **esquina superior izquierda**: eso significaría el 100% de positivos detectados con 0 errores.
+
+## Dígrafos
+
+Una de las quejas que teníamos en el apartado anterior era que en el cálculo de la entropía no representaba ningún papel la ordenación de las letras. Vamos a intentar mejorar eso haciendo el cálculo con parejas de letras. Aunque la palabra dígrafo sólo se refiere a parejas de letras que tienen un sonido único como "ch" o "rr", yo la voy a usar aquí para indicar parejas de letras.
+
+¿Cual es el propósito de esta variación? pues mejorar el test aprovechando que la pareja de letras "ch" es más frecuente que la pareja "hc". Ahora nuestros elementos ya no van a ser letras, sino dígrafos. Por ejemplo, separando *google* en dígrafos estaría compuesto por:
+
+    ^g
+    go
+    oo
+    og
+    gl
+    le
+    e$
+
+Los símbolos "^" y "$" indican el comienzo y el final de la palabra. Los voy a incorporar para que también entre en el juego la probabilidad de que un dominio empiece por una letra o acabe por otra.
+
+Bueno pues, de nuevo alimentamos la base de datos. Lo que ocurre es que donde antes sólo había 26 letras y 10 números, ahora hay **1368 combinaciones**. Ahora veis que tiene sentido el comodín "_" para los símbolos sin ninguna aparición.
+
+Ordenando el TOP500 de España como antes obtenemos este resultado:
+
+    5.402 pinterest
+    5.474 meristation
+    5.491 eldiariomontanes
+    5.548 mileroticos
+    5.598 pelismaseries
+    ...
+    8.925 fiuxy
+    8.955 los40
+    9.266 bet365
+    9.307 7769domain
+    9.588 1and1
+    9.900 ad131m
+
+A primera vista es bastante similar al resultado que salía antes con las letras solas. A ver con los aleatorios:
+
+    6.056 ecrreaictepimeli
+    6.133 rrirdtecowehieer
+    6.305 dcleweelowheergg
+    6.531 reitweamiicfaife
+    6.539 potpegigegecpptr
+    ...
+    9.799 wmjzjgzlmwmoqwgp
+    9.837 wdhhwpwwqqqzjpmo
+    9.927 rzcjlpfzfjjwpjwi
+    9.956 jmhzpcpjjhlwqfza
+    10.191 pzdjqwpgjjfcjfjc
+
+Los dos primeros que salen son igual que en el caso anterior. El tercero ya es diferente y se nota que contiene dígrafos comunes en inglés cómo "wh", "ee", "we", etc. Además cómo el número de combinaciones ahora es mayor, el valor numérico de la entropía también es superior.
+
+La prueba de fuego, vamos a representar la curva de positivos vs. falsos positivos y comparar:
+
+{% include image.html class="large-width" file="ROC_digs.png" caption="" %}
 
 A simple vista no se diferencian mucho. Sin embargo hay un criterio objetivo para indicar si un test es mejor que otro. Se supone que mientras más arriba a la izquierda esté la curva, mejor diferenciación hace el test. Pues el criterio consiste en calcular el área bajo la curva que es el número que tenéis en la leyenda.
 
@@ -288,11 +345,11 @@ Hasta ahora muy parecido a lo anterior. Y para los aleatorios:
 
 No queda del todo claro que sea mejor. Vamos a compararlo dibujando la curva ROC junto a los otros dos.
 
-{% include image.html size="" file="ROCx3.png" caption="" %}
+{% include image.html class="large-width" file="ROCx3.png" caption="" %}
 
 ¡Hala! los otros dos daban buenos resultados, pero es que este es casi infalible. Veamos cómo son las distribuciones de ambos para encontrar el por qué del resultado.
 
-{% include image.html size="" file="distribs_trigs.png" caption="" %}
+{% include image.html class="large-width" file="distribs_trigs.png" caption="" %}
 
 ## Principio GIGO
 
@@ -345,7 +402,7 @@ Para el administrador del dominio es totalmente transparente y no advertirá nad
 
 Este es un gráfico comparativo de la entropía de los dominios de Angler EK, con respecto al Top 500 de España, calculada con tríos de letras.
 
-{% include image.html size="" file="angler_glob_topES.png" caption="" %}
+{% include image.html class="large-width" file="angler_glob_topES.png" caption="" %}
 
 ¿Por qué la distribución de Angler tiene **dos máximos**? Obviamente porque hay dos tipos de dominios diferente. Si miramos el listado veremos que los subdominios pueden ser pseudoaleatorios,como estos:
 
@@ -374,16 +431,16 @@ Ahora parece razonable ver las dos distribuciones mezcladas. El máximo de mayor
 
 Según Cisco, si leéis el enlace anterior, Angler ha variado su forma de generar dominios. Cabe preguntarse si se notará en la distribución. Así que comparemos la entropía de los dominios recientes con el listado global:
 
-{% include image.html size="" file="angler_rec_final.png" caption="" %}
+{% include image.html class="large-width" file="angler_rec_final.png" caption="" %}
 
 Fijaos que en el grupo de dominios recientes (en azul) el máximo de la derecha ha desaparecido. Bueno, no ha desaparecido del todo  sino que ahora está muy a la derecha pero es mucho menor (en torno al 12). Eso quiere decir que los creadores de Angler, con muy buen criterio, han decidido favorecer los dominios formados pos palabras.
 
 Es de suponer que estos serán más difíciles de diferenciar, como se ve perfectamente en el gráfico siguiente. Comparamos la distribución de los dominios de Angler con el Top 500 de España. Y, tal como puede verse, las distribuciones están bastante próximas.
 
-{% include image.html size="" file="angler_rec_topES.png" caption="" %}
+{% include image.html class="large-width" file="angler_rec_topES.png" caption="" %}
 
 La última pregunta, si el test serviría para diferenciarlos la podéis responder vosotros viendo la curva ROC y sabiendo que el área bajo la curva es 0.87.
 
-{% include image.html size="" file="roc_trigs_anglerrec.png" caption="" %}
+{% include image.html class="large-width" file="roc_trigs_anglerrec.png" caption="" %}
 
 Nada más por el momento. Gracias por leer hasta aquí. Los scripts en Perl, ficheros, resultados, etc los podéis encontrar en este enlace: [fuentes]({{page.assets | relative_url}}/entropia_digrafos.zip).

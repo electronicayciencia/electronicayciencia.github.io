@@ -12,7 +12,7 @@ Para decodificar el protocolo RC5 hay dos formas de hacerlo. Una es muestreando 
 
 Esto es un ejemplo de codificación Manchester:
 
-{% include image.html size="big" file="11011110.grid.png" caption="" %}
+{% include image.html class="large-width" file="11011110.grid.png" caption="" %}
 
 Hace ya tiempo conté una forma de decodificar el protocolo RC5 utilizando un PIC: [Decodificacion del protocolo RC5 usando un PIC]({{site.baseurl}}{% post_url 2010-04-01-decodificacion-del-protocolo-rc5-usando %}). Por algunos correos que he recibido parece que no terminó de quedar claro, y además prometí dedicarle otra entrada al código C. Sería muy conveniente que repasaras la entrada a la que me refiero, porque esta no es más que una especie de nota aclaratoria.
 
@@ -21,7 +21,7 @@ Para empezar supongamos que nos llega una señal como la de arriba. Las lineas v
 1. **Siempre, siempre hay una transición en mitad de un periodo**. Precisamente porque [tiene la señal de reloj incorporada](http://en.wikipedia.org/wiki/Self-clocking_signal). Recordad que es para ayudarnos a sincronizar el reloj del receptor con el del transmisor. Aunque casi nunca se ajusta dinámicamente; simplemente sincronizamos al principio y nos limitamos a dar error si se desincroniza. Aunque ya vimos como se puede ajustar dinámicamente la frecuencia de reloj para decodificar señales tipo [Aiken Biphase]({{site.baseurl}}{% post_url 2010-11-24-decodificar-aiken-biphase-con-perl %}) cuando leímos la banda magnética de las tarjetas de crédito.
 1. **Si la transición es hacia arriba (de 0 a 1) se interpreta como un 1, si es hacia abajo, se interpreta como un 0.** Lo que también podría decirse como *si el pulso positivo está a la izquierda del periodo es un 0 y si está a la derecha es un 1*. Mira la imagen de abajo, te ayudará.
 
-{% include image.html size="big" file="rc5.png" caption="" %}
+{% include image.html class="large-width" file="rc5.png" caption="" %}
 
 ## El programa
 
@@ -29,7 +29,7 @@ No quiero resultar cansino, así que voy a suponer que has leído la entrada ant
 
 Tenemos la señal de ejemplo de arriba, voy a quitar las líneas divisorias y a numerar las transiciones.
 
-{% include image.html size="big" file="11011110.nogrid.png" caption="" %}
+{% include image.html class="large-width" file="11011110.nogrid.png" caption="" %}
 
 Los números en la parte de arriba son correlativos e indican de qué transición se trata. La línea de abajo corresponde a la interpretación que s ele da a las transiciones. Las marcas de confirmación, que representan bits, están representadas por números grandes, mientras que los número pequeños indican una marcas de continuación.
 

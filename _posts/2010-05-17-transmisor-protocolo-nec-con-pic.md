@@ -95,17 +95,17 @@ ir_send(IR_CODE_TV_ON);
 
 el código 20DF10EF se escribe en **binario** como *0010 0000 1101 1111 0001 0000 1110 1111* (32 bits, 32 unos y ceros). Si monitorizamos GP2 en el analizador lógico de MPLAB veremos la siguiente ráfaga:
 
-{% include image.html size="big" file="trace.png" caption="" %}
+{% include image.html class="large-width" file="trace.png" caption="" %}
 
 se aprecia el pulso de start, la duración de los 1 y los 0 y el bit de parada. Pero recordemos que lo que modulamos es una portadora de 38kHz, así que si hacemos zoom apreciamos esta frecuencia:
 
-{% include image.html size="big" file="trace_zoom.png" caption="" %}
+{% include image.html class="large-width" file="trace_zoom.png" caption="" %}
 
 ## Conexionado
 
 Una de las preguntas más frecuentes es si necesitamos un transistor para encender y apagar el LED IR o si por el contrario será suficiente con la capacidad de salida del PIC. ¿Hay que poner alguna resistencia en serie? Para aclararlo es preciso calcular el tiempo promedio que permanece encendido el LED durante el envío de un código.
 
-{% include image.html size="small" file="conexionado.png" caption="" %}
+{% include image.html class="small-width" file="conexionado.png" caption="" %}
 
 Vamos a tomar el supuesto de que el código sea **todo ceros**, puesto que la pausa para los 1 es más larga, un pulso que sea todo ceros tiene más energía por unidad de tiempo. Digamos que *no deja descansar el LED*. En este pulso durará 9000us + 4500us + 32*1120 + 560 = 49900us, de todo ese tiempo, sólo estará activo el pulso inicial de 9000us y los 32 pulsos de 560 más el de parada, en total 27480us. Pero recordemos que la portadora tiene un 50% de *duty-cycle*, por lo que el tiempo que realmente está encendido es la mitad: 13740us. Esto es un 28% del tiempo total. Y para el código que más potencia transmite.
 

@@ -13,7 +13,7 @@ Continuamos con el proyecto *DimmerIR*. La intención como ya habéis supuesto e
 
 Voy a usar un TRIAC para sólo dejar pasar parte de cada semiciclo, la forma de onda que recibe la bombilla es así:
 
-{% include image.html size="small" file="forward_phase.png" caption="" %}
+{% include image.html class="small-width" file="forward_phase.png" caption="" %}
 
 Debido a los cambios bruscos de tensión, esta forma de atenuación sólo sirve para cargas resistivas. Olvidaros de conectar una bombilla de bajo consumo.
 
@@ -57,7 +57,7 @@ $$
 
 El siguiente gráfico muestra cómo varía el valor eficaz de una corriente alterna dependiendo de en qué parte del semiciclo disparemos el TRIAC.
 
-{% include image.html size="big" file="tensionrelativa.png" caption="" %}
+{% include image.html class="large-width" file="tensionrelativa.png" caption="" %}
 
 Como era de esperar, si lo disparamos en 0, la onda llega completa y tenemos el 100% del valor nominal (serían 220V). A medida que cortamos más baja la potencia que llega a cero si nos esperamos al final para disparar el TRIAC. En este caso cortamos el total del semiciclo.
 

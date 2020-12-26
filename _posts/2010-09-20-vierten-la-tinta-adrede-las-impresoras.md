@@ -25,13 +25,13 @@ A estas alturas es cultura general pero no viene mal repasar lecciones de econom
 
 Por esta razón algunos fabricantes te obligan a cambiar de cartucho tan pronto como sea creíble, aunque eso signifique tirar los viejos a medio usar. Pero como siempre, la leyenda se mezcla con la realidad. Decía al principio que ayer desmonté una impresora de tinta. Que también tenía un poco depositada. No tanto como en el vídeo pero ved estas fotos.
 
-{% include image.html size="medium" file="BENQ0003.JPG" caption="" %}
+{% include image.html class="medium-width" file="BENQ0003.JPG" caption="" %}
 
-{% include image.html size="" file="BENQ0013.JPG" caption="" %}
+{% include image.html class="original-width" file="BENQ0013.JPG" caption="" %}
 
-{% include image.html size="" file="BENQ0022.JPG" caption="" %}
+{% include image.html class="original-width" file="BENQ0022.JPG" caption="" %}
 
-{% include image.html size="" file="BENQ0030.JPG" caption="" %}
+{% include image.html class="original-width" file="BENQ0030.JPG" caption="" %}
 
 Sin embargo pensándolo despacio **¿qué sentido tiene verter la tinta en el interior de la impresora?**  Como dicen en los comentarios del vídeo anterior, sería más sencillo  meter menos tinta en el cartucho. Total al usuario poco le importa si el  cartucho trae 1.5 o 2ml. ¿O alguno de vosotros sabe cuánto líquido  contienen los de su impresora? Lo que importa al usuario es cuántas  páginas puede imprimir con él. Si lo que se pretende es forzar al  usuario a cambiar, pues el mismo resultado se consigue llenándolo menos  que malgastando la tinta. Y es más sencillo y sobre todo **más discreto**, menos evidente, lo primero.
 
@@ -41,7 +41,7 @@ Pues esa  tinta malgastada es la que se emplea para eliminar obstrucciones del  
 
 Para  terminar una curiosidad, hace tiempo salió una comparativa entre el  precio por mililitro de diversos líquidos como penicilina, agua, sangre humana para  transfusiones o tinta de impresora. El enlace original está [aqui](http://gizmodo.com/gadgets/peripherals/hp-ink-costs-more-than-human-blood-booze-212444.php) pero os pego el gráfico:
 
-{% include image.html size="big" file="BloodInk.jpg" caption="" %}
+{% include image.html class="large-width" file="BloodInk.jpg" caption="" %}
 
 Así que ya veis:
 

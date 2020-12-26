@@ -13,7 +13,7 @@ Hoy tenemos un transmisor de un coche teledirigido muy básico. Tiene dos botone
 
 **Actualización:** En esta entrada hablo sobre el transmisor. Si quieres saber cómo funciona el receptor ve a [esta otra entrada.]({{site.baseurl}}{% post_url 2010-09-15-receptor-coche-rc-de-dos-canales %})
 
-{% include image.html size="" file="circuito.png" caption="" %}
+{% include image.html class="original-width" file="circuito.png" caption="" %}
 
 El circuito consta de dos partes. Un [oscilador astable]({{site.baseurl}}{% post_url 2010-04-27-multivibrador-astable-transistores %}) de BF, y un [oscilador *Pierce*](http://pr.erau.edu/%7Elyallj/ee412/pierce_exp.html) con un cristal de 27.145MHz como emisor de RF.
 

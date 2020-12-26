@@ -14,7 +14,7 @@ Dedico esta entrada a la presión atmosférica. Ya sabéis, eso que cuando sube 
 
 Hablaremos del BMP280, un sensor digital de presión y temperatura con comunicación I2C y SPI. Interpretar la lectura no es fácil, veremos los algoritmos que nos proporciona el fabricante y su API. Lo conectaremos a la Raspberry y registraremos la presión durante unos días. Para terminar estudiaremos las variaciones debidas a la llamada *marea barométrica* y los registros durante una breve tormenta.
 
-{% include image.html size="medium" file="baro_goethe_peque.jpg" caption="Botella barométrica o barómetro de Goethe. EyC." %}
+{% include image.html class="small-width" file="baro_goethe_peque.jpg" caption="Botella barométrica o barómetro de Goethe. EyC." %}
 
 Hasta el siglo XVI, la ciencia que se enseñaba en las universidades, la ciencia de verdad, en la que creía todo el mundo sin discusión, era la física aristotélica. Entonces llegó Copérnico y nos mostró que, a veces, las verdades bien establecidas y enseñadas durante generaciones no son ciertas. Llegó Francis Bacon y nos enseñó que la ciencia y la dialéctica son cosas distintas; y que algo no es verdad tan sólo porque sea razonable. Galileo nos explicó cómo hacer experimentos y ayudarnos de los números para proceder. Newton recorrió ese camino para sintetizar la nueva ciencia de la época en su obra culmen -que todos conocéis-, enterrando para siempre la física aristotélica.
 
@@ -22,7 +22,7 @@ Esta revolución ocurrió a lo largo del s.XVII, y cambió el modo de hacer cien
 
 Todo comenzó cuando alguien intentó bombear agua de un pozo de más de 10 metros de profundidad... [y vio que no se podía](https://en.wikipedia.org/wiki/Barometer#History).
 
-{% include image.html size="small" file="BMP280.jpg" caption="Sensor barométrico BMP280. [Bosch](https://www.bosch-sensortec.com/bst/products/all_products/bmp280)." %}
+{% include image.html class="small-width" file="BMP280.jpg" caption="Sensor barométrico BMP280. [Bosch](https://www.bosch-sensortec.com/bst/products/all_products/bmp280)." %}
 
 <!--more-->
 
@@ -36,7 +36,7 @@ Usar este dispositivo con la Raspberry es [muy sencillo](http://wiki.sunfounder.
 
 ¡Ya está! ¿Para qué complicarse? Fin del tutorial.
 
-{% include image.html size="medium" file="digital-art-happiness.png" caption="We live in a happy world. [Pinterest](https://www.pinterest.es/pin/544794886163949157/)." %}
+{% include image.html class="medium-width" file="digital-art-happiness.png" caption="We live in a happy world. [Pinterest](https://www.pinterest.es/pin/544794886163949157/)." %}
 
 Ahora bien, si buscas el detalle tecnológico, si te preguntas qué pasa dentro de esas librerías... si encuentras el camino más interesante que el destino, sigue leyendo... y prepárate.
 
@@ -88,7 +88,7 @@ La complejidad del BMP280 radica en su elevado número de registros, un total de
 - 5, para configuración y operaciones varias
 - y 24, 24 registros, contienen los datos de calibración interna
 
-{% include image.html size="big" file="memory_map.png" caption="Mapa de memoria del BMP280. Datasheet." %}
+{% include image.html class="large-width" file="memory_map.png" caption="Mapa de memoria del BMP280. Datasheet." %}
 
 ¿Qué se hace con todos estos datos?
 
@@ -96,7 +96,7 @@ Primero, se configuran las opciones del sensor fijando los valores apropiados en
 
 Y a partir de ahí, obtenemos la lectura real con un sencillo cálculo guiados por el ejemplo del datasheet:
 
-{% include image.html size="huge" file="algoritmo.png" caption="La lectura real se obtiene mediante un sencillo cálculo." %}
+{% include image.html class="x-large-width" file="algoritmo.png" caption="La lectura real se obtiene mediante un sencillo cálculo." %}
 
 El fabricante nos proporciona un driver ya listo con este algoritmo implementado de forma eficiente. Pero antes de usarlo, comprendámoslo.
 
@@ -104,7 +104,7 @@ El fabricante nos proporciona un driver ya listo con este algoritmo implementado
 
 Los barómetros, por lo general se encuentran influidos por la temperatura ambiente. Es muy fácil de ver en un tipo de barómetro llamado **barómetro de Goethe**; más conocido en eBay como *Glass Barometer Weather Forecast Rain Shine Bottle*.
 
-{% include image.html size="medium" file="baro_goethe.jpg" caption="Botella barométrica. El extremo superior está abierto. EyC." %}
+{% include image.html class="small-width" file="baro_goethe.jpg" caption="Botella barométrica. El extremo superior está abierto. EyC." %}
 
 Primero llenamos la botella de líquido. El nivel en el brazo lateral, cuyo extremo superior está abierto, alcanza una determinada altura. La presión dentro de la esfera interior no puede variar. Así pues, cuando aumenta la presión exterior, entra por el extremo abierto y empuja el líquido hacia abajo. Y si la presión atmosférica desciende, es la presión dentro de la esfera la que empuja el líquido a subir.
 
@@ -118,7 +118,7 @@ Líquido alto: ha bajado la presión o hace más *calor*.
 
 La lectura del barómetro siempre debe compensarse con la del termómetro. Por eso es común ver juntos barómetro y termómetro.
 
-{% include image.html size="medium" file="termo_barometer.jpg" caption="Barómetro y termómetro juntos. [Amazon](https://www.amazon.com/Educational-Innovations-Eco-celli-Barometer/dp/B009P8ALI4)." %}
+{% include image.html class="medium-width" file="termo_barometer.jpg" caption="Barómetro y termómetro juntos. [Amazon](https://www.amazon.com/Educational-Innovations-Eco-celli-Barometer/dp/B009P8ALI4)." %}
 
 Con frecuencia, omiten la tabla de compensación en los barómetros de interiores, donde se supone que el rango de temperaturas está acotado. El BMP280 introduce la compensación de temperatura dentro del algoritmo de lectura.
 
@@ -159,13 +159,13 @@ Lo cual sería estupendo si nuestro procesador puede usar una [Unidad de Punto F
 
 Mira lo que pasa en un microcontrolador PIC de gama baja al sumar dos números en coma flotante:
 
-{% include image.html size="huge" file="floating_point.png" caption="Suma de dos números de precisión sencilla en un PIC 12F, 162 instrucciones. EyC." %}
+{% include image.html class="x-large-width" file="floating_point.png" caption="Suma de dos números de precisión sencilla en un PIC 12F, 162 instrucciones. EyC." %}
 
 ¡162 instrucciones! 162 instrucciones por cada suma. ¡Casi 32us para la operación aritmética más simple: sumar dos números!
 
 ¿Qué tal si en vez de sumar 2.3 más 6.5, sumamos 23 más 65? Ahora la operación se convierte en suma de enteros, dando 88. Eso sí, debemos dividir el resultado entre 10 cuando vayamos a presentarlo al usuario.
 
-{% include image.html size="huge" file="fixed_point.png" caption="Suma de dos números enteros en un PIC 12F, 7 instrucciones. EyC." %}
+{% include image.html class="x-large-width" file="fixed_point.png" caption="Suma de dos números enteros en un PIC 12F, 7 instrucciones. EyC." %}
 
 Sólo 7 instrucciones. Varias de las cuales habrán sido para asignar a registros los valores de **a** y **b**, y otras tantas para operar con dos registros de 8 bits juntos como si fueran uno de 16.
 
@@ -177,7 +177,7 @@ En realidad no usamos potencias de 10 -fáciles para nosotros- sino potencias de
 
 Sigamos con los números del ejemplo anterior. Queremos escalar 2.3 a una potencia de 2. He hecho una tabla para el cálculo. La he compartido y podéis verla [aquí](https://docs.google.com/spreadsheets/d/1fQlrgfiAizZDGOhC3fAPFQ1Vk6SMFsVKXnL850K32F8/edit?usp=sharing). Este sería el error cometido en función del factor de escala:
 
-{% include image.html size="medium" file="fixed_point_table_2.3.png" caption="Escalado de un número decimal a una potencia de 2 con un tamaño de 8 bits. EyC." %}
+{% include image.html class="medium-width" file="fixed_point_table_2.3.png" caption="Escalado de un número decimal a una potencia de 2 con un tamaño de 8 bits. EyC." %}
 
 Si el tamaño de entero del procesador fuera 8 bits, no podremos escalarlo más allá de 256 que es el valor máximo. Meteríamos en el registro el valor 147 y nuestro factor de escala sería 64. Lo cual nos daría un error de 3 milésimas.
 
@@ -247,7 +247,7 @@ En su API, el fabricante nos ofrece funciones para calcular la temperatura con c
 
 He preparado una tabla con los tiempos en segundos con y sin optimizaciones del compilador, para 10 millones de iteraciones en una Raspberry Pi 3.
 
-{% include image.html size="medium" file="tabla_rendimiento.png" caption="Rendimiento de las funciones en una Raspberry Pi 3.  
+{% include image.html class="medium-width" file="tabla_rendimiento.png" caption="Rendimiento de las funciones en una Raspberry Pi 3.  
 10M iteraciones. Tiempo en segundos. EyC." %}
 
 En el cálculo de la **temperatura**, la aritmética de punto fijo supera a la de coma flotante. En cambio, si nos vamos al cálculo de la **presión**, es al revés, la aritmética de 64bits es más lenta que la coma flotante. ¿Por qué?
@@ -303,7 +303,7 @@ Comprobaremos el correcto funcionamiento recuperando el ID de dispositivo. Ya lo
 
 En dicho programa escribimos nuestras funciones de comunicación personalizadas. Inicializamos la librería WiringPi y la emulación I2C por software. Y de la línea 115 en adelante, configuramos el API y llamamos a la función de  inicialización. Si todo ha ido bien, esta llamada rellenará el ID de dispositivo .
 
-{% include image.html size="medium" file="device_found58.png" caption="El ID del BMP280 es 58h. EyC." %}
+{% include image.html class="medium-width" file="device_found58.png" caption="El ID del BMP280 es 58h. EyC." %}
 
 A partir de aquí, se trata de experimentar con distintas configuraciones o filtros siguiendo la documentación.
 
@@ -317,13 +317,13 @@ Recuerda que el sensor nos muestra el valor absoluto. Y varía con la altura. El
 
 Por ejemplo, 1000 hPa es una presión baja en una ubicación cercana al mar, pero alta para un terreno elevado. Sabiendo nuestra altura sobre el nivel del mar, podemos calcular aproximadamente la presión media esperable por la altura.
 
-{% include image.html size="big" file="pressure_altitude.png" caption="Presión en función de la altura. [Fuente](https://www.mide.com/pages/air-pressure-at-altitude-calculator). " %}
+{% include image.html class="large-width" file="pressure_altitude.png" caption="Presión en función de la altura. [Fuente](https://www.mide.com/pages/air-pressure-at-altitude-calculator). " %}
 
 Madrid está de media a **667** m sobre el nivel del mar, lo cual corresponde a unos 937 hPa. Luego el valor 944 que nos parecía muy bajo, es hecho 7 milibares *superior* a la presión media. Diríamos que, con referencia al nivel del mar estaríamos a 1020 mbar (los 1013 estandar más el exceso de 7 mbar).
 
 Como la presión varía con la altura de forma muy lineal, se puede usar un barómetro para determinar la altura a la que vuela un avión. Se llama **altímetro barométrico**.
 
-{% include image.html size="medium" file="Altimeter_C-14A_2992.jpg" caption="Altímetro barométrico. [aeroantique.com](https://aeroantique.com/)" %}
+{% include image.html class="medium-width" file="Altimeter_C-14A_2992.jpg" caption="Altímetro barométrico. [aeroantique.com](https://aeroantique.com/)" %}
 
 Pero la presión sube y baja según el día, ¿cómo afecta eso a los aviones? Pues en el caso más simple, cuando estás en tierra, ajustas el altímetro hasta que marca la altitud conocida del aeródromo. Y para las aeronaves en vuelo, los aeropuertos transmiten continuamente el dato de la presión atmosférica mediante los servicios [VOLMET](https://en.wikipedia.org/wiki/VOLMET) y [ATIS](https://en.wikipedia.org/wiki/Automatic_terminal_information_service). Al aproximarte al aeropuerto escuchas el dato de la presión (QNH) y ajustas el altímetro de acuerdo a la existente en la zona en ese momento.
 
@@ -335,13 +335,13 @@ El milímetro de mercurio fue la primera unidad usada para medir la presión atm
 
 Volvemos a nuestro programa de registro [read_bmp280.c](https://github.com/electronicayciencia/bmp280_sensor/blob/master/read_bmp280.c). Esta es la evolución de la presión, tomada a intervalos de 1 segundo, durante los últimos días.
 
-{% include image.html size="huge" file="presion_mes.png" caption="Registro de la presión atmosférica local. Click para ampliar. EyC." %}
+{% include image.html class="x-large-width" file="presion_mes.png" caption="Registro de la presión atmosférica local. Click para ampliar. EyC." %}
 
 En el gráfico, el tiempo está expresado como medida relativa, no absoluta. El día 1 no significa el primer día de mes, sino el primer día de registro. La presión también se expresa como variación sobre la media. Como pasa con muchas variables, el dato absoluto apenas significa nada, son sus variaciones lo que importa.
 
 Observemos la evolución a lo largo de cualquier día. Por ejemplo, el periodo entre los días 12 y 15.
 
-{% include image.html size="huge" file="presion_intradias.png" caption="Registro de la presión. Detalle. EyC." %}
+{% include image.html class="x-large-width" file="presion_intradias.png" caption="Registro de la presión. Detalle. EyC." %}
 
 Hay un máximo justo antes del medio día, y un mínimo a continuación. Pero fíjate en el gráfico completo, el de todos los días. Como a la mitad del día la presión desciende. Durante la mañana o la noche puede subir más, menos o estar estable, pero a mitad del día hay un descenso. Este patrón se repite todos los días y tiene nombre: se llama [**marea barométrica**](https://www.tiempo.com/ram/398982/la-marea-atmosferica-barometrica/).
 
@@ -351,7 +351,7 @@ Sus causas no están del todo claras. Podría deberse al calentamiento de las ca
 
 Para corroborar el efecto, utilizamos la [Transformada de Fourier]({{site.baseurl}}{% post_url 2011-08-11-la-transformada-de-fourier-no-es-magia %}).
 
-{% include image.html size="huge" file="presion_freqs_sin_filtrar.png" caption="Descomposición en el espacio de frecuencias. EyC." %}
+{% include image.html class="x-large-width" file="presion_freqs_sin_filtrar.png" caption="Descomposición en el espacio de frecuencias. EyC." %}
 
 En este blog trabajamos a menudo con ondas de radio de megahercios. También con ondas sonoras de kilohercios y alguna otra vez con vibraciones de unos pocos hercios. Las ondas de este artículo son muy lentas; con periodos de horas o de días enteros. Usaremos frecuencias de milihercios, o incluso **microhercios**. Esta breve tabla te ayudara:
 
@@ -374,13 +374,13 @@ Seguidamente otro pico en torno a 23 o 23.5uHz (12h). Es el semidiario y no est�
 
 Podemos eliminar el efecto de marea para observar mejor la evolución diaria. Construiremos un filtro de ventana que anule estos dos picos en el espacio de la frecuencia. Después reconstruiremos la FFT y haremos la inversa.
 
-{% include image.html size="huge" file="presion_freqs_filtrardas.png" caption="Descomposición en frecuencias de la presión atmosférica, filtrada. EyC." %}
+{% include image.html class="x-large-width" file="presion_freqs_filtrardas.png" caption="Descomposición en frecuencias de la presión atmosférica, filtrada. EyC." %}
 
 He usado una ventana gaussiana para anular los dos picos. Me gusta porque al transformar se transforma en otra gaussiana. Es sencilla de manejar. Vosotros podéis usar otra ventana diferente. Puede ser tentador llegar y poner a cero sin más los dos picos. Eso sería usar una ventana cuadrada, y las esquinas luego meten mucho ruido en la FFT.
 
 Una vez hecha la transformada inversa tenemos la evolución sin las variaciones debidas al efecto marea. He dejado en gris de fondo la onda original para poderla comparar.
 
-{% include image.html size="huge" file="presion_mes_filtrada.png" caption="Evolución de la presión atmosférica tras filtrar los efectos de marea. EyC." %}
+{% include image.html class="x-large-width" file="presion_mes_filtrada.png" caption="Evolución de la presión atmosférica tras filtrar los efectos de marea. EyC." %}
 
 No voy a interpretar el gráfico. Os diré, eso sí, que suele coincidir presión alta con cielo despejado y presión baja con nubes. Lo que no implica necesariamente frío, calor o lluvia.
 
@@ -392,7 +392,7 @@ En otoño el cielo despejado significa días cálidos y noches frías. Si llueve
 
 Como hemos visto, las bajas frecuencias (menores a 11uHz) dominan la evolución de la presión atmosférica. Para confirmarlo dibujaremos un espectrograma, como si la presión fuera un sonido de muy baja frecuencia.
 
-{% include image.html size="huge" file="presion_espectrograma.png" caption="Espectrograma de la presión atmosférica. EyC." %}
+{% include image.html class="x-large-width" file="presion_espectrograma.png" caption="Espectrograma de la presión atmosférica. EyC." %}
 
 Nos llaman la atención varias franjas vacías en los días 3, 4 y 16; esos días hubo una pérdida de datos. En el gráfico de evolución anterior están interpoladas linealmente.
 
@@ -400,7 +400,7 @@ El otro punto interesante está en las noches de los días 5 y 7. Hay una inusua
 
 ¿A qué se deben? Fueron dos **tormentas**. Filtrando sólo esas altas frecuencias, vemos los cambios de presión propios durante el transcurso de una tormenta.
 
-{% include image.html size="huge" file="presion_tormenta2.png" caption="Variación de alta frecuencia en la presión atmosférica  
+{% include image.html class="x-large-width" file="presion_tormenta2.png" caption="Variación de alta frecuencia en la presión atmosférica  
 recogida durante una tormenta. EyC." %}
 
 ¿No recuerda a un terremoto? Y esta es una suave tormenta de septiembre, con una una intensidad pico a pico de apenas 0.7hPa... ¿Os imagináis una tormenta fuerte en altamar?

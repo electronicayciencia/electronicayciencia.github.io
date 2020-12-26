@@ -31,13 +31,13 @@ En realidad la búsqueda de homógrafos es sólo una excusa para hablaros de un 
 
 Esta es nuestra imagen grande, una sopa de letras tomada de [http://listocomics.com/la-primera-sopa-de-letras-sin-vocales/](http://listocomics.com/la-primera-sopa-de-letras-sin-vocales/), visitad la entrada, es curiosa.
 
-{% include image.html size="" file="sopa.png" caption="" %}
+{% include image.html class="medium-width" file="sopa.png" caption="" %}
 
 Digamos que en esa sopa queremos encontrar todas las posiciones donde hay una N. Esta operación se llama [Template matching](http://en.wikipedia.org/wiki/Template_matching) y hay varias formas de hacerlo. Vamos a usar el método que explican en [http://www.dspguide.com/ch24/7.htm](http://www.dspguide.com/ch24/7.htm), libro que me gusta mucho y que os recomiendo leer si os gusta el procesamiento digital de datos y sabéis inglés.
 
 Esta va a ser nuestra plantilla, lo que queremos encontrar:
 
-{% include image.html size="" file="n.png" caption="" %}
+{% include image.html class="small-width" file="n.png" caption="" %}
 
 Los pasos del método son:
 
@@ -58,7 +58,7 @@ sopa = sopa / max(max(sopa));
 sopa = 1 - sopa;
 ```
 
-{% include image.html size="" file="sopa_preparada.png" caption="" %}
+{% include image.html class="medium-width" file="sopa_preparada.png" caption="" %}
 
 La misma operación hacemos con la N que nos servirá de muestra. Ahora hemos preparado una función en octave que llamamos *convoluciona*, este es el código:
 
@@ -92,11 +92,11 @@ result = convoluciona(sopa, n);
 result = result / (max(max(result)));
 ```
 
-{% include image.html size="" file="resultado.png" caption="" %}
+{% include image.html class="medium-width" file="resultado.png" caption="" %}
 
 Esta imagen borrosa no nos dice nada a simple vista. Ahora vamos a superponerla con la imagen original de la sopa de letras:
 
-{% include image.html size="" file="resultado_superpuesto.png" caption="" %}
+{% include image.html class="medium-width" file="resultado_superpuesto.png" caption="" %}
 
 Los puntos más o menos brillantes están todos en la **esquina inferior derecha** de cada carácter. Es más, **las zonas más brillantes corresponden a las letras que más se parecen a la muestra, N y M.** Si os fijáis en letras como la C, la T o la L la esquina inferior derecha es menos brillante.
 
@@ -104,7 +104,7 @@ Para saber dónde hay N debemos tomar un umbral entre 0 y 255. Necesitamos un um
 
 Tomamos un umbral de 222, por ejemplo:
 
-{% include image.html size="" file="resultado_222.png" caption="" %}
+{% include image.html class="medium-width" file="resultado_222.png" caption="" %}
 
 Con este umbral identificamos todas las N -fijaos que tienen un **punto** abajo en la esquina-. Pero también identificamos una M a la izquierda como un **falso positivo**. Con un umbral más alto no tendríamos ese falso positivo, pero nos habríamos dejado alguna N sin identificar (**falso negativo**).
 
@@ -118,11 +118,11 @@ Antes hay que tomar algunas precauciones, porque hay letras que están contenida
 
 Así por ejemplo, para la letra "a" tenemos esta forma:
 
-{% include image.html size="" file="a_borde.png" caption="" %}
+{% include image.html class="original-width" file="a_borde.png" caption="" %}
 
 Construimos una imagen muy larga con todas las letras que nos van a servir de base para ir comparando los distintos caracteres UTF (clic para ampliar):
 
-{% include image.html size="" file="base_borde.png" caption="" %}
+{% include image.html class="large-width" file="base_borde.png" caption="" %}
 
 ## Fase de calibrado
 
@@ -134,11 +134,11 @@ El razonamiento es: comparo cada una de las letras de muestra con la imagen dond
 
 Por ejemplo, buscamos la letra a en la fila de letras anterior. Este es el resultado:
 
-{% include image.html size="" file="base_a_borde_conv.png" caption="" %}
+{% include image.html class="large-width" file="base_a_borde_conv.png" caption="" %}
 
 Superpongamos, como antes, la imagen original (o un fragmento, que es muy larga):
 
-{% include image.html size="" file="base_a_borde_conv_superpuesta.png" caption="" %}
+{% include image.html class="large-width" file="base_a_borde_conv_superpuesta.png" caption="" %}
 
 Efectivamente el máximo está bajo la a. Con octave buscamos la posición y valor de cada máximo y lo guardamos en una variable. Suponiendo que previamente hemos creado las imágenes base, esta función es la que hace el calibrado:
 
@@ -265,7 +265,7 @@ Parece que el carácter UTF-1089 tiene una semejanza bastante alta con el carác
 
 En realidad se trata de [la 's' cirílica](http://www.fileformat.info/info/unicode/char/441/index.htm). Gráficamente es cierto que se parece muchísimo a una c, aunque es ligeramente más estrecho y por eso la semejanza no llega al 100%. Mirad la comparación de ambos caracteres:
 
-{% include image.html size="" file="cmp_c_1089.png" caption="" %}
+{% include image.html class="original-width" file="cmp_c_1089.png" caption="" %}
 
 El desplazamiento hace que el máximo no esté donde esperamos. Durante el calibrado el máximo de la c estaba en la posición (h=178, l=7048) y valía 3774.8:
 
@@ -333,13 +333,13 @@ Hecho.
 
 Este script nos genera un fichero de salida con las primeras 25 combinaciones que haya encontrado. Abramos el fichero con gVim, por ejemplo, que utiliza una tipografía distinta a la que hemos usado para confeccionar la tabla, donde se diferencian los caracteres UTF superiores.
 
-{% include image.html size="" file="ejemplo_gvim.png" caption="" %}
+{% include image.html class="medium-width" file="ejemplo_gvim.png" caption="" %}
 
 La primera columna en la palabra escrita de manera alternativa, se ve claramente distinta a la misma palabra escrita a la derecha con letras latinas. Fijaos que el script nos propone alternativas para la letra c, la i, la e y la a. En concreto las sustituye por caracteres similares del bloque cirílico, presente en la mayoría de tipos que soportan UTF.
 
 Si en el gVim se puede distinguir una palaba de sus homógrafas es porque he configurado una tipografía diferente, en otras aplicaciones como kwrite resulta mucho más complicado:
 
-{% include image.html size="" file="ejemplo_kwrite.png" caption="" %}
+{% include image.html class="medium-width" file="ejemplo_kwrite.png" caption="" %}
 
 ¿Cómo se ve en tu navegador? Vamos a hacer la prueba; tal vez se vean iguales o tal vez no, depende de la configuración de tu sistema.
 
@@ -358,7 +358,7 @@ cіenсіa сіenсіa cіencia
 
 Comprúebalo copiando y pegando. Cuando buscas en google una homógrafa, aunque se vea idéntica y se lea igual son palabras distintas (acordaos de activar el [modo *verbatim*]({{page.assets | relative_url}}/answer.py) de google para que no os muestre palabras semejantes o relacionadas):
 
-{% include image.html size="" file="ciencia_google.png" caption="" %}
+{% include image.html class="large-width" file="ciencia_google.png" caption="" %}
 
 No encuentra nada porque la captura de pantalla la he hecho antes de publicar este artículo. En cuando google lo incorpore, si buscas una homógrafa de ciencia supongo que te aparecerá este mismo artículo.
 

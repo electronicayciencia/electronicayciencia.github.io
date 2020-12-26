@@ -20,13 +20,13 @@ Pero más que suficientes para lo que haremos. ¿24kHz es poco? Pues para grabar
 
 Con el tamaño de los componentes que tienen estos productos genéricos *made in China* es poco menos que un trabajo de relojería.
 
-{% include image.html size="medium" file="BENQ0004.JPG" caption="" %}
+{% include image.html class="medium-width" file="BENQ0004.JPG" caption="" %}
 
 ## Configuración de entrada
 
 No voy a meterme en cómo se puede configurar un ADC, Maxim tiene [una buena guía](http://www.maxim-ic.com/app-notes/index.mvp/id/1108). Según el datasheet del TP6911 el circuito debe parecerse a este:
 
-{% include image.html size="medium" file="esquema_TP6911.png" caption="" %}
+{% include image.html class="medium-width" file="esquema_TP6911.png" caption="" %}
 
 A la derecha veis la entrada de micrófono. Con la típica configuración para alimentar un [electret]({{site.baseurl}}{% post_url 2010-06-04-utilizar-un-microfono-electret %}).
 
@@ -40,7 +40,7 @@ Hay un segundo problema. El datasheet TP6911 es muy básico. Y aunque he encontr
 
 Por ejemplo la estructura de la entrada de grabación dicen que es así:
 
-{% include image.html size="medium" file="esquema_rec.png" caption="" %}
+{% include image.html class="medium-width" file="esquema_rec.png" caption="" %}
 
 Sin embargo no se corresponde con el circuito de la tarjeta. La resistencia no existe y si eliminamos el condensador se supone que no deberíamos tener señal de entrada. Sin embargo la tenemos. Es parecido a trabajar a ciegas. Por suerte este hardware es muy barato.
 
@@ -50,15 +50,15 @@ Me hubiera gustado mostraros la captura con el Xoscope. Pero no me deja seleccio
 
 En primer lugar probaremos con un potenciómetro. Observad cómo se produce saturación antes de llegar al mínimo y antes de llegar al 0.
 
-{% include image.html size="big" file="audacity_lento.png" caption="" %}
+{% include image.html class="large-width" file="audacity_lento.png" caption="" %}
 
 Ahora vamos a conectar un módulo detector de IR y veremos cómo es una ráfaga infrarroja de un mando a distancia NEC. De estos módulos ya hablamos [en otra entrada]({{site.baseurl}}{% post_url 2010-05-07-receptor-con-pic-para-mandos %}).
 
-{% include image.html size="big" file="audacity_nec.png" caption="" %}
+{% include image.html class="large-width" file="audacity_nec.png" caption="" %}
 
 Para terminar vamos a conectar un interruptor a masa. Y veamos lo que ocurre al pulsar. Todos los que hayáis trabajado con pulsadores habréis tenido el problema de los rebotes (bounces). Que consiste en que la pulsación no es limpia sino que abre y cierra varias veces hasta quedar en un estado estable. Por eso hay que incorporar una rutina o unos componentes que eviten contar estos rebotes rápidos como pulsaciones legítimas.
 
-{% include image.html size="" file="cerrar_inter.png" caption="" %}
+{% include image.html class="original-width" file="cerrar_inter.png" caption="" %}
 
 Así es como se ve la pulsación de un botón. El tiempo entre que se pulsa hasta que queda estable es de aproximadamente 1 milisegundo.
 

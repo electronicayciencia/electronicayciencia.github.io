@@ -48,40 +48,41 @@ Image have a desired width but:
  - If original width is less than desired: keep original, do not grow
  - If screen size is narrower than desired: fall back to 100% of avaiable width
 */
-$img-small-width: 200px;
-$img-medium-width: 400px;
-$img-big-width: 600px;
-$img-huge-width: 100%;
-$img-full-width: 100%;
+$img-small-width: 300px;
+$img-medium-width: 500px;
+$img-large-width: 700px;
+$img-x-large-width: 100%;
 
-.small {
+
+.small-width {
   max-width: $img-small-width;
   @media (max-width: $img-small-width + 50) {
     max-width: 100%;
   }
 }
 
-.medium {
+.medium-width {
   max-width: $img-medium-width;
   @media (max-width: $img-medium-width + 50) {
     max-width: 100%;
   }
 }
 
-.big {
-  max-width: $img-big-width;
-  @media (max-width: $img-big-width + 50) {
+.large-width {
+  max-width: $img-large-width;
+  @media (max-width: $img-large-width + 50) {
     max-width: 100%;
   }
 }
 
-.huge {
-  max-width: $img-huge-width;
+.x-large-width {
+  max-width: $img-x-large-width;
 }
 
-.full {
-  max-width: $img-full-width;
+.original-width {
+  max-width: 100%;
 }
+
 
 
 /* Pagination links */

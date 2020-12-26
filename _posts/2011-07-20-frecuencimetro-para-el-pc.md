@@ -12,7 +12,7 @@ title: Frecuencímetro para el PC
 
 Después de un par de artículos más bien teóricos ahora os quiero presentar un **montaje práctico**. Vamos a ver cómo hacer un frecuencímetro que sea lo más **sencillo** posible, pero que sea a la vez útil y preciso.
 
-{% include image.html size="" file="interfaz_tk.png" caption="" %}
+{% include image.html class="medium-width" file="interfaz_tk.png" caption="" %}
 
 Empezaremos viendo una característica poco conocida de los PICs y construiremos un circuito para aprovecharla. En el firmware del PIC haremos que mande el valor por puerto serie al PC utilizando el conversor USB-&gt;RS232. Pero la frecuencia no será exacta, y hará falta calibrarlo. Para terminar escribiremos una pequeña **interfaz en Perl/Tk** para que nos indique la frecuencia.
 
@@ -22,13 +22,13 @@ Empezaremos viendo una característica poco conocida de los PICs y construiremos
 
 Cuando hablamos de PICs básicos, suelen funcionar con cuarzos de 4MHz, 12, y los más modernos hasta de 20MHz como máximo. Y creemos que ahí está el límite para todo lo que hagamos con ellos. Sin embargo no es así. El contador **TIMER0** puede funcionar de manera asíncrona, sin depender del reloj principal. Se usa normalmente para contar pulsos externos, pero fijaos lo que dice el datasheet del 12F683:
 
-{% include image.html size="" file="datasheet.png" caption="" %}
+{% include image.html class="large-width" file="datasheet.png" caption="" %}
 
 Dice que el tiempo de subida es de 10ns y de bajada otros 10ns. En total el periodo más bajo que podría medir es de 20ns, equivalente a **50MHz**. Hasta ahí lo que nos garantiza el fabricante, pero en la práctica depende mucho del chip, yo he llegado a medir frecuencias en la banda de 144MHz con este circuito sin usar ningún divisor externo.
 
 Queremos que el esquema se reduzca a lo mínimo imprescindible. Así que tomaremos la alimentación del mismo puerto USB, y dejaremos para más adelante el acondicionamiento de la entrada.
 
-{% include image.html size="" file="frec_sch.png" caption="" %}
+{% include image.html class="large-width" file="frec_sch.png" caption="" %}
 
 La **entrada** se hace por el conector de la izquierda, que va a través de un condensador al pin 5 (T0CKI). En el conector superior se conecta el [adaptador USB-Serie]({{site.baseurl}}{% post_url 2011-01-12-adaptador-de-usb-serie %}), que ya tiene los **5 voltios** que sirven de alimentación. El conector central sirve para conectar un interruptor por si fuera necesario, por ejemplo para indicar que hemos conectado un prescaler externo.
 
@@ -38,13 +38,13 @@ El condensador **C3** es muy importante, ya que sirve para filtrar la alimentaci
 
 La placa es igualmente sencilla:
 
-{% include image.html size="" file="frec_brd.png" caption="" %}
+{% include image.html class="medium-width" file="frec_brd.png" caption="" %}
 
 Al final del artículo os dejo los ficheros, los podéis abrir con la versión Freeware de [Eagle](http://www.cadsoftusa.com/) (Windows y Linux), por ejemplo.
 
 Una vez montada así es como quedaría, con las conexiones que se indican:
 
-{% include image.html size="" file="conexiones.jpg" caption="" %}
+{% include image.html class="large-width" file="conexiones.jpg" caption="" %}
 
 ## Firmware
 
@@ -334,7 +334,7 @@ Observad que el valor medido está en el denominador. Lo normal es que estuviera
 
 Ahora expresamos 12000665 en hexadecimal -8 lugares que completamos con 0 a la izquierda-, nos da ***00B71D99***, y ese es el valor que almacenamos en la EEPROM:
 
-{% include image.html size="" file="eeprom_12000665.png" caption="" %}
+{% include image.html class="medium-width" file="eeprom_12000665.png" caption="" %}
 
 Esta forma de almacenar un número binario, en **orden natural** de lectura con el bit más significativo a la izquierda, se denomina *big endian*. Si lo hubiéramos invertido grabando primero los bits menos significativos sería un formato *little endian*. Este último formato es muy práctico a la hora se hacer operaciones matemáticas porque siempre comenzamos por las unidades más pequeñas, entre otras ventajas. Es el formato que usa Intel y en general la plataforma x86. Para más información (en particular la etimología del término es muy pintoresca) visitad la [wikipedia: Endianness](http://en.wikipedia.org/wiki/Endianness).
 
@@ -368,7 +368,7 @@ Como tampoco queremos dedicarle más tiempo del necesario elegiremos un lenguaje
 
 Elegiremos una **tipografía** con un aire electrónico que nos guste, por ejemplo esta que se llama [Led Board]({{page.assets | relative_url}}/led-board.font) (literalmente *pantalla led*). Y más concretamente su variedad inversa.
 
-{% include image.html size="" file="led_board.png" caption="" %}
+{% include image.html class="small-width" file="led_board.png" caption="" %}
 
 El código que os pego está hecho rápidamente y de forma descuidada. Aunque es plenamente funcional, sin duda podréis mejorarlo. Por ejemplo añadiendo el cambio automático de escala.
 
@@ -482,7 +482,7 @@ Ya dentro de la función *update_freq* el proceso es sencillo. Recogemos e inter
 
 Redondeamos hasta las centenas de hercio. Y actualizamos la etiqueta. Si fuera necesario también podríamos hacer alguna operación, como la media de los tres últimos valores, o multiplicar por una constante, por ejemplo. Y para terminar, en la línea 90 situamos el carácter separador de miles -en este caso un espacio-. La **expresión regular** nos servirá para otras ocasiones.
 
-{% include image.html size="" file="tk_144625.png" caption="" %}
+{% include image.html class="medium-width" file="tk_144625.png" caption="" %}
 
 Finalmente puede ocurrir que lo que leamos del fichero no sea un dato sino un ***EOF***. En la línea 66 comprobamos eso, y si es así significa que hemos **desconectado el adaptador** USB: indicamos el error y terminamos el programa.
 

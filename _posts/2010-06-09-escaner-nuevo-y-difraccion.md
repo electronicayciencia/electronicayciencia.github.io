@@ -22,15 +22,15 @@ Para darle solidez al invento he extraído el conector USB y lo he sustituido po
 
 En esta imagen veis la fuente (el módulo negro) y la placa principal.
 
-{% include image.html size="" file="BENQ0001.JPG" caption="" %}
+{% include image.html class="original-width" file="BENQ0001.JPG" caption="" %}
 
 Aquí un detalle de cómo se conecta el escáner a la placa principal. Lleva tres conectores. El primero, de 4 cables es solamente la alimentación. De los dos buses planos, el fino va a la botonera: encender/apagar, copia, copia color, etc. El grueso es quien envía y recibe la información del escáner.
 
-{% include image.html size="" file="BENQ0007.JPG" caption="" %}
+{% include image.html class="original-width" file="BENQ0007.JPG" caption="" %}
 
 Bajo la carcasa hay espacio suficiente para alojar la fuente de alimentación y la placa mirad cómo queda ya montado.
 
-{% include image.html size="" file="BENQ0011.JPG" caption="" %}
+{% include image.html class="original-width" file="BENQ0011.JPG" caption="" %}
 
 El escáner funciona perfectamente. El problema que hay es que al no tener la parte de la impresora, no se tiene información sobre el estado del carro ni de los cartuchos, por lo que no se termina la rutina de apagado, y no se apaga con el botón principal. Podéis incorporar un interruptor externo en el cable de la alimentación o bien desenchufarlo.
 
@@ -42,7 +42,7 @@ Las lineas son muy finas para verlas a simple vista, pero vamos a averiguar la s
 
 El caso es que si apuntamos con un puntero láser a la rejilla y situamos una pantalla detrás lo que vemos es esto:
 
-{% include image.html size="" file="BENQ0009.JPG" caption="" %}
+{% include image.html class="original-width" file="BENQ0009.JPG" caption="" %}
 
 Los puntos (máximos de interferencia) están separados una distancia *x*, aproximadamente 8,91mm. No es fácil medirlo, así que para obtener mayor precisión lo que se hace es medir la distancia entre dos puntos, entre tres, entre cuatro, etc. y después se calcula una regresión lineal. La pendiente de la recta es la distancia entre puntos. Así minimizamos el error.
 
@@ -72,7 +72,7 @@ lo que nos da una separación de 0.167mm. Que vienen a ser 6 líneas por milíme
 
 Vamos a mirar la cinta a través de un microscopio tipo [cuentahilos](http://buscon.rae.es/draeI/SrvltConsulta?TIPO_BUS=3&amp;LEMA=cuentah%C3%ADlos) para comprobar que eso es verdad.
 
-{% include image.html size="medium" file="BENQ0038.JPG" caption="" %}
+{% include image.html class="medium-width" file="BENQ0038.JPG" caption="" %}
 
 La graduación mayor son milímetros. Contamos efectivamente 6 líneas por milímetro.
 

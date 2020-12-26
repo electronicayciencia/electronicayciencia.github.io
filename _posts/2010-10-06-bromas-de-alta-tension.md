@@ -10,7 +10,7 @@ title: Bromas de alta tensión
 
 Vamos a hablar en esta entrada de esos típicos aparatos de broma que dan calambre. Todos los habéis visto, un bolígrafo que da corriente, o un puntero láser, un libro, etc. También hay juegos que el perdedor recibe un calambre, por ejemplo en algunas pistolas láser, o juegos de reflejos. Veamos cómo funcionan.
 
-{% include image.html size="" file="shock_broma.jpg" caption="" %}
+{% include image.html class="original-width" file="shock_broma.jpg" caption="" %}
 
 Antes de nada, no confundirlos con los aparatos de electro-estimulación muscular que se usan en rehabilitación (los llamados TENS). No tiene nada que ver: estos últimos actúan emitiendo una corriente a través de la piel que llega al músculo y lo estimula. Necesitan un pulso con una duración y una forma determinada y unos electrodos apropiados para llegar al músculo sin ser demasiado desagradable.
 
@@ -44,7 +44,7 @@ Así que ya sabemos lo que tenemos que hacer para dar calambre, tener una bobina
 
 Eso es precisamente lo que lleva el circuito de la foto que he puesto arriba.
 
-{% include image.html size="medium" file="shock_broma_circuito.png" caption="" %}
+{% include image.html class="medium-width" file="shock_broma_circuito.png" caption="" %}
 
 Para reducir costes al mínimo lo que han hecho es utilizar componentes no estándar, diseñados para este circuito y fabricados en masa. Por ejemplo la bobina no es tan simple, es un autotransformador que sirve también para elevar la tensión de los picos.
 

@@ -17,7 +17,7 @@ La semana pasada hice un examen tipo test. Eran 150 preguntas y pedían, para ap
 
 Comenzaremos con el examen que os digo, 150 preguntas de 4 opciones. Alguna había de respuesta múltiple y de verdadero/falso, pero las vamos a obviar. Si hay cuatro opciones y sólo una es la correcta, no se te escapa que haciéndolo a boleo acertaremos una de cada cuatro preguntas, que son 37. Eso es un 25%. Pero vamos a profundizar un poco más, no siempre que lo hagamos vamos a acertar 37 preguntas. La probabilidad de acertar un número determinado de preguntas viene dada por la distribución de binomial con parámetro P igual a 0.25.
 
-{% include image.html size="" file="esperanza_aciertos.png" caption="" %}
+{% include image.html class="large-width" file="esperanza_aciertos.png" caption="" %}
 
 Como siempre, pinchad en las imágenes para verlas ampliadas. Lo más probable, sí, es que acertemos 37. Pero sólo pasará entre 7 y 8 veces de cada cien que hagamos el examen. Acertar 30 o 40 no es improbable. Acertar 60 ya empieza a ser más difícil, y las 150 prácticamente imposible. Para que os hagáis una idea, junto al gráfico de arriba, la probabilidad de acertar X preguntas es:
 
@@ -25,7 +25,7 @@ Como siempre, pinchad en las imágenes para verlas ampliadas. Lo más probable, 
 
 Si no acertar ninguna representar lo que sería un 0 patatero, y acertarlas todas el 10, esta es la nota esperada por azar, según lo que hemos visto.
 
-{% include image.html size="" file="nota_azar.png" caption="" %}
+{% include image.html class="large-width" file="nota_azar.png" caption="" %}
 
 No es más que un cambio de escala en el eje x, la forma sigue siendo la misma. Lo más probable, si no se sabe nada de nada, es sacar entre un 1.5 y un 3.5.
 
@@ -61,7 +61,7 @@ De donde
 
 Ambos métodos son el mismo. Y gráficamente se hace evidente:
 
-{% include image.html size="" file="comparacion.png" caption="" %}
+{% include image.html class="large-width" file="comparacion.png" caption="" %}
 
 Si no compensamos el efecto del azar (línea roja) cuando sólo acertábamos el 25% y fallábamos el resto, obtendríamos un 2.5 sobre 10. En cambio tras la corrección (línea verde), con ambos métodos obtendríamos un cero.
 
@@ -71,7 +71,7 @@ Obtener una calificación del 80% no es sacar un 8, sino poco más de un 7.
 
 Volviendo al gráfico de la binomial con el que empezamos, lo que hemos hecho es meramente un desplazamiento de todo el gráfico hacia la izquierda:
 
-{% include image.html size="" file="nota_corregida.png" caption="" %}
+{% include image.html class="large-width" file="nota_corregida.png" caption="" %}
 
 Ahora lo más probable, si se hace a boleo es sacar entre un 0 y un 1 y algo. Sacar un 2 es improbable y para aprobar hay que saber (o tener mucha, mucha suerte, volveremos sobre este punto más tarde).
 
@@ -79,7 +79,7 @@ Ahora lo más probable, si se hace a boleo es sacar entre un 0 y un 1 y algo. Sa
 
 Creo que todos sabemos de alguien que sacó nota negativa en un examen. Mirad la nota esperada tras la compensación:
 
-{% include image.html size="" file="nota_corregida_negs.png" caption="" %}
+{% include image.html class="large-width" file="nota_corregida_negs.png" caption="" %}
 
 La misma probabilidad hay de sacar un 1 que un -1. Asimismo al igual que para sacar un 2 o un 3 hay que saber algo, para sacar un -2 o un -3 hay que **no saber** algo -o fallar adrede, claro-. No hablo de desconocer un tema, sino de tener un *conocimiento negativo*. Un ejemplo divertido, ved cómo empieza esta conferencia de TED: [Hans Rosling shows the best stats you've ever seen](http://j.mp/qjhNsA).
 
@@ -87,7 +87,7 @@ La misma probabilidad hay de sacar un 1 que un -1. Asimismo al igual que para sa
 
 Esta es la gráfica completa de la que hemos visto antes, empieza en el -3.3 que es la nota más baja posible en un test de 4 opciones, y termina en el 10 que es la más alta.
 
-{% include image.html size="" file="nota_corregida_todo.png" caption="" %}
+{% include image.html class="large-width" file="nota_corregida_todo.png" caption="" %}
 
 Vamos a dividir el gráfico en tres regiones.
 
@@ -113,7 +113,7 @@ ans =
 
 Luego hay una posibilidad entre 200 (0.5%) de sacar una nota por debajo del -1.15 por azar, y la misma de sacar más de un 1.33. Mientras que el resto -el 99%- de que esté contenida entre ese rango. Coloreamos las regiones en el gráfico siguiente. Si cae dentro de la región blanca, no descartamos la hipótesis nula, así que la nota puede deberse al azar o no. Simplemente no tenemos datos para afirmar nada.
 
-{% include image.html size="" file="nota_corregida_todo_colores.png" caption="" %}
+{% include image.html class="large-width" file="nota_corregida_todo_colores.png" caption="" %}
 
 Lo que está claro es que, una vez compensado el azar, quien saca un 3 es porque **sabe**; no lo suficiente, tal vez, pero no ha respondido lo primero que se le pasa por la cabeza. Mientras que quien saca un -2 es que **también sabe**; sólo que al revés. O ha fallado a propósito o tiene confundidos los conceptos.
 
@@ -143,7 +143,7 @@ Por tanto probabilidad de aprobar por suerte un examen de 150 preguntas es prác
     ( 1-binocdf((n-p*n)/2 + p*n, n, p) )* 100
     
 
-{% include image.html size="" file="prob_aproba_porsuerte.png" caption="" %}
+{% include image.html class="large-width" file="prob_aproba_porsuerte.png" caption="" %}
 
 Atención que la escala es **logarítmica**. Tiene lógica, mientras más preguntas y de más opciones más difícil que suene la flauta. Los escalones se deben a los decimales, es imposible aprobar una pregunta y media, y la distribución binomial es discreta. Pero al hacer la división salen decimales y no lo tenemos en cuenta. A pesar de eso la tendencia se aprecia claramente.
 
@@ -168,7 +168,7 @@ x = [0:n];
 plot(a*x+b, binopdf(x,n,p))
 ```
 
-{% include image.html size="" file="posibilidad_2opciones.png" caption="" %}
+{% include image.html class="large-width" file="posibilidad_2opciones.png" caption="" %}
 
 ## Para terminar
 

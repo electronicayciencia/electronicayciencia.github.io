@@ -3,7 +3,7 @@
   <a href="{{page.assets | relative_url}}/img/{{include.file}}">
 	<img 
 	  src="{{page.assets | relative_url}}/img/{{include.file}}" 
-      class="fullwidth {{include.size}}"
+      class="fullwidth {{include.class | default: "original-width"}}"
       alt=""/>
   </a>
   <figcaption>{{ include.caption | markdownify }}</figcaption>

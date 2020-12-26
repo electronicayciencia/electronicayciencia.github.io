@@ -22,7 +22,7 @@ Como electrónicos no nos interesa tanto el modelo matemático como sus consecue
 
 ## Regulador de tensión
 
-{% include image.html size="big" file="fuentev_cir.png" caption="" %}
+{% include image.html class="large-width" file="fuentev_cir.png" caption="" %}
 
 Empezaremos por una fuente de tensión. Que es un circuito muy sencillo para empezar. Tomamos el transistor y alimentamos la base con una tensión fija. En el circuito de la izquierda la tensión la obtenemos de un diodo zener. En el de la derecha, por simplificar, conecto una referencia de voltaje. Cuando el transistor trabaja en la zona activa, la tensión en el emisor es igual a la de base menos la caída base-emisor, que viene a estar entre 0.6 y 0.7 voltios. Matemáticamente
 
@@ -40,13 +40,13 @@ Aunque en realidad eso tampoco es así. La caída de tensión en la unión base-
 
 Más información [aquí](http://hyperphysics.phy-astr.gsu.edu/hbase/solids/basemit.html#c1). La dependencia con la temperatura de usa mucho para hacer sensores. Aunque no es nada lineal sale más barato que una resistencia NTC. De manera gráfica:
 
-{% include image.html size="" file="basemit.gif" caption="" %}
+{% include image.html class="original-width" file="basemit.gif" caption="" %}
 
 Como no hay manera de controlarlo, asumimos una caída de tensión de 0.6 voltios y ya está. Al fin y al cabo un regulador que varía con la temperatura y con la carga no es muy estable, así que por una diferencia de medio voltio arriba o abajo no nos vamos a morir. Si la carga fuera muy crítica utilizaríamos otro circuito.
 
 Como decíamos, la tensión en el emisor es más o menos constante. Vamos a hacer la prueba. Conectamos una resistencia que varía antes 100 y 2000Ω y medimos la tensión en sus extremos y la intensidad que la atraviesa:
 
-{% include image.html size="big" file="fuentev_plot.png" caption="" %}
+{% include image.html class="large-width" file="fuentev_plot.png" caption="" %}
 
 Vemos como a medida que la resistencia aumenta pasa menos corriente por ella, sin embargo la tensión es más o menos la misma siempre. Va desde 3.83V para una intensidad de 38.3mA (100Ω de resistencia) hasta 3.91V cuando la intensidad es de 1.95mA (2000Ω).
 
@@ -54,7 +54,7 @@ Vemos como a medida que la resistencia aumenta pasa menos corriente por ella, si
 
 Por la ley de ohm sabemos que, para una resistencia dada, la intensidad es proporcional a la tensión. Eso lo podemos aprovechar para construir una fuente de corriente constante. Cogemos el regulador de antes y ponemos de carga una resistencia fija. Como la tensión era siempre la misma, por esa resistencia pasará siempre una intensidad concreta. Y además es independiente de la tensión de alimentación, así que podemos variar la tensión de colector sin alterar el circuito. Pues ya está:
 
-{% include image.html size="small" file="fuentei_cir.png" caption="" %}
+{% include image.html class="small-width" file="fuentei_cir.png" caption="" %}
 
 En el circuito de arriba la caída base-emisor es de aproximadamente 0.837V (medido en la simulación). Así que la tensión en el emisor es de
 
@@ -72,7 +72,7 @@ Así que la corriente de colector vendrá a ser de 11.5mA. Lo normal es que el c
 
 Entonces por el colector van a pasar 11.5mA. ¿Independiente de la carga que le pongamos no? Vamos a probar con una carga de 1Ω y la iremos subiendo hasta por ejemplo 500. Se supone que el transistor mantendrá la corriente en 11.5mA durante todo el recorrido.
 
-{% include image.html size="big" file="fuentei_plot.png" caption="" %}
+{% include image.html class="large-width" file="fuentei_plot.png" caption="" %}
 
 ¡Funciona! A medida que aumenta la resistencia, el transistor le mete más tensión para que la intensidad no varíe. ¿Cómo lo hace? Pues cuando aumentamos la resistencia de colector, en el transistor desciende la tensión emisor-colector. Así cae menor voltaje en el transistor y más en la resistencia.
 
@@ -80,13 +80,13 @@ Pero... un momento. No puede durar siempre, porque llegará un momento en que la
 
 Lo que va a pasar es esto:
 
-{% include image.html size="big" file="fuentei_plotsatvce.png" caption="" %}
+{% include image.html class="large-width" file="fuentei_plotsatvce.png" caption="" %}
 
 La tensión Vce comienza siendo muy alta, porque al principio con una resistencia baja la caída de tensión en el transistor tiene que ser grande para no exceder la intensidad. Pero a medida que aumenta la resistencia, el transistor se abre y va dejando pasar más... hasta que la tensión Vce llega a un valor mínimo. Es la tensión de saturación, que en un modelo ideal es prácticamente 0.
 
 Está claro que la intensidad ya no se va a mantener constante:
 
-{% include image.html size="big" file="fuentei_plotsat.png" caption="" %}
+{% include image.html class="large-width" file="fuentei_plotsat.png" caption="" %}
 
 A partir de 750Ω más o menos la intensidad comienza a decaer. Sin embargo se mantiene la tensión porque la unión base-colector está ahora polarizada en directa. Y es como si fuera un diodo. De echo la tensión se estabiliza en
 
@@ -96,7 +96,7 @@ $$
 
 Se ve bien en este gráfico:
 
-{% include image.html size="big" file="fuentei_plotbeta.png" caption="" %}
+{% include image.html class="large-width" file="fuentei_plotbeta.png" caption="" %}
 
 La línea roja es la ganancia en corriente (beta) del transistor. Durante la zona activa se mantiene en un valor constante (fijaos en eso) igual a 100, que es la ganancia del transistor ideal. Y en cuanto entramos en la zona de saturación se va a 0.
 
@@ -106,7 +106,7 @@ La línea roja es la ganancia en corriente (beta) del transistor. Durante la zon
 
 Bien, hasta aquí la parte aburrida de repaso. Ahora vamos a coger nuestra fuente de intensidad y en lugar de aplicarle una resistencia le vamos a conectar una bobina. Recordemos que la bobina se opone a los cambios de corriente. Lo vimos en la entrada anterior: [El circuito RLC serie: oscilaciones amortiguadas]({{site.baseurl}}{% post_url 2011-05-18-el-circuito-rlc-serie-oscilaciones %}).
 
-{% include image.html size="small" file="fuente_L_cir.png" caption="" %}
+{% include image.html class="small-width" file="fuente_L_cir.png" caption="" %}
 
 Así pensando un poco esperamos que al principio oponga una resistencia muy grande, tendiendo a infinito. Con una resistencia muy grande el transistor estaba saturado, y lo que le aplicaba era una tensión constante. Sabíamos que la ecuación de una bobina era:
 
@@ -130,17 +130,17 @@ o sea, que la intensidad va a crecer en línea recta mientras el transistor est�
 
 Veamos si estamos en lo cierto:
 
-{% include image.html size="big" file="fuente_L_plot.png" caption="" %}
+{% include image.html class="large-width" file="fuente_L_plot.png" caption="" %}
 
 En efecto, la V es continua al principio, mientras la I crece linealmente. En cuanto la I alcanza la corriente de saturación (los 11.5mA) se queda ahí y no crece más. Al no haber más cambio en la intensidad la bobina no ofrece resistencia alguna, y la tensión en sus extremos cae a 0.
 
 Vamos a dibujar ahora la relación entre la tensión y la corriente que atraviesa la bobina, lo que sería la resistencia, para ver cómo evoluciona en el tiempo.
 
-{% include image.html size="big" file="R_de_L.png" caption="" %}
+{% include image.html class="large-width" file="R_de_L.png" caption="" %}
 
 Al principio es muy grande, luego va bajando... y llega un momento en que cae de golpe a cero.
 
-{% include image.html size="big" file="R_de_L_zoom.png" caption="" %}
+{% include image.html class="large-width" file="R_de_L_zoom.png" caption="" %}
 
 Pero... ¿Un ángulo recto? Está claro que ni de coña. En la naturaleza las cosas no son así. Es porque el transistor es ideal, luego vamos a ver qué pasa de verdad.
 
@@ -148,15 +148,15 @@ Pero... ¿Un ángulo recto? Está claro que ni de coña. En la naturaleza las co
 
 Decíamos antes que lo de la ganancia constante era porque habíamos cogido un transistor ideal. Vamos a coger otro, por ejemplo un 2N2222.
 
-{% include image.html size="small" file="fuente_noideal_cir.png" caption="" %}
+{% include image.html class="small-width" file="fuente_noideal_cir.png" caption="" %}
 
 Vamos a graficar de nuevo la ganancia en corriente, como hicimos antes:
 
-{% include image.html size="big" file="early.png" caption="" %}
+{% include image.html class="large-width" file="early.png" caption="" %}
 
 Curioso ¿no? Ahora la ganancia ya no es constante, sino que hace pendiente. Es el [efecto Early](http://en.wikipedia.org/wiki/Early_effect). Para entender por qué ocurre debemos fijarnos en la diferencia de potencial base-colector. Antes habíamos hablado de ella en la etapa de saturación, que está polarizada en directa con una caída similar a la de un diodo. Pero en la fase activa tiene un efecto importante: resulta que a medida que aumenta la polarización inversa, la frontera entre la unión N del colector y P de la base de amplía. Como en un diodo normal. Por eso se llama también [Modulación del ancho de la base](http://ecee.colorado.edu/~bart/book/book/chapter5/ch5_4.htm#5_4_1). Una imagen para ilustrarlo:
 
-{% include image.html size="big" file="unionpn.jpg" caption="" %}
+{% include image.html class="large-width" file="unionpn.jpg" caption="" %}
 
 La imagen es de esta página *[An Inside Look at Light Emitting Diodes (LEDs)](http://www.sas.org/tcs/weeklyIssues_2009/2009-01-02/feature1/index.html)*. Habla sobre todo de LEDs, pero también de diodos en general. Os recomiendo que la miréis.
 
@@ -166,15 +166,15 @@ El caso es que cuando un diodo se polariza en directa (aplicando tensión positi
 
 Decíamos antes que ese corte súbito de la resistencia en una bobina no era normal. Y no lo es. Vamos a ver qué pasa cuando la conectamos a un transistor un poco más "real".
 
-{% include image.html size="small" file="fuenteVIL_noideal_cir.png" caption="" %}
+{% include image.html class="small-width" file="fuenteVIL_noideal_cir.png" caption="" %}
 
 Ya vimos en la entrada anterior, sobre oscilaciones amortiguadas, que la bobina actúa como una masa que tiene inercia. Y que cuando le cambiamos la corriente no reacciona al momento sino que siempre se pasa un poquito. ¡Y eso es justamente lo que hace también en este caso!
 
-{% include image.html size="big" file="fuenteVIL_noideal_plot.png" caption="" %}
+{% include image.html class="large-width" file="fuenteVIL_noideal_plot.png" caption="" %}
 
 Lo que antes era un ángulo recto se ha convertido en una oscilación amortiguada.
 
-{% include image.html size="big" file="vL_osci_grande.png" caption="" %}
+{% include image.html class="large-width" file="vL_osci_grande.png" caption="" %}
 
 Ya vimos que eso sólo pasa en un circuito RLC y sin embargo no vemos ningún condensador por ahí. No hace falta decir que se trata de la capacidad parásita de la unión BC en el transistor. La vamos a calcular y esperamos que nos dé del orden de picofaradios.
 
@@ -244,7 +244,7 @@ El resultado es 81kΩ en promedio para la resistencia entre el colector y la bas
 
 Y ahora representaremos, en valor absoluto, los valores que nos da el ltspice y los nuestros propios calculados a partir de la R y C que nos han salido, a ver cuánto se aproximan:
 
-{% include image.html size="big" file="osci_compa.png" caption="" %}
+{% include image.html class="large-width" file="osci_compa.png" caption="" %}
 
 La aproximación es más o menos buena. Era de esperar porque la capacidad parásita no es constante sino que va variando a medida que cambia la tensión Vcb.
 

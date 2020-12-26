@@ -22,7 +22,7 @@ Para que las subidas y bajadas de luz sean a intervalos regulares tenemos que co
 
 Eso se llama la [*ley de Weber*](http://es.wikipedia.org/wiki/Ley_de_Weber), que acaba diciendo que la respuesta de los sentidos es **logarítmica**. Esta "ley" tiene una historia interesante y de ella hablaré en otra entrada. Para el ojo se cumple muy bien con baja intensidad de luz. Por ejemplo la escala de brillo de las estrellas es logarítmica y da muy buenos resultados. En el siguiente gráfico se ve muy bien ([http://webvision.med.utah.edu/light_dark.html](http://webvision.med.utah.edu/light_dark.html)).
 
-{% include image.html size="big" file="KallDark12.jpg" caption="" %}
+{% include image.html class="large-width" file="KallDark12.jpg" caption="" %}
 
 Sin embargo aquí Weber no funciona porque trabajamos con luz más fuerte. Nos interesa más otra ley que es la [*ley de Stevens*](http://en.wikipedia.org/wiki/Stevens%27_power_law). Stevens propone que la respuesta no es logarítmica sino **potencial**, se podría decir que la ley de Stevens sustituye a la de Weber. Para el coeficiente debemos hacer varias pruebas y quedarnos con el que más nos guste.
 
@@ -52,7 +52,7 @@ Por último **I** es la sensación luminosa expresada en tanto por ciento del m�
 
 El resultado es esta curva de respuesta. En el eje X está el **valor inicial del reloj** y en el Y es la sensación luminosa referida al máximo posible.
 
-{% include image.html size="" file="sensacion_luminosa.png" caption="" %}
+{% include image.html class="original-width" file="sensacion_luminosa.png" caption="" %}
 
 Fijaos que tiene mucho que ver con la que obtuvimos para la sinusoide. La contribución de la resistencia de la bombilla se nota sobre todo al principio. Y la contribución de Stevens lo que hace es *estirar* hacia arriba la curva. Así la parte del final está más aplastada que la del comienzo. Por lógica tiene que ser así porque ya dijimos que cuanto más intensidad de luz, más se protegen nuestros ojos y más nos cuesta apreciar el cambio.
 

@@ -19,7 +19,7 @@ Han pasado diez años desde el comienzo en Telefónica de un proyecto llamado FT
 
 Al grano, no conozco las redes de fibra. Nunca he trabajando con ellas. Pero parece ser que, a diferencia de las redes de ADSL, se necesita una contraseña de acceso para establecer la comunicación con la central. Esa contraseña he visto que la llaman **clave GPON**, pero mi router la llama *PLOAM Password* y así voy a llamarla yo.
 
-{% include image.html  file="ploam_password_input.png" caption="Pestaña de configuración de la *PLOAM Password*" %}
+{% include image.html file="ploam_password_input.png" caption="Pestaña de configuración de la *PLOAM Password*" %}
 
 Lo **primero** que hace el instalador tras encender el router es introducir la contraseña. A propósito, si le preguntas por ella amablemente quizá te la revele, pero no tiene ninguna obligación de ello. De hecho con toda seguridad le han ordenado que no lo haga.
 
@@ -307,7 +307,7 @@ Buscamos por ejemplo `telnet`. Encuentro esto:
 
 *HTTPEnable*, *HTTPSEnable*, *TELNETEnable* y *SSHEnable* parecen parámetros para activar distintos modos de acceso remoto. Y son *writable*. Voy a **buscar en Google** qué es la rama X_MM_RemoteAccess.
 
-{% include image.html size="medium" file="x_mm_remoteaccess.png" caption="Extraño... la búsqueda en google de X_MM_RemoteAccess sólo encuentra un resultado." %}
+{% include image.html class="medium-width" file="x_mm_remoteaccess.png" caption="Extraño... la búsqueda en google de X_MM_RemoteAccess sólo encuentra un resultado." %}
 
 **¿Un sólo resultado?** ¿En serio? Desconcertante... Habría esperado un PDF con la especificación, o al menos un modelo de datos XML. Pero cada fabricante hace su implementación particular del estándar CWMP.
 

@@ -16,7 +16,7 @@ El enfoque de esta entrada es más pragmático. Para cierto proyecto del que hab
 
 Como todas estas relaciones son no-lineales, lo más fácil es obtener la relación entre V e I de manera empírica. Simplemente tomando un reóstato, un autotransformador, o un atenuador electrónico a TRIAC (teniendo la precaución en este último caso de usar un tester *True RMS* pues la forma de onda deja de ser sinusoidal). Medimos la tensión en extremos de la bombilla y la intensidad que circula. Ahora dividiendo obtenemos el valor de la resistencia, y lo podemos graficar.
 
-{% include image.html size="medium" file="grafico_IV_1.png" caption="" %}
+{% include image.html class="medium-width" file="grafico_IV_1.png" caption="" %}
 
 Como ya habíamos previsto, la resistencia no se mantiene constante y es **siempre creciente**.
 
@@ -34,7 +34,7 @@ Sustituyendo los valores obtenemos 3191ºC. La temperatura de fusión del tungst
 
 Si nos concentramos en la zona a partir de los 80 voltios la característica se puede parecer a una recta.
 
-{% include image.html size="medium" file="grafico_IV_2.png" caption="" %}
+{% include image.html class="medium-width" file="grafico_IV_2.png" caption="" %}
 
 El coeficiente de ajuste no es muy bueno, pero no necesito demasiada exactitud y me conviene tener una expresión analítica lo más sencilla posible. Por tanto, haciendo un **abuso de la aproximación** podemos considerar que la resistencia aumenta de manera directamente proporcional a la tensión que se le aplique. Esto no es cierto, si bien es más aproximado que considerar la resistencia constante, cosa que sería completamente errónea.
 

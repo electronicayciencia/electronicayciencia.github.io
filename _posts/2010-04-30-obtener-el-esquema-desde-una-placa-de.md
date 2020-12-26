@@ -10,7 +10,7 @@ title: Obtener el esquema desde una placa de circuito impreso
 
 Pasar de una PCB al esquema es siempre un coñazo, lo hagas como lo hagas. Además es fácil equivocarse y acabar liado con un circuito que no tira ni para atrás. Por eso os quiero presentar un método sistemático que os servirá de guía para no perder el hilo. Para los expertos, lo que vamos buscando es reconstruir el *netlist*.
 
-{% include image.html size="small" file="BENQ0020.JPG" caption="" %}
+{% include image.html class="small-width" file="BENQ0020.JPG" caption="" %}
 
 Tengo un sencillo transmisor de un coche de juguete y voy a dibujar el esquema para analizarlo en una próxima entrada. Como la placa es pequeña, con componentes habituales y de una sola cara me servirá de ejemplo.
 
@@ -18,13 +18,13 @@ Tengo un sencillo transmisor de un coche de juguete y voy a dibujar el esquema p
 
 - Lo primero que tenéis que hacer es **numerar las pistas** de la placa. A veces, por el tamaño, es más fácil hacerlo sobre una fotografía que sobre la misma placa.
 
-{% include image.html size="small" file="pistas_numeradas.png" caption="" %}
+{% include image.html class="small-width" file="pistas_numeradas.png" caption="" %}
 
 - Ahora **numerad los componentes**. Es habitual que la referencia venga serigrafiada en la placa. Pero si no es así lo necesitamos para poder identificarlos: R1, R2 ... Incluid también los conectores externos.
 
 - Con esto podéis **construir una tabla**, o una hoja de cálculo, en la que las filas serán los componentes y cada columna será una pista de la placa. El objetivo es reconstruir un archivo tipo *netlist* para después llevarlo al esquema. Algo parecido a este **ejemplo** *(click en la imagen para ampliar)*:
 
-{% include image.html size="big" file="ejemplo_pistas.png" caption="" %}
+{% include image.html class="medium-width" file="ejemplo_pistas.png" caption="" %}
 
 - Tomad un componente, y **marcad en la tabla** a qué pistas está conectado. Si los terminales no tienen una función podéis poner una X, como en las resistencias. Si la tienen anotaremos qué terminal es, por ejemplo A o K para un diodo, E, B o C para un transistor.
 
@@ -45,7 +45,7 @@ Una vez tengamos la tabla completa es hora de llevarlo al esquema. Hay varios ca
 1. Las pistas que tengan más de 4 uniones hay que pararse a pensar cómo las dibujamos.
 1. Finalmente habrá que **recolocar** algunos componentes. Aquí cuenta la experiencia de cada uno, pero también los esquemas que tengamos vistos. Mientras más circuitos conozcamos más fácil será **identificar los patrones**. La colocación de los componentes es la parte más difícil porque hay que romperse la cabeza y, si identificamos una configuración concreta (tal como un oscilador astable en este caso por ejemplo) intentar presentarla de la manera habitual. Si acabamos con un esquema embrollado donde no se distinguen las partes, no nos servirá para nada. Recordad que una regla importante es que se distingan fácilmente las partes del circuito.
 
-{% include image.html size="big" file="circuito.png" caption="" %}
+{% include image.html class="large-width" file="circuito.png" caption="" %}
 
 El circuito lo comentaremos en días posteriores.
 

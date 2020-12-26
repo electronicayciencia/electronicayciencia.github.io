@@ -22,7 +22,7 @@ En este artículo vamos a ver algunos experimentos sencillos de espectroscopia a
 
 Tomemos una copa, un vodka con naranja estaría bien. Ahora vamos a por una **copa vacía** para hacer las pruebas. Lo primero que hemos de obtener son las frecuencias de oscilación libre de esa copa. Estas dependerán del tamaño y forma, así como de la composición y grosor del material. De ahí el timbre característico de una copa de fino cristal de Bohemia, frente a una copa usual de vino o un simple vaso. Y de ahí también el que varíe cuando se llena de un líquido, cuando se toca, etc.
 
-{% include image.html size="small" file="copa.jpg" caption="" %}
+{% include image.html class="small-width" file="copa.jpg" caption="" %}
 
 Podríamos utilizar un oscilador y un micrófono. Si variamos la frecuencia mientras visualizamos la amplitud de la señal captada veremos cómo crece al acercarnos a una frecuencia de resonancia. Este método es viable y así es como se hacía antes de que existieran los ordenadores, cuando no era tan sencillo calcular la [Transformada de Fourier](http://es.wikipedia.org/wiki/Transformada_r%C3%A1pida_de_Fourier). Otro día me detendré en explicarla, porque es realmente interesante; baste hoy con decir que es una operación tal que, a partir de un sonido, obtiene las frecuencias de que se compone.
 
@@ -39,7 +39,7 @@ Parece sencillo, sólo necesitamos un sonido que se componga de todas las frecue
 
 Lo siguiente es un sonograma creado por el programa [baudline](http://www.baudline.com/). El tiempo avanza hacia abajo de la pantalla, siguiendo el eje vertical. Las frecuencias están en el eje horizontal.
 
-{% include image.html size="medium" file="globo.png" caption="" %}
+{% include image.html class="medium-width" file="globo.png" caption="" %}
 
 Cuando aportamos energía a la copa, esta absorbe la que corresponde con sus frecuencias características y a continuación la emite. Lo que vemos es un aporte inicial de energía -la explosión- y a continuación los *ecos*. Hay tres tonos principales, los llamaremos A1, A2 y A3 (copa A, tonos 1, 2 y 3) de 1160Hz, 2410Hz y alrededor de 4400Hz. Nos centraremos en A1 y A2, vale la pena observar que son dos tonos limpios, en el sentido de que ninguno presenta armónicos superiores.
 
@@ -51,11 +51,11 @@ Una onda de choque transporta energía, en algunos casos mucha, que absorben los
 
 Cabe preguntarse qué sucede si aplicamos a la copa un tono de una frecuencia a la que esta resuene. El resultado es esperable: que vibra. Pero esto tiene dos consecuencias:
 
-{% include image.html size="" file="tono1160.png" caption="" %}
+{% include image.html class="original-width" file="tono1160.png" caption="" %}
 
 - Que una vez la fuente desaparece, al cabo de 0.1s, la vibración persiste durante un tiempo largo (tiempo que viene dado por el llamado [factor de calidad Q](http://es.wikipedia.org/wiki/Factor_de_calidad)). Encontramos una aplicación de este fenómeno en los **[amplificadores de clase C](http://en.wikipedia.org/wiki/Electronic_amplifier#Class_C)**. En un amplificador de clase C, el transistor amplifica mucho muchísimo la señal, pero sólo durante un tiempo que no cubre ni medio ciclo. Produce una distorsión muy desagradable y no sirve para audio. Pero ¿y si quisiéramos amplificar una frecuencia en concreto, para radio por ejemplo? Si lo acompañamos de un circuito tanque (un circuito LC paralelo) que resuene a la frecuencia que queramos pasará como con la copa: que el circuito resonante **recompone** el resto de la sinusoide que no amplificaba el transistor. Tendremos una amplificación muy eficiente, a cambio de limitarnos a **una sola frecuencia**.
 
-{% include image.html size="" file="clasec.png" caption="" %}
+{% include image.html class="original-width" file="clasec.png" caption="" %}
 
 - Lo otro es que la copa vibra (lo habíamos dicho), y vibra más cuanto mayor es la amplitud de la señal aplicada (obvio), y si subimos el volumen lo suficiente vibra tanto que **se rompe**. Seguro que todos habéis oído eso de romper una copa con la voz. Pues sí, es posible, con una nota que coincida con la frecuencia de resonancia, siempre que se cante a suficiente volumen la copa se parte. De hecho hay un episodio de *Mythbusters* donde hacen la prueba. ¿Por qué? Pues porque lo que se forma en el cristal es una [onda estacionaria](http://es.wikipedia.org/wiki/Onda_estacionaria) y cuando la amplitud del desplazamiento sobrepasa la flexibilidad del cristal, pues se parte.
 
@@ -69,7 +69,7 @@ Hagámoslo más interesante. Antes hemos dicho que se podía intuir la composici
 
 Tengo un sistema compuesto de tres copas, llamémoslas A (la que hemos usado antes), B y C. Cada copa tendrá unos picos de emisión, esos los nombraremos con un número correlativo. En el siguiente sonograma vemos los picos excitando cada copa individualmente para ver su espectro característico y después todas al mismo tiempo para ver el espectro completo del sistema.
 
-{% include image.html size="medium" file="sistemaCopas.png" caption="" %}
+{% include image.html class="medium-width" file="sistemaCopas.png" caption="" %}
 
 Antes de nada recordar que lo que estamos viendo no es un espectro de emisión, es un sonograma. Los picos no son picos, sino prolongaciones de esa frecuencia en el tiempo posterior a la excitación. Aún así hablaré de picos por comodidad. Realmente se parece más a una [Resonancia Magnética (RMN)](http://es.wikipedia.org/wiki/Resonancia_magn%C3%A9tica_nuclear), pero no quiero complicar más la entrada.
 
@@ -79,20 +79,20 @@ Varias cosas interesantes:
 
 - **Los picos C2 y B2** tienen una frecuencia muy cercana. Por eso cuando excitamos cada copa de forma independiente la frecuencia que emite el uno hace también vibrar al otro. Pero aquí ocurre algo muy interesante, porque fijaos en esta imagen ampliada:
 
-{% include image.html size="" file="absorcion_C2.png" caption="" %}
+{% include image.html class="original-width" file="absorcion_C2.png" caption="" %}
 
 He sacrificado definición de la imagen en favor de que se vea más claro lo siguiente. Cuando golpeamos la copa B, oímos el golpe, que como ya hemos dicho se compone de todas las frecuencias, bueno de todas no. Resulta que el sonido de B tiene que atravesar C para llegar al micrófono, así que **C absorbe la energía** en su frecuencia C2 e instantes después la vuelve a emitir. En esta imagen no se ve cómo la emite, para verlo tenéis que mirar la anterior.
 
 - **El pico A3** parece que esté dividido en dos muy próximos. En efecto al menos los picos A2 y A3 se desdoblan. Es algo común en espectroscopia, y pueden deberse a una acción externa (como el [efecto Zeeman](http://es.wikipedia.org/wiki/Efecto_Zeeman) o el [efecto Stark](http://es.wikipedia.org/wiki/Efecto_Stark)), pero aquí seguramente se deba a defectos en el material. Estos son los picos anteriores ampliados. Se necesita estrujar la FFT para obtenerlos y no se ven del todo bien.
 
-{% include image.html size="small" file="tono_A2.png" caption="" %}
+{% include image.html class="small-width" file="tono_A2.png" caption="" %}
 
-{% include image.html size="small" file="tono_A3.png" caption="" %}
+{% include image.html class="small-width" file="tono_A3.png" caption="" %}
 
 ## Espectro completo de A
 
 Para terminar, os dejo el espectro completo de A hasta los 15.000Hz. Espero que hayáis encontrado este artículo tan interesante como yo.
 
-{% include image.html size="big" file="espectro_A.png" caption="" %}
+{% include image.html class="large-width" file="espectro_A.png" caption="" %}
 
 Como siempre, podéis encontrar los ficheros utilizados en esta entrada [aquí]({{page.assets | relative_url}}/espectroscopia_copas.zip).
