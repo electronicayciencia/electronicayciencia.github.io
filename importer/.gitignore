@@ -1,0 +1,4 @@
+blog-*.xml
+_posts
+_drafts
+Gemfile.lock
