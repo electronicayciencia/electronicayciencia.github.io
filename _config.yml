@@ -56,6 +56,7 @@ twitter:
 
 exclude:
   - notas
+  - importer
 
 defaults:
   - scope:
