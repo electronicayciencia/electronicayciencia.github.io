@@ -51,7 +51,7 @@ Image have a desired width but:
 $img-small-width: 200px;
 $img-medium-width: 400px;
 $img-big-width: 600px;
-$img-huge-width: 600px;
+$img-huge-width: 100%;
 $img-full-width: 100%;
 
 .small {
@@ -77,13 +77,10 @@ $img-full-width: 100%;
 
 .huge {
   max-width: $img-huge-width;
-  @media (max-width: $img-huge-width + 50) {
-    max-width: 100%;
-  }
 }
 
 .full {
-  max-width: 100;
+  max-width: $img-full-width;
 }
 
 
