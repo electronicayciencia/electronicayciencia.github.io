@@ -177,7 +177,7 @@ Querrás convertirlos a Markdown. Buscarás un conversor de HTML a Markdown pero
 
 Pues **es complicado** precisamente porque HTML es más potente. Markdown sólo admite un subconjunto del formato HTML. Consecuencias:
 
-- Habrá formatos no soportados en Markdown. Por ejemplo texto de colores, tachado, subrayado, alineado a la derecha, con otra tipografía, etc. 
+- Habrá formatos no soportados en Markdown. Por ejemplo texto de colores, subrayado, alineado a la derecha, con otra tipografía, etc. 
 - En HTML hay varias maneras de hacer lo mismo. Por ejemplo los estilos pueden aplicarse tanto en el tag como en la plantilla CSS. Los tags `<em>` e `<i>` aunque sean diferentes ambos se traducen por cursivas. 
 - Blogger no sólo usa HTML para el contenido, también lo usa como parte del estilo. Es más, a lo largo de 10 años el HTML generado por el editor de Blogger ha ido cambiando.
 
@@ -259,7 +259,6 @@ Cuando analices el **texto normal** (el texto normal puede ser la etiqueta de un
 Así como otros **no soportados**. Deberás decidir si los eliminas, los sustituyes por otro formato sí soportado o mantienes el formato dejando el tag HTML tal cual en el fichero Markdown.
 
 - subrayado
-- tachado
 - color del texto o de fondo
 - texto alineado a la derecha o centrado
 - tamaño de la fuente o diferente tipografía
@@ -270,7 +269,7 @@ Entre los **enlaces**, pueden ser:
 - a assets (estáticos o ficheros)
 - a sitios externos
 
-Todo esto lo hice en un script de Perl: [post_process.pl](https://github.com/electronicayciencia/pruebas-blog/blob/main/importer/post_process.pl). Perl es el lenguaje más potente que conozco para expresiones regulares. Cuando no sabes lo que te puedes encontrar por el camino, mejor usar un lenguaje más flexible aunque penalice la legibilidad.
+Todo esto lo hice en un script de **Perl**: [post_process.pl](https://github.com/electronicayciencia/electronicayciencia.github.io/blob/master/importer/post_process.pl). Perl es el lenguaje más potente que hay para expresiones regulares. Cuando no sabes lo que te puedes encontrar por el camino, mejor usar un lenguaje más flexible aunque penalice la legibilidad.
 
 Además, quería usar un **patrón de programación** concreto: la opción `/e`. Vale para hacer una sustitución en una expresión regular; pero no por un string fijo sino por el resultado de ejecutar una función usando como parámetros la parte coincidente de la regexp. Lo cual me permite *tokenizar* el texto de manera muy compacta.
 
@@ -290,16 +289,17 @@ $s =~ s{(<table[^>]*>.*?</table>)}{format_table($1)}ge;
 
 ## Imágenes
 
-Tal vez tú sepas hacer esto mejor que yo; el diseño web no es mi especialidad. Si quieres compartir cómo lo habrías hecho tú, deja un comentario.
+Tal vez tú sepas hacer esto mejor que yo; el diseño web no es mi especialidad. Si quieres compartir cómo lo habrías hecho, deja un comentario.
 
-Desde hace unos años pongo pie de foto a todas las imágenes de los artículos. Eso es algo que no está soportado en Markdown nativamente. Aunque se puede hacer con tablas, tengo entendido que la forma correcta es con `figure` y `figcaption`. Así se vincula la etiqueta a la imagen y facilitamos la tarea a los buscadores.
+Quiero que mis imágenes se muestren centradas, con un ancho seleccionado, con pie de foto y enlazadas para que si haces click te te lleve al archivo original. Markdown no soporta nativamente ese formato pero se puede hacer con HTML. Tengo entendido que la forma correcta para el pie de foto es con `figure` y `figcaption`. Así se vincula la etiqueta a la imagen y facilitamos la tarea a los buscadores.
 
 Las plantillas de liquid soportan *includes*. Es más, soportan parámetros en los *includes*. De hecho, insertar una imagen es el ejemplo que usan en la [documentación de Jekyll](https://jekyllrb.com/docs/includes/) para ilustrar los includes. Aunque si sigues leyendo, luego dice que no lo hagas:
 
 > Note that you should avoid using too many includes, as this will slow down the build time of your site. For example, don’t use includes every time you insert an image. (The above technique shows a use case for special images.)
 
-Como iba diciendo, yo he guardado este código dentro de *_includes* como `image.html`:
+He creado dentro *_includes* un fichero llamado `image.html` con este contenido:
 
+{% raw %} 
 ```html
 <div class="postimage">
 <figure>
@@ -313,25 +313,28 @@ Como iba diciendo, yo he guardado este código dentro de *_includes* como `image
 </figure>
 </div>
 ```
+{% endraw %}
 
-Tiene tres parámetros:
+Además de la variable *assets*, definida en el post, tiene tres parámetros:
 
 - el nombre del **fichero**. Se asume que las imágenes del artículo están todas en la carpeta `/img` de la variable *assets*.
 - la etiqueta o **pie de foto**. Para que admita Markdown luego la pasamos por el filtro *markdownify*.
-- la clase, generalmente será el **tamaño**. Por defecto la clase será *original-width*.
+- la clase, generalmente será el **tamaño**. Por defecto asignamos la clase *original-width*.
 
 Para insertar una imagen en el post hay que incluir el fichero indicando los parámetros:
 
+{% raw %}
 ```html
-{% include image.html class="medium-width" file="geiger.png" caption="Tubo Geiger-Müller." %}
+{% include image.html file="geiger.png" caption="Tubo Geiger-Müller." %}
 ```
+{% endraw %}
 
-En cuanto al tamaño, tenía unos requisitos concretos:
+En cuanto al tamaño de las imágenes, tenía unos requisitos concretos:
 
-- La imagen no debe agrandarse sino sólo reducirse. Por ejemplo, el tamaño *mediano* son 500 píxeles de ancho. Si la imagen original mide 1000 píxeles de ancho, entonces debe mostrarse reducida hasta los 500. Pero si sólo medía 300 no debe agrandarse a 500 sino quedarse en su tamaño natural: 300px.
-- El ancho máximo de la imagen no debe superar el ancho del post. Si, por ejemplo el ancho *grande* son 700 píxeles pero estás viendo el blog en una pantalla estrecha de ancho menor, debe ignorar los 700px y reducirse hasta ocupar el 100% del ancho disponible.
+- Debe reducirse si es mayor que el ancho indicado, pero nunca agrandarse. Por ejemplo, el tamaño *mediano* son 500 píxeles de ancho. Si la imagen original mide 1000 píxeles, debe mostrarse reducida hasta los 500. Pero si sólo medía 300 no debe agrandarse a 500 sino quedarse en su tamaño natural de 300px.
+- El ancho máximo de la imagen no debe superar el ancho del post. Si el ancho *grande* son 700 píxeles pero estás viendo el blog en una pantalla estrecha de ancho menor, debe ignorar esos 700px y reducirse hasta ocupar el 100% del ancho disponible.
 
-No puedo hacerlo con `width` porque su efecto agranda las imágenes más pequeñas. He conseguido hacerlo ajustando el valor de `max-width` en función de un *media query*. No quiere decir que sea la forma correcta.
+No puedo hacerlo con `width` porque también agranda las imágenes más pequeñas. He conseguido hacerlo ajustando el valor de `max-width` en función de un *media query*. No sé si es la forma correcta.
 
 ```scss
 $img-small-width: 300px;
@@ -369,6 +372,8 @@ $img-x-large-width: 100%;
 }
 ```
 
+Imágenes de muestra:
+
 {% include image.html class="small-width" file="pll_protoboard.jpg" caption="Imagen pequeña: 300 pixeles de ancho o 100% del ancho del post." %}
 
 {% include image.html class="medium-width" file="pll_protoboard.jpg" caption="Imagen mediana: 500 pixeles de ancho o 100% del ancho del post." %}
@@ -377,92 +382,30 @@ $img-x-large-width: 100%;
 
 {% include image.html class="x-large-width" file="pll_protoboard.jpg" caption="Imagen muy grande: 100% del ancho del post." %}
 
-{% include image.html file="pll_protoboard.jpg" caption="Imagen a tamaño real con un máximo 100% del ancho del post." %}
+## Videos
 
-
-
-Reducción d eimagne al marco
-https://www.digitalocean.com/community/tutorials/css-cropping-images-object-fit
-
-```css
-.teaser-image-frame {
-  width: 200px;
-  height: 150px;
-  overflow: hidden;
-  float: left;
-  margin-right: 1rem;
-  margin-bottom: 0.5rem;
-}
-
-.teaser-image-frame img {
-  object-fit: cover;
-  width: inherit;
-  height: inherit;
-  border-radius: 4px;
-}
-```
-
-
-## Personalización del tema base
-
-Un tema consiste en una colección de plantillas (*layouts*) y estilos (*css*). Puedes copiar cualquiera de estos componentes y hacer cambios sobre él.
-
-Hay infinidad de temas disponibles para Jekyll. Yo he decidido mantener el tema por defecto **minima** porque me parece muy limpio. Y sobre él he hecho algunas personalizaciones. Si usas otro tema puede incorporar estas y muchas otras cosas. Uno muy completo es [minimal mistakes](https://mmistakes.github.io/minimal-mistakes/).
-
-Para muchas personalizaciones me he basado en [Memory Spills - 
-Customizing Jekyll theme](https://ouyi.github.io/post/2017/12/23/jekyll-customization.html).
-
-Como contar toda la personalización sería muy aburrido, sólo contaré algunos temas sueltos. El resto está en el [repositorio del blog](https://github.com/electronicayciencia/electronicayciencia.github.io).
-
-Necesito cargar en **cabeceras** cuatro cosas:
-
-- El script de [MathJax](https://www.mathjax.org/) y las opciones (importante el `messageStyle: "none"`).
-- Los iconos de [Font Awsome](https://fontawesome.com/) para las etiquetas, destacados y RSS. Lo he insertado desde la CDN de Bootstrap pero creo que esa no es la forma más actual.
-- El script para gestos de [swiped-events](https://github.com/john-doherty/swiped-events). Así en dispositivos móviles se puede avanzar la paginación desplazando el dedo.
-- El favicon. Mi tema básico no lo añade por defecto.
-
-La cabecera personalizada queda así:
+Al igual que para las imágenes, me he hecho un *include*. Lo he llamado `youtube.html` y usa como parámetro el id del video.
 
 ```html
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    jax: ["input/TeX", "output/HTML-CSS"],
-	messageStyle: "none",
-    tex2jax: {
-      inlineMath: [ ['$', '$'], ["\\(", "\\)"] ],
-      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
-      processEscapes: true,
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    }
-  });
-</script>
-
-<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" crossorigin="anonymous">
-
-<script type="text/javascript" async src="{{ "/assets/swiped-events.min.js" | relative_url}}"></script>
-
-<link rel="shortcut icon" href="{{ site.favicon | relative_url}}">
+<div class="postvideo">
+<iframe 
+  src="https://www.youtube.com/embed/{{include.id}}" 
+  frameborder="0" 
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+  allowfullscreen>
+</iframe>
+</div>
 ```
 
-Para la **tabla de contenidos**, he utilizado [jekyll-toc](https://github.com/allejo/jekyll-toc). Una plantilla de liquid para construir la TOC sin plugins. El texto `Secciones` justo encima lo pongo por CSS. ¿Te has fijado que no lo puedes seleccionar con el ratón?
+ASí inserto un vídeo:
 
-```scss
-/* TOC */
-#my_toc::before {
-  content: "Secciones";
-  margin-left: -$spacing-unit;
-  line-height: 200%;
-  font-weight: bold;
-  @include relative-font-size(1.25);
-  @include media-query($on-laptop) {
-    @include relative-font-size(1.125);
-  }
-}
+{% raw %}
 ```
+{% include youtube.html id="FsU0CnQ5dLw" %}
+```
+{% endraw %}
 
-Los videos de YouTube por defecto tienen el tamaño fijo. Encontré este código CSS para hacerlos *responsive* manteniendo la relación de aspecto.
+Los iframes de YouTube por defecto tienen el tamaño fijo. Pero encontré este código CSS para hacerlos *responsive* manteniendo la relación de aspecto.
 
 ```css
 .postvideo {
@@ -483,58 +426,52 @@ Los videos de YouTube por defecto tienen el tamaño fijo. Encontré este código
 }
 ```
 
-En los posts he incluido anotaciones ***front matter*** adicionales para usarlas en las plantillas. `assets` indica dónde están los estáticos. Las imágenes estarán en el directorio `/img` relativo a `assets`. `featured` indica si se mostrará ese post como destacado.
+Una muestra de vídeo:
 
-```yaml
-assets: /assets/2019/12/leer-tarjetas-de-acceso-rfid-sin-arduino
-featured: 'true'
-```
-
-El siguiente código JavaScript es el encargado de pasar páginas deslizando el dedo por la pantalla.
-
-```javascript
-nextpage = document.querySelector('link[rel="next"]');
-prevpage = document.querySelector('link[rel="prev"]');
-
-if (nextpage) {
-  document.addEventListener('swiped-left', function(e) {
-    location.href = nextpage.href;
-  });
-}
-
-if (prevpage) {
-  document.addEventListener('swiped-right', function(e) {
-    location.href = prevpage.href;
-  });
-}
-```
+{% include youtube.html id="FsU0CnQ5dLw" %}
 
 
+## Personalización del tema base
 
-Responsive, letras crecen.
+Hay infinidad de temas disponibles para Jekyll. Yo he decidido mantener el tema por defecto **minima**. Y sobre él he hecho algunas personalizaciones. Si usas otro tema puede incorporar estas y muchas otras cosas. Uno muy completo es [minimal mistakes](https://mmistakes.github.io/minimal-mistakes/).
+
+Para la **tabla de contenidos**, he utilizado [jekyll-toc](https://github.com/allejo/jekyll-toc). El texto "Secciones" justo encima (al principio del artículo) lo pongo por CSS. ¿Te has fijado que no lo puedes seleccionar con el ratón?
 
 ```scss
-@media (min-width: 2000px) {
-  .teaser-image-frame { 
-    width: 300px;
-    height: 225px;
-  }
-  .wrapper {
-    max-width: -webkit-calc(#{$content-width}*1.5 - (#{$spacing-unit} * 2));
-    max-width:         calc(#{$content-width}*1.5 - (#{$spacing-unit} * 2));
-  }
-  html {
-    font-size: 1.5em;
-  }
+/* TOC */
+#my_toc::before {
+  content: "Secciones";
+  line-height: 200%;
+  font-weight: bold;
 }
 ```
 
-```scss
-//$base-font-size: 16px;
-$base-font-size: 1rem;
-```
+Como contar toda la personalización sería muy aburrido, aquí os dejo una lista de cosas y si tenéis curiosidad podéis mirar el [repositorio del blog](https://github.com/electronicayciencia/electronicayciencia.github.io). Algunas ideas las he tomado de [Memory Spills - 
+Customizing Jekyll theme](https://ouyi.github.io/post/2017/12/23/jekyll-customization.html). 
+
+- En el tema base
+  - iconito rss en el menú
+  - logo en la esquina superior izquierda
+  - página de tags
+  - fuente de mayor tamaño para pantallas muy anchas
+  - quitar mensaje *loading* de Mathjax
+
+- En la lista de posts 
+  - paginado posts
+  - enlaces a siguiente y anterior
+  - resumen (extracto)
+  - imagen destacada (redimensionar imagen con *object-fit*)
+  - post destacado (color de fondo, bordes redondeados, icono campana)
+  - click en cualquier parte te lleva al artículo
+  - pasar página deslizando el dedo
+  
+- En el post
+  - enlaces a siguiente y anterior
+  - icono y lista de tags
 
 ## Borradores
+
+en /drafts
 
 ```yaml
 defaults:
@@ -545,104 +482,15 @@ defaults:
 ```
 
 y sin título.
-
+https://www.electronicayciencia.com/drafts/cheatsheet
 
 
 personalización del tema base
- - iconito rss en el menú
- - centrar imágenes
- - centrar vídeos
- - paginar posts
- - siguiente y anterior en el índice
- - siguiente y anterior en el post
- - logo en la esquina superior izquierda
- - lista de posts 
-   - resúmen
-   - imagen (redimensionar imagen con css)
-   - post destacado (bordes redondeados, icono campana)
- - tabla de contenido
-   - usando markdown
-   - usando plantilla liquid
- - tags
-   - página de tags
-   - etiqueta de tag
-   - tags en los posts
- - javascript personalizado
-   - div clickable en lista de posts
-   - mathjax en header
-   - quitar mensaje de mathjax
-   - gestos swipe para pasar página
- - responsive 
-   - media querys en css
-   - especial pantallas muy anchas (blog de next - https://www.bbvanexttechnologies.com/seguridad-personalizada-en-entornos-resilientes/)
- - seo
-   - rss
-   - resumen articulo
-   - featured image
-   - twitter card tags
-   - sitemap
-
-
-
-
-metadatos:
- - suprimir datos de blogger de la cabecera
- - cabecera assets
- - cabecera featured
- - cabecera image
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-Proceso:
- - backup local del blog
-   - posts
-   - bajarse las imágenes
-   - bajarse los activos
- - instalar jekyll localmente y familiarizarse con el proceso
-   - estructura
-   - donde poner los assets
-   - donde los posts
-   - cómo hacer un css personalizado
-   - post de prueba y empezar a trastear
- - ejecutar jekyll blogger importer
- - post-procesar posts
-   - markdown a html
-   - descripciones
-   - retaging 
-   - featured posts
- - Personalizar
- - Imagen
-   - favicon (https://favicon.io/favicon-generator/)
-
-
-
-
-
-dominio personalizado en namecheap
-disqus para comentarios
-
-
-Ejemplo blog con minima:
-https://github.com/ouyi/ouyi.github.io/tree/master/_posts
-https://ouyi.github.io/
-
-
-
-
-
-Algunos artículos para ti, que te entretengas mientras aprendes algo o sacas alguna idea util. Otros, para mi.
 
 
 
