@@ -26,7 +26,7 @@ Mi blog no es gran cosa pero es mío. No quiero perderlo. Además, mientras un v
 
 El detonante ha sido el nuevo editor de Blogger. A mediados de año (2020) Google deshabilitó la opción de volver al editor clásico de y forzó el uso del nuevo. Podríamos decir que *no estaba bien pulido*. No es sólo resistencia al cambio, es un sentimiento generalizado. Por ejemplo: [Google's NEW Blogger interface does not work properly!](https://makingamark.blogspot.com/2020/06/googles-new-almost-default-blogger-work.html), 
 
-{% include image.html size="medium" file="blogger_editor_bugs.png" caption="Problemas en el foro de soporte de Google acerca del nuevo editor." %}
+{% include image.html size="big" file="blogger_editor_bugs.png" caption="Problemas en el foro de soporte de Google acerca del nuevo editor." %}
 
 ¿La respuesta de Google? Más o menos esta: *Ahora funciona así. Habernos dado feedback durante el periodo de convivencia en vez de volver directamente al editor viejo.* ([Comunicado](https://support.google.com/blogger/thread/58098347?hl=en)). Nada que objetar; el gato es suyo y toman las decisiones oportunas en cada momento. 
 
@@ -270,31 +270,138 @@ Entre los **enlaces**, pueden ser:
 - a assets (estáticos o ficheros)
 - a sitios externos
 
-Todo esto lo hice en un script de Perl: [post_process.pl](https://github.com/electronicayciencia/pruebas-blog/blob/main/importer/post_process.pl). Lo hice e
-n Perl porque, si bien no es el lenguaje más legible, es lo más potente que conozco para expresiones regulares y me daba la flexibilidad que necesitaba cuando no sabía lo que me iba a encontrar.
+Todo esto lo hice en un script de Perl: [post_process.pl](https://github.com/electronicayciencia/pruebas-blog/blob/main/importer/post_process.pl). Perl es el lenguaje más potente que conozco para expresiones regulares. Cuando no sabes lo que te puedes encontrar por el camino, mejor usar un lenguaje más flexible aunque penalice la legibilidad.
 
-Además, quería usar un **patrón de programación** concreto: la opción `/e`. Permite sustituir una expresión regular no por un string fijo sino por el resultado de ejecutar una función. Lo cual me permite *tokenizar* el texto de manera muy compacta.
+Además, quería usar un **patrón de programación** concreto: la opción `/e`. Vale para hacer una sustitución en una expresión regular; pero no por un string fijo sino por el resultado de ejecutar una función usando como parámetros la parte coincidente de la regexp. Lo cual me permite *tokenizar* el texto de manera muy compacta.
 
 ```perl
-	# <blockquote></blockquote>
-	$s =~ s{<blockquote[^>]*>(.+?)</blockquote>}{format_blockquote($1)}ge;
-	
-	# Format unordered list blocks
-	$s =~ s{(<ul>.*?</ul>)}{format_list($1, "ul")}ge;
-	
-	# Format unordered list blocks
-	$s =~ s{(<ol>.*?</ol>)}{format_list($1, "ol")}ge;
+# <blockquote></blockquote>
+$s =~ s{<blockquote[^>]*>(.+?)</blockquote>}{format_blockquote($1)}ge;
 
-	# convert span monospaced into pre blocks
-	$s =~ s{<div[^>]*monospace[^>]*>(.*?)</div>}{format_monospace($1, "div")}ge;
-	$s =~ s{<span[^>]*monospace[^>]*>(.*?)</span>}{format_monospace($1, "span")}ge;
+# Format unordered list blocks
+$s =~ s{(<ul>.*?</ul>)}{format_list($1, "ul")}ge;
 
-	# Equations
-	$s =~ s{\\\[(.*?)\\\]}{format_equation($1, "display")}ge;
+# Format unordered list blocks
+$s =~ s{(<ol>.*?</ol>)}{format_list($1, "ol")}ge;
 
-	# HTML tables
-	$s =~ s{(<table[^>]*>.*?</table>)}{format_table($1)}ge;
+# HTML tables
+$s =~ s{(<table[^>]*>.*?</table>)}{format_table($1)}ge;
 ```
+
+## Imágenes
+
+Tal vez tú sepas hacer esto mejor que yo; el diseño web no es mi especialidad. Si quieres compartir cómo lo habrías hecho tú, deja un comentario.
+
+Desde hace unos años pongo pie de foto a todas las imágenes de los artículos. Eso es algo que no está soportado en Markdown nativamente. Aunque se puede hacer con tablas, tengo entendido que la forma correcta es con `figure` y `figcaption`. Así se vincula la etiqueta a la imagen y facilitamos la tarea a los buscadores.
+
+Las plantillas de liquid soportan *includes*. Es más, soportan parámetros en los *includes*. De hecho, insertar una imagen es el ejemplo que usan en la [documentación de Jekyll](https://jekyllrb.com/docs/includes/) para ilustrar los includes. Aunque si sigues leyendo, luego dice que no lo hagas:
+
+> Note that you should avoid using too many includes, as this will slow down the build time of your site. For example, don’t use includes every time you insert an image. (The above technique shows a use case for special images.)
+
+Como iba diciendo, yo he guardado este código dentro de *_includes* como `image.html`:
+
+```html
+<div class="postimage">
+<figure>
+  <a href="{{page.assets | relative_url}}/img/{{include.file}}">
+	<img 
+	  src="{{page.assets | relative_url}}/img/{{include.file}}" 
+      class="fullwidth {{include.class | default: "original-width"}}"
+      alt=""/>
+  </a>
+  <figcaption>{{ include.caption | markdownify }}</figcaption>
+</figure>
+</div>
+```
+
+Tiene tres parámetros:
+
+- el nombre del **fichero**. Se asume que las imágenes del artículo están todas en la carpeta `/img` de la variable *assets*.
+- la etiqueta o **pie de foto**. Para que admita Markdown luego la pasamos por el filtro *markdownify*.
+- la clase, generalmente será el **tamaño**. Por defecto la clase será *original-width*.
+
+Para insertar una imagen en el post hay que incluir el fichero indicando los parámetros:
+
+```html
+{% include image.html class="medium-width" file="geiger.png" caption="Tubo Geiger-Müller." %}
+```
+
+En cuanto al tamaño, tenía unos requisitos concretos:
+
+- La imagen no debe agrandarse sino sólo reducirse. Por ejemplo, el tamaño *mediano* son 500 píxeles de ancho. Si la imagen original mide 1000 píxeles de ancho, entonces debe mostrarse reducida hasta los 500. Pero si sólo medía 300 no debe agrandarse a 500 sino quedarse en su tamaño natural: 300px.
+- El ancho máximo de la imagen no debe superar el ancho del post. Si, por ejemplo el ancho *grande* son 700 píxeles pero estás viendo el blog en una pantalla estrecha de ancho menor, debe ignorar los 700px y reducirse hasta ocupar el 100% del ancho disponible.
+
+No puedo hacerlo con `width` porque su efecto agranda las imágenes más pequeñas. He conseguido hacerlo ajustando el valor de `max-width` en función de un *media query*. No quiere decir que sea la forma correcta.
+
+```scss
+$img-small-width: 300px;
+$img-medium-width: 500px;
+$img-large-width: 700px;
+$img-x-large-width: 100%;
+
+.small-width {
+  max-width: $img-small-width;
+  @media (max-width: $img-small-width + 50) {
+    max-width: 100%;
+  }
+}
+
+.medium-width {
+  max-width: $img-medium-width;
+  @media (max-width: $img-medium-width + 50) {
+    max-width: 100%;
+  }
+}
+
+.large-width {
+  max-width: $img-large-width;
+  @media (max-width: $img-large-width + 50) {
+    max-width: 100%;
+  }
+}
+
+.x-large-width {
+  max-width: $img-x-large-width;
+}
+
+.original-width {
+  max-width: 100%;
+}
+```
+
+{% include image.html class="small-width" file="pll_protoboard.jpg" caption="Imagen pequeña: 300 pixeles de ancho o 100% del ancho del post." %}
+
+{% include image.html class="medium-width" file="pll_protoboard.jpg" caption="Imagen mediana: 500 pixeles de ancho o 100% del ancho del post." %}
+
+{% include image.html class="large-width" file="pll_protoboard.jpg" caption="Imagen grande: 700 pixeles de ancho o 100% del ancho del post." %}
+
+{% include image.html class="x-large-width" file="pll_protoboard.jpg" caption="Imagen muy grande: 100% del ancho del post." %}
+
+{% include image.html file="pll_protoboard.jpg" caption="Imagen a tamaño real con un máximo 100% del ancho del post." %}
+
+
+
+Reducción d eimagne al marco
+https://www.digitalocean.com/community/tutorials/css-cropping-images-object-fit
+
+```css
+.teaser-image-frame {
+  width: 200px;
+  height: 150px;
+  overflow: hidden;
+  float: left;
+  margin-right: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.teaser-image-frame img {
+  object-fit: cover;
+  width: inherit;
+  height: inherit;
+  border-radius: 4px;
+}
+```
+
 
 ## Personalización del tema base
 
@@ -339,9 +446,9 @@ La cabecera personalizada queda así:
 <link rel="shortcut icon" href="{{ site.favicon | relative_url}}">
 ```
 
-Para la **tabla de contenidos**, he utilizado [jekyll-toc](https://github.com/allejo/jekyll-toc). Una plantilla de liquid para construir la TOC sin plugins. El texto `Secciones` justo encima lo pongo por CSS. ¿Te has fijado en que no lo puedes seleccionar con el ratón?
+Para la **tabla de contenidos**, he utilizado [jekyll-toc](https://github.com/allejo/jekyll-toc). Una plantilla de liquid para construir la TOC sin plugins. El texto `Secciones` justo encima lo pongo por CSS. ¿Te has fijado que no lo puedes seleccionar con el ratón?
 
-```css
+```scss
 /* TOC */
 #my_toc::before {
   content: "Secciones";
@@ -386,45 +493,25 @@ featured: 'true'
 El siguiente código JavaScript es el encargado de pasar páginas deslizando el dedo por la pantalla.
 
 ```javascript
-<script language="javascript">
-  nextpage = document.querySelector('link[rel="next"]');
-  prevpage = document.querySelector('link[rel="prev"]');
+nextpage = document.querySelector('link[rel="next"]');
+prevpage = document.querySelector('link[rel="prev"]');
 
-  if (nextpage) {
-    document.addEventListener('swiped-left', function(e) {
-      location.href = nextpage.href;
-    });
-  }
-  
-  if (prevpage) {
-    document.addEventListener('swiped-right', function(e) {
-      location.href = prevpage.href;
-    });
-  }
-</script>
-```
-
-
-
-```css
-.teaser-image-frame {
-  width: 200px;
-  height: 150px;
-  overflow: hidden;
-  float: left;
-  margin-right: 1rem;
-  margin-bottom: 0.5rem;
+if (nextpage) {
+  document.addEventListener('swiped-left', function(e) {
+    location.href = nextpage.href;
+  });
 }
 
-.teaser-image-frame img {
-  object-fit: cover;
-  width: inherit;
-  height: inherit;
-  border-radius: 4px;
+if (prevpage) {
+  document.addEventListener('swiped-right', function(e) {
+    location.href = prevpage.href;
+  });
 }
 ```
 
 
+
+Responsive, letras crecen.
 
 ```scss
 @media (min-width: 2000px) {
@@ -446,6 +533,7 @@ El siguiente código JavaScript es el encargado de pasar páginas deslizando el 
 //$base-font-size: 16px;
 $base-font-size: 1rem;
 ```
+
 
 personalización del tema base
  - iconito rss en el menú
