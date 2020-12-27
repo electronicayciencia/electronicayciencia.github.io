@@ -534,6 +534,19 @@ Responsive, letras crecen.
 $base-font-size: 1rem;
 ```
 
+## Borradores
+
+```yaml
+defaults:
+  - scope:
+      path: 'drafts/**'
+    values:
+      sitemap: false
+```
+
+y sin título.
+
+
 
 personalización del tema base
  - iconito rss en el menú
