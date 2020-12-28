@@ -1,8 +1,8 @@
 ---
 title: Migrar de Blogger a Jekyll
 layout: post
-assets: /assets/drafts/migrar-blogger-jekyll
-image: /assets/drafts/migrar-blogger-jekyll/img/post_html_feo.png
+assets: /assets/2020/12/migrar-blogger-jekyll
+image: /assets/2020/12/migrar-blogger-jekyll/img/post_html_feo.png
 featured: false
 tags:
   - Informática

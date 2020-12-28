@@ -98,7 +98,7 @@ En las etiquetas de las imágenes se puede usar markdown pero no se pueden usar 
 
 {% include image.html class="medium-width" file="a-cat.png" caption="Un gato. [Asset del post](/assets/drafts/cheatsheet/file1.txt) en el pie de foto." %}
 
-### Videos
+### Vídeos
 
 {% include youtube.html id="dQw4w9WgXcQ" %}
 
