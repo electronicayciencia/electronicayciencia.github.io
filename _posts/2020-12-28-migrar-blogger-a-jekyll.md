@@ -26,7 +26,7 @@ Este verano (2020) cambiaron el editor de Blogger. Google deshabilitó la opció
 
 {% include image.html size="big" file="blogger_editor_bugs.png" caption="Problemas en el foro de soporte de Google relacionados con el nuevo editor." %}
 
-¿La respuesta de Google quien reportaba un mal funcionamiento? Algo como: *Ahora funciona así. Habernos dado feedback durante el periodo de convivencia en vez de volver directamente al editor viejo.* ([Comunicado](https://support.google.com/blogger/thread/58098347?hl=en)). 
+¿La respuesta de Google quienes reportaban un mal funcionamiento? Algo como: *Ahora funciona así. Habernos dado feedback durante el periodo de convivencia en vez de volver directamente al editor viejo.* ([Comunicado](https://support.google.com/blogger/thread/58098347?hl=en)). 
 
 Nada que objetar; el gato es suyo y toman las decisiones oportunas en cada momento. Yo seguí dándole vueltas. Pasar el blog a Markdown y guardarlo en local me permitiría:
 
