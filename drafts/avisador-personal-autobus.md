@@ -2,7 +2,7 @@
 no-title: Avisador personal de autobuses
 layout: post
 assets: /assets/drafts/2021/01/avisador-personal-autobus
-image: /assets/2021/01/avisador-personal-autobus/img/esp01s-module.jpg
+image: /assets/drafts/2021/01/avisador-personal-autobus/img/esp01s-module.jpg
 featured: false
 tags:
   - Circuitos
