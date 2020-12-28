@@ -181,8 +181,8 @@ Al final di con este método:
 - procesar la estructura individualmente:
   - buscar otras que pueda tener anidadas (otra lista, formato de texto, enlaces). Aquí es donde todo se vuelve complicado.
   - sustituir lo encontrado por su correspondiente *token* (#link-1#, #ul-1#, ...).
-- si no hemos olvidado nada, lo que queda en el artículo una vez quitado todo lo especial debe ser sólo texto. Agrupamos en párrafos y tratarlos como otra estructura más como en los puntos anteriores.
-- recorrer el artículo, ahora compuesto sólo por *tokens*, sustituyendo cada parte por su representación en Markdown.
+- si no hemos olvidado nada, lo que queda en el artículo una vez quitado todo lo especial debe ser sólo texto. Los agrupamos en párrafos y los tratamos como otra estructura más siguiendo los puntos anteriores.
+- recorrer el artículo, ahora compuesto sólo por *tokens*, sustituyendo cada cosa por su representación en Markdown.
 
 {% include image.html file="estructura_intermedia.png" caption="Estructura abstracta de un artículo." %}
 
