@@ -64,7 +64,9 @@ Demostración de que $\alpha = 2\pi\beta$.
 
 Hay que usar `site.baseurl` porque la sintaxis
 
-    post_url 2018-10-07-la-presion-atmosferica-bmp280} | relative_url
+{% raw %}
+    {post_url 2018-10-07-la-presion-atmosferica-bmp280} | relative_url
+{% endraw %}
 
 da error. En jekyll 4.0.0, post_url ya tiene incorporado relative_url.
 
@@ -94,11 +96,11 @@ Las imágenes no se amplian, o bien se reducen o se muestran a tamaño natural.
 
 En las etiquetas de las imágenes se puede usar markdown pero no se pueden usar variables, por tanto si hay que enlazar a un asset se debe poner la ruta entera.
 
-{% include image.html class="medium" file="a-cat.png" caption="Un gato. [Asset del post](/assets/drafts/cheatsheet/file1.txt)" %}
+{% include image.html class="medium-width" file="a-cat.png" caption="Un gato. [Asset del post](/assets/drafts/cheatsheet/file1.txt) en el pie de foto." %}
 
 ### Videos
 
-{% include youtube.html id="FsU0CnQ5dLw" %}
+{% include youtube.html id="dQw4w9WgXcQ" %}
 
 
 ## Preformato

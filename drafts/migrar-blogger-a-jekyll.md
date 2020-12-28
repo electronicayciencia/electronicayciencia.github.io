@@ -8,13 +8,13 @@ tags:
   - Informática
 ---
 
-En esta entrada explico cómo hice la migración de Blogger a Jekyll. Me descargué los artículos y estáticos de blogger a local. Convertí los posts de HTML a Markdown y personalicé el tema de Jekyll. No ha sido fácil pero creo que ha valido la pena.
+En esta entrada explico cómo hice la migración de Blogger a Jekyll. Me descargué los artículos y estáticos de Blogger a local. Convertí los posts de HTML a Markdown y personalicé el tema de Jekyll. No ha sido fácil pero creo que ha valido la pena.
 
 Si vienes buscando un programa automático para migrar tu blog, lo siento. No tengo un programa listo para usar. Te voy a enseñar los que usé yo tal vez pueda ahorrarte algo de tiempo.
 
 La migración tiene tres partes:
 
-- **Descargar el blog** a local. Pero no sólo los artículos, eso es lo más fácil, también las imágenes y otros archivos (zip, audios, etc).
+- **Descargar el blog** a local. Pero no sólo los artículos, eso es lo más fácil, también las imágenes y otros archivos (zip, audios, etc.).
 - **Montar el entorno** Jekyll local y aprender a usarlo. Personalizarlo a tu manera.
 - **Convertir el blog** a Markdown e importarlo en Jekyll. Aunque también soporta HTML, pero descubrirás que no queda igual de bien.
 
@@ -181,13 +181,11 @@ Pues **es complicado** precisamente porque HTML es más potente. Markdown sólo 
 - En HTML hay varias maneras de hacer lo mismo. Por ejemplo los estilos pueden aplicarse tanto en el tag como en la plantilla CSS. Los tags `<em>` e `<i>` aunque sean diferentes ambos se traducen por cursivas. 
 - Blogger no sólo usa HTML para el contenido, también lo usa como parte del estilo. Es más, a lo largo de 10 años el HTML generado por el editor de Blogger ha ido cambiando.
 
-¿Cómo harías un **conversor de HTML a Markdown**? Tal vez tu primera idea sea *buscar y reemplazar* determinados signos. Por ejemplo buscar `<b>` y sustituirlo por `**`. 
+¿Cómo harías un **conversor de HTML a Markdown**? Tal vez tu primera idea sea *buscar y reemplazar* determinados signos. Pongamos buscar `<b>` y sustituirlo por `**`. 
 
-Pronto caerás en la cuenta de que tienes HTML tipo `<a href="enlace">texo</a>` y quieres convertirlo a `[texto](enlace)`. Parece fácil hacerlo con *expresiones regulares*. Pero [no puedes parsear HTML con regexp](https://stackoverflow.com/questions/1732348/regex-match-open-tags-except-xhtml-self-contained-tags?page=1&tab=votes#tab-top).
+Pronto caerás en la cuenta de que tienes HTML tipo `<a href="enlace">texo</a>` y quieres convertirlo a `[texto](enlace)`. Parece fácil hacerlo con expresiones regulares. ¡Es una trampa! Al principio funciona sí, pero se vuelve complejo muy rápidamente. Conforme avances verás cómo las sustituciones que hagas al principio afectarán a las posteriores. Y se hará muy complicado de mantener y depurar. Porque [no puedes parsear HTML con regexp](https://stackoverflow.com/questions/1732348/regex-match-open-tags-except-xhtml-self-contained-tags?page=1&tab=votes#tab-top).
 
-¡Es una trampa! Al principio funciona sí, pero se vuelve complejo muy rápidamente. Conforme avances verás cómo las sustituciones que hagas al principio afectarán a las posteriores. Y se hará muy complicado de mantener y depurar. No sigas por ahí. Puedes hacerlo sí consigues **aislar las estructuras** para convertirlas por separado. Así puedes aplicar cambios a la etiqueta de una imagen sin afectar a una tabla HTML, por ejemplo.
-
-El método que yo he usado es este:
+No sigas por ahí. Solo avanzarás si consigues **aislar las estructuras** y convertirlas por separado. Así puedes aplicar cambios a la etiqueta de una imagen sin afectar a una tabla HTML, por ejemplo. El método que yo he usado es este:
 
 - buscar en el texto estructuras reconocibles (una imagen, una tabla, una lista, texto citado, etc)
 - un vez identificada, guardar el contenido aparte y sustituirla por un *token* (#img-1#, #table-1#, etc) para saber donde iba.
@@ -196,9 +194,9 @@ El método que yo he usado es este:
 - lo que queda en el artículo una vez quitado todo lo especial debe ser sólo texto. Agrupar en párrafos y tratarlos como otra estructura más como en los puntos anteriores.
 - recorrer el artículo, ahora sólo compuesto de *tokens* sustituyendo cada token por su representación en Markdown.
 
-[imagen: texto estructuras]
+{% include image.html file="estructura_intermedia.png" caption="Estructura abstracta de un artículo." %}
 
-Poníendonos *formales*, el HTML es una gramática de tipo II (con anidación). No se puede procesar con expresiones regulares que -por eso se llaman así- sólo valen para leguajes regulares (tipo III). Por tanto he programado un **analizador sintáctico** rudimentario para identificar partes usando expresiones regulares, meterlas en una memoria (a modo de stack) y construir el árbol abstracto. Luego lo he volcado en Markdown. Pensándolo ahora, tal vez habría sido más fácil usar herramientas tipo ANTLR [(ANother Tool for Language Recognition)](https://www.antlr.org/). Pero no lo sabía.
+Siendo formales, el HTML es una **gramática de tipo II** (con anidación). No se puede procesar con expresiones regulares que -por eso se llaman así- sólo valen para leguajes regulares (gramática tipo III). Lo que sí puede hacerse es identificar partes usando expresiones regulares y programar un **analizador sintáctico** rudimentario. Almacenar las partes interesantes en una variable (a modo de stack) y construir el árbol abstracto. Luego lo he volcado en Markdown. Pensándolo ahora, tal vez habría sido más fácil usar herramientas tipo ANTLR ([ANother Tool for Language Recognition](https://www.antlr.org/)).
 
 Durante el proceso he encontrado **HTML inconsistente**. Te puede dar problemas con algunas librerías:
 
@@ -239,12 +237,12 @@ También es posible que encontremos **texto citado** con `<blockquote>`:
 - citado anidado
 - y también blockquote para indentar texto pero sin aplicar formato de cita
 
-Finalamente hay objetos que no tienen traducción Markdown:
+Finalmente hay objetos que no tienen traducción Markdown:
 
-- tablas. Aunque soporta tablas, no soporta celdas extendidas a varias columnas (*colspan*). En ese caso es mejor dejar el HTML tal cual.
-- ecuaciones. Tanto *inline* como *display*. Voy a seguir usando Mathjax por tanto esto no cambia.
+- tablas. Aunque soporta tablas, no soporta celdas extendidas a varias columnas con *colspan*. En ese caso es mejor dejar el HTML tal cual.
+- ecuaciones. Tanto *inline* como *display*. Voy a seguir usando MathJax por tanto esto no cambia.
 - objetos insertados. Tales como:
-   - videos de youtube
+   - videos de YouTube
    - hojas de spreadsheet
    - gráficos de spreadsheet
 
@@ -293,7 +291,7 @@ Tal vez tú sepas hacer esto mejor que yo; el diseño web no es mi especialidad.
 
 Quiero que mis imágenes se muestren centradas, con un ancho seleccionado, con pie de foto y enlazadas para que si haces click te te lleve al archivo original. Markdown no soporta nativamente ese formato pero se puede hacer con HTML. Tengo entendido que la forma correcta para el pie de foto es con `figure` y `figcaption`. Así se vincula la etiqueta a la imagen y facilitamos la tarea a los buscadores.
 
-Las plantillas de liquid soportan *includes*. Es más, soportan parámetros en los *includes*. De hecho, insertar una imagen es el ejemplo que usan en la [documentación de Jekyll](https://jekyllrb.com/docs/includes/) para ilustrar los includes. Aunque si sigues leyendo, luego dice que no lo hagas:
+Las plantillas de Liquid soportan *includes*. Es más, soportan parámetros en los *includes*. De hecho, insertar una imagen es el ejemplo que usan en la [documentación de Jekyll](https://jekyllrb.com/docs/includes/) para ilustrar los includes. Acto seguido te dice que no lo hagas:
 
 > Note that you should avoid using too many includes, as this will slow down the build time of your site. For example, don’t use includes every time you insert an image. (The above technique shows a use case for special images.)
 
@@ -397,15 +395,15 @@ Al igual que para las imágenes, me he hecho un *include*. Lo he llamado `youtub
 </div>
 ```
 
-ASí inserto un vídeo:
+Así insertaría un vídeo:
 
 {% raw %}
 ```
-{% include youtube.html id="FsU0CnQ5dLw" %}
+{% include youtube.html id="BZwuTo7zKM8" %}
 ```
 {% endraw %}
 
-Los iframes de YouTube por defecto tienen el tamaño fijo. Pero encontré este código CSS para hacerlos *responsive* manteniendo la relación de aspecto.
+Los vídeos de YouTube embebidos tienen un tamaño fijo. Pero encontré este código CSS para hacerlos *responsive* manteniendo la relación de aspecto.
 
 ```css
 .postvideo {
@@ -428,7 +426,7 @@ Los iframes de YouTube por defecto tienen el tamaño fijo. Pero encontré este c
 
 Una muestra de vídeo:
 
-{% include youtube.html id="FsU0CnQ5dLw" %}
+{% include youtube.html id="BZwuTo7zKM8" %}
 
 
 ## Personalización del tema base
@@ -446,7 +444,7 @@ Para la **tabla de contenidos**, he utilizado [jekyll-toc](https://github.com/al
 }
 ```
 
-Como contar toda la personalización sería muy aburrido, aquí os dejo una lista de cosas y si tenéis curiosidad podéis mirar el [repositorio del blog](https://github.com/electronicayciencia/electronicayciencia.github.io). Algunas ideas las he tomado de [Memory Spills - 
+Sería muy aburrido contar toda la personalización. aquí os dejo una lista de cosas y si te interesa puedes mirar el [repositorio del blog](https://github.com/electronicayciencia/electronicayciencia.github.io). Algunas ideas las he tomado de [Memory Spills - 
 Customizing Jekyll theme](https://ouyi.github.io/post/2017/12/23/jekyll-customization.html). 
 
 - En el tema base
@@ -457,21 +455,23 @@ Customizing Jekyll theme](https://ouyi.github.io/post/2017/12/23/jekyll-customiz
   - quitar mensaje *loading* de Mathjax
 
 - En la lista de posts 
-  - paginado posts
+  - paginado
   - enlaces a siguiente y anterior
   - resumen (extracto)
   - imagen destacada (redimensionar imagen con *object-fit*)
   - post destacado (color de fondo, bordes redondeados, icono campana)
-  - click en cualquier parte te lleva al artículo
+  - clic en cualquier parte del extracto te lleva al artículo
   - pasar página deslizando el dedo
   
 - En el post
   - enlaces a siguiente y anterior
-  - icono y lista de tags
+  - lista de tags e iconos
 
 ## Borradores
 
-en /drafts
+Una cuestión recurrente es cómo previsualizar un artículo sin publicarlo. La respuesta obvia es con el entorno local del Jekyll. Pero ¿y si queremos hacerlo directamente en GitHub?
+
+Yo me he creado un directorio especial llamado *drafts* (podía hacerle puesto cualquier otro nombre). Y, en la configuración de Jekyll, lo he excluido de del sitemap para que Google no lo indexe. Podría haber hecho lo mismo con una entrada en `robots.txt`.
 
 ```yaml
 defaults:
@@ -481,21 +481,25 @@ defaults:
       sitemap: false
 ```
 
-y sin título.
-https://www.electronicayciencia.com/drafts/cheatsheet
+Cualquier post que pongamos en ese directorio, Jekyll lo tratará como una página más y la convertirá a HTML. Sólo debemos hacer que no se muestre en el menú de navegación.
+
+En el tema *minima* es muy sencillo: sólo muestra las páginas que contienen título. Por tanto basta con no rellenar la variable `title`.
+
+Para acceder al borrador se debe ir directamente a la ruta /drafts conociendo el nombre. Por ejemplo: <https://www.electronicayciencia.com/drafts/cheatsheet>
+
+## Conclusión
+
+La migración no ha sido fácil; las mudanzas nunca lo son. 
+
+Cuando empecé había olvidado los tipos de gramáticas formales y lo aburrido que era hacer un parser. No conocía los generadores de web estáticas como Jekyll o Hugo. Tampoco Liquid ni el mecanismo con el que GitHub Pages genera los sitios web. No había oído hablar de SCSS ni SASS. Ni sabía hacer una web *responsive* usando *media queries* o centrar imágenes usando *object-fit*. 
+
+Ignoraba cómo funcionan las etiquetas [Open Graph](https://ogp.me/) para compartir una web. Me refiero a las *cards* que muestran las aplicaciones de mensajería como WhatsApp o Telegram y las redes sociales como LinkedIn o Twitter cuando compartes un enlace.
+
+{% include image.html class="medium-width" file="card_telegram.png" caption="La descripción y la imagen mostradas al compartir se obtienen de las etiquetas Meta [Open Graph](https://ogp.me/)." %}
+
+Espero que te haga gustado este artículo sobre cómo he construido mi blog en Jekyll. No es el camino cómodo, pero si tienes tiempo y ganas de aprender sobre Web te lo recomiendo.
 
 
-personalización del tema base
 
 
 
-
-
-
-
-
-
-
-
-   
-   
