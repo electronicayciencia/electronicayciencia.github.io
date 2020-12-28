@@ -1,5 +1,5 @@
 ---
-no-title: Migrar de blogger a Jekyll
+title: Migrar de Blogger a Jekyll
 layout: post
 assets: /assets/drafts/migrar-blogger-jekyll
 image: /assets/drafts/migrar-blogger-jekyll/img/post_html_feo.png
@@ -8,7 +8,7 @@ tags:
   - Informática
 ---
 
-Explico cómo descargar los artículos y estáticos de Blogger a local. Una forma de convertir los artículos de HTML a Markdown. Montar el entorno Jekyll y personalizar los estilos y el tema. No tengo un programa automático que darte. Pero puedo contarte cómo lo he hecho yo y ahorrarte trabajo.
+Mi experiencia migrando de Blogger a Jekyll. Explico cómo convertí los artículos de HTML a Markdown haciendo un parser. Así como ciertas personalizaciones de los estilos y el tema. No puedo darte un programa automático para migrar tu blog, pero puedo contarte cómo lo he hecho yo y quizá ahorrarte trabajo.
 
 Para mí, la migración han sido tres partes:
 
@@ -186,9 +186,9 @@ Al final di con este método:
 
 {% include image.html file="estructura_intermedia.png" caption="Estructura abstracta de un artículo." %}
 
-Un poco de formalismo. El HTML es una **gramática de tipo II** (con anidación). No se puede procesar con expresiones regulares que -por eso se llaman así- sólo valen para leguajes regulares (gramática tipo III). Lo que sí puede hacerse es identificar partes usando expresiones regulares y programar un **analizador sintáctico** rudimentario. Almacenar las partes interesantes en una variable (a modo de pila) y construir el árbol abstracto. Esa abstracción es común a HTML y Markdown. Sólo debemos transcribirlo. Pensándolo ahora, tal vez habría sido más fácil usar herramientas tipo ANTLR ([ANother Tool for Language Recognition](https://www.antlr.org/)).
+Un poco de formalismo. El HTML es una **gramática de tipo II** (con anidación). No se puede procesar con expresiones regulares que -por eso se llaman así- sólo valen para leguajes regulares (gramática tipo III). Lo que sí puede hacerse es identificar partes usando expresiones regulares y programar un **analizador sintáctico** personalizado. Almacenar las partes interesantes en una variable (a modo de pila) y construir el árbol abstracto. Esa abstracción es común a HTML y Markdown. Sólo debemos transcribirlo. Pensándolo ahora, igual habría sido más fácil usar herramientas tipo ANTLR ([ANother Tool for Language Recognition](https://www.antlr.org/)).
 
-Durante el proceso he encontrado **HTML inconsistente**. Te puede dar problemas con algunas librerías:
+Durante el proceso he encontrado **HTML inconsistente**. Te puede dar problemas con ciertas librerías:
 
 - etiquetas no cerradas (y al revés, por ejemplo un `</a>` que no empieza).
 - etiquetas inexistentes (una vez escribí `se<f1>oras` para señalar UTF-8, pero el editor de Blogger autocompletó el tag `<f1>` y puso otro `</f1>` al final de la frase).
