@@ -50,6 +50,9 @@ minima:
 
 paginate: 6
 
+feed:
+  posts_limit: 20
+
 # For jekyll seo
 twitter:
   username: electronicaycie
