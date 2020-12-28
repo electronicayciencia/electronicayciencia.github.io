@@ -254,10 +254,8 @@ Además, quería usar un **patrón de programación** concreto: la opción `/e`.
 # <blockquote></blockquote>
 $s =~ s{<blockquote[^>]*>(.+?)</blockquote>}{format_blockquote($1)}ge;
 
-# Format unordered list blocks
+# Format lists blocks
 $s =~ s{(<ul>.*?</ul>)}{format_list($1, "ul")}ge;
-
-# Format unordered list blocks
 $s =~ s{(<ol>.*?</ol>)}{format_list($1, "ol")}ge;
 
 # HTML tables
