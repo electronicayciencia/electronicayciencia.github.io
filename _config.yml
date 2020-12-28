@@ -51,7 +51,7 @@ minima:
 paginate: 6
 
 feed:
-  posts_limit: 10
+  posts_limit: 30
 
 # For jekyll seo
 twitter:
