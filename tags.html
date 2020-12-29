@@ -5,8 +5,9 @@ description: "Electrónica y ciencia - Por temas"
 permalink: /tags/
 ---
 
-<div class="tags">
 {% assign sorted_tags = site.tags | sort %}
+
+<div class="tags">
     <h2 class="post-list-heading">Selecciona un tema</h2>
         <p>
         {% for tag in sorted_tags %}
@@ -15,19 +16,20 @@ permalink: /tags/
         </p>
 
     <h2 class="post-list-heading">Artículos</h2>
+
       {%- for tag in sorted_tags -%}
+      <div class="tag-posts-list {{ tag[0] | slugify }}">
+      
+        <h3 id="{{ tag[0] | slugify }}" class="tag-posts-header">{{ tag[0] }}</h3>
 
-	  <div class="tag-posts-list {{ tag[0] | slugify }}">
-	  <h3 id="{{ tag[0] | slugify }}" class="tag-posts-header">{{ tag[0] }}</h3>
-
-      <ul class="post-list">
-        {%- for post in tag[1] -%}
-        <li>
-          {% include post_card.html %}
-		</li>
-        {%- endfor -%}
-      </ul>
-	  </div>
+        <ul class="post-list">
+          {%- for post in tag[1] -%}
+          <li>
+            {% include post_card.html %}
+          </li>
+          {%- endfor -%}
+        </ul>
+      </div>
       {% endfor %}
 
 
