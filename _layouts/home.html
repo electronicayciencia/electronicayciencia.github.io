@@ -20,7 +20,8 @@ layout: default
       <li onclick="location.href='{{ post.url | relative_url }}';">
         <div class="post-card{% if post.featured %} featured{% endif %}">
         {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
-        <span class="post-meta">{{ post.date | date: date_format }}</span>
+		<span class="post-meta">{{ post.date | date: date_format }} | {{ post.content | number_of_words | divided_by:120 }} minutos</span>
+		
         {% if post.featured %}
         <div class="featured-label">
           <i class="fa fa-bell" aria-hidden="true"></i> Destacado
