@@ -207,7 +207,7 @@ En cuanto a estructuras, las más reconocibles son las **imágenes**. Las hay de
 Después tenemos el **texto preformateado**. Bloques -de código o no- con fuente de ancho fijo.
 
 - bloques de código con el tag `<pre>` ya sea indicando el lenguaje o no.
-- formateado en varias líneas dentro de `span nonospace`
+- formateado en varias líneas dentro de `span monospace`
 - formateado en un bloque con `div monospace`
 - líneas individuales cada una con span pero pertenecientes todas al mismo bloque de texto. Deberás identificar ese caso y agruparlas.
 - Además, HTML soporta formato (negritas, cursivas, colores) dentro de estos bloques pero Markdown no. Habrá que suprimirlo.
