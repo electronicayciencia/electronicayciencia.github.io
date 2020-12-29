@@ -11,8 +11,15 @@ permalink: /archive/
 
 ### Año {{ year.name }}
 
-{% for post in year.items %}- [{{post.title}}](post.url)
+<ul>
+{% for post in year.items %}
+  {%- if post.featured -%}
+  <li><a href="{{post.url}}"><b>{{post.title}}</b></a></li>
+  {%- else -%}
+  <li><a href="{{post.url}}">{{post.title}}</a></li>
+  {%- endif -%}
 {% endfor %}
+</ul>
 
 {% endfor %}
 
