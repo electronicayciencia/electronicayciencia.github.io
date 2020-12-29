@@ -17,7 +17,7 @@ layout: default
   </h2>
     <ul class="post-list">
       {%- for post in paginator.posts -%}
-        <li onclick="location.href='{{ post.url | relative_url }}';">
+        <li>
           {% include post_card.html %}
         </li>
       {%- endfor -%}

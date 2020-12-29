@@ -29,15 +29,18 @@
 
    {%- if site.show_excerpts -%}
    <div class="post-excerpt">
-      {{ post.excerpt }}
+     <div onclick="location.href='{{ post.url | relative_url }}';">
+       {{ post.excerpt }}
+     </div>
 
-      {%- if site.show_tags -%}
-        {% for tag in post.tags %}
-          <a class="post-tag" href="{{ site.baseurl }}/tags/#{{ tag | slugify }}">{{ tag }}</a>
-        {% endfor %}
-      {%- endif -%}
+     {%- if site.show_tags -%}
+     {% for tag in post.tags %}
+       <a class="post-tag" href="{{ site.baseurl }}/tags/#{{ tag | slugify }}">{{ tag }}</a>
+     {% endfor %}
+     {%- endif -%}
 
    </div>
    {%- endif -%}
 
 </div>
+
