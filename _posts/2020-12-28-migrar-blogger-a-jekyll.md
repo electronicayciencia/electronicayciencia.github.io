@@ -22,7 +22,7 @@ Hoy día el texto es un medio minoritario frente al video. El tráfico e ingreso
 
 Empecé a pensar cómo tener una copia de mi blog, en local, navegable. No es más que texto, imágenes y algunos archivos comprimidos. Además, un video ocupa varios gigabytes y necesitas una plataforma para servirlo. Pero un blog entero son unos cuantos megabytes y puedes servirlo casi desde cualquier hosting web.
 
-Este verano (2020) cambiaron el editor de Blogger. Google deshabilitó la opción de volver al editor clásico y forzó el uso del nuevo. El cual, por decirlo suavemente *no estaba listo para el público*. Hubo mucha gente que se quejó y direno marcha atrás. Por ejemplo: [Google's NEW Blogger interface does not work properly!](https://makingamark.blogspot.com/2020/06/googles-new-almost-default-blogger-work.html),
+Este verano (2020) cambiaron el editor de Blogger. Google deshabilitó la opción de volver al editor clásico y forzó el uso del nuevo. El cual, por decirlo suavemente *no estaba listo para el público*. Hubo mucha gente que se quejó y dieron marcha atrás. Por ejemplo: [Google's NEW Blogger interface does not work properly!](https://makingamark.blogspot.com/2020/06/googles-new-almost-default-blogger-work.html),
 
 {% include image.html size="big" file="blogger_editor_bugs.png" caption="Problemas en el foro de soporte de Google relacionados con el nuevo editor." %}
 
@@ -170,7 +170,7 @@ Querrás convertirlos a Markdown. Buscarás un programa para convertirlo pero ni
 - Hay varias maneras de hacer lo mismo. Por ejemplo los estilos pueden aplicarse tanto en el tag como en la plantilla CSS. Los tags `<em>` e `<i>` aunque sean diferentes ambos se traducen por cursivas.
 - A lo largo de 10 años el HTML generado por el editor de Blogger ha ido cambiando.
 
-Pronto caerás en la cuenta de que tienes HTML tipo `<a href="enlace">texo</a>` y quieres convertirlo a `[texto](enlace)`. Parece fácil hacerlo con expresiones regulares. ¡No! Es una trampa. Al principio funciona sí, pero se vuelve complejo muy rápidamente. Conforme avances verás cómo las sustituciones que hagas al principio afectarán a las posteriores. Y se hará muy complicado de mantener y depurar. Porque [no puedes parsear HTML con regexp](https://stackoverflow.com/questions/1732348/regex-match-open-tags-except-xhtml-self-contained-tags?page=1&tab=votes#tab-top).
+Pronto caerás en la cuenta de que tienes HTML tipo `<a href="enlace">texto</a>` y quieres convertirlo a `[texto](enlace)`. Parece fácil hacerlo con expresiones regulares. ¡No! Es una trampa. Al principio funciona sí, pero se vuelve complejo muy rápidamente. Conforme avances verás cómo las sustituciones que hagas al principio afectarán a las posteriores. Y se hará muy complicado de mantener y depurar. Porque [no puedes parsear HTML con regexp](https://stackoverflow.com/questions/1732348/regex-match-open-tags-except-xhtml-self-contained-tags?page=1&tab=votes#tab-top).
 
 Solo avanzarás si consigues **aislar las estructuras** y convertirlas por separado. Así puedes aplicar cambios a la etiqueta de una imagen sin afectar a una tabla más abajo en el mismo post.
 
@@ -186,7 +186,7 @@ Al final di con este método:
 
 {% include image.html file="estructura_intermedia.png" caption="Estructura abstracta de un artículo." %}
 
-Un poco de formalismo. El HTML es una **gramática de tipo II** (con anidación). No se puede procesar con expresiones regulares que -por eso se llaman así- sólo valen para leguajes regulares (gramática tipo III). Lo que sí puede hacerse es identificar partes usando expresiones regulares y programar un **analizador sintáctico** personalizado. Almacenar las partes interesantes en una variable (a modo de pila) y construir el árbol abstracto. Esa abstracción es común a HTML y Markdown. Sólo debemos transcribirlo. Pensándolo ahora, igual habría sido más fácil usar herramientas tipo ANTLR ([ANother Tool for Language Recognition](https://www.antlr.org/)).
+Un poco de formalismo. El HTML es una **gramática de tipo II** (con anidación). No se puede procesar con expresiones regulares que -por eso se llaman así- sólo valen para lenguajes regulares (gramática tipo III). Lo que sí puede hacerse es identificar partes usando expresiones regulares y programar un **analizador sintáctico** personalizado. Almacenar las partes interesantes en una variable (a modo de pila) y construir el árbol abstracto. Esa abstracción es común a HTML y Markdown. Sólo debemos transcribirlo. Pensándolo ahora, igual habría sido más fácil usar herramientas tipo ANTLR ([ANother Tool for Language Recognition](https://www.antlr.org/)).
 
 Durante el proceso he encontrado **HTML inconsistente**. Te puede dar problemas con ciertas librerías:
 
