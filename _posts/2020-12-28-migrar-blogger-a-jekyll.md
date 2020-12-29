@@ -8,7 +8,7 @@ tags:
   - Informática
 ---
 
-Mi experiencia migrando de Blogger a Jekyll. Explico cómo convertí los artículos de HTML a Markdown haciendo un parser. Así como ciertas personalizaciones de los estilos y el tema. No puedo darte un programa automático para migrar tu blog, pero puedo contarte cómo lo he hecho yo y quizá ahorrarte trabajo.
+Aquí te explico cómo convertí los artículos de HTML a Markdown haciendo un parser y algunas personalizaciones de los estilos y el tema. No puedo darte un programa automático para migrar tu blog, pero puedo contarte cómo lo he hecho yo y quizá ahorrarte trabajo.
 
 Para mí, la migración han sido tres partes:
 
@@ -207,7 +207,7 @@ En cuanto a estructuras, las más reconocibles son las **imágenes**. Las hay de
 Después tenemos el **texto preformateado**. Bloques -de código o no- con fuente de ancho fijo.
 
 - bloques de código con el tag `<pre>` ya sea indicando el lenguaje o no.
-- formateado en varias líneas dentro de `span nonospace`
+- formateado en varias líneas dentro de `span monospace`
 - formateado en un bloque con `div monospace`
 - líneas individuales cada una con span pero pertenecientes todas al mismo bloque de texto. Deberás identificar ese caso y agruparlas.
 - Además, HTML soporta formato (negritas, cursivas, colores) dentro de estos bloques pero Markdown no. Habrá que suprimirlo.
