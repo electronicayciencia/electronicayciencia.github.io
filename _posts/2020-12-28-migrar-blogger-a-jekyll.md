@@ -18,15 +18,15 @@ Para mí, la migración han sido tres partes:
 
 ## Descarga a local
 
-Hoy día el texto es un medio minoritario frente al video. El tráfico e ingresos que obtiene Google con un canal de YouTube no es ni comparable al que obtiene con un blog. Blogger podría seguir existiendo otros 15 años o podría cerrar mañana mismo por no ser rentable. Cualquiera que tenga una colección de favoritos sabe lo rápido que desparece la información en Internet. 
+Hoy día el texto es un medio minoritario frente al video. El tráfico e ingresos que obtiene Google con un canal de YouTube no es ni comparable al que obtiene con un blog. Blogger podría seguir existiendo otros 15 años o podría cerrar mañana mismo por no ser rentable. Cualquiera que tenga una colección de favoritos sabe lo rápido que desparece la información en Internet.
 
 Empecé a pensar cómo tener una copia de mi blog, en local, navegable. No es más que texto, imágenes y algunos archivos comprimidos. Además, un video ocupa varios gigabytes y necesitas una plataforma para servirlo. Pero un blog entero son unos cuantos megabytes y puedes servirlo casi desde cualquier hosting web.
 
-Este verano (2020) cambiaron el editor de Blogger. Google deshabilitó la opción de volver al editor clásico y forzó el uso del nuevo. El cual, por decirlo suavemente *no estaba listo para el público*. Hubo mucha gente que se quejó y direno marcha atrás. Por ejemplo: [Google's NEW Blogger interface does not work properly!](https://makingamark.blogspot.com/2020/06/googles-new-almost-default-blogger-work.html), 
+Este verano (2020) cambiaron el editor de Blogger. Google deshabilitó la opción de volver al editor clásico y forzó el uso del nuevo. El cual, por decirlo suavemente *no estaba listo para el público*. Hubo mucha gente que se quejó y direno marcha atrás. Por ejemplo: [Google's NEW Blogger interface does not work properly!](https://makingamark.blogspot.com/2020/06/googles-new-almost-default-blogger-work.html),
 
 {% include image.html size="big" file="blogger_editor_bugs.png" caption="Problemas en el foro de soporte de Google relacionados con el nuevo editor." %}
 
-¿La respuesta de Google quienes reportaban un mal funcionamiento? Algo como: *Ahora funciona así. Habernos dado feedback durante el periodo de convivencia en vez de volver directamente al editor viejo.* ([Comunicado](https://support.google.com/blogger/thread/58098347?hl=en)). 
+¿La respuesta de Google quienes reportaban un mal funcionamiento? Algo como: *Ahora funciona así. Habernos dado feedback durante el periodo de convivencia en vez de volver directamente al editor viejo.* ([Comunicado](https://support.google.com/blogger/thread/58098347?hl=en)).
 
 Nada que objetar; el gato es suyo y toman las decisiones oportunas en cada momento. Yo seguí dándole vueltas. Pasar el blog a Markdown y guardarlo en local me permitiría:
 
@@ -37,9 +37,9 @@ Nada que objetar; el gato es suyo y toman las decisiones oportunas en cada momen
 
 Lo primero que necesitaba era reunir todos los estáticos: El texto era fácil estaba en Blogger, venía en la copia de seguridad, junto a las plantillas y los comentarios. Las imágenes estaban en el servicio de almacenamiento de Google (como lo llamen ahora). También tengo algunos archivos compartidos en Dropbox y en Google Sites.
 
-Al principio pensé que sería fácil. Hice un script para recorrer la lista de artículos. Crear un directorio por cada uno. Buscar enlaces o imágenes en el HTML y bajármelos al directorio adecuado. Lo llamé [post-saver.sh](https://github.com/electronicayciencia/eyc-backup/blob/master/post-saver.sh). 
+Al principio pensé que sería fácil. Hice un script para recorrer la lista de artículos. Crear un directorio por cada uno. Buscar enlaces o imágenes en el HTML y bajármelos al directorio adecuado. Lo llamé [post-saver.sh](https://github.com/electronicayciencia/eyc-backup/blob/master/post-saver.sh).
 
-Al final la cosa fue más complicada de lo que parecía. En **imágenes grandes** Blogger reduce la calidad para optimizar el tiempo de carga de la página. Dejando la original enlazada. En tal caso no es suficiente descargar el archivo `src` del tag `img`. Debemos descargar el archivo del enlace. 
+Al final la cosa fue más complicada de lo que parecía. En **imágenes grandes** Blogger reduce la calidad para optimizar el tiempo de carga de la página. Dejando la original enlazada. En tal caso no es suficiente descargar el archivo `src` del tag `img`. Debemos descargar el archivo del enlace.
 
 Esta sería una imagen de nombre *buffer_circular.png*. Cuyo ancho original es 468px pero en el artículo se muestra reducida a 320px. El enlace original acaba en `.../s1600/buffer_circular.png` mientras el reducido en  `.../s320/buffer_circular.png`. La imagen tiene una etiqueta debajo.
 
@@ -83,7 +83,7 @@ if (top.location != self.location) top.location = self.location;
 
 Con todo en local llega la hora de servirlo. Jekyll es un generador de sitios estáticos. No es el único. Se trata de un software que lee unos archivos de origen (en HTML o Markdown), les aplica unas plantillas y genera con ellos un directorio conteniendo el sitio web en HTML. Este directorio podríamos publicarlo tal cual en cualquier hosting.
 
-Así es como funciona GitHub Pages. Cuando activamos la publicación de un repositorio, el **pipeline** de GitHub ejecuta Jekyll, construye el sitio web y lo sirve. 
+Así es como funciona GitHub Pages. Cuando activamos la publicación de un repositorio, el **pipeline** de GitHub ejecuta Jekyll, construye el sitio web y lo sirve.
 
 Nos vendrá bien replicarlo en local para hacer pruebas. El proceso de instalación está explicado en la documentación oficial:
 
@@ -167,12 +167,12 @@ Querrás convertirlos a Markdown. Buscarás un programa para convertirlo pero ni
 ¿Cómo harías un **conversor de HTML a Markdown**? Tu primera idea podría ser *buscar y reemplazar* determinados signos. Digamos sustituir `<b>` por `**`. Quizá piensas que, si escribir en Markdown es sencillo, transcribir un HTML a Markdown no será tan complicado. Pues **es complicado** precisamente porque HTML es más potente.
 
 - Hay formatos no soportados. Tal como texto de colores, subrayado, alineado a la derecha, con otra tipografía, etc.
-- Hay varias maneras de hacer lo mismo. Por ejemplo los estilos pueden aplicarse tanto en el tag como en la plantilla CSS. Los tags `<em>` e `<i>` aunque sean diferentes ambos se traducen por cursivas. 
+- Hay varias maneras de hacer lo mismo. Por ejemplo los estilos pueden aplicarse tanto en el tag como en la plantilla CSS. Los tags `<em>` e `<i>` aunque sean diferentes ambos se traducen por cursivas.
 - A lo largo de 10 años el HTML generado por el editor de Blogger ha ido cambiando.
 
 Pronto caerás en la cuenta de que tienes HTML tipo `<a href="enlace">texo</a>` y quieres convertirlo a `[texto](enlace)`. Parece fácil hacerlo con expresiones regulares. ¡No! Es una trampa. Al principio funciona sí, pero se vuelve complejo muy rápidamente. Conforme avances verás cómo las sustituciones que hagas al principio afectarán a las posteriores. Y se hará muy complicado de mantener y depurar. Porque [no puedes parsear HTML con regexp](https://stackoverflow.com/questions/1732348/regex-match-open-tags-except-xhtml-self-contained-tags?page=1&tab=votes#tab-top).
 
-Solo avanzarás si consigues **aislar las estructuras** y convertirlas por separado. Así puedes aplicar cambios a la etiqueta de una imagen sin afectar a una tabla más abajo en el mismo post. 
+Solo avanzarás si consigues **aislar las estructuras** y convertirlas por separado. Así puedes aplicar cambios a la etiqueta de una imagen sin afectar a una tabla más abajo en el mismo post.
 
 Al final di con este método:
 
@@ -193,7 +193,7 @@ Durante el proceso he encontrado **HTML inconsistente**. Te puede dar problemas 
 - etiquetas no cerradas (y al revés, por ejemplo un `</a>` que no empieza).
 - etiquetas inexistentes (una vez escribí `se<f1>oras` para señalar UTF-8, pero el editor de Blogger autocompletó el tag `<f1>` y puso otro `</f1>` al final de la frase).
 - uso de tags inconsistente. Por ejemplo `<br>` y `<br />`, `<em>` e `<i>` para cursivas, `<b>` y `<strong>`.
-- formato aplicado tanto con `div` como `span`. 
+- formato aplicado tanto con `div` como `span`.
 - formatos vacíos (negritas, cursivas, span, div). El texto original está lleno de `<b></b>` y `<em></em>`. O peor aún mezclas: `<b><br /><em></em></b>`.
 
 En cuanto a estructuras, las más reconocibles son las **imágenes**. Las hay de varios tipos:
@@ -229,7 +229,7 @@ También es posible que encontremos **texto citado** con `<blockquote>`:
 
 Finalmente hay objetos que no tienen traducción directa a Markdown. En tal caso es mejor dejar el HTML.
 
-- tablas. Aunque soporta tablas, no soporta celdas extendidas a varias columnas con *colspan*. 
+- tablas. Aunque soporta tablas, no soporta celdas extendidas a varias columnas con *colspan*.
 - ecuaciones. Tanto *inline* como *display*.
 - iframes: videos de YouTube, hojas cálculo de spreadsheet o gráficos.
 
@@ -276,13 +276,13 @@ Liquid soporta *includes*. Es más, soporta parámetros en los *includes*. Es m�
 
 En el directorio *_includes* he creado el fichero `image.html` con este contenido:
 
-{% raw %} 
+{% raw %}
 ```html
 <div class="postimage">
 <figure>
   <a href="{{page.assets | relative_url}}/img/{{include.file}}">
-	<img 
-	  src="{{page.assets | relative_url}}/img/{{include.file}}" 
+  <img 
+    src="{{page.assets | relative_url}}/img/{{include.file}}" 
       class="fullwidth {{include.class | default: "original-width"}}"
       alt=""/>
   </a>
@@ -407,7 +407,6 @@ Un vídeo de muestra:
 
 {% include youtube.html id="BZwuTo7zKM8" %}
 
-
 ## Personalización del tema base
 
 Hay infinidad de temas disponibles para Jekyll. Yo he decidido mantener el tema por defecto **minima**. Y personalizarlo. Otros temas pueden incorporar estas y muchas otras cosas. No necesitarás hacerlas a mano. Uno muy completo es [minimal mistakes](https://mmistakes.github.io/minimal-mistakes/).
@@ -423,8 +422,7 @@ Para la **tabla de contenidos**, he incluido [jekyll-toc](https://github.com/all
 }
 ```
 
-Pero contar toda la personalización sería muy aburrido. Aquí os dejo una lista de cosas y si te interesa puedes mirar el [repositorio del blog](https://github.com/electronicayciencia/electronicayciencia.github.io). Algunas ideas las he tomado de [Memory Spills - 
-Customizing Jekyll theme](https://ouyi.github.io/post/2017/12/23/jekyll-customization.html). 
+Pero contar toda la personalización sería muy aburrido. Aquí os dejo una lista de cosas y si te interesa puedes mirar el [repositorio del blog](https://github.com/electronicayciencia/electronicayciencia.github.io). Algunas ideas las he tomado de [Memory Spills - Customizing Jekyll theme](https://ouyi.github.io/post/2017/12/23/jekyll-customization.html).
 
 - En el tema base
   - iconito rss en el menú
@@ -433,7 +431,7 @@ Customizing Jekyll theme](https://ouyi.github.io/post/2017/12/23/jekyll-customiz
   - fuente de mayor tamaño para pantallas muy anchas
   - quitar mensaje *loading* de Mathjax
 
-- En la lista de posts 
+- En la lista de posts
   - paginado
   - enlaces a siguiente y anterior
   - resumen (extracto)
@@ -468,15 +466,10 @@ Para acceder al borrador debemos conocer su nombre. Estará bajo /drafts. Por ej
 
 La migración no ha sido fácil; las mudanzas nunca lo son. En cualquier caso, he aprendido mucho haciéndolo.
 
-Cuando empecé no conocía los generadores de sitios web estáticos como Jekyll o Hugo. Tampoco Liquid ni el mecanismo con el que GitHub Pages genera los sitios web. No había oído hablar de SCSS ni SASS. tampoco había hecho nunca una web *responsive* usando *media queries* o centrado imágenes con *object-fit*. 
+Cuando empecé no conocía los generadores de sitios web estáticos como Jekyll o Hugo. Tampoco Liquid ni el mecanismo con el que GitHub Pages genera los sitios web. No había oído hablar de SCSS ni SASS. tampoco había hecho nunca una web *responsive* usando *media queries* o centrado imágenes con *object-fit*.
 
 Ignoraba cómo funcionan las etiquetas [Open Graph](https://ogp.me/) para compartir una web. Me refiero a las *cards* que muestran las aplicaciones de mensajería tipo WhatsApp o Telegram y las redes sociales como LinkedIn o Twitter cuando compartes un enlace.
 
 {% include image.html class="medium-width" file="card_telegram.png" caption="La descripción e imagen mostradas al compartir se obtienen de las etiquetas Meta [Open Graph](https://ogp.me/) presentes en las cabeceras HTML." %}
 
 Espero que te haya gustado este artículo. No es el camino más cómodo, pero si tienes tiempo y ganas de aprender sobre estos temas te lo recomiendo.
-
-
-
-
-
