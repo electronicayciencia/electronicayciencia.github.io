@@ -15,13 +15,13 @@ Hoy vamos a hablar del ESP8266. Un microcontrolador pensado para IoT. Repasaremo
 
 Os propongo un visor con alarma de tiempos de llegada para el autobús. Se trata de leer los tiempos de llegada desde el API al igual que haría una aplicación móvil. Y mostrarlo en una LCD de 4x20. Aunque variando el origen de datos podríamos mostrar cualquier variable disponible en Internet. Desde el precio de un activo a la información meteorológica.
 
-{% include image.html class="medium-width" file="board-display-cropped.jpg" caption="Avisador de autobuses construido con el módulo ESP-01." %}
+{% include image.html file="board-display-cropped.jpg" caption="Avisador de autobuses construido con el módulo ESP-01." %}
 
 ## Breve resumen histórico
 
 En 2013, un fabricante chino de microchips llamado Espressif lanzó un microcontrolador. El ESP8266. Un tanto limitado pero barato y con conexión WiFi. Poco tiempo después, otra compañía china dedicada a IoT (*Internet of Things*) llamada AI-Thinker sacó al mercado un módulo con los componentes necesarios para hacer funcionar el ESP8266. Principalmente memoria externa, cuarzo y antena. Lo llamó ESP-01. Incorporó una aplicación con comandos Hayes y lo vendió como **módem WiFi AT para Arduino**. Igual que usamos módems AT GSM para enviar y recibir SMS desde un microcontrolador, este serviría para conectar con una red inalámbrica.
 
-{% include image.html class="medium-width" file="esp-01-3d.jpg" caption="Módulo ESP-01S. fuente: <http://aliexpress.com>." %}
+{% include image.html file="esp-01-3d.jpg" caption="Módulo ESP-01S. <http://aliexpress.com>." %}
 
 El ESP8266 no era atractivo para los fabricantes occidentales. Toda la documentación estaba en chino. Las primeras versiones del SDK parecían algo inestables y las herramientas de desarrollo tenían fallos. Además, no contaba con el certificado de compatibilidad electromagnética ([FCC mark](https://en.wikipedia.org/wiki/FCC_mark)) por tanto cualquier producto comercial basado en ellos debía someterse a un proceso de homologación para poder venderlo en EEUU o Europa. Otros fabricantes ya tenían sus propias soluciones de conectividad WiFi.
 
@@ -46,7 +46,7 @@ Otra opción **desarrollarlo** tú. Un juego de instrucciones específicas para 
 
 O podrías **comprar** todo eso ya hecho y probado. Únicamente lo que es una CPU personalizada. Con un juego de instrucciones básicas y otras definidas por el usuario. Los registros que tú quieras, los buses que tú quieras, hardware opcional. Eso es justo lo que Tensilica comercializa: [Tensilica Customizable Processors](https://ip.cadence.com/ipportfolio/tensilica-ip/xtensa-customizable).
 
-{% include image.html class="medium-width" file="lx6-processor-arch-diagram.png" caption="Arquitectura Tensilica Xtensa LX6. <https://www.cadence.com/>." %}
+{% include image.html file="lx6-processor-arch-diagram.png" caption="Arquitectura Tensilica Xtensa LX6. <https://www.cadence.com/>." %}
 
 Esta es la **arquitectura Tensilica Xtensa LX6**. En la que se basa el ESP8266. El ESP32 ya se basa en la LX7 ya que la anterior quedó obsoleta. Los bloques en **azul oscuro** son los componentes básicos. Incluyen:
 
@@ -69,7 +69,7 @@ Luego tienes otros componentes que puedes configurar a tu gusto añadir o quitar
 
 Hay un montón de opciones y módulos configurables:
 
-{% include image.html class="medium-width" file="lx6-processor-options.png" caption="Opciones de configuración para la arquitectura Xtensa LX6." %}
+{% include image.html file="lx6-processor-options.png" caption="Opciones de configuración para la arquitectura Xtensa LX6." %}
 
 Para cosas más complejas puedes añadir cores de DSP. O por ejemplo para ejecutar un Sistema Operativo sofisticado necesitarás una Unidad de Gestión de Memoria. Su función es traducir direcciones de memoria virtuales a físicas y facilitar protección de memoria, paginación etc. Tienen una compatible con Linux. Pero hasta donde yo sé ni el ESP8266 ni el ESP32 hasta ahora la incluyen. Por lo que no podemos **ejecutar Linux** en ellos y sí en otros chips de Xtensa.
 
@@ -78,7 +78,7 @@ Te dejo un enlace al datasheet de la arquitectura LX6 por si tienes curiosidad. 
 
 El ESP8266 es un core RISC LX6 básico al que han acoplado un transmisor/receptor de radio.
 
-{% include image.html class="medium-width" file="esp8266ex-blocks.png" caption="Diagrama de bloques del ESP8266EX. [Fuente](https://www.espressif.com/sites/default/files/documentation/0a-esp8266ex_datasheet_en.pdf)." %}
+{% include image.html file="esp8266ex-blocks.png" caption="Diagrama de bloques del ESP8266EX. [Espressif](https://www.espressif.com/sites/default/files/documentation/0a-esp8266ex_datasheet_en.pdf)." %}
 
 
 
@@ -88,10 +88,9 @@ El ESP8266 es un core RISC LX6 básico al que han acoplado un transmisor/recepto
 
 
 
+# Notas borrador
 
-
-
-{% include image.html class="medium-width" file="esp01s-module-cropped.jpg" caption="" %}
+{% include image.html file="esp01s-module-cropped.jpg" caption="" %}
 
 
 
