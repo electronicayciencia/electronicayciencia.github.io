@@ -428,8 +428,9 @@ Pero contar toda la personalización sería muy aburrido. Aquí os dejo una list
   - iconito rss en el menú
   - logo en la esquina superior izquierda
   - página de tags
+  - página de archivo
   - fuente de mayor tamaño para pantallas muy anchas
-  - quitar mensaje *loading* de Mathjax
+  - quitar mensaje *loading* de MathJax
 
 - En la lista de posts
   - paginado
@@ -439,10 +440,12 @@ Pero contar toda la personalización sería muy aburrido. Aquí os dejo una list
   - post destacado (color de fondo, bordes redondeados, icono campana)
   - clic en cualquier parte del extracto te lleva al artículo
   - pasar página deslizando el dedo
+  - tiempo de lectura
   
 - En el post
   - enlaces a siguiente y anterior
   - lista de tags e iconos
+  - tiempo de lectura
 
 ## Borradores
 
