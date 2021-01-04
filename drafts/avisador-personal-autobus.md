@@ -17,7 +17,7 @@ Os propongo un visor con alarma de tiempos de llegada para el autobús. Se trata
 
 {% include image.html file="board-display-cropped.jpg" caption="Avisador de autobuses construido con el módulo ESP-01. EyC." %}
 
-## Breve resumen histórico
+## Introducción histórica
 
 En 2013, un fabricante chino de microchips llamado Espressif lanzó un microcontrolador. El ESP8266. Un tanto limitado pero barato y con conexión WiFi. Poco tiempo después, otra compañía china dedicada a IoT (*Internet of Things*) llamada AI-Thinker sacó al mercado un módulo con los componentes necesarios para hacer funcionar el ESP8266. Principalmente memoria externa, cuarzo y antena. Lo llamó ESP-01. Incorporó una aplicación con comandos Hayes y lo vendió como **módem WiFi AT para Arduino**. Igual que usamos módems AT GSM para enviar y recibir SMS desde un microcontrolador, este serviría para conectar con una red inalámbrica.
 
@@ -93,46 +93,49 @@ El ESP8266 es un core Xtensa estándar de 32-bit a 80 MHz con:
 {% include image.html file="esp8266ex-blocks.png" caption="Diagrama de bloques del ESP8266EX. [Espressif](https://www.espressif.com/sites/default/files/documentation/0a-esp8266ex_datasheet_en.pdf)." %}
 
 
-## El módulo ESP-01
+## El módulo ESP-01S
 
-Intento huir de las placas de desarrollo y librerías prefabricadas. Siempre que puedo prefiero utilizar los componentes por separado. Sin embargo, el integrado ESP8266:
+Cuando puedo, prefiero utilizar los componentes por separado en lugar de placas de desarrollo y librerías. Sin embargo, el integrado ESP8266:
 
-- No tiene memoria Flash ni oscilador interno, por tanto siempre hay que conectarlo a una flash externa y a un cuarzo.
-- Sólo se fabrica en encapsulado QFN de 32 (5 mm x 5 mm). Difícil de soldar.
-- Requiere antena. No es práctico trabajar con frecuencias de GHz en una protoboard.
-- Además resulta mucho más fácil encontrarlo formando parte de un módulo ya soldado que por separado.
+- No tiene memoria Flash ni oscilador interno, por tanto siempre va acompañado de una flash externa y un cuarzo.
+- Sólo se fabrica en encapsulado QFN de 32 (5 mm x 5 mm). Difícil de soldar. Además resulta mucho más complicado comprarlo suelto que en un módulo.
+- Emite RF. Su salida WiFi opera a 2.4GHz y no es práctico trabajar con frecuencias altas en una protoboard.
 
-{% include image.html class="medium-width" file="esp01s-module-cropped.jpg" caption="El chip ESP8266EX junto a la memoria flash, el oscilador y la antena en un módulo ESP-01S. EyC." %}
+Voy a usar un módulo ESP-01S que contiene sólo los componentes necesarios para hacer funcionar el chip de Espressif.
 
-Este proyecto lo voy a hacer usando un módulo ESP-01S que contiene sólo los componentes necesarios para hacer funcionar el chip de Espressif. Veamos su esquema.
+{% include image.html file="esp01s-module-cropped.jpg" caption="Módulo ESP-01S, detalle de los componentes. EyC." %}
+
+He obtenido manualmente el esquema de uno de mis módulos. Si necesitáis ampliarlo, os lo dejo en formato vectorial en este archivo: [ESP01S.svg]({{page.assets | relative_url}}/ESP01S.svg). Algunos valores difieren del esquema oficial proporcionado en el [datasheet]({{page.assets | relative_url}}/ESP8266_01S_Modul_Datenblatt.pdf). 
 
 {% include image.html file="esp01s-retocado.jpg" caption="Esquema del módulo ESP-01S. EyC." %}
 
-Los tres elementos principales son el integrado, la memoria flash (en este caso de 1Mb) y el cuarzo. Lo demás son componentes pasivos. Los condensadores **C1**, **C2** y **C3** son tres condensadores de filtro. Van desde 1nF a los 10uF dependiendo de la versión del módulo y sirven para filtrar y estabilizar la alimentación. Durante la transmisión WiFi, el ESP8266 puede tener picos de hasta 200mA y requiere que la alimentación se mantenga dentro de unos límites.
+Los tres elementos principales son el integrado, la memoria flash (en este caso de 1Mb) y el cuarzo. El resto son componentes pasivos. 
 
-La bobina **L1** junto a **C7** y **C8** acondicionan la salida de RF hacia la antena, impresa directamente en la placa. Aunque uno de los brazos va conectado a tierra no provoca ningún cortocircuito. La longitud de onda de la señal WiFi es sólo 12 cm, el cuarto de onda 3 cm. El trazado y la longitud de esa pista que actúa de antena están calculados para encontrar precisamente en ese punto un mínimo de tensión.
+El ESP8266 puede requerir hasta 200mA durante la transmisión WiFi. La resistencia de los conductores de alimentación hasta la fuente causa un descenso brusco de la tensión de alimentación cuando hay un aumento significativo del consumo. Los condensadores **C1**, **C2** y **C3** sirven para amortiguar esta caída y también para cortocircuitar picos de alta frecuencia, evitando que viajen por la alimentación y se propaguen a otras partes del circuito.
 
-El **LED** va conectado al pin GP2. Sólo sirve para hacerlo parpadear cuando estamos empezando, lo podemos desoldar.
+**R3** mantiene a positivo la patilla de reset. Cuando cortocircuitamos a masa esta patilla **C4** se descarga rápidamente y la tensión en la patilla 32 del integrado cae a 0. Al retirar el cortocircuito, **C4** aún debe cargarse a través de **R3**. Lo cual garantiza que la tensión seguirá siendo baja durante el tiempo mínimo que requiere el chip para detectar el reinicio.
 
-Los demás componentes configuran el integrado en su modo de operación habitual. **R3** y **C4** mantienen estable la patilla de reset. **R4** lleva a positivo el pin *enabled* para activar el integrado.   para que es necesario para , **R6**, **R2** y **R3** 
+**R2**, **R3**, **R4** y **R6** configuran el modo de operación del dispositivo. De esto hablaremos más adelante. El **LED** de GP2 sólo sirve para hacerlo parpadear cuando estamos empezando.
+
+Por último, la bobina **L1** junto a **C7** y **C8** llevan la señal de RF hacia la antena. La **antena** está impresa directamente en la placa y uno de sus brazos va conectado a masa. Este diseño se llama "F invertida", concretamente *meandered inverted-F PCB antenna*. Es un diseño habitual que encontramos también en otros módulos para 2.4GHz. Como el nRF24L01.
+
+{% include image.html file="nrf24l01_module.png" caption="Módulo nRF24L01 con un factor de forma muy similar al ESP01 y antena similar. [Sunfounder](http://wiki.sunfounder.cc/index.php?title=NRF24L01_Test_with_Arduino)." %}
+
+## El bootloader
 
 
 
 
-Cuando utilizo placas de desarrollo y módulos prefabricados no puedo evitar tener la sensación de que no estoy haciendo electrónica, sino un juego de construcción con programación.
 
 
-AI-Thinker comercializó en 2014 el módulos ESP-01. Su utilidad principal era dotar de WiFi a otro microcontrolador, por ejemplo una placa de Arduino.
+
+
 
 
 {% include image.html file="programar-esp01.png" caption="" %}
 
 
 ## Notas borrador
-
----- Errores: en el esquema de ESP-01S, patilla 13 no va a positivo, va a masa.
----- El led L1 tiene la misma denominación que la bobina L1.
----- GP0 parece más lógico que vaya a positivo en vez de a masa.
 
 
 {% include image.html file="esp01s-module-cropped.jpg" caption="" %}
