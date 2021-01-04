@@ -102,7 +102,7 @@ Intento huir de las placas de desarrollo y librerías prefabricadas. Siempre que
 - Requiere antena. No es práctico trabajar con frecuencias de GHz en una protoboard.
 - Además resulta mucho más fácil encontrarlo formando parte de un módulo ya soldado que por separado.
 
-{% include image.html file="esp01s-module-cropped.jpg" caption="El chip ESP8266EX junto a la memoria flash, el oscilador y la antena en un módulo ESP-01S. EyC." %}
+{% include image.html class="medium-width" file="esp01s-module-cropped.jpg" caption="El chip ESP8266EX junto a la memoria flash, el oscilador y la antena en un módulo ESP-01S. EyC." %}
 
 Este proyecto lo voy a hacer usando un módulo ESP-01S que contiene sólo los componentes necesarios para hacer funcionar el chip de Espressif. Veamos su esquema.
 
@@ -130,7 +130,7 @@ AI-Thinker comercializó en 2014 el módulos ESP-01. Su utilidad principal era d
 
 ## Notas borrador
 
----- Errores: en esquema de ESP-01S, patilla 13 no va a positivo, va a masa.
+---- Errores: en el esquema de ESP-01S, patilla 13 no va a positivo, va a masa.
 ---- El led L1 tiene la misma denominación que la bobina L1.
 ---- GP0 parece más lógico que vaya a positivo en vez de a masa.
 
