@@ -15,9 +15,9 @@ Hoy vamos a hablar del ESP8266. Un microcontrolador pensado para IoT. Repasaremo
 
 Os propongo un visor con alarma de tiempos de llegada para el autobús. Se trata de leer los tiempos de llegada desde el API al igual que haría una aplicación móvil. Y mostrarlo en una LCD de 4x20. Aunque variando el origen de datos podríamos mostrar cualquier variable disponible en Internet. Desde el precio de un activo a la información meteorológica.
 
-{% include image.html file="board-display-cropped.jpg" caption="Avisador de autobuses construido con el módulo ESP-01. EyC." %}
+{% include image.html file="board-display-cropped.jpg" caption="Avisador de autobuses construido con el módulo ESP-01S. EyC." %}
 
-## Introducción histórica
+## Introducción
 
 En 2013, un fabricante chino de microchips llamado Espressif lanzó un microcontrolador. El ESP8266. Un tanto limitado pero barato y con conexión WiFi. Poco tiempo después, otra compañía china dedicada a IoT (*Internet of Things*) llamada AI-Thinker sacó al mercado un módulo con los componentes necesarios para hacer funcionar el ESP8266. Principalmente memoria externa, cuarzo y antena. Lo llamó ESP-01. Incorporó una aplicación con comandos Hayes y lo vendió como **módem WiFi AT para Arduino**. Igual que usamos módems AT GSM para enviar y recibir SMS desde un microcontrolador, este serviría para conectar con una red inalámbrica.
 
@@ -119,20 +119,44 @@ El ESP8266 puede requerir hasta 200mA durante la transmisión WiFi. La resistenc
 
 Por último, la bobina **L1** junto a **C7** y **C8** llevan la señal de RF hacia la antena. La **antena** está impresa directamente en la placa y uno de sus brazos va conectado a masa. Este diseño se llama "F invertida", concretamente *meandered inverted-F PCB antenna*. Es un diseño habitual que encontramos también en otros módulos para 2.4GHz. Como el nRF24L01.
 
-{% include image.html file="nrf24l01_module.png" caption="Módulo nRF24L01 con un factor de forma muy similar al ESP01 y antena similar. [Sunfounder](http://wiki.sunfounder.cc/index.php?title=NRF24L01_Test_with_Arduino)." %}
+{% include image.html file="nrf24l01_module.png" caption="Módulo nRF24L01 con un factor de forma muy similar al ESP01 y mismo tipo de antena. [Sunfounder](http://wiki.sunfounder.cc/index.php?title=NRF24L01_Test_with_Arduino)." %}
+
 
 ## El bootloader
 
+Cuando alimentamos un microcontrolador, comienza a ejecutarse el programa que lleva grabado. Si queremos ejecutar otro programa distinto debemos borrar este y programar el nuestro con las herramientas específicas del fabricante o compatibles. Por ejemplo un programador PICkit para microcontroladores PIC. Si no contamos con ellas, no podremos reprogramar el integrado.
+
+Una alternativa más flexible es usar un cargador de arranque, conocido en inglés *bootloader*. Consiste en sustituir el programa principal por un programa secundario y lanzarlo desde este. Cuando alimentemos el micro, se ejecutará el programa que lleva grabado, o sea, el bootloader. Después cargaremos y pasaremos el control al programa principal, que puede estar en la memoria flash del micro o -si no tiene- en una flash externa.
+
+Si el micro lo permite, además de lanzar el programa principal, en el bootloader podemos dejar programadas otras utilidades; tal como fijar opciones de configuración o leer y escribir en la memoria flash. Así podemos modificar el programa principal contenido en ella sin necesidad de usar herramientas especiales, simplemente interactuando con el chip durante el arranque. Una buena idea es permitir desde el cargador de arranque cargar temporalmente en la RAM **código arbitrario** y ejecutarlo. Así podemos añadirle otras funciones en el futuro. Mientras más versátil sea el cargador menos probable es que necesitemos reemplazarlo.
+
+El ESP8266 lleva al extremo este método. De hecho, el micro no posee memoria flash, el bootloader está en una memoria de solo lectura (ROM) y no es modificable -o no sabemos cómo-. Se podría decir que el ESP8266 no es programable: es un core Xtensa con radio, memoria RAM y un bootloader.
+
+¿Cómo sabe el cargador si debe ejecutar el programa principal o ponerse a escuchar comandos? Por los niveles lógicos en las patillas 13, 14 y 15 (MTDO o GP15, GP2 y GP0). Hay tres patillas, ocho combinaciones posibles, ocho modos de arranque distintos indicados en el documento [ESP8266EX - Frequently Asked Questions](https://www.espressif.com/sites/default/files/documentation/Espressif_FAQ_EN.pdf).
+
+3-Bit Value [GPIO15, GPIO0, GPIO2] | Boot Mode
+-----------------------------------|----------------------
+7 / [1，1，1]                        | SDIO HighSpeed V2 IO
+6 / [1，1，0]                        | SDIO LowSpeed V1 IO
+5 / [1，0，1]                        | SDIO HighSpeed V1 IO
+4 / [1，0，0]                        | SDIO LowSpeed V2 IO
+**3 / [0，1，1]**                    | **Flash Boot**
+2 / [0，1，0]                        | Jump Boot
+**1 / [0，0，1]**                    | **UART Boot**
+0 / [0，0，0]                        | Remapping
+
+Sólo nos interesan el 1 y el 3, *Flash Boot*, arranque del programa contenido en la memoria flash y *UART Boot*, escuchar comandos serie. Escoger entre uno y otro variando el nivel lógico de la entrada GP0 durante el arranque. 
+
+Volviendo al esquema del módulo ESP-01S, arriba, la patilla GPIO15 o MTDO está permanentemente a 0 por resistencia **R6**. GPIO2 está puesta a 1 a través de **R2** y el **LED**. Y GPIO0 está a 1 por **R3**. Para entrar en modo programación usaremos un circuito como este:
+
+{% include image.html class="small-width" file="programar-esp01.png" caption="" %}
+
+Nuestro módulo ya incorpora las resistencias de pull-up **R1**, **R2** y **R3**. Para otras versiones pueden ser necesarias. **RX** y **TX** lo conectaremos a un conversor USB-Serie. Si al liberar el pulsador *reset* tenemos pulsado *flash* entraremos en modo programación; de lo contrario arrancaremos en modo *normal*.
+
+El bootloader de Espressif entiende comandos [SLIP](https://es.wikipedia.org/wiki/Serial_Line_Internet_Protocol) (*Serial Line Internet Protocol*). Están documentados en [GitHub](https://github.com/espressif/esptool/wiki/Serial-Protocol). Para interactuar con él Espressif proporciona una herramienta llamada **esptool**.
 
 
-
-
-
-
-
-
-
-{% include image.html file="programar-esp01.png" caption="" %}
+## Entorno de desarrollo
 
 
 ## Notas borrador
