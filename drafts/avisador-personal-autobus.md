@@ -98,7 +98,7 @@ El ESP8266 es un core Xtensa estándar de 32-bit a 80 MHz con:
 Cuando puedo, prefiero utilizar los componentes por separado en lugar de placas de desarrollo y librerías. Sin embargo, el integrado ESP8266:
 
 - No tiene memoria Flash ni oscilador interno, por tanto siempre va acompañado de una flash externa y un cuarzo.
-- Sólo se fabrica en encapsulado QFN de 32 (5 mm x 5 mm). Difícil de soldar. Además resulta mucho más complicado comprarlo suelto que en un módulo.
+- Sólo se fabrica en encapsulado QFN de 32 (5 mm x 5 mm). Difícil de soldar. Hasta es más complicado comprarlo suelto que en un módulo.
 - Emite RF. Su salida WiFi opera a 2.4GHz y no es práctico trabajar con frecuencias altas en una protoboard.
 
 Voy a usar un módulo ESP-01S que contiene sólo los componentes necesarios para hacer funcionar el chip de Espressif.
@@ -113,7 +113,7 @@ Los tres elementos principales son el integrado, la memoria flash (en este caso 
 
 El ESP8266 puede requerir hasta 200mA durante la transmisión WiFi. La resistencia de los conductores de alimentación hasta la fuente causa un descenso brusco de la tensión de alimentación cuando hay un aumento significativo del consumo. Los condensadores **C1**, **C2** y **C3** sirven para amortiguar esta caída y también para cortocircuitar picos de alta frecuencia, evitando que viajen por la alimentación y se propaguen a otras partes del circuito.
 
-**R3** mantiene a positivo la patilla de reset. Cuando cortocircuitamos a masa esta patilla **C4** se descarga rápidamente y la tensión en la patilla 32 del integrado cae a 0. Al retirar el cortocircuito, **C4** aún debe cargarse a través de **R3**. Lo cual garantiza que la tensión seguirá siendo baja durante el tiempo mínimo que requiere el chip para detectar el reinicio.
+**R3** mantiene a positivo la patilla de reset. Cuando cortocircuitamos a masa esta patilla, **C4** se descarga rápidamente y la tensión en el pin 32 del integrado cae a 0. Al retirar el cortocircuito, **C4** pasa a cargarse a través de **R3**. Luego la entrada continuará a nivel bajo durante un instante; cumpliendo con el tiempo mínimo que requiere el chip para detectar un reinicio.
 
 **R2**, **R3**, **R4** y **R6** configuran el modo de operación del dispositivo. De esto hablaremos más adelante. El **LED** de GP2 sólo sirve para hacerlo parpadear cuando estamos empezando.
 
@@ -124,39 +124,63 @@ Por último, la bobina **L1** junto a **C7** y **C8** llevan la señal de RF hac
 
 ## El bootloader
 
-Cuando alimentamos un microcontrolador, comienza a ejecutarse el programa que lleva grabado. Si queremos ejecutar otro programa distinto debemos borrar este y programar el nuestro con las herramientas específicas del fabricante o compatibles. Por ejemplo un programador PICkit para microcontroladores PIC. Si no contamos con ellas, no podremos reprogramar el integrado.
+Cuando alimentamos un microcontrolador, comienza a ejecutarse el programa que lleva grabado. Si queremos ejecutar otro programa distinto debemos borrar este y programar el nuestro con las **herramientas específicas** del fabricante o compatibles. Por ejemplo un programador PICkit para microcontroladores PIC. Si no contamos con ellas, no podremos reprogramar el integrado.
 
-Una alternativa más flexible es usar un cargador de arranque, conocido en inglés *bootloader*. Consiste en sustituir el programa principal por un programa secundario y lanzarlo desde este. Cuando alimentemos el micro, se ejecutará el programa que lleva grabado, o sea, el bootloader. Después cargaremos y pasaremos el control al programa principal, que puede estar en la memoria flash del micro o -si no tiene- en una flash externa.
+Una alternativa más **flexible** es usar un cargador de arranque, conocido en inglés como ***bootloader***. Consiste en sustituir el programa principal por un programa secundario que se ejecuta primero en su lugar. Cuando alimentemos el micro, se ejecutará el programa que lleva grabado, o sea, el bootloader. Desde este cargaremos y pasaremos el control al programa principal, que puede estar en la memoria flash del micro o -si no tiene- en una flash externa.
 
-Si el micro lo permite, además de lanzar el programa principal, en el bootloader podemos dejar programadas otras utilidades; tal como fijar opciones de configuración o leer y escribir en la memoria flash. Así podemos modificar el programa principal contenido en ella sin necesidad de usar herramientas especiales, simplemente interactuando con el chip durante el arranque. Una buena idea es permitir desde el cargador de arranque cargar temporalmente en la RAM **código arbitrario** y ejecutarlo. Así podemos añadirle otras funciones en el futuro. Mientras más versátil sea el cargador menos probable es que necesitemos reemplazarlo.
+Si el micro lo permite, además de lanzar el programa principal, en el bootloader podemos dejar programadas **otras utilidades**; tal como fijar opciones de configuración o leer y escribir en la memoria flash. Así podemos modificar el programa principal contenido en ella sin necesidad de usar herramientas especiales, simplemente interactuando con el chip durante el arranque. Una buena idea es cargar temporalmente en la RAM **código arbitrario** y ejecutarlo. Con eso conseguimos la capacidad de ampliar el cargador, añadíendole funciones adicionales en el futuro. Mientras más versátil sea, menos probable es que necesitemos reemplazarlo.
 
-El ESP8266 lleva al extremo este método. De hecho, el micro no posee memoria flash, el bootloader está en una memoria de solo lectura (ROM) y no es modificable -o no sabemos cómo-. Se podría decir que el ESP8266 no es programable: es un core Xtensa con radio, memoria RAM y un bootloader.
+El ESP8266 lleva este método al extremo. El micro no posee memoria flash, su cargador está en una memoria de solo lectura (ROM) y no es modificable -o no sabemos cómo-. De hecho, podríamos decir que el ESP8266 no es programable: es un core Xtensa con radio, memoria RAM y un bootloader.
 
-¿Cómo sabe el cargador si debe ejecutar el programa principal o ponerse a escuchar comandos? Por los niveles lógicos en las patillas 13, 14 y 15 (MTDO o GP15, GP2 y GP0). Hay tres patillas, ocho combinaciones posibles, ocho modos de arranque distintos indicados en el documento [ESP8266EX - Frequently Asked Questions](https://www.espressif.com/sites/default/files/documentation/Espressif_FAQ_EN.pdf).
+¿Cómo sabe el cargador si debe ejecutar el programa principal o ponerse a escuchar comandos? Por los **niveles lógicos** en las patillas 13, 14 y 15 (MTDO o GP15, GP2 y GP0). Hay tres patillas, ocho combinaciones, ocho modos de arranque distintos indicados en el documento [ESP8266EX - Frequently Asked Questions](https://www.espressif.com/sites/default/files/documentation/Espressif_FAQ_EN.pdf).
 
-3-Bit Value [GPIO15, GPIO0, GPIO2] | Boot Mode
------------------------------------|----------------------
-7 / [1，1，1]                        | SDIO HighSpeed V2 IO
-6 / [1，1，0]                        | SDIO LowSpeed V1 IO
-5 / [1，0，1]                        | SDIO HighSpeed V1 IO
-4 / [1，0，0]                        | SDIO LowSpeed V2 IO
-**3 / [0，1，1]**                    | **Flash Boot**
-2 / [0，1，0]                        | Jump Boot
-**1 / [0，0，1]**                    | **UART Boot**
-0 / [0，0，0]                        | Remapping
+GPIO15 | GPIO0 | GPIO2 | 3-Bit Value | Boot Mode
+-------|-------|-------|-------------|----------------------
+ 1     | 1     | 1     | 7           | SDIO HighSpeed V2 IO
+ 1     | 1     | 0     | 6           | SDIO LowSpeed V1 IO
+ 1     | 0     | 1     | 5           | SDIO HighSpeed V1 IO
+ 1     | 0     | 0     | 4           | SDIO LowSpeed V2 IO
+ **0** | **1** | **1** | **3**       | **Flash Boot**
+ 0     | 1     | 0     | 2           | Jump Boot
+ **0** | **0** | **1** | **1**       | **UART Boot**
+ 0     | 0     | 0     | 0           | Remapping
 
-Sólo nos interesan el 1 y el 3, *Flash Boot*, arranque del programa contenido en la memoria flash y *UART Boot*, escuchar comandos serie. Escoger entre uno y otro variando el nivel lógico de la entrada GP0 durante el arranque. 
+Sólo nos interesan los modos 1 y 3, *Flash Boot*, arranque del programa contenido en la memoria flash y *UART Boot*, escuchar comandos serie. Del resto no he encontrado documentación. Escogeremos entre uno y otro variando el nivel lógico en la entrada GP0 durante el arranque.
 
 Volviendo al esquema del módulo ESP-01S, arriba, la patilla GPIO15 o MTDO está permanentemente a 0 por resistencia **R6**. GPIO2 está puesta a 1 a través de **R2** y el **LED**. Y GPIO0 está a 1 por **R3**. Para entrar en modo programación usaremos un circuito como este:
 
-{% include image.html class="small-width" file="programar-esp01.png" caption="" %}
+{% include image.html class="medium-width" file="programar-esp01.png" caption="" %}
 
-Nuestro módulo ya incorpora las resistencias de pull-up **R1**, **R2** y **R3**. Para otras versiones pueden ser necesarias. **RX** y **TX** lo conectaremos a un conversor USB-Serie. Si al liberar el pulsador *reset* tenemos pulsado *flash* entraremos en modo programación; de lo contrario arrancaremos en modo *normal*.
+Nuestro módulo ya incorpora las resistencias de pull-up **R1**, **R2** y **R3**. Para otras versiones pueden ser necesarias. **RX** y **TX** lo conectaremos a un conversor USB-Serie. Si al liberar el pulsador *reset* tenemos presionado *flash* entraremos en modo programación (*UART Boot*); de lo contrario arrancaremos en modo *normal*.
 
-El bootloader de Espressif entiende comandos [SLIP](https://es.wikipedia.org/wiki/Serial_Line_Internet_Protocol) (*Serial Line Internet Protocol*). Están documentados en [GitHub](https://github.com/espressif/esptool/wiki/Serial-Protocol). Para interactuar con él Espressif proporciona una herramienta llamada **esptool**.
+El bootloader de Espressif entiende comandos [SLIP](https://es.wikipedia.org/wiki/Serial_Line_Internet_Protocol) (*Serial Line Internet Protocol*). Están documentados en GitHub [espressif/esptool](https://github.com/espressif/esptool/wiki/Serial-Protocol). Para interactuar con él nos proporcionan la herramienta **esptool**.
 
 
 ## Entorno de desarrollo
+
+Para crear un programa binario que pueda ejecutarse en un microcontrolador necesitamos básicamente tres cosas:
+
+- Un *compilador* para traducir el lenguaje de programación escogido al juego de instrucciones que maneja el dispositivo. También necesitaremos un *linker* (o link-editor) para transformar los objetos binarios en programas ejecutables. Estos programas junto a algunas herramientas para depuración y algunas librerías básicas (como la *librería de C estándar*) es lo que llamamos comúnmente la **toolchain**.
+- Las rutinas necesarias para hacer uso del dispositivo, o bien los ficheros de cabeceras si esas rutinas nos las dan ya compiladas. Por ejemplo para acceder a sus periféricos hardware como las entradas GPIO, la WiFi, el puerto SPI, la capa de abstracción de hardware -si existe-, etc. Eso lo conocemos por **SDK** (Software Development Kit).
+- El resto de programas y herramientas sobre las que se apoyan los componentes anteriores. Por ejemplo *cmake*, *bash*, *git*, etc. A eso lo llamaremos **entorno de desarrollo**. Si el fabricante nos proporciona integración con algún IDE en concreto, iría aquí también.
+
+Ya vimos que las instrucciones son las estándar de Xtensa. La toolchain por tanto será la estándar de Xtensa para el core lx106. En cuanto a la SDK, Espressif nos ofrece varios "sabores". Tened en cuenta cuando miréis en foros ejemplos de proyectos en qué "sabor" de la SDK están desarrollados.
+
+- [Versión **NONOS**](https://github.com/espressif/ESP8266_NONOS_SDK): Es una SDK simple, lineal. Se considera obsoleta desde diciembre de 2019 y recomiendan usar la versión RTOS.
+- [Versión **RTOS**](https://github.com/espressif/ESP8266_RTOS_SDK). Se trata de una SDK con el sistema operativo RTOS integrado. Hay dos "estilos" de programación:
+  - Estilo *pre ESP-IDF*: Versión inferior a 3.0. Tiene una forma de programación similar a la NonOS. No se recomienda para nuevos desarrollos.
+  - Estilo **ESP-IDF**: Versión 3.0 o superior. Han unificado el estilo de programación entre ESP8266 y ESP32. IDF significa, según Espressif, *IoT Development Framework*. Es la versión recomendada y la única disponible para el ESP32.
+  
+El entorno nativo de desarrollo es Linux con Eclipse. Pero la toolchain tiene versión Windows; así que el fabricante nos proporciona también un entorno msys32 con las herramientas necesarias para hacer la compilación en este SO. En cuanto al IDE, yo prefiero usar Visual Studio Code a costa de perder integración con las herramientas.
+
+Las instrucciones para descargar e instalar los componentes las tenéis en la web de Espressif: [Get Started](https://docs.espressif.com/projects/esp8266-rtos-sdk/en/latest/get-started/windows-setup.html).
+
+Al contrario que lo indicado en las instrucciones, en mi experiencia es mejor descargar la [última versión estable](https://github.com/espressif/ESP8266_RTOS_SDK/releases) de la SDK RTOS, en lugar de hacer *clone* del repositorio de desarrollo.
+
+[foto: directorio con las herramientas]
+
+## Programar en ESP-IDF
+
 
 
 ## Notas borrador
