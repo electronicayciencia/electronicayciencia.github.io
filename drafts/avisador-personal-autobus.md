@@ -177,30 +177,32 @@ El entorno nativo de desarrollo es Linux con Eclipse. Pero la toolchain tiene ve
 
 Las instrucciones para descargar e instalar los componentes las tenéis en la web de Espressif: [Get Started - v3.3](https://docs.espressif.com/projects/esp8266-rtos-sdk/en/release-v3.3/get-started/index.html). Al contrario de como se indica en ellas, en mi experiencia como principiante es mejor descargar la [última versión estable](https://github.com/espressif/ESP8266_RTOS_SDK/releases) de la SDK RTOS, en lugar de hacer *clone* del repositorio de desarrollo.
 
-Resumiendo, a enero de 2021, el procedimiento para Windows es el siguiente (no pongo enlaces porque cambiarán en el futuro, para más detalles ver la web de Espressif):
+Resumiendo, a enero de 2021, el procedimiento para Windows es el siguiente (no pongo enlaces porque cambiarán en el futuro, para más detalles ver la web de Espressif). Descargar los tres componentes:
 
-1. Descargar el entorno de desarrollo msys32 (ya trae la toolchain para esp32, pero no para ESP8266)
-1. Descargar la última versión estable de la SDK RTOS que ya es estilo ESP-IDF, a día de hoy la versión 3.3.
-1. Descargar la toolchain de Xtensa lx106 para ESP8266 adecuada a la **versión** de la SDK que usamos, para la 3.3 es la v5.2.0. No nos serviría la gcc-8.4.0 por ejemplo que sería para la última versión de la SDK.
+- El entorno de desarrollo msys32 (ya trae la toolchain para esp32, pero no para ESP8266)
+- La última versión estable de la SDK RTOS que ya es estilo ESP-IDF, a día de hoy la versión 3.3.
+- La *toolchain* de Xtensa lx106 para ESP8266 adecuada a la **versión** de la SDK que usamos, para la 3.3 es la v5.2.0. No nos serviría la gcc-8.4.0 por ejemplo que sería para la última versión de la SDK.
 
   {% include image.html  file="toolchain-ficheros.png" caption="Entorno de desarrollo, SDK y *toolchain*. EyC." %}
+
+Y seguidamente:
 
 1. Descomprimir el entorno msys32 en algún sitio. 
 1. Descomprimir la SDK en algún punto dentro de la jerarquía de directorios msys32, por ejemplo `/opt`. Fijar la variable `IDF_PATH` en `.bashrc` para indicar dónde la hemos puesto.
 
-      export IDF_PATH=/opt/ESP8266_RTOS_SDK
+       export IDF_PATH=/opt/ESP8266_RTOS_SDK
 
 1. Descomprimir la toolchain para lx106 en algún punto dentro de la jerarquía de directorios msys32, por ejemplo `/opt`. Incluir en el path su directorio bin:
 
-      export PATH="$PATH:/opt/xtensa-lx106-elf/bin"
+       export PATH="$PATH:/opt/xtensa-lx106-elf/bin"
 
 1. Actualizar los paquetes python necesarios:
 
-      python -m pip install --user -r $IDF_PATH/requirements.txt
+       python -m pip install --user -r $IDF_PATH/requirements.txt
 
 1. Copiar el ejemplo hello_world de la SDK a nuestro home:
 
-      cp -r /opt/ESP8266_RTOS_SDK/examples/get-started/hello_world ~
+       cp -r /opt/ESP8266_RTOS_SDK/examples/get-started/hello_world ~
 
 1. Y luego ya proceder con `make menuconfig` para configurar qué puerto serie, `make` y `make flash` o lo que queramos.
 
