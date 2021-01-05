@@ -183,7 +183,7 @@ Resumiendo, a enero de 2021, el procedimiento para Windows es el siguiente (no p
 - La última versión estable de la SDK RTOS que ya es estilo ESP-IDF, a día de hoy la versión 3.3.
 - La *toolchain* de Xtensa lx106 para ESP8266 adecuada a la **versión** de la SDK que usamos, para la 3.3 es la v5.2.0. No nos serviría la gcc-8.4.0 por ejemplo que sería para la última versión de la SDK.
 
-  {% include image.html  file="toolchain-ficheros.png" caption="Entorno de desarrollo, SDK y *toolchain*. EyC." %}
+{% include image.html  file="toolchain-ficheros.png" caption="Entorno de desarrollo, SDK y *toolchain*. EyC." %}
 
 Y seguidamente:
 
