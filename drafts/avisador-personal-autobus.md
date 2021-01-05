@@ -134,16 +134,16 @@ El ESP8266 lleva este método al extremo. El micro no posee memoria flash, su ca
 
 ¿Cómo sabe el cargador si debe ejecutar el programa principal o ponerse a escuchar comandos? Por los **niveles lógicos** en las patillas 13, 14 y 15 (MTDO o GP15, GP2 y GP0). Hay tres patillas, ocho combinaciones, ocho modos de arranque distintos indicados en el documento [ESP8266EX - Frequently Asked Questions](https://www.espressif.com/sites/default/files/documentation/Espressif_FAQ_EN.pdf).
 
-GPIO15 | GPIO0 | GPIO2 | 3-Bit Value | Boot Mode
--------|-------|-------|-------------|----------------------
- 1     | 1     | 1     | 7           | SDIO HighSpeed V2 IO
- 1     | 1     | 0     | 6           | SDIO LowSpeed V1 IO
- 1     | 0     | 1     | 5           | SDIO HighSpeed V1 IO
- 1     | 0     | 0     | 4           | SDIO LowSpeed V2 IO
- **0** | **1** | **1** | **3**       | **Flash Boot**
- 0     | 1     | 0     | 2           | Jump Boot
- **0** | **0** | **1** | **1**       | **UART Boot**
- 0     | 0     | 0     | 0           | Remapping
+3-Bit Value [GPIO15, GPIO0, GPIO2] | Boot Mode
+-----------------------------------|----------------------
+7 / [1，1，1]                        | SDIO HighSpeed V2 IO
+6 / [1，1，0]                        | SDIO LowSpeed V1 IO
+5 / [1，0，1]                        | SDIO HighSpeed V1 IO
+4 / [1，0，0]                        | SDIO LowSpeed V2 IO
+**3 / [0，1，1]**                    | **Flash Boot**
+2 / [0，1，0]                        | Jump Boot
+**1 / [0，0，1]**                    | **UART Boot**
+0 / [0，0，0]                        | Remapping
 
 Sólo nos interesan los modos 1 y 3, *Flash Boot*, arranque del programa contenido en la memoria flash y *UART Boot*, escuchar comandos serie. Del resto no he encontrado documentación. Escogeremos entre uno y otro variando el nivel lógico en la entrada GP0 durante el arranque.
 
@@ -158,11 +158,13 @@ El bootloader de Espressif entiende comandos [SLIP](https://es.wikipedia.org/wik
 
 ## Entorno de desarrollo
 
-Para crear un programa binario que pueda ejecutarse en un microcontrolador necesitamos básicamente tres cosas:
+Esto es para hacer la programación según las "reglas" de ESP. Utilizando el entorno nativo ESP-IDF. Si utilizas Arduino, micropython, Basic, NodeMCU con LUA u otros entornos te abstraes de todas estas complejidades.
 
-- Un *compilador* para traducir el lenguaje de programación escogido al juego de instrucciones que maneja el dispositivo. También necesitaremos un *linker* (o link-editor) para transformar los objetos binarios en programas ejecutables. Estos programas junto a algunas herramientas para depuración y algunas librerías básicas (como la *librería de C estándar*) es lo que llamamos comúnmente la **toolchain**.
+Para crear un programa binario capaz de ejecutarse en un microcontrolador necesitamos básicamente tres cosas:
+
+- Un *compilador* para traducir el lenguaje de programación escogido al juego de instrucciones que maneja el dispositivo. Generalmente será un compilador cruzado (*cross-compiler*); es decir, generará código para una plataforma diferente a donde se está ejecutando. También necesitaremos un *linker* (o link-editor) para transformar los objetos binarios en programas ejecutables. Estos programas junto a varias herramientas para depuración y algunas librerías básicas (como la *librería de C estándar*) es lo que llamamos comúnmente la **toolchain**.
 - Las rutinas necesarias para hacer uso del dispositivo, o bien los ficheros de cabeceras si esas rutinas nos las dan ya compiladas. Por ejemplo para acceder a sus periféricos hardware como las entradas GPIO, la WiFi, el puerto SPI, la capa de abstracción de hardware -si existe-, etc. Eso lo conocemos por **SDK** (Software Development Kit).
-- El resto de programas y herramientas sobre las que se apoyan los componentes anteriores. Por ejemplo *cmake*, *bash*, *git*, etc. A eso lo llamaremos **entorno de desarrollo**. Si el fabricante nos proporciona integración con algún IDE en concreto, iría aquí también.
+- El resto de programas y herramientas sobre las que se apoyan los componentes anteriores. Por ejemplo *cmake*, *bash*, *git*, *python*, *openssl*, etc. A eso lo llamaremos **entorno de desarrollo**. Si el fabricante nos proporciona integración con algún IDE en concreto, iría aquí también.
 
 Ya vimos que las instrucciones son las estándar de Xtensa. La toolchain por tanto será la estándar de Xtensa para el core lx106. En cuanto a la SDK, Espressif nos ofrece varios "sabores". Tened en cuenta cuando miréis en foros ejemplos de proyectos en qué "sabor" de la SDK están desarrollados.
 
@@ -171,16 +173,44 @@ Ya vimos que las instrucciones son las estándar de Xtensa. La toolchain por tan
   - Estilo *pre ESP-IDF*: Versión inferior a 3.0. Tiene una forma de programación similar a la NonOS. No se recomienda para nuevos desarrollos.
   - Estilo **ESP-IDF**: Versión 3.0 o superior. Han unificado el estilo de programación entre ESP8266 y ESP32. IDF significa, según Espressif, *IoT Development Framework*. Es la versión recomendada y la única disponible para el ESP32.
   
-El entorno nativo de desarrollo es Linux con Eclipse. Pero la toolchain tiene versión Windows; así que el fabricante nos proporciona también un entorno msys32 con las herramientas necesarias para hacer la compilación en este SO. En cuanto al IDE, yo prefiero usar Visual Studio Code a costa de perder integración con las herramientas.
+El entorno nativo de desarrollo es Linux con Eclipse. Pero la toolchain tiene versión Windows y el fabricante nos proporciona también un entorno msys32 (que pesa más de 600Mb comprimido) con las herramientas necesarias para que podamos hacer la compilación en este SO. En cuanto al IDE, yo prefiero usar Visual Studio Code a costa de perder la integración con las herramientas que ofrecen para Eclipse.
 
-Las instrucciones para descargar e instalar los componentes las tenéis en la web de Espressif: [Get Started](https://docs.espressif.com/projects/esp8266-rtos-sdk/en/latest/get-started/windows-setup.html).
+Las instrucciones para descargar e instalar los componentes las tenéis en la web de Espressif: [Get Started - v3.3](https://docs.espressif.com/projects/esp8266-rtos-sdk/en/release-v3.3/get-started/index.html). Al contrario de como se indica en ellas, en mi experiencia como principiante es mejor descargar la [última versión estable](https://github.com/espressif/ESP8266_RTOS_SDK/releases) de la SDK RTOS, en lugar de hacer *clone* del repositorio de desarrollo.
 
-Al contrario que lo indicado en las instrucciones, en mi experiencia es mejor descargar la [última versión estable](https://github.com/espressif/ESP8266_RTOS_SDK/releases) de la SDK RTOS, en lugar de hacer *clone* del repositorio de desarrollo.
+Resumiendo, a enero de 2021, el procedimiento es el siguiente (no pongo enlaces porque cambiarán en el futuro, para más detalles ver la web de Espressif):
 
-[foto: directorio con las herramientas]
+- Descargar el entorno de desarrollo msys32 (ya trae la toolchain para esp32, pero no para ESP8266)
+- Descargar la última versión estable de la SDK RTOS que ya es estilo ESP-IDF, a día de hoy la versión 3.3.
+- Descargar la toolchain de Xtensa lx106 para ESP8266 adecuada a la **versión** de la SDK que usamos, para la 3.3 es la versión v5.2.0. No nos serviría la gcc-8.4.0 que es para la última versión de la SDK.
+
+{% include image.html  file="toolchain-ficheros.png" caption="Entorno de desarrollo, *toolchain* y SDK. EyC." %}
+
+- Descomprimir el entorno msys32 en algún sitio. 
+- Descomprimir la SDK en algún punto dentro de la jerarquía de directorios msys32, por ejemplo `/opt`. Fijar la variable `IDF_PATH` en `.bashrc` para indicar dónde la hemos puesto.
+
+    export IDF_PATH=/opt/ESP8266_RTOS_SDK
+
+- Descomprimir la toolchain para lx106 en algún punto dentro de la jerarquía de directorios msys32, por ejemplo `/opt`. Incluir en el path su directorio bin:
+
+    export PATH="$PATH:/opt/xtensa-lx106-elf/bin"
+
+- Actualizar los paquetes python necesarios:
+
+    python -m pip install --user -r $IDF_PATH/requirements.txt
+
+- Copiar el ejemplo hello_world de la SDK a nuestro home:
+
+    cp -r /opt/ESP8266_RTOS_SDK/examples/get-started/hello_world ~
+
+- Y luego ya proceder con `make menuconfig` para configurar qué puerto serie, `make` y `make flash` o lo que queramos.
+
+{% include image.html  file="menuconfig.png" caption="La SDK se configura con scripts de *dialog*. Si compilaste un kernel de Linux hace más de 10 años, te sonará. EyC." %}
+
+
 
 ## Programar en ESP-IDF
 
+rtos
 
 
 ## Notas borrador
