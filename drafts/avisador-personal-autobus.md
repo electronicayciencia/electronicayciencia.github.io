@@ -92,6 +92,10 @@ El ESP8266 es un core Xtensa estándar de 32-bit a 80 MHz con:
 
 {% include image.html file="esp8266ex-blocks.png" caption="Diagrama de bloques del ESP8266EX. [Espressif](https://www.espressif.com/sites/default/files/documentation/0a-esp8266ex_datasheet_en.pdf)." %}
 
+El hecho de tener WiFi ofrece unas posibilidades muy interesantes. Ya sea para conectar a Internet u otras aplicaciones menos ortodoxas. Se pueden recibir y enviar paquetes 802.11 en crudo (sin procesar). Este proyecto usa llamadas al API para construir balizas WiFi de Access Points falsos con nombres inventados: [Jeija esp_wifi_80211_tx sample code](https://github.com/Jeija/esp32-80211-tx).
+
+{% include image.html class="small-width" file="rick-roll-beacon.jpg" caption="" %}
+
 
 ## El módulo ESP-01S
 
@@ -281,7 +285,7 @@ rtos
 [La presión atmosférica - BPM280]({{site.baseurl}}{% post_url 2018-10-07-la-presion-atmosferica-bmp280 %}).
 
 
-{% include class="small-width" image.html file="rick-roll-beacon.jpg" caption="" %}
+
 
 presentación esp8266
  - no tiene flash. Se vende en modulos con flash + cuarzo + chip + componentes RF (+ led), esquema
