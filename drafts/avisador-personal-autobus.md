@@ -11,13 +11,13 @@ tags:
 ---
 
 
-Hoy vamos a hablar del ESP8266. Un microcontrolador pensado para IoT. Repasaremos los comienzos de este integrado. Os contaré en qué consiste la arquitectura Xtensa. Y construiremos un pequeño proyecto para explorar el SDK del fabricante ESP-IDF.
-
-Os propongo un visor con alarma de tiempos de llegada para el autobús. Se trata de leer los tiempos de llegada desde el API al igual que haría una aplicación móvil. Y mostrarlo en una LCD de 4x20. Aunque variando el origen de datos podríamos mostrar cualquier variable disponible en Internet. Desde el precio de un activo a la información meteorológica.
+Hoy vamos a hablar del ESP8266. Un microcontrolador pensado para IoT. Repasaremos sus comienzos. Os contaré en qué consiste la arquitectura Xtensa. Montaremos el entorno ESP-IDF y haremos un proyecto para explorar el SDK de Espressif. Os propongo un visor de tiempos de llegada para el autobús con alarma. Pero serviría para cualquier variable disponible en Internet. Desde el precio de un activo a la información meteorológica.
 
 {% include image.html file="board-display-cropped.jpg" caption="Avisador de autobuses construido con el módulo ESP-01S. EyC." %}
 
 ## Introducción
+
+Sobre el ESP8266 se ha escrito mucho. Fue revolucionario cuando salió y se puso rápidamente de moda. Luego fue superado por el ESP32, más potente y con Bluetooth, y el 8266 pasó a un segundo plano.
 
 En 2013, un fabricante chino de microchips llamado Espressif lanzó un microcontrolador. El ESP8266. Un tanto limitado pero barato y con conexión WiFi. Poco tiempo después, otra compañía china dedicada a IoT (*Internet of Things*) llamada AI-Thinker sacó al mercado un módulo con los componentes necesarios para hacer funcionar el ESP8266. Principalmente memoria externa, cuarzo y antena. Lo llamó ESP-01. Incorporó una aplicación con comandos Hayes y lo vendió como **módem WiFi AT para Arduino**. Igual que usamos módems AT GSM para enviar y recibir SMS desde un microcontrolador, este serviría para conectar con una red inalámbrica.
 
@@ -157,20 +157,24 @@ Si al liberar el pulsador *reset* tenemos presionado *prog* entraremos en modo p
 
 El bootloader de Espressif entiende comandos [SLIP](https://es.wikipedia.org/wiki/Serial_Line_Internet_Protocol) (*Serial Line Internet Protocol*). La interfaz está documentada en [espressif/esptool](https://github.com/espressif/esptool/wiki/Serial-Protocol). Para interactuar con él nos proporcionan la herramienta **esptool**.
 
+El programa principal tampoco se carga directamente. En la memoria flash hay otro bootloader. Entre otras cosas permite actualizar el firmware remotamente (OTA).
+
 
 ## Entorno de desarrollo
 
-Te voy a explicar cómo programar el ESP8266 según lo indicado por el fabricante, es decir, utilizando el entorno ESP-IDF (lenguaje C). Si prefieres Arduino, micropython, Basic, NodeMCU con LUA u otros entornos el procedimiento será distinto y -seguramente- más simple.
+Vamos a programar el ESP8266 según lo indicado por el fabricante, es decir, utilizando el entorno ESP-IDF (lenguaje C). Si prefieres hacerlo en Arduino, micropython, Basic, LUA u otros el procedimiento será distinto y -seguramente- más simple.
 
-Para crear un programa binario capaz de ejecutarse en un microcontrolador necesitamos básicamente tres cosas:
+El entorno ESP-IDF me ha **sorprendido para bien**. Cuenta con múltiples ejemplos funcionales. Casi todo es código abierto. La pila TCP/IP se basa en [lwip](https://en.wikipedia.org/wiki/LwIP). Incorpora librerías bien conocidas como [cJSON](https://github.com/DaveGamble/cJSON) o [sodium](https://github.com/jedisct1/libsodium). Además de otras que parecen escritas por Espressif como *esp-mqtt* o la de log. En general parece coherente.
 
-- La **toolchain**. Es específica de la plataforma, Xtensa lx106 en este caso. Comprende el *compilador*, el *linker* (o link-editor), ensamblador, depurador y algunas librerías básicas (como la *librería de C estándar*).
+Para crear un programa binario capaz de ejecutarse en un microcontrolador necesitamos:
+
+- La **toolchain** específica de la plataforma, Xtensa lx106 en este caso. Comprende el *compilador*, el *linker* (o link-editor), ensamblador, depurador y algunas librerías básicas (como la *librería de C estándar*).
 - El **SDK** (Software Development Kit). Ahí van las rutinas propias del dispositivo, o los ficheros de cabeceras si nos las dan ya compiladas. Los drivers, por ejemplo, para acceder a sus periféricos hardware (capa PHY), entradas GPIO, WiFi, SPI o I2C. Suele incluir ejemplos de uso, así como los scripts de compilación y linkado.
-- El **entorno de desarrollo** son el resto de programas y herramientas sobre las que se apoyan los componentes anteriores. Por ejemplo *cmake*, *bash*, *python* u *openssl*, por decir algunos. También el IDE cuando es específico.
+- El **entorno de desarrollo** son el resto de programas y herramientas sobre las que se apoyan los componentes anteriores. Digamos *cmake*, *bash*, *python* u *openssl*. A veces también el IDE si va junto como pasa con Arduino o MPLab.
 
-El entorno nativo de desarrollo es Linux con Eclipse. Si no te gusta Eclipse puedes usar cualquier otro IDE pero estará peor integrado. Yo voy a usar Visual Studio Code. Si trabajas en Linux sólo tendrás que instalar los paquetes necesarios. Si trabajas en Windows, Espressif nos proporciona un entorno msys32 (parecido a cygwin y que pesa más de 600Mb comprimido) con el entorno preinstalado.
+El entorno nativo de desarrollo es Linux con Eclipse. Yo voy a usar Visual Studio Code sabiendo que estará peor integrado. Si trabajas en Linux sólo tendrás que instalar los paquetes necesarios. Si trabajas en Windows, como es mi caso, Espressif ofrece un entorno msys32 (que pesa más de 600Mb comprimido) con el entorno preinstalado.
 
-Desde 2015 se han publicado varios SDK, con distintos estilos. Es importante tenerlo en cuenta a la hora de mirar en foros ejemplos de proyectos.
+Desde 2015 el SDK ha pasado por varias versiones y distintos estilos. Es importante tenerlo en cuenta a la hora de mirar en foros ejemplos de proyectos.
 
 - [Versión **NONOS**](https://github.com/espressif/ESP8266_NONOS_SDK): Es un SDK simple, lineal. El primero en ser publicado y sobre él están desarrolladas las librerías de Arduino para el ESP8266. Se considera obsoleto desde diciembre de 2019 y recomiendan usar la versión RTOS.
 - [Versión **RTOS**](https://github.com/espressif/ESP8266_RTOS_SDK). Se trata de un SDK con el sistema operativo RTOS integrado. Hay dos "estilos" de programación:
@@ -210,33 +214,59 @@ y configurar las opciones -como el puerto serie o la contraseña de la wifi- con
 
 
 
+
 ## Esquema eléctrico
 
-La característica principal de los chips de Espressif es su conexión inalámbrica. Son proyectos obvios leer datos de un sensor y transmitirlos a un servidor vía internet; y viceversa, leer datos de internet y visualizarlos en una pantalla. Nuestro proyecto de hoy es de los segundos.
+Usamos los chips de Espressif por su conexión WiFi. Proyectos obvios son leer datos de un sensor local y transmitirlos a un servidor remoto vía Internet; y viceversa, leer datos de Internet y visualizarlos en una pantalla. Nuestro proyecto hoy es del segundo tipo.
 
-*Utilizando un módulo ESP-01S leeremos una variable de un API en Internet, la visualizaremos en una pantalla LCD de 4x20 y -si alcanza determinado valor- haremos sonar un aviso acústico.*
-
-Este es el esquema. Si lo necesitas ampliado te lo dejo también en formato vectorial: [ESP-Bus.svg]({{page.assets | relative_url}}/ESP-Bus.svg).
+Como componente central usaremos el módulo ESP-01S y un LCD de 4x20. Hemos incorporado un buzzer piezoeléctrico para hacer sonar un aviso acústico. Este sería el esquema (aquí en formato vectorial: [ESP-Bus.svg]({{page.assets | relative_url}}/ESP-Bus.svg)).
 
 {% include image.html file="esp-bus-retocado.jpg" caption="Esquema eléctrico del *avisador de autobuses*. EyC." %}
 
-La alimentación por USB es a 5V. El ESP8266 funciona a 3.3v. Para reducir de 5V a 3.3V un regulador lineal es la opción más directa. Yo hoy he preferido usar transistores. Durante la transmisión WiFi, el consumo del módulo es significativo (picos de 200mA). Esta configuración se llama *par Darlignton complementario* o [**par Sziklai**](https://en.wikipedia.org/wiki/Sziklai_pair). 
+Necesitaremos 5V de alimentación ya que nuestro LCD no funciona a 3.3V. Hay módulos LCD con una pequeña bomba de carga instalada que funcionan a 3.3, pero el nuestro no la lleva. El ESP8266 requiere 3.3V, no pudiendo superar nunca los 3.6V de máximo y con 200mA de corriente en pico. La opción más directa es reducir de 5 a 3.3V usando un regulador lineal. Pero hoy he preferido usar transistores. 
+
+Con un sólo transistor no vamos a poder ofrecer 200mA de forma estable. Será mejor usar dos en [configuración **Darlington**](https://es.wikipedia.org/wiki/Transistor_Darlington). Aunque hay una opción mejor, el *par Darlignton complementario* o [configuración **Sziklai**](https://en.wikipedia.org/wiki/Sziklai_pair). Es como el Darlington pero usando un transistor NPN y otro PNP. Como veis en la siguiente simulación, al aumentar el consumo la tensión de salida se mantiene más estable.
+
+{% include image.html file="v_szklai_darlington.png" caption="Tensión a la salida del regulador frente a consumo. Comparación entre las configuraciones Darlington (rojo) y Szklai (verde). EyC." %}
+
+Cuando retiramos el módulo del socket, en ausencia de consumo la tensión podría subir por encima de 3.6V. **R3** está ahí para suministrar un consumo mínimo y que eso no suceda.
+
+Podríamos omitir **C1**, **C2**, **R4** y **R5** porque nuestro módulo ESP-01S ya trae estos componentes. No está previsto recibir comandos vía puerto serie, así que hemos reasignado la patilla RX como salida para la alarma. La salida UART sí la conservamos para emitir registros de depuración.
+
+Montar el esquema en una placa SMD es muy sencillo pero prefiero hacer el prototipo con componentes *through hole*.
+
+{% include image.html file="espbus-parts.jpg" caption="Componentes listos para soldar. EyC." %}
+
+Así ha quedado una vez soldados los componentes:
+
+{% include image.html file="board-esp01s.jpg" caption="Placa con los componentes y módulo ESP-01S. EyC." %}
+
+
+## El software
+
+Describir todo el programa línea a línea sería largo aburrido. Tampoco pretendo resumir en un artículo la documentación de Espressif. Como el código está en GitHub, te voy a contar los puntos principales y si quieres preguntarme algo me dejas un comentario.
+
+Podemos dividir el proyecto en varias partes:
+
+- Leer de un **API online** los tiempos de espera de una línea de autobuses en determinada parada. Eso requiere:
+  - Conectar a la **wifi** al menos usando usuario y contraseña. WPS preferible.
+  - Conectar con una web **HTTPS** usando autorización básica.
+  - Recibir la respuesta en **JSON** e interpretarla usando cJSON.
+- **Visualizarlos** en una pantalla LCD de 4x20 caracteres.
+  - La pantalla usa **I2C**. El ESP8266 no tiene puerto I2C, lo imita por software.
+  - La LCD no se controla directamente sino a través de un **expansor PCF8574**. Reutilizaré mi [librería I2C LCD para Raspberry Pi](https://www.electronicayciencia.com/wPi_soft_lcd/) adaptándola para este chip.
+- Mantener la información actualizada **periódicamente**.
+  - Necesito saber cómo lanzar varias **tareas en paralelo** en RTOS.
+  - Para actualizar unas partes de la LCD sin sobrescribir otras reservaré **buffer** a modo de memoria de vídeo.
+- Hacer sonar un **aviso acústico** si el tiempo es inferior a 5 minutos.
+  - Usare **PWM**. El ESP8266 no tiene PWM pero lo imita por software (siempre que no tengas el ADC activo, ni el sniffer WiFi y para una frecuencia suficientemente baja).
+  - Además habrá que lanzar la **tarea en segundo plano** para que no se bloquee la LCD mientras suena la alarma.
 
 
 
-{% include image.html file="v_szklai.png" caption="Caída de tensión en la configuración Szklai. EyC." %}
-
-{% include image.html file="v_szklai_darlington.png" caption="Comparación entre las configuraciones Darlington (rojo) y Szklai (verde). EyC." %}
 
 
-
-
-Te propongo un *avisador de autobuses*.
-
-esquema
-foto de tension vs consumo
-
-## Programar en ESP-IDF
+[electronicayciencia/esp8266-learning](https://github.com/electronicayciencia/esp8266-learning)
 
 completa, muchos componenetes, cjson, log, libsodium, 
 
@@ -251,7 +281,7 @@ rtos
 [La presión atmosférica - BPM280]({{site.baseurl}}{% post_url 2018-10-07-la-presion-atmosferica-bmp280 %}).
 
 
-
+{% include class="small-width" image.html file="rick-roll-beacon.jpg" caption="" %}
 
 presentación esp8266
  - no tiene flash. Se vende en modulos con flash + cuarzo + chip + componentes RF (+ led), esquema
