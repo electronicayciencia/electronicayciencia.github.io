@@ -151,43 +151,43 @@ Volviendo al esquema del módulo ESP-01S, arriba, la patilla GPIO15 o MTDO está
 
 {% include image.html class="medium-width" file="programar-esp01.png" caption="" %}
 
-Nuestro módulo ya incorpora las resistencias de pull-up **R1**, **R2** y **R3**. Para otras versiones pueden ser necesarias. **RX** y **TX** lo conectaremos a un conversor USB-Serie. Si al liberar el pulsador *reset* tenemos presionado *flash* entraremos en modo programación (*UART Boot*); de lo contrario arrancaremos en modo *normal*.
+Nuestro módulo ya incorpora las resistencias de pull-up **R1**, **R2** y **R3**; también podemos omitir **C1**. **RX** y **TX** lo conectaremos a un conversor USB-Serie. Por defecto, las patillas TX y RX del chip están configuradas como salida y entrada respectivamente. Pero se pueden configurar de otra manera por software y de hecho lo haremos. Si el conversor USB-Serie intenta transmitir un valor a una patilla que está, a su vez, configurada como salida podría producirse un cortocircuito y dañar el integrado. **R4** y **R5** limitan la corriente en este caso.
 
-El bootloader de Espressif entiende comandos [SLIP](https://es.wikipedia.org/wiki/Serial_Line_Internet_Protocol) (*Serial Line Internet Protocol*). Están documentados en GitHub [espressif/esptool](https://github.com/espressif/esptool/wiki/Serial-Protocol). Para interactuar con él nos proporcionan la herramienta **esptool**.
+Si al liberar el pulsador *reset* tenemos presionado *prog* entraremos en modo programación (*UART Boot*); de lo contrario arrancaremos en modo normal.
+
+El bootloader de Espressif entiende comandos [SLIP](https://es.wikipedia.org/wiki/Serial_Line_Internet_Protocol) (*Serial Line Internet Protocol*). La interfaz está documentada en [espressif/esptool](https://github.com/espressif/esptool/wiki/Serial-Protocol). Para interactuar con él nos proporcionan la herramienta **esptool**.
 
 
 ## Entorno de desarrollo
 
-Esto es para hacer la programación según las "reglas" de ESP. Utilizando el entorno nativo ESP-IDF. Si utilizas Arduino, micropython, Basic, NodeMCU con LUA u otros entornos te abstraes de todas estas complejidades.
+Te voy a explicar cómo programar el ESP8266 según lo indicado por el fabricante, es decir, utilizando el entorno ESP-IDF (lenguaje C). Si prefieres Arduino, micropython, Basic, NodeMCU con LUA u otros entornos el procedimiento será distinto y -seguramente- más simple.
 
 Para crear un programa binario capaz de ejecutarse en un microcontrolador necesitamos básicamente tres cosas:
 
-- Un *compilador* para traducir el lenguaje de programación escogido al juego de instrucciones que maneja el dispositivo. Generalmente será un compilador cruzado (*cross-compiler*); es decir, generará código para una plataforma diferente a donde se está ejecutando. También necesitaremos un *linker* (o link-editor) para transformar los objetos binarios en programas ejecutables. Estos programas junto a varias herramientas para depuración y algunas librerías básicas (como la *librería de C estándar*) es lo que llamamos comúnmente la **toolchain**.
-- Las rutinas necesarias para hacer uso del dispositivo, o bien los ficheros de cabeceras si esas rutinas nos las dan ya compiladas. Por ejemplo para acceder a sus periféricos hardware como las entradas GPIO, la WiFi, el puerto SPI, la capa de abstracción de hardware -si existe-, etc. Eso lo conocemos por **SDK** (Software Development Kit).
-- El resto de programas y herramientas sobre las que se apoyan los componentes anteriores. Por ejemplo *cmake*, *bash*, *git*, *python*, *openssl*, etc. A eso lo llamaremos **entorno de desarrollo**. Si el fabricante nos proporciona integración con algún IDE en concreto, iría aquí también.
+- La **toolchain**. Es específica de la plataforma, Xtensa lx106 en este caso. Comprende el *compilador*, el *linker* (o link-editor), ensamblador, depurador y algunas librerías básicas (como la *librería de C estándar*).
+- El **SDK** (Software Development Kit). Ahí van las rutinas propias del dispositivo, o los ficheros de cabeceras si nos las dan ya compiladas. Los drivers, por ejemplo, para acceder a sus periféricos hardware (capa PHY), entradas GPIO, WiFi, SPI o I2C. Suele incluir ejemplos de uso, así como los scripts de compilación y linkado.
+- El **entorno de desarrollo** son el resto de programas y herramientas sobre las que se apoyan los componentes anteriores. Por ejemplo *cmake*, *bash*, *python* u *openssl*, por decir algunos. También el IDE cuando es específico.
 
-Ya vimos que las instrucciones son las estándar de Xtensa. La toolchain por tanto será la estándar de Xtensa para el core lx106. En cuanto a la SDK, Espressif nos ofrece varios "sabores". Tened en cuenta cuando miréis en foros ejemplos de proyectos en qué "sabor" de la SDK están desarrollados.
+El entorno nativo de desarrollo es Linux con Eclipse. Si no te gusta Eclipse puedes usar cualquier otro IDE pero estará peor integrado. Yo voy a usar Visual Studio Code. Si trabajas en Linux sólo tendrás que instalar los paquetes necesarios. Si trabajas en Windows, Espressif nos proporciona un entorno msys32 (parecido a cygwin y que pesa más de 600Mb comprimido) con el entorno preinstalado.
 
-- [Versión **NONOS**](https://github.com/espressif/ESP8266_NONOS_SDK): Es una SDK simple, lineal. Se considera obsoleta desde diciembre de 2019 y recomiendan usar la versión RTOS.
-- [Versión **RTOS**](https://github.com/espressif/ESP8266_RTOS_SDK). Se trata de una SDK con el sistema operativo RTOS integrado. Hay dos "estilos" de programación:
+Desde 2015 se han publicado varios SDK, con distintos estilos. Es importante tenerlo en cuenta a la hora de mirar en foros ejemplos de proyectos.
+
+- [Versión **NONOS**](https://github.com/espressif/ESP8266_NONOS_SDK): Es un SDK simple, lineal. El primero en ser publicado y sobre él están desarrolladas las librerías de Arduino para el ESP8266. Se considera obsoleto desde diciembre de 2019 y recomiendan usar la versión RTOS.
+- [Versión **RTOS**](https://github.com/espressif/ESP8266_RTOS_SDK). Se trata de un SDK con el sistema operativo RTOS integrado. Hay dos "estilos" de programación:
   - Estilo *pre ESP-IDF*: Versión inferior a 3.0. Tiene una forma de programación similar a la NonOS. No se recomienda para nuevos desarrollos.
   - Estilo **ESP-IDF**: Versión 3.0 o superior. Han unificado el estilo de programación entre ESP8266 y ESP32. IDF significa, según Espressif, *IoT Development Framework*. Es la versión recomendada y la única disponible para el ESP32.
-  
-El entorno nativo de desarrollo es Linux con Eclipse. Pero la toolchain tiene versión Windows y el fabricante nos proporciona también un entorno msys32 (que pesa más de 600Mb comprimido) con las herramientas necesarias para que podamos hacer la compilación en este SO. En cuanto al IDE, yo prefiero usar Visual Studio Code a costa de perder la integración con las herramientas que ofrecen para Eclipse.
 
-Las instrucciones para descargar e instalar los componentes las tenéis en la web de Espressif: [Get Started - v3.3](https://docs.espressif.com/projects/esp8266-rtos-sdk/en/release-v3.3/get-started/index.html). Al contrario de como se indica en ellas, en mi experiencia como principiante es mejor descargar la [última versión estable](https://github.com/espressif/ESP8266_RTOS_SDK/releases) de la SDK RTOS, en lugar de hacer *clone* del repositorio de desarrollo.
+Las instrucciones para descargar e instalar los componentes están en la web de Espressif: [Get Started - v3.3](https://docs.espressif.com/projects/esp8266-rtos-sdk/en/release-v3.3/get-started/index.html). Te lo describo brevemente. Lo primero es descargar los tres componentes:
 
-Resumiendo, a enero de 2021, el procedimiento para Windows es el siguiente (no pongo enlaces porque cambiarán en el futuro, para más detalles ver la web de Espressif). Descargar los tres componentes:
-
-- El entorno de desarrollo msys32 (ya trae la toolchain para esp32, pero no para ESP8266)
-- La última versión estable de la SDK RTOS que ya es estilo ESP-IDF, a día de hoy la versión 3.3.
-- La *toolchain* de Xtensa lx106 para ESP8266 adecuada a la **versión** de la SDK que usamos, para la 3.3 es la v5.2.0. No nos serviría la gcc-8.4.0 por ejemplo que sería para la última versión de la SDK.
+- El entorno msys32 (viene con la toolchain para esp32, pero no la del ESP8266)
+- La última versión estable del SDK RTOS (ya es estilo ESP-IDF), a día de hoy la versión 3.3. En mi experiencia como principiante es mejor descargar la [última versión estable](https://github.com/espressif/ESP8266_RTOS_SDK/releases) de la SDK RTOS, en lugar de hacer *clone* del repositorio de desarrollo.
+- La *toolchain* de Xtensa lx106 para ESP8266 adecuada según la **versión** del SDK, para la RTOS-v3.3 es la v5.2.0. No nos serviría la gcc-8.4.0 por ejemplo.
 
 {% include image.html  file="toolchain-ficheros.png" caption="Entorno de desarrollo, SDK y *toolchain*. EyC." %}
 
 Y seguidamente:
 
-1. Descomprimir el entorno msys32 en algún sitio. 
+1. Descomprimir el entorno msys32 en algún sitio, da igual.
 1. Descomprimir la SDK en algún punto dentro de la jerarquía de directorios msys32, por ejemplo `/opt`. Fijar la variable `IDF_PATH` en `.bashrc` para indicar dónde la hemos puesto.
 
        export IDF_PATH=/opt/ESP8266_RTOS_SDK
@@ -200,17 +200,45 @@ Y seguidamente:
 
        python -m pip install --user -r $IDF_PATH/requirements.txt
 
-1. Copiar el ejemplo hello_world de la SDK a nuestro home:
+Con esto ya podemos copiar el ejemplo `hello_world` de la SDK a nuestro home:
 
-       cp -r /opt/ESP8266_RTOS_SDK/examples/get-started/hello_world ~
+       cp -r $IDF_PATH/examples/get-started/hello_world ~
 
-1. Y luego ya proceder con `make menuconfig` para configurar qué puerto serie, `make` y `make flash` o lo que queramos.
+y configurar las opciones -como el puerto serie o la contraseña de la wifi- con `make menuconfig`, compilarlo, etc.
 
-{% include image.html  file="menuconfig.png" caption="La SDK se configura con scripts de *dialog*. Si compilaste un kernel de Linux hace más de 10 años, te sonará. EyC." %}
+{% include image.html  file="menuconfig.png" caption="La configuración del SDK usa el sistema *kconfig* con *lxdialog*. Un extra para nostálgicos. EyC." %}
 
 
+
+## Esquema eléctrico
+
+La característica principal de los chips de Espressif es su conexión inalámbrica. Son proyectos obvios leer datos de un sensor y transmitirlos a un servidor vía internet; y viceversa, leer datos de internet y visualizarlos en una pantalla. Nuestro proyecto de hoy es de los segundos.
+
+*Utilizando un módulo ESP-01S leeremos una variable de un API en Internet, la visualizaremos en una pantalla LCD de 4x20 y -si alcanza determinado valor- haremos sonar un aviso acústico.*
+
+Este es el esquema. Si lo necesitas ampliado te lo dejo también en formato vectorial: [ESP-Bus.svg]({{page.assets | relative_url}}/ESP-Bus.svg).
+
+{% include image.html file="esp-bus-retocado.jpg" caption="Esquema eléctrico del *avisador de autobuses*. EyC." %}
+
+La alimentación por USB es a 5V. El ESP8266 funciona a 3.3v. Para reducir de 5V a 3.3V un regulador lineal es la opción más directa. Yo hoy he preferido usar transistores. Durante la transmisión WiFi, el consumo del módulo es significativo (picos de 200mA). Esta configuración se llama *par Darlignton complementario* o [**par Sziklai**](https://en.wikipedia.org/wiki/Sziklai_pair). 
+
+
+
+{% include image.html file="v_szklai.png" caption="Caída de tensión en la configuración Szklai. EyC." %}
+
+{% include image.html file="v_szklai_darlington.png" caption="Comparación entre las configuraciones Darlington (rojo) y Szklai (verde). EyC." %}
+
+
+
+
+Te propongo un *avisador de autobuses*.
+
+esquema
+foto de tension vs consumo
 
 ## Programar en ESP-IDF
+
+completa, muchos componenetes, cjson, log, libsodium, 
 
 rtos
 

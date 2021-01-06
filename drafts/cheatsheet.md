@@ -37,12 +37,32 @@ Texto normal. El primer párrafo será lo que se use como resúmen en la portada
 Salto  
 de linea.
 
+### Listas
+
 - lista
 - sin
 - numerar
 
 1. lista
 1. numerada
+
+### Preformato dentro de listas
+
+Se anteponen 7 espacios los 4 usuales más 3 por cada nivel de lista.
+
+1. Actualizar los paquetes python necesarios:
+
+       python -m pip install --user -r $IDF_PATH/requirements.txt
+
+1. Copiar el ejemplo hello_world de la SDK a nuestro home:
+
+       cp -r /opt/ESP8266_RTOS_SDK/examples/get-started/hello_world ~
+
+
+### Imágenes dentro de listas
+
+No se puede. Se sustituye el include por html y no se respeta la identación original.
+
 
 ### Ecuación display
 
