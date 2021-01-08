@@ -10,7 +10,7 @@ tags:
   - ESP8266
 ---
 
-Hoy vamos a hablar del ESP8266. Un microcontrolador pensado para *IoT*. Repasaremos sus comienzos. Os contaré en qué consiste la arquitectura Xtensa. Montaremos el entorno ESP-IDF. Exploraremos el SDK de Espressif haciendo un visor de tiempo de espera para el autobús, con alarma. Aunque serviría para cualquier variable en tiempo real, desde el precio de un activo a la información meteorológica.
+Hoy vamos a hablar del **ESP8266**. Un microcontrolador pensado para *IoT*. Repasaremos sus comienzos. Os contaré en qué consiste la arquitectura Xtensa. Montaremos el **entorno ESP-IDF**. Exploraremos el SDK de Espressif haciendo un visor de tiempo de espera para el autobús, con alarma. Aunque serviría para cualquier variable en tiempo real, desde el precio de un activo a la información meteorológica.
 
 {% include image.html file="board-display-cropped.jpg" caption="Avisador de autobuses construido con el módulo ESP-01S. EyC." %}
 
@@ -46,44 +46,38 @@ O podrías **comprar** esa parte ya hecha y probada. Únicamente lo que es una C
 
 > The Xtensa 9 processor, in its smallest configuration, is just 0.024 mm2 with 12 uW/MHz average dynamic power post place & route in 40 LP process technology at 60 MHz.
 
-Por supuesto se venden opciones preconfiguradas. El ESP8266 sería un [Diamond Standard 106Micro](https://ip.cadence.com/news/243/330/Tensilica-Unveils-Diamond-Standard-106Micro-Processor-Smallest-Licensable-32-bit-Core), la configuración más baja de la arquitectura Xtensa 9. El ESP32, su sucesor, utiliza la arquitectura LX6 y los ESP32-S2 y S3 ya usan LX7.
+Por supuesto se venden opciones preconfiguradas. El ESP8266 sería un [Diamond Standard 106Micro](https://ip.cadence.com/news/243/330/Tensilica-Unveils-Diamond-Standard-106Micro-Processor-Smallest-Licensable-32-bit-Core), la configuración más baja de la arquitectura Xtensa 9. El ESP32, su sucesor, utiliza la arquitectura LX6 y los ESP32-S2 y S3 usan LX7.
 
 {% include image.html file="lx6-processor-arch-diagram.png" caption="Arquitectura Tensilica Xtensa LX6 usada por el ESP32. [Cadence](https://www.cadence.com/)." %}
 
-En Los bloques en **azul oscuro** son los componentes básicos. Incluyendo:
+En **azul oscuro** tenemos los componentes básicos, los más importantes son:
 
-- el ciclo de instrucción para 32 bits
-- un juego de instrucciones básico (*ISA: Instruction Set Architecture*). Son 80 instrucciones RISC comunes a todos los núcleos de Xtensa. Lo que te garantiza es que no necesitarás hacerte un compilador especial y podrás usar herramientas de desarrollo compatibles.
+- el ciclo de instrucción para 32 bits.
+- un juego de instrucciones básico (*ISA: Instruction Set Architecture*). Consta de 80 instrucciones comunes a todos los núcleos de Xtensa. Dicho de otra manera, te servirán las herramientas de desarrollo compatibles y no tendrás que hacerte un compilador especial.
 - una unidad aritmético-lógica sencilla de 32 bits.
 - soporte de excepciones y control del procesador.
 
-Luego tienes otros componentes que puedes configurar a tu gusto añadir o quitar. Digamos:
+Luego tienes otros componentes configurables. Por ejemplo:
 
 - ¿MAC de 16 bits? (*multiply accumulator*, si no te suena la instrucción MAC, echa un vistazo a la entrada titulada [Tu primer proyecto con DSP]({{site.baseurl}}{% post_url 2020-06-21-tu-primer-proyecto-con-dsp %}))
-- ¿Unidad de punto flotante? ¿precisión simple o doble? Para recordar cosas sobre la FPU lee [La presión atmosférica - BPM280]({{site.baseurl}}{% post_url 2018-10-07-la-presion-atmosferica-bmp280 %}).
-- ¿Registros directos para GPIO?
+- ¿Unidad de punto flotante? ¿de precisión simple o doble? Para recordar cosas sobre la FPU lee [La presión atmosférica - BPM280]({{site.baseurl}}{% post_url 2018-10-07-la-presion-atmosferica-bmp280 %}).
 - Temporizadores ¿cuantos?
-- ¿Puerto JTAG para depuración?
-- Periféricos, ¿lo quieres con I2C, SPI, I2S? ¿cuántos de cada?
-- ¿Cuántos bancos de RAM? ¿Cuántas interrupciones y de qué tipo? ¿cómo quieres el pipeline?
-
-Hay un montón de opciones y módulos configurables:
+- Periféricos, ¿lo quieres con I2C, SPI, I2S? ¿cuántos de cada? ¿Puerto JTAG para depuración?
+- ¿Y bancos de RAM, interrupciones, pipeline, ...?
 
 {% include image.html file="lx6-processor-options.png" caption="Opciones de configuración para la arquitectura Xtensa LX6." %}
 
-Para cosas más complejas puedes añadir cores de DSP. O por ejemplo para ejecutar un Sistema Operativo sofisticado necesitarás una Unidad de Gestión de Memoria. Su función es traducir direcciones de memoria virtuales a físicas y facilitar protección de memoria, paginación etc. Tienen una compatible con Linux. Pero hasta donde yo sé ni el ESP8266 ni el ESP32 hasta ahora la incluyen. Por lo que no podemos **ejecutar Linux** en ellos y sí en otros chips de Xtensa.
+También puedes comprar y añadirle cores de DSP. O una Unidad de Gestión de Memoria si quieres ejecutar un Sistema Operativo sofisticado. Su función es traducir direcciones de memoria virtuales a físicas y facilitar protección de memoria, paginación etc. Tienen una compatible con Linux, pero hasta donde yo sé ni el ESP8266 ni el ESP32 la incluyen. Por este motivo no podemos **ejecutar Linux** en estos procesadores pero sí en otros chips de Xtensa: [Linux Xtensa](http://www.linux-xtensa.org/).
 
-Aquí puedes ver el [Brief de la arquitectura Xtensa 9](https://web.archive.org/web/20111114012640/http://www.tensilica.com/uploads/pdf/X9.pdf) y el [Brief de Diamond Standard 106Micro Controller](https://web.archive.org/web/20111114025833/http://www.tensilica.com/uploads/pdf/106Micro.pdf).
+El ESP8266 es un core [Diamond Standard 106Micro](https://web.archive.org/web/20111114025833/http://www.tensilica.com/uploads/pdf/106Micro.pdf) Xtensa 9 con:
 
-El ESP8266 es un core Diamond Standard 106Micro Xtensa 9 con::
-
-- 64kb de RAM de instrucciones *iRAM*
-- 96kb de RAM para datos *dRAM*
+- 64kb de RAM de instrucciones (*iRAM*)
+- 96kb de RAM de datos (*dRAM*)
 - Puerto QSPI para memoria flash externa capaz de direccionar hasta 16 Mb
 - Periféricos:
-  - Hasta 16 pines GPIO (funciones compartidas con otros periféricos)
+  - 16 pines GPIO (funciones compartidas con otros periféricos)
   - SPI
-  - I2C (sólo intercomunicación en bus interno, por ejemplo para el PLL)
+  - I2C (sólo para intercomunicación en el bus interno, por ejemplo el PLL). No usable.
   - Interfaz I2S con DMA
   - 2 UART
   - 1 conversor ADC de 10-bit (hasta 1V máximo)
@@ -94,27 +88,27 @@ El ESP8266 es un core Diamond Standard 106Micro Xtensa 9 con::
 
 {% include image.html file="esp8266ex-blocks.png" caption="Diagrama de bloques del ESP8266EX. [Espressif](https://www.espressif.com/sites/default/files/documentation/0a-esp8266ex_datasheet_en.pdf)." %}
 
-El hecho de tener WiFi ofrece unas posibilidades muy interesantes. No sólo puede actuar como **Access Point** wifi o como **estación** (cliente). Además puede recibir y enviar paquetes **802.11 en crudo** (sin procesar). De ahí que se pueda usar en ataques WiFi dado que los paquetes de *deautenticación* no van cifrados. El siguiente proyecto usa llamadas al API 802.11 para construir balizas WiFi falsas con nombres aleatorios: [Jeija esp_wifi_80211_tx sample code](https://github.com/Jeija/esp32-80211-tx).
+El hecho de tener WiFi ofrece unas posibilidades muy interesantes. No sólo puede actuar como Access Point o como estación (cliente). Sino que recibe y envía paquetes **802.11 en crudo** (sin procesar). De ahí su uso en **ataques** contra infraestructura WiFi dado que los paquetes de *deautenticación* no van cifrados y se pueden falsificar. El siguiente proyecto usa llamadas al API 802.11 para construir balizas WiFi falsas con nombres aleatorios: [Jeija esp_wifi_80211_tx sample code](https://github.com/Jeija/esp32-80211-tx).
 
 {% include image.html class="small-width" file="rick-roll-beacon.jpg" caption="Access Points falsos simulados por el ESP8266. EyC." %}
 
 ## El módulo ESP-01S
 
-Es más fácil encontrar el ESP8266 formando parte de algún módulo que suelto. Tiene sentido porque **carece de memoria Flash**, por tanto siempre debe ir acompañado de una memoria flash externa y un cuarzo. Además de la red de adaptación de impedancias para conectar la antena WiFi.
+Es más sencillo encontrar el ESP8266 formando parte de algún módulo que por separado. Es lógico porque **carece de memoria Flash**, por tanto siempre debe ir acompañado de una memoria externa y un cuarzo. Además de una red de adaptación de impedancias y la antena o conector.
 
-El módulo ESP-01S contiene tan sólo los componentes necesarios para hacer funcionar el chip de Espressif. Aquí podéis ver una fotografía ampliada. Destacan el integrado, la memoria flash (en este caso de 1Mb) y el cuarzo junto a varios componentes pasivos.
+El módulo ESP-01S contiene tan sólo los componentes anteriores. Necesarios para hacer funcionar el chip de Espressif. Aquí podéis ver una fotografía ampliada.
 
 {% include image.html file="esp01s-module-cropped.jpg" caption="Módulo ESP-01S, detalle de los componentes. EyC." %}
 
-He obtenido manualmente el esquema de uno de mis módulos. Si necesitáis ampliarlo, os lo dejo en formato vectorial en este archivo: [ESP01S.svg]({{page.assets | relative_url}}/ESP01S.svg). Algunos valores difieren del esquema oficial proporcionado en el [datasheet]({{page.assets | relative_url}}/ESP8266_01S_Modul_Datenblatt.pdf).
+He obtenido manualmente el esquema de uno de mis módulos. Algunos valores difieren del esquema oficial proporcionado en el [datasheet]({{page.assets | relative_url}}/ESP8266_01S_Modul_Datenblatt.pdf). Si necesitas ampliarlo, te lo dejo en formato vectorial en este archivo: [ESP01S.svg]({{page.assets | relative_url}}/ESP01S.svg).
 
 {% include image.html file="esp01s-retocado.jpg" caption="Esquema del módulo ESP-01S. EyC." %}
 
-Los condensadores **C1**, **C2** y **C3** sirven para estabilizar la tensión de alimentación en los picos de consumo y cortocircuitar las altas frecuencias, evitando que se propague por la alimentación a otras partes del circuito.
+Los condensadores **C1**, **C2** y **C3** sirven para estabilizar la tensión de alimentación en los picos de consumo y cortocircuitar las altas frecuencias, evitando que se propaguen por la alimentación a otras partes del circuito.
 
-**R3** mantiene a positivo la patilla de reset. Cuando presionamos el botón de **reset** cortocircuitamos a masa esta patilla, **C4** se descarga rápidamente y la tensión en el pin 32 del integrado cae a 0. Al liberar el pulsador, **C4** se carga de nuevo a través de **R3**. Mientras dure la carga, el procesador estará en reset. Cumpliendo con el tiempo mínimo que requiere el chip para detectar un reinicio.
+**R3** mantiene a positivo la patilla de *reset*. Cuando presionamos el pulsador de **reset** cortocircuitamos a masa esta patilla, **C4** se descarga rápidamente y la tensión en el pin 32 del integrado cae a 0. Al liberar el pulsador, **C4** se carga de nuevo a través de **R3**. Esto se hace para evitar rebotes (*de-bouncing*). Mientras dure la carga, el procesador continuará en estado *reset*. 
 
-**R2**, **R3**, **R4** y **R6** configuran el modo de operación del dispositivo. De esto hablaremos más adelante. Por último, la bobina **L1** junto a **C7** y **C8** llevan la señal de RF hacia la antena. La **antena** está impresa directamente en la placa y conectada a masa por uno de sus brazos. Este diseño se llama "F invertida", concretamente *meandered inverted-F PCB antenna*.
+**R2**, **R3**, **R4** y **R6** configuran el modo de operación del dispositivo. Lo veremos en el apartado siguiente. Por último, la bobina **L1** junto a **C7** y **C8** llevan la señal de RF hacia la antena. Se trata de una **antena** impresa directamente en la placa y conectada a masa por uno de sus brazos. Es una variante del diseño en "F invertida" y se llama *meandered inverted-F PCB antenna*.
 
 ## El bootloader
 
@@ -292,37 +286,35 @@ Así ha quedado una vez soldados los componentes:
 
 Describir todo el programa línea a línea sería largo y aburrido. Como el código está en GitHub, te voy a contar los puntos principales y si quieres preguntarme algo déjame un comentario.
 
-El proyecto se puede dividir en varias partes independientes.
+El proyecto completo está en [electronicayciencia/esp8266-learning](https://github.com/electronicayciencia/esp8266-learning). Vamos a dividirlo en partes y comentar lo más relevante.
 
-Leer de un **API online** los tiempos de espera de una línea de autobuses en determinada parada. He usado el [portal Opendata de Mobilitylabs](https://mobilitylabs.emtmadrid.es/es/portal/opendata) de EMT Madrid. El mismo que muchas aplicaciones similares para móvil. Para lograrlo tuve que aprender a:
+Leer de un **API online**. Los tiempos de espera están disponibles públicamente en el [portal Opendata de Mobilitylabs](https://mobilitylabs.emtmadrid.es/es/portal/opendata) de EMT Madrid. El mismo que usan las aplicaciones similares para móvil. Para lograrlo tuve que:
 
-- Obtener un ClientId y password del API. Eso fue fácil ya que es un proceso online aunque requiere aprobación manual.
+- Obtener un ClientId y password del API. Esto fue fácil ya que es un proceso online aunque requiere aprobación manual.
 - Conectar a la **wifi** al menos usando usuario y contraseña. Hay un ejemplo en el SDK.
 - Conectar con una web **HTTPS**. Hay un ejemplo en el SDK.
-- Usando autorización básica. De esto no hay ejemplo, pero se trata de añadir una cabecera.
-- Recibir la respuesta en **JSON** e interpretarla usando cJSON. De esto no hay ejemplo, pero la librería cJSON está bien documentada (pero hay que saber C, si no te vas a hacer un lío con los punteros y depurarlo no es fácil).
+- Usar autorización básica. De esto no hay ejemplo, pero se trata de añadir una cabecera.
+- Recibir la respuesta en **JSON** e interpretarla usando cJSON. De esto no hay ejemplo. La librería cJSON está bien documentada pero tienes que manejarte bien en *C* o te liarás con los punteros.
 
-Una vez tengo los datos, hay que **visualizarlos** en una pantalla LCD de 4x20 caracteres conectada por I2C. Para lo cual:
+Ahora hay que **visualizar** los datos en una pantalla LCD de 4x20 caracteres. Para lo cual:
 
-- El ESP8266 no tiene **puerto I2C**, lo imita por software. Hay ejemplos. La librería I2C es peculiar porque funciona con colas de comandos. Hay ejemplos y está documentado en la web.
-- La LCD no se controla directamente sino a través de un **expansor PCF8574**. Reutilizaré mi [librería I2C LCD para Raspberry Pi](https://www.electronicayciencia.com/wPi_soft_lcd/) adaptándola para este chip.
-- No sólo quiero mostrar el tiempo de llegada, sino también cuánto hace que se refrescó la pantalla. Debo **contar el tiempo transcurrido**, no hay documentación pero resultó sencillo con `time`.
-- Hay varias formas de actualizar unas partes de la LCD sin sobrescribir otras. Yo reservaré un **buffer** a modo de memoria de vídeo.
+- El display está conectado por I2C. Si bien el ESP8266 no tiene puerto I2C, lo imita por software. La **librería I2C** es peculiar porque funciona con colas de comandos. Pero hay ejemplos y todo está documentado en la web.
+- La LCD se controla a través de un **expansor PCF8574**. Adaptaré mi [librería I2C LCD para Raspberry Pi](https://www.electronicayciencia.com/wPi_soft_lcd/).
+- Además del tiempo de espera, quiero mostrar un contador con los segundos desde la última actualización. Debo contar el **tiempo transcurrido**, no hay documentación pero resultó sencillo con `time`.
+- Hay varias formas de actualizar unas partes de la LCD sin sobrescribir otras. Yo he usado un **buffer** a modo de memoria de vídeo.
 
-Para mantener la información actualizada **periódicamente** necesito lanzar varias **tareas en paralelo** en RTOS. He usado tres:
+La ejecución del programa consta de tres **tareas paralelas**:
 
-- Una tarea se conectará al API y leerá los datos cada pocos segundos. Actualiza la información en el buffer de video.
-- Otra tarea cuenta los segundos transcurridos desde la última actualización. Actualiza su parte de la memoria de video.
-- Una tercera tarea actualiza la LCD con los datos del buffer en ese momento.
+- Una se **conectará al API** y leerá los datos cada pocos segundos. Actualiza la información en el buffer de video.
+- Otra **cuenta los segundos** transcurridos desde la última actualización. Actualiza su parte de la memoria de video.
+- Una tercera tarea **actualiza la LCD** con los datos del buffer en ese momento. Sólo esta interactúa con el puerto I2C.
 
 También quería hacer sonar un **aviso acústico** si el tiempo de espera es inferior a 5 minutos.
 
-- Usare **PWM** a 1000Hz por ejemplo. El ESP8266 no tiene PWM pero lo imita por software. Funciona regular, pero puedes usarlo con una frecuencia baja siempre que no tengas el ADC activo, ni el sniffer WiFi.
-- La alarma se lanzará en una **tarea en segundo plano** para que no se bloquee la LCD y el resto del sistema mientras suena la alarma.
+- He generado un tono de 1000Hz usando **PWM**. El ESP8266 no tiene PWM pero lo imita por software. Funciona regular; puedes usarlo con una frecuencia baja siempre que no tengas el ADC activo, ni el sniffer WiFi.
+- La alarma se lanzará en una **tarea en segundo plano** para no bloquear el resto del programa mientras suena.
 
-El proyecto completo está en [electronicayciencia/esp8266-learning](https://github.com/electronicayciencia/esp8266-learning).
-
-Finalmente, tenemos nuestro avisador:
+Para terminar, aquí tenemos nuestro avisador:
 
 {% include image.html file="usb-board-display.jpg" caption="" %}
 
@@ -362,6 +354,7 @@ Repositorios GitHub
 
 Varios
 
+- [Linux Xtensa](http://www.linux-xtensa.org/).
 - [What is An RTOS?](https://www.freertos.org/about-RTOS.html)
 - [portal Opendata de Mobilitylabs EMT Madrid](https://mobilitylabs.emtmadrid.es/es/portal/opendata)
 - [datasheet del módulo ESP-01S]({{page.assets | relative_url}}/ESP8266_01S_Modul_Datenblatt.pdf)
