@@ -10,64 +10,68 @@ tags:
   - ESP8266
 ---
 
-Hoy vamos a hablar del **ESP8266**. Un microcontrolador pensado para *IoT*. Repasaremos sus comienzos. Os contaré en qué consiste la arquitectura Xtensa. Montaremos el **entorno ESP-IDF**. Exploraremos el SDK de Espressif haciendo un visor de tiempo de espera para el autobús, con alarma. Aunque serviría para cualquier variable en tiempo real, desde el precio de un activo a la información meteorológica.
+Hoy vamos a hablar del **ESP8266**. Un microcontrolador pensado para *IoT*. Repasaremos sus comienzos. Os contaré en qué consiste la arquitectura Xtensa. Montaremos el **entorno ESP-IDF** y exploraremos el SDK haciendo un visor de tiempo de espera para el autobús. Aunque serviría para cualquier variable en tiempo real, desde el precio de un activo a la información meteorológica.
 
 {% include image.html file="board-display-cropped.jpg" caption="Avisador de autobuses construido con el módulo ESP-01S. EyC." %}
 
 ## Introducción
 
-En 2013, una empresa china llamada Espressif lanzó el microcontrolador ESP8266. Un chip limitado en memoria y periféricos pero barato, con conexión WiFi y fácil de usar.
+Espressif lanzó el ESP8266 en 2013. Un microcontrolador limitado en memoria y periféricos pero rápido, barato, con conexión WiFi y fácil de usar.
 
-Poco tiempo después, otra compañía también china dedicada a *Internet of Things* llamada AI-Thinker sacó al mercado un módulo con ESP8266 y los componentes necesarios. Principalmente memoria externa, cuarzo y antena. Lo llamó ESP-01. Incorporó una aplicación con comandos Hayes y lo vendió como **módem WiFi AT para Arduino**. El propósito era conectar con una red inalámbrica de igual modo que usamos módems AT GSM para enviar y recibir SMS desde un micro.
+Poco tiempo después, otra compañía también china dedicada a *Internet of Things* llamada AI-Thinker sacó al mercado un módulo con el ESP8266 más los componentes necesarios para hacerlo funcionar; principalmente memoria externa, cuarzo y antena. Lo llamó ESP-01. Incorporó una aplicación con comandos Hayes y lo vendió como **módem WiFi AT para Arduino**. La idea era conectar con una red inalámbrica con un módem, igual que usamos módems GSM para enviar y recibir SMS desde un micro.
 
 {% include image.html file="esp-01-3d.jpg" caption="Módulo ESP-01S. [Aliexpress](http://aliexpress.com)." %}
 
 El ESP8266 no era atractivo para los fabricantes occidentales. Los diseñadores ya tenían sus propias soluciones de conectividad WiFi. Toda la documentación estaba en chino. Las primeras versiones del SDK parecían inestables y las herramientas de desarrollo tenían fallos. Tampoco contaba con el certificado de compatibilidad electromagnética ([FCC mark](https://en.wikipedia.org/wiki/FCC_mark)) y cualquier producto comercial basado en ellos debía someterse a un proceso de homologación para venderse en EEUU o Europa. 
 
-Pero a diferencia de otros microcontroladores, el ESP8266 carece de memoria Flash interna. En su lugar tiene un **bootloader**. Hablaremos de él más adelante. Lo que en principio parecía una desventaja hacía al módulo ESP-01 fácilmente **reprogramable**. Pronto se corrió la voz de que se podía sustituir el firmware AT de fábrica por cualquier otro usando nada más que un puerto serie.
+Sin embargo, a diferencia de otros microcontroladores, carece de memoria Flash interna. No se puede grabar en su interior ningún programa. Cualquier código debe estar almacenado en una memoria flash accesoria. Por otra parte, Espressif había dotado al ESP8266 de un *bootloader* previsto para modificar la memoria a través de un puerto serie. Lo que en principio era una carencia, lo convertía en un chip muy versátil. Pronto se corrió la voz de que el módulo ESP-01 era **reprogramable**.
 
-¿Un microcontrolador minúsculo, rápido, con conectividad WiFi, que no requiere un programador especial y por poco más de 1 dólar? Tenía un enorme potencial en el mercado de aficionados (*makers*). Sólo había que ponérselo fácil. AI-Thinker había sacado otros modelos de su ESP-01 con más patillas disponibles. **NodeMCU** liberó en 2014 un firmware para programar el ESP8266 en lenguaje Lua. Las tiendas chinas se llenaron de placas de desarrollo con los módulos de AI-Thinker, un regulador de tensión y un conversor USB-Serie como el CP2102. Poco después, NodeMCU comenzó a vender también sus propias placas con el módulo ESP-12 y su firmware Lua preinstalado.
+¿Un microcontrolador minúsculo, rápido, con conectividad WiFi, que no requiere un programador especial y por poco más de 1 dólar? Tal vez los profesionales eran reticentes, pero tenía un enorme potencial en el mercado de aficionados (*makers*). Sólo había que ponérselo fácil. AI-Thinker había sacado otros modelos de su ESP-01 con más patillas disponibles. **NodeMCU** liberó en 2014 un firmware para programar el ESP8266 en lenguaje **Lua** y diseñó una placa de desarrollo. Las tiendas chinas se llenaron de clones de NodeMCU y otros modelos de placas basadas en los módulos de AI-Thinker más un regulador de tensión y un conversor USB-Serie. NodeMCU comenzó a vender también sus propias placas con el módulo ESP-12 y su firmware Lua preinstalado.
 
 {% include image.html file="mcu-devboard.jpg" caption="Placa de desarrollo ESP8266 basada en un módulo de AI-Thinker. [Amazon](http://www.amazon.es)." %}
 
-Una importante comunidad creció alrededor del ESP8266. Tradujeron al inglés parte de la documentación. Programaron una versión de micropython. Se actualizó el IDE de **Arduino** para soportar las placas existentes. Espressif, al ver que su mercado principal eran los fabricantes de módulos, lanzó los suyos propios ya con certificación FCC. Puso en marcha foros de colaboración, liberó algunas especificaciones y ha ido abriendo progresivamente el código de sus SDK (kit de desarrollo).
+Una importante comunidad creció alrededor del ESP8266. Tradujeron al inglés parte de la documentación. Programaron una versión de micropython. Se actualizó la librería y el IDE de **Arduino** para soportar el chip y las placas existentes. Espressif lanzó sus propios módulos. Puso en marcha foros de colaboración, liberó algunas especificaciones y ha ido abriendo progresivamente el código de sus SDK (kits de desarrollo).
 
-El ESP8266 fue revolucionario cuando salió y se puso de moda rápidamente. Cinco años después, los chips de Espressif, especialmente el ESP32 y recientemente el ESP32-S3, son sinónimos de IoT y *AIoT*. Aún no se ven muchos en el mercado electrodoméstico de consumo. En cualquier caso, ponérselo fácil a los aficionados de hoy es asegurarse ventas mañana. Porque los futuros ingenieros acabarán incorporando en sus diseños aquello que conocen.
+El ESP8266 fue revolucionario cuando salió y se puso de moda rápidamente. Cinco años después, los chips de Espressif, especialmente el ESP32 y recientemente el ESP32-S3, son sinónimos de IoT y *AIoT*. Aún no se ven abiertamente en el mercado electrodoméstico de consumo. En cualquier caso, ponérselo fácil a los aficionados de hoy es asegurarse ventas mañana. Porque los futuros ingenieros acabarán incorporando en sus diseños aquello que conocen.
 
 ## El núcleo Xtensa
 
-Según el datasheet, la CPU del ESP8266 es un core Xtensa 106 micro. Xtensa es un modelo de **núcleo RISC** producto de la empresa Tensilica (ahora Cadence Design Systems). Xtensa no es un microcontrolador, es un núcleo suelto que te venden para que lo incorpores en tu integrado si lo necesitas.
+Según el datasheet, la **CPU** del ESP8266 es un core *Xtensa Diamond Standard 106 micro*. Xtensa es un modelo de **núcleo RISC** producto de la empresa Tensilica (ahora Cadence Design Systems). Xtensa no es un microcontrolador, es un núcleo suelto que te venden para que lo incorpores en tu integrado si lo necesitas.
 
-Supón que tienes una empresa de componentes y has hecho un **hardware específico** con su correspondiente controlador. Sería muy práctico hacerlo programable para poder actualizar el firmware en el futuro. Podrías usar un microcontrolador ya existente, pero el rendimiento no sería óptimo. Seguro que le faltarán o le sobrarán cosas. Por no decir que ahora tienes dos chips en vez de uno. ¿Contratas a Microchip o Texas Instruments y les pides un micro a medida para ti?
+Supón que tienes una empresa de componentes y has hecho un **hardware específico** con su correspondiente controlador. Sería muy práctico hacerlo programable para poder actualizar el firmware en el futuro. Podrías usar un microcontrolador ya existente, pero el rendimiento no sería óptimo. Seguro que le faltarán o le sobrarán cosas. Por no decir que ahora tienes dos chips en vez de uno. ¿Contratas a Microchip o Texas Instruments y les pides un micro a medida para ti? No suena viable.
 
-Otra opción es **desarrollarlo** tú en una FPGA por ejemplo. Ponerte a pensar un juego de instrucciones específicas y otras de propósito general. Luego deberás implementar los componentes de la CPU: el ciclo de instrucción (*fetch decode execute*), los registros, la ALU, las interrupciones, modos de trabajo, etc. Hacerte tu propio compilador y tus herramientas de desarrollo para tus instrucciones. Ahora optimízalo para que tenga un **área de silicio** mínima, bajo **consumo** y un precio asequible. Suma el coste de la formación, años de esfuerzo y depuración de errores, etc. Suena muy caro.
+Otra opción es **desarrollarlo** tú en una FPGA por ejemplo. Ponerte a pensar un juego de instrucciones de propósito general junto a tus **instrucciones específicas**. Luego deberás implementar los componentes de la CPU: el ciclo de instrucción (*fetch decode execute*), los registros, la ALU, las interrupciones, etc. Hacerte tu propio compilador y tus herramientas de desarrollo para tus instrucciones. Ahora optimízalo para minimizar el **área de silicio**, el **consumo** y el precio. Suena muy caro también.
 
-O podrías **comprar** esa parte ya hecha y probada. Únicamente lo que es una CPU para incorporarla a tu chip. Con un juego de instrucciones básicas más otras definidas por ti. Los registros que tú quieras, los buses que tú quieras, hardware opcional. Eso es justo lo que Tensilica comercializa: [Tensilica Customizable Processors](https://ip.cadence.com/ipportfolio/tensilica-ip/xtensa-customizable).
+O podrías dedicarte a tu hardware y **comprar** la CPU hecha y probada. Lista para incorporarla a tu chip. Con un juego de instrucciones básicas más otras definidas por ti. Los registros que tú quieras, los buses que tú quieras y todo tipo de hardware opcional. Eso es justo lo que comercializa Tensilica: [Tensilica Customizable Processors](https://ip.cadence.com/ipportfolio/tensilica-ip/xtensa-customizable).
+
+> By selecting and configuring pre-defined elements of the architecture and by inventing completely new instructions and hardware execution units, your Xtensa processor can deliver performance levels that are orders of magnitude more efficient than other 32-bit processors. And you can do this in a fraction of the time it takes to develop and verify an RTL-based solution.
+
+El ESP8266 sería un [Diamond Standard 106Micro](https://ip.cadence.com/news/243/330/Tensilica-Unveils-Diamond-Standard-106Micro-Processor-Smallest-Licensable-32-bit-Core), la configuración más baja y de menor consumo de la arquitectura Xtensa 9.
 
 > The Xtensa 9 processor, in its smallest configuration, is just 0.024 mm2 with 12 uW/MHz average dynamic power post place & route in 40 LP process technology at 60 MHz.
 
-Por supuesto se venden opciones preconfiguradas. El ESP8266 sería un [Diamond Standard 106Micro](https://ip.cadence.com/news/243/330/Tensilica-Unveils-Diamond-Standard-106Micro-Processor-Smallest-Licensable-32-bit-Core), la configuración más baja de la arquitectura Xtensa 9. El ESP32, su sucesor, utiliza la arquitectura LX6 y los ESP32-S2 y S3 usan LX7.
+Este diagrama no es del ESP8266, corresponde a la arquitectura LX6 utilizada por el ESP-32. Si bien, para lo que nos interesa ahora, las diferencias no son relevantes:
 
 {% include image.html file="lx6-processor-arch-diagram.png" caption="Arquitectura Tensilica Xtensa LX6 usada por el ESP32. [Cadence](https://www.cadence.com/)." %}
 
 En **azul oscuro** tenemos los componentes básicos, los más importantes son:
 
 - el ciclo de instrucción para 32 bits.
-- un juego de instrucciones básico (*ISA: Instruction Set Architecture*). Consta de 80 instrucciones comunes a todos los núcleos de Xtensa. Dicho de otra manera, te servirán las herramientas de desarrollo compatibles y no tendrás que hacerte un compilador especial.
+- un juego de instrucciones básico (*ISA: Instruction Set Architecture*). Consta de 80 instrucciones comunes a todos los núcleos de Xtensa. Dicho de otra manera, te valen las herramientas de desarrollo compatibles con Xtensa y no tendrás que hacerte un compilador especial.
 - una unidad aritmético-lógica sencilla de 32 bits.
 - soporte de excepciones y control del procesador.
 
 Luego tienes otros componentes configurables. Por ejemplo:
 
-- ¿MAC de 16 bits? (*multiply accumulator*, si no te suena la instrucción MAC, echa un vistazo a la entrada titulada [Tu primer proyecto con DSP]({{site.baseurl}}{% post_url 2020-06-21-tu-primer-proyecto-con-dsp %}))
+- ¿MAC de 16 bits? (MAC viene de *multiply accumulator*, si no te suena la instrucción MAC, echa un vistazo a la entrada titulada [Tu primer proyecto con DSP]({{site.baseurl}}{% post_url 2020-06-21-tu-primer-proyecto-con-dsp %}))
 - ¿Unidad de punto flotante? ¿de precisión simple o doble? Para recordar cosas sobre la FPU lee [La presión atmosférica - BPM280]({{site.baseurl}}{% post_url 2018-10-07-la-presion-atmosferica-bmp280 %}).
 - Temporizadores ¿cuantos?
-- Periféricos, ¿lo quieres con I2C, SPI, I2S? ¿cuántos de cada? ¿Puerto JTAG para depuración?
-- ¿Y bancos de RAM, interrupciones, pipeline, ...?
+- Periféricos, ¿lo quieres con I2C, SPI, I2S? ¿cuántos de cada? ¿Y puerto JTAG para depuración?
+- ¿Cuántos bancos de RAM, tipos de interrupciones, pipeline, etc.?
 
 {% include image.html file="lx6-processor-options.png" caption="Opciones de configuración para la arquitectura Xtensa LX6." %}
 
-También puedes comprar y añadirle cores de DSP. O una Unidad de Gestión de Memoria si quieres ejecutar un Sistema Operativo sofisticado. Su función es traducir direcciones de memoria virtuales a físicas y facilitar protección de memoria, paginación etc. Tienen una compatible con Linux, pero hasta donde yo sé ni el ESP8266 ni el ESP32 la incluyen. Por este motivo no podemos **ejecutar Linux** en estos procesadores pero sí en otros chips de Xtensa: [Linux Xtensa](http://www.linux-xtensa.org/).
+Puedes comprar y añadirle cores de DSP, salidas de audio o video, incluso una **Unidad de Gestión de Memoria** (MMU) en caso de ejecutar un Sistema Operativo sofisticado. Su función es traducir direcciones de memoria virtuales a físicas y facilitar protección de memoria, paginación etc. Tienen una compatible con Linux, ni el ESP8266 ni el ESP32 la integran. Por esa razón aún habiendo [versión de Linux para Xtensa](http://www.linux-xtensa.org/) no podemos ejecutar **Linux** en estos procesadores.
 
 El ESP8266 es un core [Diamond Standard 106Micro](https://web.archive.org/web/20111114025833/http://www.tensilica.com/uploads/pdf/106Micro.pdf) Xtensa 9 con:
 
@@ -88,39 +92,41 @@ El ESP8266 es un core [Diamond Standard 106Micro](https://web.archive.org/web/20
 
 {% include image.html file="esp8266ex-blocks.png" caption="Diagrama de bloques del ESP8266EX. [Espressif](https://www.espressif.com/sites/default/files/documentation/0a-esp8266ex_datasheet_en.pdf)." %}
 
-El hecho de tener WiFi ofrece unas posibilidades muy interesantes. No sólo puede actuar como Access Point o como estación (cliente). Sino que recibe y envía paquetes **802.11 en crudo** (sin procesar). De ahí su uso en **ataques** contra infraestructura WiFi dado que los paquetes de *deautenticación* no van cifrados y se pueden falsificar. El siguiente proyecto usa llamadas al API 802.11 para construir balizas WiFi falsas con nombres aleatorios: [Jeija esp_wifi_80211_tx sample code](https://github.com/Jeija/esp32-80211-tx).
+La conectividad WiFi ofrece unas posibilidades muy interesantes. No sólo puede actuar como Access Point o como estación (cliente). Sino que recibe y envía **paquetes 802.11 en crudo** (sin procesar). De ahí su uso en **ataques** contra infraestructura WiFi. Los paquetes de *deautenticación*, por ejemplo, no van cifrados y se pueden falsificar. Puedes dejar a los clientes sin servicio simulando peticiones de desconexión del Access Point a todas las estaciones conectadas. 
+
+Como muestra, el siguiente proyecto usa llamadas al API 802.11 para emitir **falsas balizas WiFi** con nombres aleatorios: [Jeija esp_wifi_80211_tx sample code](https://github.com/Jeija/esp32-80211-tx).
 
 {% include image.html class="small-width" file="rick-roll-beacon.jpg" caption="Access Points falsos simulados por el ESP8266. EyC." %}
 
 ## El módulo ESP-01S
 
-Es más sencillo encontrar el ESP8266 formando parte de algún módulo que por separado. Es lógico porque **carece de memoria Flash**, por tanto siempre debe ir acompañado de una memoria externa y un cuarzo. Además de una red de adaptación de impedancias y la antena o conector.
+Es más sencillo encontrar el ESP8266 formando parte de algún módulo que por separado. Tiene lógica pues **carece de memoria Flash**, por tanto siempre debe ir acompañado de una memoria externa y un cuarzo. Además de la antena o conector WiFi y la red de adaptación de impedancias.
 
-El módulo ESP-01S contiene tan sólo los componentes anteriores. Necesarios para hacer funcionar el chip de Espressif. Aquí podéis ver una fotografía ampliada.
+El módulo ESP-01S contiene tan sólo dichos componentes. Aquí podéis ver una fotografía ampliada. El cuadrado de la izquierda es el ESP8266EX, a su derecha está la memoria y sobre ambos en el centro está el cuarzo a 26MHz. El resto son condensadores y resistencias principalmente.
 
 {% include image.html file="esp01s-module-cropped.jpg" caption="Módulo ESP-01S, detalle de los componentes. EyC." %}
 
-He obtenido manualmente el esquema de uno de mis módulos. Algunos valores difieren del esquema oficial proporcionado en el [datasheet]({{page.assets | relative_url}}/ESP8266_01S_Modul_Datenblatt.pdf). Si necesitas ampliarlo, te lo dejo en formato vectorial en este archivo: [ESP01S.svg]({{page.assets | relative_url}}/ESP01S.svg).
+En mi módulo algunos valores son diferentes del esquema oficial ([datasheet del ESP-01S]({{page.assets | relative_url}}/ESP8266_01S_Modul_Datenblatt.pdf)).
 
 {% include image.html file="esp01s-retocado.jpg" caption="Esquema del módulo ESP-01S. EyC." %}
 
-Los condensadores **C1**, **C2** y **C3** sirven para estabilizar la tensión de alimentación en los picos de consumo y cortocircuitar las altas frecuencias, evitando que se propaguen por la alimentación a otras partes del circuito.
+Los condensadores **C1**, **C2** y **C3** sirven para estabilizar la tensión durante los picos de consumo elevado, también cortocircuitan a masa las altas frecuencias, evitando que se propaguen por la alimentación hacía otras partes del circuito. 
 
-**R3** mantiene a positivo la patilla de *reset*. Cuando presionamos el pulsador de **reset** cortocircuitamos a masa esta patilla, **C4** se descarga rápidamente y la tensión en el pin 32 del integrado cae a 0. Al liberar el pulsador, **C4** se carga de nuevo a través de **R3**. Esto se hace para evitar rebotes (*de-bouncing*). Mientras dure la carga, el procesador continuará en estado *reset*. 
+**R3** mantiene a positivo la patilla de *reset*. Mientras **C4** constituye un mecanismo anti-rebotes (*de-bouncing*). **R2**, **R3**, **R4** y **R6** configuran el modo de operación del dispositivo. Lo veremos en el apartado siguiente. 
 
-**R2**, **R3**, **R4** y **R6** configuran el modo de operación del dispositivo. Lo veremos en el apartado siguiente. Por último, la bobina **L1** junto a **C7** y **C8** llevan la señal de RF hacia la antena. Se trata de una **antena** impresa directamente en la placa y conectada a masa por uno de sus brazos. Es una variante del diseño en "F invertida" y se llama *meandered inverted-F PCB antenna*.
+Por último, la bobina **L1** junto a **C7** y **C8** llevan la señal de RF hacia la antena. Se trata de una **antena** impresa directamente en la placa y conectada a masa por uno de sus brazos. Es una variante del diseño en "F invertida" y se llama *meandered inverted-F PCB antenna*.
 
 ## El bootloader
 
-Nada más activar un microcontrolador, este comienza a ejecutar el programa que lleva grabado. Para cambiar dicho programa necesitamos un programador adecuado. Por ejemplo un programador PICkit para microcontroladores PIC.
+Nada más activar un microcontrolador, este comienza a ejecutar el programa que lleva grabado. Para cambiar dicho programa necesitamos un programador especial. Por ejemplo un programador PICkit si se trata de microcontroladores PIC.
 
-Una alternativa más **flexible** es usar un cargador de arranque, conocido en inglés como ***bootloader***. Consiste en sustituir el programa principal por un programa secundario que se ejecuta antes. Cuando alimentemos el micro, se ejecutará dicho bootloader y será él quien cargue el programa principal y le pase el control. Así el programa puede estar en la memoria flash del micro o bien en una flash externa.
+Una opción más **flexible** es usar un cargador de arranque, conocido en inglés como ***bootloader***. Consiste en sustituir el programa principal por un programa secundario que se ejecuta primero. Cuando alimentemos el micro, ejecutará este bootloader y será él quien arranque  el programa principal; que puede estar en la flash del micro o en una memoria externa.
 
-No sólo eso, en el bootloader podemos dejar programadas **otras utilidades** aparte de la carga del programa principal; por ejemplo escribir en la memoria flash. Ahora para modificar el programa principal ya no habría necesidad de usar ningún programador, solamente enviar los comandos adecuados al bootloader.
+No sólo eso, en el bootloader podemos dejar programadas otras utilidades; sin ir más lejos, **leer y escribir en la memoria flash**. Ahora ya no necesitamos ningún programador especial para alterar su contenido, basta enviar los comandos adecuados al bootloader.
 
-El ESP8266 lleva este método al extremo. El micro no posee memoria flash, su cargador está en una memoria de solo lectura (ROM) y no es modificable -o no sabemos cómo-. De hecho, podríamos decir que el ESP8266 no es programable: es un core Xtensa con radio, memoria RAM y un bootloader.
+El ESP8266 lleva este método al extremo. El micro no posee memoria flash, su cargador está en una memoria de solo lectura (ROM) y no es modificable -o no sabemos cómo-. Eso es bueno, porque tampoco podemos *romperlo* por accidente. De hecho, podríamos decir que el ESP8266 no es programable: es un core Xtensa con radio, memoria RAM **y un bootloader**.
 
-¿Cómo sabe el cargador si debe ejecutar el programa principal o ponerse a escuchar comandos? Por los **niveles lógicos** en las patillas 13, 14 y 15 (MTDO o GP15, GP2 y GP0). Hay tres patillas, ocho combinaciones, ocho modos de arranque distintos ([ESP8266EX - Frequently Asked Questions](https://www.espressif.com/sites/default/files/documentation/Espressif_FAQ_EN.pdf)).
+¿Cómo sabe el cargador si debe ejecutar el programa principal o ponerse a escuchar comandos? Por los **niveles lógicos** de las patillas 13, 14 y 15 (MTDO o GP15, GP2 y GP0). Hay tres patillas, ocho combinaciones, ocho modos de arranque distintos ([ESP8266EX - Frequently Asked Questions](https://www.espressif.com/sites/default/files/documentation/Espressif_FAQ_EN.pdf)).
 
 3-Bit Value [GPIO15, GPIO0, GPIO2] | Boot Mode
 -----------------------------------|----------------------
@@ -133,17 +139,22 @@ El ESP8266 lleva este método al extremo. El micro no posee memoria flash, su ca
 **1 / [0，0，1]**                    | **UART Boot**
 0 / [0，0，0]                        | Remapping
 
-Sólo nos interesan los modos 1 y 3, *Flash Boot*, arranque del programa contenido en la memoria flash y *UART Boot*, escuchar comandos serie. Volviendo al esquema del módulo ESP-01S, arriba, la patilla GPIO15 o MTDO está permanentemente a 0 por resistencia **R6**. GPIO2 está puesta a 1 a través de **R2** y el **LED**. Y GPIO0 está a 1 por **R3**. Para entrar en modo programación usaremos un circuito como este:
+Sólo nos interesan los modos 1 y 3:
+
+- **Flash Boot**, arranque del programa contenido en la memoria flash y 
+- **UART Boot**, escuchar comandos serie. 
+
+Volviendo al esquema del módulo ESP-01S, arriba, la patilla GPIO15 o MTDO está permanentemente a 0 por resistencia **R6**. GPIO2 está puesta a 1 a través de **R2** y el **LED**. Y GPIO0 está a 1 vía **R3**. Para entrar en modo programación usaremos un circuito como este:
 
 {% include image.html class="medium-width" file="programar-esp01.png" caption="" %}
 
-Podríamos omitir **R1**, **R2** y **R3** y **C1** porque nuestro módulo ya incorpora estos componentes. Conectaremos **RX** y **TX** a un conversor USB-Serie. **R4** y **R5** son para limitar la corriente en caso de que alguna de estas patillas este configurada como salida en vez de como entrada.
+**R1**, **R2**, **R3** y **C1** se pueden omitir. Nuestro módulo ya incorpora tales componentes. Conectaremos **RX** y **TX** a un conversor USB-Serie. **R4** y **R5** limitan la corriente por si alguna de estas dos patillas estuviera configurada como salida en vez de como entrada, provocando un cortocircuito.
 
-Si al liberar el pulsador *reset* tenemos presionado *prog* entraremos en modo programación (*UART Boot*); de lo contrario arrancaremos en modo normal.
+Para entrar en modo programación sólo debemos pulsar brevemente *reset* mientras tenemos presionado *prog*; de lo contrario arrancaremos en modo normal.
 
-El bootloader de Espressif entiende comandos [SLIP](https://es.wikipedia.org/wiki/Serial_Line_Internet_Protocol) (*Serial Line Internet Protocol*). La interfaz está documentada en [espressif/esptool](https://github.com/espressif/esptool/wiki/Serial-Protocol). Para interactuar con él nos proporcionan la herramienta **esptool**.
+Para interactuar con el bootloader, Espressif nos proporciona la herramienta **esptool**. La interfaz está documentada en [espressif/esptool](https://github.com/espressif/esptool/wiki/Serial-Protocol). y se trata de comandos [SLIP](https://es.wikipedia.org/wiki/Serial_Line_Internet_Protocol) (*Serial Line Internet Protocol*). 
 
-Pero el programa principal tampoco se invoca directamente. En la memoria flash hay un segundo bootloader. Entre otras cosas permite actualizar el firmware remotamente (OTA).
+Aún así, pero el programa principal tampoco se ejecuta directamente. En la memoria flash hay un segundo bootloader que sirve, entre otras cosas, para actualizar el firmware remotamente (OTA).
 
 ## Entorno de desarrollo
 
@@ -161,7 +172,7 @@ El entorno nativo de desarrollo es Linux con Eclipse. Yo voy a usar Visual Studi
 
 Desde 2015 el SDK ha pasado por varias versiones y distintos estilos. Es importante tenerlo en cuenta a la hora de mirar en foros ejemplos de proyectos.
 
-[Versión **NONOS**](https://github.com/espressif/ESP8266_NONOS_SDK): Es un SDK simple, lineal. El primero en ser publicado y sobre él están desarrolladas las librerías de Arduino para el ESP8266. Se considera obsoleto desde diciembre de 2019 y recomiendan usar la versión RTOS. Así seria el código para hacer **parpadear un LED** en esta versión.
+[**Versión NONOS**](https://github.com/espressif/ESP8266_NONOS_SDK): Es un SDK simple, lineal. El primero en ser publicado y sobre él están desarrolladas las librerías de Arduino para el ESP8266. Se considera obsoleto desde diciembre de 2019 y recomiendan usar la versión RTOS. Así seria el código para hacer **parpadear un LED** en esta versión.
 
 ```c
 void blinky(void *arg)
@@ -185,7 +196,7 @@ void ICACHE_FLASH_ATTR user_init(void) {
 
 El código del usuario está en la función `user_init`. Se configura el pin como salida usando la macro `PIN_FUNC_SELECT` y con un temporizador  se llama periódicamente a la función de cambio de estado. El pin se activa y desactiva con la macro `GPIO_OUTPUT_SET`.
 
-[Versión **RTOS**](https://github.com/espressif/ESP8266_RTOS_SDK). Se trata de un SDK con el sistema operativo RTOS ([What is An RTOS?](https://www.freertos.org/about-RTOS.html)). Muy sencillo de usar y más con los ejemplos. Hay dos "estilos" de programación según la versión. Al primero llamémosle *pre ESP-IDF* (inferior a 3.0). Se programa de forma parecida a la NonOS. No se recomienda para nuevos desarrollos. El código para hacer parpadear un led sería así:
+[**Versión RTOS**](https://github.com/espressif/ESP8266_RTOS_SDK). Se trata de un SDK con el sistema operativo RTOS ([What is An RTOS?](https://www.freertos.org/about-RTOS.html)). Muy sencillo de usar y más con los ejemplos. Hay dos "estilos" de programación según la versión. Al primero llamémosle *pre ESP-IDF* (inferior a 3.0). Se programa de forma parecida a la NonOS. No se recomienda para nuevos desarrollos. El código para hacer parpadear un led sería así:
 
 ```c
 void user_init(void) {
@@ -202,7 +213,7 @@ void user_init(void) {
 
 El código del usuario está en la función `user_init`, y la configuración es igual que antes. Solo que esta vez, en lugar de utilizar un temporizador y una subrutina, hacemos un bucle con el retardo de RTOS `vTaskDelay`.
 
-Finalmente tenemos el estilo **ESP-IDF**. Versión 3.0 o superior. Han unificado el estilo de programación con el SDK del ESP32. IDF significa, según Espressif, *IoT Development Framework*. Es la **versión recomendada** y la única disponible para el ESP32. Así haríamos parpadear un LED, aunque el estilo anterior sigue funcionando aquí:
+Finalmente tenemos el **estilo ESP-IDF**. Versión 3.0 o superior. Han unificado el estilo de programación con el SDK del ESP32. IDF significa, según Espressif, *IoT Development Framework*. Es la **versión recomendada** y la única disponible para el ESP32. Así haríamos parpadear un LED, aunque el estilo anterior sigue funcionando:
 
 ```c
 void app_main()
@@ -221,7 +232,7 @@ void app_main()
 }
 ```
 
-Como en el caso anterior, seguimos usando RTOS. Pero el código del usuario ya no está en `user_init` sino en `app_main`. La configuración del puerto se hace con la función `gpio_config` y no con macros; al igual que el estado lógico con `gpio_set_level`.
+Seguimos usando RTOS, pero el código del usuario ya no está en `user_init` sino en `app_main`. La configuración del puerto se hace con la función `gpio_config` y no con macros, el estado lógico con `gpio_set_level`.
 
 Las instrucciones para descargar e instalar los componentes están en la web de Espressif: [Get Started - v3.3](https://docs.espressif.com/projects/esp8266-rtos-sdk/en/release-v3.3/get-started/index.html). Te lo describo brevemente. Lo primero es descargar los tres componentes:
 
@@ -320,7 +331,7 @@ Para terminar, aquí tenemos nuestro avisador:
 
 ## Referencias
 
-Tensilica
+Tensilica/Cadence
 
 - [Tensilica Customizable Processors](https://ip.cadence.com/ipportfolio/tensilica-ip/xtensa-customizable)
 - [Diamond Standard 106Micro](https://ip.cadence.com/news/243/330/Tensilica-Unveils-Diamond-Standard-106Micro-Processor-Smallest-Licensable-32-bit-Core)
@@ -334,7 +345,7 @@ Espressif
 - [ESP8266 Get Started - v3.3](https://docs.espressif.com/projects/esp8266-rtos-sdk/en/release-v3.3/get-started/index.html)
 - [SDK Versión **NONOS**](https://github.com/espressif/ESP8266_NONOS_SDK)
 - [SDK Versión **RTOS**](https://github.com/espressif/ESP8266_RTOS_SDK)
-- [espressif/esptool](https://github.com/espressif/esptool/wiki/Serial-Protocol)
+- [espressif/esptool Serial-Protocol](https://github.com/espressif/esptool/wiki/Serial-Protocol)
 
 Wikipedia
 
@@ -347,23 +358,27 @@ Wikipedia
 
 Repositorios GitHub
 
-- [lib sodium](https://github.com/jedisct1/libsodium)
+- [libsodium](https://github.com/jedisct1/libsodium)
 - [cJSON](https://github.com/DaveGamble/cJSON)
 - [Jeija esp_wifi_80211_tx sample code](https://github.com/Jeija/esp32-80211-tx)
-- [electronicayciencia/esp8266-learning](https://github.com/electronicayciencia/esp8266-learning)
+- [NodeMCU 3.0.0 - A Lua based firmware for ESP8266 WiFi SOC](https://github.com/nodemcu/nodemcu-firmware)
 
 Varios
 
 - [Linux Xtensa](http://www.linux-xtensa.org/).
 - [What is An RTOS?](https://www.freertos.org/about-RTOS.html)
-- [portal Opendata de Mobilitylabs EMT Madrid](https://mobilitylabs.emtmadrid.es/es/portal/opendata)
 - [datasheet del módulo ESP-01S]({{page.assets | relative_url}}/ESP8266_01S_Modul_Datenblatt.pdf)
+- [Getting Started with the ESP8266](https://medium.com/@aallan/getting-started-with-the-esp8266-270e30feb4d1)
+- [How to directly program an inexpensive ESP8266 Wifi Module - hackaday.com](https://hackaday.com/2015/03/18/how-to-directly-program-an-inexpensive-esp8266-wifi-module/)
+- [Portal Opendata de Mobilitylabs EMT Madrid](https://mobilitylabs.emtmadrid.es/es/portal/opendata)
+- [Nodemcu, la popular placa de desarrollo con ESP8266](https://www.luisllamas.es/esp8266-nodemcu/)
 
-Otros artículos y proyectos míos
+Artículos y proyectos propios
 
-- [Tu primer proyecto con DSP]({{site.baseurl}}{% post_url 2020-06-21-tu-primer-proyecto-con-dsp %})
 - [La presión atmosférica - BPM280]({{site.baseurl}}{% post_url 2018-10-07-la-presion-atmosferica-bmp280 %})
+- [Tu primer proyecto con DSP]({{site.baseurl}}{% post_url 2020-06-21-tu-primer-proyecto-con-dsp %})
 - [librería I2C LCD para Raspberry Pi](https://www.electronicayciencia.com/wPi_soft_lcd/)
+- [electronicayciencia/esp8266-learning](https://github.com/electronicayciencia/esp8266-learning)
 
 
 
