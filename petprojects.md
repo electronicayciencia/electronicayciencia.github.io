@@ -34,7 +34,7 @@ This is a basic software (bit-banged) implementation of the I2C protocol using W
 
 (Updated Sep 2018)
 
-## [Digest::ssdeep] (https://metacpan.org/pod/Digest::ssdeep)
+## [Digest::ssdeep](https://metacpan.org/pod/Digest::ssdeep)
 
 Pure Perl ssdeep (CTPH) fuzzy hashing
 
