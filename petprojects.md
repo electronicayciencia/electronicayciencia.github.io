@@ -34,4 +34,14 @@ This is a basic software (bit-banged) implementation of the I2C protocol using W
 
 (Updated Sep 2018)
 
+## [Digest::ssdeep] (https://metacpan.org/pod/Digest::ssdeep)
+
+Pure Perl ssdeep (CTPH) fuzzy hashing
+
+This module provides simple implementation of ssdeep fuzzy hashing also known as Context Triggered Piecewise Hashing (CTPH).
+
+Thanks to Christoph Biedl for create a Debian Package from it: [libdigest-ssdeep-perl](https://packages.debian.org/buster/libdigest-ssdeep-perl).
+
+(Updated 2013)
+
 
