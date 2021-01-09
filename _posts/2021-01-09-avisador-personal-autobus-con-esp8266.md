@@ -199,7 +199,7 @@ void ICACHE_FLASH_ATTR user_init(void) {
 }
 ```
 
-[**Versión RTOS**](https://github.com/espressif/ESP8266_RTOS_SDK). Se trata de un SDK parecido al anterior pero han integrado el **sistema operativo RTOS** ([What is An RTOS?](https://www.freertos.org/about-RTOS.html)). Nuestro programa ahora comparte recursos con otras tareas internas como la conexión wifi o la pila TCP/IP. Hay dos "estilos" de programación según la versión. El primero, **pre ESP-IDF** no se recomienda para nuevos desarrollos. El programa sería similar al anterior, salvo que en lugar de utilizar un temporizador empleamos funciones de RTOS; `vTaskDelay` por ejemplo espera una pausa.
+[**Versión RTOS**](https://github.com/espressif/ESP8266_RTOS_SDK). Se trata de un SDK parecido al anterior pero han integrado el **sistema operativo FreeRTOS** ([What is An RTOS?](https://www.freertos.org/about-RTOS.html)). Nuestro programa ahora comparte recursos con otras tareas internas como la conexión wifi o la pila TCP/IP. Hay dos "estilos" de programación según la versión. El primero, **pre ESP-IDF** no se recomienda para nuevos desarrollos. El programa sería similar al anterior, salvo que en lugar de utilizar un temporizador empleamos funciones de RTOS; `vTaskDelay` por ejemplo espera una pausa.
 
 ```c
 void user_init(void) {
