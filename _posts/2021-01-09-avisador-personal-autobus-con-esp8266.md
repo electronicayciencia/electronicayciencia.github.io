@@ -10,7 +10,7 @@ tags:
   - ESP8266
 ---
 
-Hoy vamos a hablar del **ESP8266**, un microcontrolador pensado para IoT. Repasaremos sus comienzos. Os contaré en qué consiste la arquitectura Xtensa y cómo funciona un **bootloader**. Montaremos el **entorno ESP-IDF** con FreeRTOS. Como proyecto final, leeremos el valor una variable mediante un API REST y lo mostraremos en tiempo real en un LCD.
+Hoy vamos a hablar del **ESP8266**, un microcontrolador pensado para IoT. Repasaremos sus comienzos. Os contaré en qué consiste la **arquitectura Xtensa**, cómo funciona un **bootloader** y montaremos el entorno ESP-IDF con **FreeRTOS**. Como proyecto final, leeremos el valor de una variable mediante un API REST y lo mostraremos en tiempo real en un LCD.
 
 {% include image.html file="board-display-cropped.jpg" caption="Avisador de autobuses construido con el módulo ESP-01S. EyC." %}
 
@@ -22,27 +22,27 @@ Poco tiempo después, otra compañía también china llamada **AI-Thinker** sac�
 
 {% include image.html file="esp-01-3d.jpg" caption="Módulo ESP-01S. [Aliexpress](http://aliexpress.com)." %}
 
-El ESP8266 no era atractivo para los fabricantes occidentales. Los diseñadores ya tenían sus propias soluciones de conectividad WiFi. Toda la documentación estaba en chino. Las primeras versiones del SDK parecían inestables y las herramientas de desarrollo tenían fallos. Tampoco contaba con el certificado de compatibilidad electromagnética ([FCC mark](https://en.wikipedia.org/wiki/FCC_mark)) y cualquier producto comercial basado en ellos debía someterse a un proceso de homologación para venderse en EEUU o Europa. 
+El ESP8266 no era atractivo para los **fabricantes occidentales**. Los diseñadores ya tenían sus propias soluciones de conectividad WiFi. Toda la documentación estaba en chino. Las primeras versiones del SDK parecían inestables y las herramientas de desarrollo tenían fallos. Tampoco contaba con el certificado de compatibilidad electromagnética ([FCC mark](https://en.wikipedia.org/wiki/FCC_mark)) y cualquier producto comercial basado en ellos debía someterse a un proceso de homologación para venderse en EEUU o Europa. 
 
 Sin embargo, a diferencia de otros microcontroladores, carece de memoria Flash interna. No se puede grabar en él ningún programa. Cualquier código debe estar almacenado en una memoria flash accesoria y cargarse a través de un **bootloader**. Por otra parte, mediante el bootloader de Espressif, se podía modificar la memoria usando un puerto serie. Lo que en principio era una carencia, lo convertía en un chip muy versátil. Pronto se corrió la voz de que el módulo ESP-01 era **reprogramable**.
 
-¿Un microcontrolador minúsculo, rápido, con conectividad WiFi, que no requiere un programador especial y por poco más de 1 dólar? Tal vez los profesionales eran reticentes, pero tenía un enorme potencial en el mercado de aficionados (*makers*). Sólo había que ponérselo fácil. AI-Thinker había sacado otros modelos de su ESP-01 con más patillas disponibles. **NodeMCU** liberó en 2014 un firmware para programar el ESP8266 en lenguaje **Lua** y diseñó una **placa de desarrollo**. Las tiendas chinas se llenaron de clones de NodeMCU y otros modelos de placas. Todas con módulos de AI-Thinker o similares, un regulador de tensión y un conversor USB-Serie. Algunos modelos integraban pantallas OLED, cámaras o cargadores de baterías. NodeMCU comenzó a vender también sus propias placas con el módulo ESP-12 y su firmware Lua preinstalado.
+¿Un microcontrolador minúsculo, rápido, con conectividad WiFi, que no requiere un programador especial y por poco más de 1 dólar? Tal vez los profesionales eran reticentes, pero tenía un enorme potencial en el mercado de **aficionados (*makers*)**. Sólo había que ponérselo fácil. AI-Thinker había sacado otros modelos de su ESP-01 con más patillas disponibles. **NodeMCU** liberó en 2014 un firmware para programar el ESP8266 en lenguaje **Lua** y diseñó una placa de desarrollo. Las tiendas chinas se llenaron de clones de NodeMCU y otros modelos de placas. Todas con módulos de AI-Thinker o similares, un regulador de tensión y un conversor USB-Serie. Algunos modelos integraban pantallas OLED, cámaras o cargadores de baterías. NodeMCU comenzó a vender también sus propias placas con el módulo ESP-12 y su firmware Lua preinstalado.
 
 {% include image.html file="mcu-devboard.jpg" caption="Placa de desarrollo ESP8266 basada en un módulo de AI-Thinker. [Amazon](http://www.amazon.es)." %}
 
-Una importante comunidad creció alrededor del ESP8266. Tradujeron al inglés parte de la documentación. Programaron una versión de micropython. Se actualizaron la librería y el IDE de **Arduino** para soportar el chip y hardware existentes. Espressif lanzó sus propios módulos. Puso en marcha foros de colaboración, liberó algunas especificaciones y ha ido abriendo progresivamente el código de sus SDK (kits de desarrollo).
+Una importante **comunidad** creció alrededor del ESP8266. Tradujeron al inglés parte de la documentación. Programaron una versión de micropython. Se actualizaron la librería y el IDE de **Arduino** para soportar el chip y hardware existentes. Espressif lanzó sus propios módulos. Puso en marcha foros de colaboración, liberó algunas especificaciones y ha ido abriendo progresivamente el código de sus SDK (kits de desarrollo).
 
-El ESP8266 fue revolucionario cuando salió y se puso de moda rápidamente. En 2016 Espressif lanzó el ESP-32, superando ampliamente el ESP8266. Luego el ESP32-S2. Y recientemente ha aparecido el [ESP32-S3](https://www.espressif.com/en/news/ESP32_S3). Aún no se ven abiertamente en el mercado electrodoméstico de consumo. En cualquier caso, ponérselo fácil a los aficionados de hoy es asegurarse ventas mañana. Porque los futuros ingenieros acabarán incorporando en sus diseños aquello que conocen.
+El ESP8266 fue revolucionario cuando salió y se puso de moda rápidamente. En 2016 Espressif lanzó el **ESP-32**, superando ampliamente el ESP8266. Luego vino el ESP32-S2. Y recientemente ha aparecido el [ESP32-S3](https://www.espressif.com/en/news/ESP32_S3). Aún no se ven abiertamente en el mercado electrodoméstico de consumo. En cualquier caso, ponérselo fácil a los aficionados de hoy es asegurarse ventas mañana. Porque los futuros ingenieros acabarán incorporando en sus diseños aquello que conocen.
 
 ## El núcleo Xtensa
 
 Según el datasheet, la **CPU** del ESP8266 es un core *Xtensa Diamond Standard 106 micro*. Xtensa es un modelo de **núcleo RISC** producto de la empresa Tensilica (ahora Cadence Design Systems). Xtensa no es un microcontrolador, es un núcleo suelto que te venden para que lo incorpores en tu integrado si lo necesitas.
 
-Supón que tienes una empresa de componentes y has hecho un **hardware específico** con su correspondiente controlador. Sería muy práctico hacerlo programable para poder actualizar el firmware en el futuro. Podrías usar un microcontrolador ya existente, pero el rendimiento no sería óptimo. Seguro que le faltarán o le sobrarán cosas. Por no decir que ahora tienes dos chips en vez de uno. ¿Contratas a Microchip o Texas Instruments y les pides un micro a medida para ti? No suena viable.
+Supón que tienes una empresa de componentes y has hecho un **hardware específico** con su correspondiente controlador. Sería muy práctico hacerlo programable para poder actualizar el firmware en el futuro. Podrías usar un microcontrolador ya existente, pero el rendimiento no sería óptimo. Seguro que le faltarán o le sobrarán cosas. Por no decir que ahora tienes dos chips en vez de uno. ¿Contratas a Motorola, Intel o AMD y les pides un **micro a medida** para ti? Si eres muy grande, podría ser una opción.
 
-Otra opción es **desarrollarlo** tú en una FPGA por ejemplo. Ponerte a pensar un juego de instrucciones de propósito general junto a tus **instrucciones específicas**. Luego deberás implementar los componentes de la CPU: el ciclo de instrucción (*fetch decode execute*), los registros, la ALU, las interrupciones, etc. Hacerte tu propio compilador y tus herramientas de desarrollo para tus instrucciones. Ahora optimízalo para minimizar el **área de silicio**, el **consumo** y el precio. Suena muy caro también.
+Otra opción es **desarrollarlo en una FPGA** o un ASIC, por ejemplo. Ponerte a pensar un juego de instrucciones de propósito general junto a tus **instrucciones específicas**. Luego deberás implementar los componentes de la CPU: el ciclo de instrucción (*fetch decode execute*), los registros, la ALU, las interrupciones, etc. Hacerte tu propio compilador y tus herramientas de desarrollo para tus instrucciones. Ahora **optimízalo** para minimizar el área de silicio, el consumo y el precio. Es una inversión muy grande.
 
-O podrías dedicarte a tu hardware y **comprar** la CPU hecha y probada. Lista para incorporarla a tu chip. Con un juego de instrucciones básicas más otras definidas por ti. Los registros que tú quieras, los buses que tú quieras y todo tipo de hardware opcional. Eso es justo lo que comercializa Tensilica: [Tensilica Customizable Processors](https://ip.cadence.com/ipportfolio/tensilica-ip/xtensa-customizable).
+O podrías dedicarte a tu hardware y **comprar sólo la CPU** hecha y probada. Lista para incorporarla a tu chip. Con un juego de instrucciones básicas más otras definidas por ti. Los registros que tú quieras, las interrupciones que tú quieras y optimizarlo a tu medida. Eso es justo lo que comercializa Tensilica: [Tensilica Customizable Processors](https://ip.cadence.com/ipportfolio/tensilica-ip/xtensa-customizable).
 
 > By selecting and configuring pre-defined elements of the architecture and by inventing completely new instructions and hardware execution units, your Xtensa processor can deliver performance levels that are orders of magnitude more efficient than other 32-bit processors. And you can do this in a fraction of the time it takes to develop and verify an RTL-based solution.
 
@@ -199,7 +199,9 @@ void ICACHE_FLASH_ATTR user_init(void) {
 }
 ```
 
-[**Versión RTOS**](https://github.com/espressif/ESP8266_RTOS_SDK). Se trata de un SDK parecido al anterior pero han integrado el **sistema operativo FreeRTOS** ([What is An RTOS?](https://www.freertos.org/about-RTOS.html)). Nuestro programa ahora comparte recursos con otras tareas internas como la conexión wifi o la pila TCP/IP. Hay dos "estilos" de programación según la versión. El primero, **pre ESP-IDF** no se recomienda para nuevos desarrollos. El programa sería similar al anterior, salvo que en lugar de utilizar un temporizador empleamos funciones de RTOS; `vTaskDelay` por ejemplo espera una pausa.
+[**Versión RTOS**](https://github.com/espressif/ESP8266_RTOS_SDK). Se trata de un SDK con el **sistema operativo FreeRTOS** ([What is An RTOS?](https://www.freertos.org/about-RTOS.html)) ya integrado. Al principio puede parecer más complicado, pero después resulta muy práctico. Nuestro programa ahora es una tarea más y comparte recursos con otras tareas internas como la conexión wifi o la pila TCP/IP: [System Tasks](https://docs.espressif.com/projects/esp8266-rtos-sdk/en/latest/api-guides/system-tasks.html).
+
+Según la versión, podemos ver en el SDK RTOS "estilos" de programación. El primero, **pre ESP-IDF** no se recomienda para nuevos desarrollos. El programa sería similar al anterior, salvo que en lugar de utilizar un temporizador empleamos funciones de RTOS; `vTaskDelay`, por ejemplo, espera una pausa.
 
 ```c
 void user_init(void) {
@@ -214,7 +216,7 @@ void user_init(void) {
 }
 ```
 
-Por último tenemos el **estilo ESP-IDF**. IDF significa, según Espressif, *IoT Development Framework*. Es la **versión recomendada** y la única disponible para el ESP32. Aunque seguimos usando RTOS, hay algunas **diferencias**. El código del usuario ya no está en `user_init` sino en `app_main` o la configuración del puerto se hace con la función `gpio_config` y no con macros.
+Por último tenemos el **estilo ESP-IDF**. IDF significa, según Espressif, *IoT Development Framework*. Es la **versión recomendada** y la única disponible para el ESP32. Aunque seguimos usando RTOS, hay algunas **diferencias**. El código del usuario ya no está en `user_init` sino en `app_main`; la configuración de puertos ya no se hace con macros sino usando funciones y estructuras.
 
 ```c
 void app_main()
@@ -343,9 +345,10 @@ Espressif
 
 - [Datasheet de esp8266ex](https://www.espressif.com/sites/default/files/documentation/0a-esp8266ex_datasheet_en.pdf)
 - [ESP8266EX - Frequently Asked Questions](https://www.espressif.com/sites/default/files/documentation/Espressif_FAQ_EN.pdf)
-- [ESP8266 Get Started - v3.3](https://docs.espressif.com/projects/esp8266-rtos-sdk/en/release-v3.3/get-started/index.html)
 - [SDK Versión **NONOS**](https://github.com/espressif/ESP8266_NONOS_SDK)
 - [SDK Versión **RTOS**](https://github.com/espressif/ESP8266_RTOS_SDK)
+- [ESP8266 Get Started - v3.3](https://docs.espressif.com/projects/esp8266-rtos-sdk/en/release-v3.3/get-started/index.html)
+- [System Tasks](https://docs.espressif.com/projects/esp8266-rtos-sdk/en/latest/api-guides/system-tasks.html)
 - [espressif/esptool Serial-Protocol](https://github.com/espressif/esptool/wiki/Serial-Protocol)
 - [Announcing ESP32-S3 for AIoT Applications](https://www.espressif.com/en/news/ESP32_S3)
 
