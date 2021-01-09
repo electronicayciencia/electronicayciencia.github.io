@@ -10,7 +10,7 @@ tags:
   - ESP8266
 ---
 
-Hoy vamos a hablar del **ESP8266**. Un microcontrolador pensado para **IoT**. Repasaremos sus comienzos. Os contaré en qué consiste la arquitectura Xtensa y cómo funciona un **bootloader**. Montaremos el **entorno ESP-IDF**. Para terminar, exploraremos el SDK RTOS leyendo una variable de un API REST vía Internet para mostrarla en tiempo real en un LCD.
+Hoy vamos a hablar del **ESP8266**, un microcontrolador pensado para IoT. Repasaremos sus comienzos. Os contaré en qué consiste la arquitectura Xtensa y cómo funciona un **bootloader**. Montaremos el **entorno ESP-IDF** con FreeRTOS. Como proyecto final, leeremos el valor una variable mediante un API REST y lo mostraremos en tiempo real en un LCD.
 
 {% include image.html file="board-display-cropped.jpg" caption="Avisador de autobuses construido con el módulo ESP-01S. EyC." %}
 
@@ -156,7 +156,7 @@ Aún así, el programa principal tampoco se ejecuta directamente. Pues en la mem
 
 ## Entorno de desarrollo
 
-Vamos a programar el ESP8266 según propone el fabricante: con el **entorno ESP-IDF** en lenguaje C. Si prefieres hacerlo en Arduino, micropython, Basic, LUA u otros el procedimiento será distinto.
+Vamos a programar el ESP8266 según propone el fabricante: con el **entorno ESP-IDF en lenguaje C**. Si prefieres hacerlo en Arduino, micropython, Basic, LUA u otros el procedimiento será distinto.
 
 El entorno ESP-IDF me ha **sorprendido para bien**. Casi todo es código abierto, salvo algunas partes binarias. La pila TCP/IP se basa en [lwip](https://en.wikipedia.org/wiki/LwIP). Incorpora librerías bien conocidas como [cJSON](https://github.com/DaveGamble/cJSON) o [sodium](https://github.com/jedisct1/libsodium). Además de otras que parecen escritas por Espressif como *esp-mqtt*. En general, el estilo de programación parece **coherente** y cuenta con múltiples ejemplos funcionales.
 
@@ -170,14 +170,14 @@ El entorno nativo de desarrollo es Linux con Eclipse. Yo voy a usar Windows con 
 
 Desde 2014 el SDK ha pasado por **varias versiones** y distintos estilos. Es importante tenerlo en cuenta a la hora de buscar en foros ejemplos de uso. Estas son las tres más importantes.
 
-[**Versión NONOS**](https://github.com/espressif/ESP8266_NONOS_SDK): Es un SDK simple, lineal. El primero en ser publicado y sobre él están desarrolladas las librerías de Arduino para el ESP8266. Se considera **obsoleto** desde diciembre de 2019 y [recomiendan usar la versión RTOS](https://github.com/espressif/ESP8266_NONOS_SDK/issues/229).
+[**Versión NONOS**](https://github.com/espressif/ESP8266_NONOS_SDK): Es un SDK simple, lineal. El primero en ser publicado. Sobre él están desarrolladas las librerías de Arduino para el ESP8266. Se considera **obsoleto** desde diciembre de 2019 y [recomiendan usar la versión RTOS](https://github.com/espressif/ESP8266_NONOS_SDK/issues/229).
 
 > Support Policy for ESP8266 NonOS (Starting from December 2019)
 > - We will not add any new features to the ESP8266 NonOS SDK.
 > - We will only fix critical bugs in the ESP8266 NonOS SDK.
 > - It is suggested that the ESP8266_RTOS_SDK, instead of ESP8266 NonOS SDK, be used for your projects.
 
-Este sería el típico programa para hacer **parpadear un LED** -lo equivalente a un *hello_world*- en la versión NONOS: El código del usuario se escribe en la función `user_init`. Configuramos el pin como salida usando la macro `PIN_FUNC_SELECT`. Y llamamos periódicamente a la función de cambio de estado por medio de un temporizador.
+Este sería el típico programa para hacer **parpadear un LED** -el equivalente a un *hello world*- en la versión NONOS: El código del usuario se escribe en la función `user_init`. Configuramos el pin como salida usando la macro `PIN_FUNC_SELECT`. Y llamamos periódicamente a la función de cambio de estado por medio de un temporizador.
 
 ```c
 void blinky(void *arg)
@@ -214,7 +214,7 @@ void user_init(void) {
 }
 ```
 
-Finalmente tenemos el **estilo ESP-IDF**. IDF significa, según Espressif, *IoT Development Framework*. Es la **versión recomendada** y la única disponible para el ESP32. Aunque seguimos usando RTOS, hay algunas **diferencias**. El código del usuario ya no está en `user_init` sino en `app_main` o la configuración del puerto se hace con la función `gpio_config` y no con macros.
+Por último tenemos el **estilo ESP-IDF**. IDF significa, según Espressif, *IoT Development Framework*. Es la **versión recomendada** y la única disponible para el ESP32. Aunque seguimos usando RTOS, hay algunas **diferencias**. El código del usuario ya no está en `user_init` sino en `app_main` o la configuración del puerto se hace con la función `gpio_config` y no con macros.
 
 ```c
 void app_main()
@@ -313,20 +313,20 @@ Ahora hay que **visualizar** los datos en una pantalla LCD de 4x20 caracteres.
 - El display está conectado por I2C. Si bien el ESP8266 no tiene puerto I2C, lo imita por software. La **librería I2C** es peculiar porque funciona con colas de comandos. Pero hay ejemplos y todo está documentado en la web.
 - La LCD se controla a través de un **expansor PCF8574**. No es difícil adaptar mi [librería I2C LCD para Raspberry Pi](https://www.electronicayciencia.com/wPi_soft_lcd/) al ESP8266.
 - Además del tiempo de espera, quiero mostrar un **contador con los segundos** desde la última actualización. Eso es contar el tiempo transcurrido, no hay documentación pero resultó sencillo con `time`.
-- Hay varias formas de **actualizar unas partes de la LCD** sin sobrescribir otras. Yo he usado un **buffer** a modo de memoria de vídeo.
+- Hay varias formas de actualizar unas partes de la LCD sin sobrescribir otras. Yo he usado un **buffer** a modo de **memoria de vídeo**.
 
-La ejecución del programa consta de tres **tareas paralelas**:
+La ejecución del programa consta de tres tareas paralelas:
 
-- Una se **conectará al API** y leerá los datos cada pocos segundos. Formatea la información y actualiza los campos en el buffer de video.
+- Una tarea se **conecta al API** y lee los datos cada pocos segundos. Formatea la información y actualiza los campos en el buffer de video.
 - Otra **cuenta los segundos** transcurridos desde la última actualización. Formatea el dato y actualiza su parte de la memoria de video.
-- Una tercera tarea **actualiza la LCD** con los datos del buffer en ese momento. Sólo esta interactúa con el puerto I2C.
+- Una tercera tarea **actualiza la LCD** con los datos presentes en el buffer en cada momento. Sólo esta función interactúa con el puerto I2C.
 
 También quería hacer sonar un **aviso acústico** si el tiempo de espera es inferior a 5 minutos:
 
-- He generado un tono de 1000Hz usando **PWM**. El ESP8266 no tiene PWM pero lo imita por software. **Funciona regular**; puedes usarlo con una frecuencia baja siempre que no tengas el ADC activo, ni el sniffer WiFi.
-- La alarma se lanzará en una **tarea en segundo plano** para no bloquear el resto del programa mientras suena.
+- He generado un tono de **1000Hz por medio del PWM**. El ESP8266 no tiene PWM pero lo imita por software. **Funciona regular**; puedes usarlo con una frecuencia baja siempre y cuando no tengas el ADC activo, ni el sniffer WiFi.
+- Lanzamos la alarma dentro de una **tarea en segundo plano** para no bloquear el resto del programa mientras suena.
 
-Para terminar, aquí tenemos nuestro avisador:
+Aquí tenemos nuestro avisador montado y conectado a un *power-bank*:
 
 {% include image.html file="usb-board-display.jpg" caption="" %}
 
@@ -354,8 +354,8 @@ Wikipedia
 - [FCC mark](https://en.wikipedia.org/wiki/FCC_mark)
 - [SLIP](https://es.wikipedia.org/wiki/Serial_Line_Internet_Protocol)
 - [lwip](https://en.wikipedia.org/wiki/LwIP)
-- [configuración **Darlington**](https://es.wikipedia.org/wiki/Transistor_Darlington)
-- [configuración **Sziklai**](https://en.wikipedia.org/wiki/Sziklai_pair)
+- [Configuración **Darlington**](https://es.wikipedia.org/wiki/Transistor_Darlington)
+- [Configuración **Sziklai**](https://en.wikipedia.org/wiki/Sziklai_pair)
 - [Balun](https://en.wikipedia.org/wiki/Balun)
 
 Repositorios GitHub
