@@ -10,7 +10,7 @@ tags:
   - ESP8266
 ---
 
-Hoy vamos a hablar del **ESP8266**. Un microcontrolador pensado para **IoT**. Repasaremos sus comienzos. Os contaré en qué consiste la arquitectura Xtensa. Montaremos el **entorno ESP-IDF** y exploraremos el SDK haciendo un visor de tiempo de espera para el autobús. Aunque serviría para cualquier variable online, desde el precio de un activo a la información meteorológica.
+Hoy vamos a hablar del **ESP8266**. Un microcontrolador pensado para **IoT**. Repasaremos sus comienzos. Os contaré en qué consiste la arquitectura Xtensa y cómo funciona un **bootloader**. Montaremos el **entorno ESP-IDF**. Para terminar, exploraremos el SDK RTOS leyendo una variable de un API REST vía Internet para mostrarla en tiempo real en un LCD.
 
 {% include image.html file="board-display-cropped.jpg" caption="Avisador de autobuses construido con el módulo ESP-01S. EyC." %}
 
