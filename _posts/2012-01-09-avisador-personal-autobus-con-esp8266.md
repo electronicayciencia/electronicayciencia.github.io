@@ -1,8 +1,8 @@
 ---
 no-title: Avisador personal de autobús con ESP8266
 layout: post
-assets: /assets/drafts/2021/01/avisador-personal-autobus-con-esp8266
-image: /assets/drafts/2021/01/avisador-personal-autobus-con-esp8266/img/esp01s-module-croppped.jpg
+assets: /assets/2021/01/avisador-personal-autobus-con-esp8266
+image: /assets/2021/01/avisador-personal-autobus-con-esp8266/img/esp01s-module-croppped.jpg
 featured: false
 tags:
   - Circuitos
@@ -10,7 +10,7 @@ tags:
   - ESP8266
 ---
 
-Hoy vamos a hablar del **ESP8266**. Un microcontrolador pensado para *IoT*. Repasaremos sus comienzos. Os contaré en qué consiste la arquitectura Xtensa. Montaremos el **entorno ESP-IDF** y exploraremos el SDK haciendo un visor de tiempo de espera para el autobús. Aunque serviría para cualquier variable en tiempo real, desde el precio de un activo a la información meteorológica.
+Hoy vamos a hablar del **ESP8266**. Un microcontrolador pensado para **IoT**. Repasaremos sus comienzos. Os contaré en qué consiste la arquitectura Xtensa. Montaremos el **entorno ESP-IDF** y exploraremos el SDK haciendo un visor de tiempo de espera para el autobús. Aunque serviría para cualquier variable online, desde el precio de un activo a la información meteorológica.
 
 {% include image.html file="board-display-cropped.jpg" caption="Avisador de autobuses construido con el módulo ESP-01S. EyC." %}
 
@@ -18,21 +18,21 @@ Hoy vamos a hablar del **ESP8266**. Un microcontrolador pensado para *IoT*. Repa
 
 Espressif lanzó el ESP8266 en 2013. Un microcontrolador limitado en memoria y periféricos pero rápido, barato, con conexión WiFi y fácil de usar.
 
-Poco tiempo después, otra compañía también china dedicada a *Internet of Things* llamada AI-Thinker sacó al mercado un módulo con el ESP8266 más los componentes necesarios para hacerlo funcionar; principalmente memoria externa, cuarzo y antena. Lo llamó ESP-01. Incorporó una aplicación con comandos Hayes y lo vendió como **módem WiFi AT para Arduino**. La idea era conectar con una red inalámbrica con un módem, igual que usamos módems GSM para enviar y recibir SMS desde un micro.
+Poco tiempo después, otra compañía también china llamada **AI-Thinker** sacó al mercado un módulo incluyendo el ESP8266 más los componentes necesarios (principalmente memoria externa, cuarzo y antena). Lo llamó ESP-01. Incorporó una aplicación con comandos Hayes y lo vendió como **AT módem WiFi Arduino**. La idea era servir de interfaz con una red inalámbrica, igual que usamos módems GSM a la hora de enviar y recibir SMS desde un micro.
 
 {% include image.html file="esp-01-3d.jpg" caption="Módulo ESP-01S. [Aliexpress](http://aliexpress.com)." %}
 
 El ESP8266 no era atractivo para los fabricantes occidentales. Los diseñadores ya tenían sus propias soluciones de conectividad WiFi. Toda la documentación estaba en chino. Las primeras versiones del SDK parecían inestables y las herramientas de desarrollo tenían fallos. Tampoco contaba con el certificado de compatibilidad electromagnética ([FCC mark](https://en.wikipedia.org/wiki/FCC_mark)) y cualquier producto comercial basado en ellos debía someterse a un proceso de homologación para venderse en EEUU o Europa. 
 
-Sin embargo, a diferencia de otros microcontroladores, carece de memoria Flash interna. No se puede grabar en su interior ningún programa. Cualquier código debe estar almacenado en una memoria flash accesoria. Por otra parte, Espressif había dotado al ESP8266 de un *bootloader* previsto para modificar la memoria a través de un puerto serie. Lo que en principio era una carencia, lo convertía en un chip muy versátil. Pronto se corrió la voz de que el módulo ESP-01 era **reprogramable**.
+Sin embargo, a diferencia de otros microcontroladores, carece de memoria Flash interna. No se puede grabar en él ningún programa. Cualquier código debe estar almacenado en una memoria flash accesoria y cargarse a través de un **bootloader**. Por otra parte, mediante el bootloader de Espressif, se podía modificar la memoria usando un puerto serie. Lo que en principio era una carencia, lo convertía en un chip muy versátil. Pronto se corrió la voz de que el módulo ESP-01 era **reprogramable**.
 
-¿Un microcontrolador minúsculo, rápido, con conectividad WiFi, que no requiere un programador especial y por poco más de 1 dólar? Tal vez los profesionales eran reticentes, pero tenía un enorme potencial en el mercado de aficionados (*makers*). Sólo había que ponérselo fácil. AI-Thinker había sacado otros modelos de su ESP-01 con más patillas disponibles. **NodeMCU** liberó en 2014 un firmware para programar el ESP8266 en lenguaje **Lua** y diseñó una placa de desarrollo. Las tiendas chinas se llenaron de clones de NodeMCU y otros modelos de placas basadas en los módulos de AI-Thinker más un regulador de tensión y un conversor USB-Serie. NodeMCU comenzó a vender también sus propias placas con el módulo ESP-12 y su firmware Lua preinstalado.
+¿Un microcontrolador minúsculo, rápido, con conectividad WiFi, que no requiere un programador especial y por poco más de 1 dólar? Tal vez los profesionales eran reticentes, pero tenía un enorme potencial en el mercado de aficionados (*makers*). Sólo había que ponérselo fácil. AI-Thinker había sacado otros modelos de su ESP-01 con más patillas disponibles. **NodeMCU** liberó en 2014 un firmware para programar el ESP8266 en lenguaje **Lua** y diseñó una **placa de desarrollo**. Las tiendas chinas se llenaron de clones de NodeMCU y otros modelos de placas. Todas con módulos de AI-Thinker o similares, un regulador de tensión y un conversor USB-Serie. Algunos modelos integraban pantallas OLED, cámaras o cargadores de baterías. NodeMCU comenzó a vender también sus propias placas con el módulo ESP-12 y su firmware Lua preinstalado.
 
 {% include image.html file="mcu-devboard.jpg" caption="Placa de desarrollo ESP8266 basada en un módulo de AI-Thinker. [Amazon](http://www.amazon.es)." %}
 
-Una importante comunidad creció alrededor del ESP8266. Tradujeron al inglés parte de la documentación. Programaron una versión de micropython. Se actualizó la librería y el IDE de **Arduino** para soportar el chip y las placas existentes. Espressif lanzó sus propios módulos. Puso en marcha foros de colaboración, liberó algunas especificaciones y ha ido abriendo progresivamente el código de sus SDK (kits de desarrollo).
+Una importante comunidad creció alrededor del ESP8266. Tradujeron al inglés parte de la documentación. Programaron una versión de micropython. Se actualizaron la librería y el IDE de **Arduino** para soportar el chip y hardware existentes. Espressif lanzó sus propios módulos. Puso en marcha foros de colaboración, liberó algunas especificaciones y ha ido abriendo progresivamente el código de sus SDK (kits de desarrollo).
 
-El ESP8266 fue revolucionario cuando salió y se puso de moda rápidamente. Cinco años después, los chips de Espressif, especialmente el ESP32 y recientemente el ESP32-S3, son sinónimos de IoT y *AIoT*. Aún no se ven abiertamente en el mercado electrodoméstico de consumo. En cualquier caso, ponérselo fácil a los aficionados de hoy es asegurarse ventas mañana. Porque los futuros ingenieros acabarán incorporando en sus diseños aquello que conocen.
+El ESP8266 fue revolucionario cuando salió y se puso de moda rápidamente. En 2016 Espressif lanzó el ESP-32, superando ampliamente el ESP8266. Luego el ESP32-S2. Y recientemente ha aparecido el [ESP32-S3](https://www.espressif.com/en/news/ESP32_S3). Aún no se ven abiertamente en el mercado electrodoméstico de consumo. En cualquier caso, ponérselo fácil a los aficionados de hoy es asegurarse ventas mañana. Porque los futuros ingenieros acabarán incorporando en sus diseños aquello que conocen.
 
 ## El núcleo Xtensa
 
@@ -177,7 +177,7 @@ Desde 2014 el SDK ha pasado por **varias versiones** y distintos estilos. Es imp
 > - We will only fix critical bugs in the ESP8266 NonOS SDK.
 > - It is suggested that the ESP8266_RTOS_SDK, instead of ESP8266 NonOS SDK, be used for your projects.
 
-Así haríamos un programa para hacer **parpadear un LED** en la versión NONOS: El código del usuario se escribe en la función `user_init`. Configuramos el pin como salida usando la macro `PIN_FUNC_SELECT`. Y llamamos periódicamente a la función de cambio de estado por medio de un temporizador.
+Este sería el típico programa para hacer **parpadear un LED** -lo equivalente a un *hello_world*- en la versión NONOS: El código del usuario se escribe en la función `user_init`. Configuramos el pin como salida usando la macro `PIN_FUNC_SELECT`. Y llamamos periódicamente a la función de cambio de estado por medio de un temporizador.
 
 ```c
 void blinky(void *arg)
@@ -347,6 +347,7 @@ Espressif
 - [SDK Versión **NONOS**](https://github.com/espressif/ESP8266_NONOS_SDK)
 - [SDK Versión **RTOS**](https://github.com/espressif/ESP8266_RTOS_SDK)
 - [espressif/esptool Serial-Protocol](https://github.com/espressif/esptool/wiki/Serial-Protocol)
+- [Announcing ESP32-S3 for AIoT Applications](https://www.espressif.com/en/news/ESP32_S3)
 
 Wikipedia
 
