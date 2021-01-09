@@ -148,31 +148,36 @@ Volviendo al esquema del módulo ESP-01S, arriba, la patilla GPIO15 o MTDO está
 
 {% include image.html class="medium-width" file="programar-esp01.png" caption="" %}
 
-**R1**, **R2**, **R3** y **C1** se pueden omitir. Nuestro módulo ya incorpora tales componentes. Conectaremos **RX** y **TX** a un conversor USB-Serie. **R4** y **R5** limitan la corriente por si alguna de estas dos patillas estuviera configurada como salida en vez de como entrada, provocando un cortocircuito.
+Conectaremos **RX** y **TX** a un conversor USB-Serie. **R1**, **R2**, **R3** y **C1** se pueden omitir. Nuestro módulo ya incorpora tales componentes. **R4** y **R5** limitan la corriente por si alguna de estas dos patillas estuviera configurada como salida en vez de como entrada, provocando un cortocircuito. Para entrar en **modo programación** sólo debemos pulsar brevemente *reset* mientras tenemos presionado *prog*; de lo contrario arrancaremos en modo normal.
 
-Para entrar en modo programación sólo debemos pulsar brevemente *reset* mientras tenemos presionado *prog*; de lo contrario arrancaremos en modo normal.
+Espressif nos proporciona la herramienta **esptool** para interactuar con el bootloader. La interfaz está documentada en [espressif/esptool](https://github.com/espressif/esptool/wiki/Serial-Protocol). Se trata de comandos [SLIP](https://es.wikipedia.org/wiki/Serial_Line_Internet_Protocol) (*Serial Line Internet Protocol*) con multitud de opciones.
 
-Para interactuar con el bootloader, Espressif nos proporciona la herramienta **esptool**. La interfaz está documentada en [espressif/esptool](https://github.com/espressif/esptool/wiki/Serial-Protocol). y se trata de comandos [SLIP](https://es.wikipedia.org/wiki/Serial_Line_Internet_Protocol) (*Serial Line Internet Protocol*). 
-
-Aún así, pero el programa principal tampoco se ejecuta directamente. En la memoria flash hay un segundo bootloader que sirve, entre otras cosas, para actualizar el firmware remotamente (OTA).
+Aún así, el programa principal tampoco se ejecuta directamente. Pues en la memoria flash hay un segundo bootloader que nos permite, entre otras cosas, actualizar el firmware remotamente (OTA).
 
 ## Entorno de desarrollo
 
-Vamos a programar el ESP8266 según lo indicado por el fabricante, es decir, utilizando el entorno ESP-IDF (lenguaje C). Si prefieres hacerlo en Arduino, micropython, Basic, LUA u otros el procedimiento será distinto y -seguramente- más simple.
+Vamos a programar el ESP8266 según propone el fabricante: con el **entorno ESP-IDF** en lenguaje C. Si prefieres hacerlo en Arduino, micropython, Basic, LUA u otros el procedimiento será distinto.
 
-El entorno ESP-IDF me ha **sorprendido para bien**. Cuenta con múltiples ejemplos funcionales. Casi todo es código abierto. La pila TCP/IP se basa en [lwip](https://en.wikipedia.org/wiki/LwIP). Incorpora librerías bien conocidas como [cJSON](https://github.com/DaveGamble/cJSON) o [sodium](https://github.com/jedisct1/libsodium). Además de otras que parecen escritas por Espressif como *esp-mqtt* o la de log. En general parece coherente.
+El entorno ESP-IDF me ha **sorprendido para bien**. Casi todo es código abierto, salvo algunas partes binarias. La pila TCP/IP se basa en [lwip](https://en.wikipedia.org/wiki/LwIP). Incorpora librerías bien conocidas como [cJSON](https://github.com/DaveGamble/cJSON) o [sodium](https://github.com/jedisct1/libsodium). Además de otras que parecen escritas por Espressif como *esp-mqtt*. En general, el estilo de programación parece **coherente** y cuenta con múltiples ejemplos funcionales.
 
-Para crear un programa binario capaz de ejecutarse en un microcontrolador necesitamos:
+Crear un programa binario capaz de ejecutarse en un microcontrolador requiere de:
 
-- La **toolchain** específica de la plataforma, Xtensa lx106 en este caso. Comprende el *compilador*, el *linker* (o link-editor), ensamblador, depurador y algunas librerías básicas (como la *librería de C estándar*).
-- El **SDK** (Software Development Kit). Ahí van las rutinas propias del dispositivo, o los ficheros de cabeceras si nos las dan ya compiladas. Los drivers, por ejemplo, para acceder a sus periféricos hardware (capa PHY), entradas GPIO, WiFi, SPI o I2C. Suele incluir ejemplos de uso, así como los scripts de compilación y linkado.
-- El **entorno de desarrollo** son el resto de programas y herramientas sobre las que se apoyan los componentes anteriores. Digamos *cmake*, *bash*, *python* u *openssl*. A veces también el IDE si va junto como pasa con Arduino o MPLab.
+- La **toolchain** específica de la plataforma: Xtensa 106 en este caso. La han llamado *lx106*. Comprende el *compilador*, el *linker* (o link-editor), ensamblador, depurador y algunas librerías básicas (como la *librería de C estándar*).
+- El **SDK** (Software Development Kit). Ahí van las rutinas propias del dispositivo o sus ficheros de cabeceras si están ya compiladas. Los drivers para acceder a sus periféricos hardware (capa PHY): entradas GPIO, WiFi, SPI o I2C. Así como scripts de compilación y linkado. Suele incluir ejemplos de uso.
+- El **entorno de desarrollo** es el ecosistema de programas y herramientas sobre el que se apoyan los componentes anteriores. Digamos *cmake*, *bash*, *python*, etc. A veces va todo junto integrado en un IDE, como pasa con Arduino o MPLab.
 
-El entorno nativo de desarrollo es Linux con Eclipse. Yo voy a usar Visual Studio Code sabiendo que estará peor integrado. Si trabajas en Linux sólo tendrás que instalar los paquetes necesarios. Si trabajas en Windows, como es mi caso, Espressif ofrece un entorno msys32 (que pesa más de 600Mb comprimido) con el entorno preinstalado.
+El entorno nativo de desarrollo es Linux con Eclipse. Yo voy a usar Windows con **Visual Studio Code** sabiendo que estará peor integrado. Si trabajas en Linux sólo tendrás que instalar los paquetes necesarios. Si trabajas en Windows, como es mi caso, Espressif te ofrece un entorno msys32 (que pesa más de 600Mb comprimido) con los paquetes preinstalados.
 
-Desde 2015 el SDK ha pasado por varias versiones y distintos estilos. Es importante tenerlo en cuenta a la hora de mirar en foros ejemplos de proyectos.
+Desde 2014 el SDK ha pasado por **varias versiones** y distintos estilos. Es importante tenerlo en cuenta a la hora de buscar en foros ejemplos de uso. Estas son las tres más importantes.
 
-[**Versión NONOS**](https://github.com/espressif/ESP8266_NONOS_SDK): Es un SDK simple, lineal. El primero en ser publicado y sobre él están desarrolladas las librerías de Arduino para el ESP8266. Se considera obsoleto desde diciembre de 2019 y recomiendan usar la versión RTOS. Así seria el código para hacer **parpadear un LED** en esta versión.
+[**Versión NONOS**](https://github.com/espressif/ESP8266_NONOS_SDK): Es un SDK simple, lineal. El primero en ser publicado y sobre él están desarrolladas las librerías de Arduino para el ESP8266. Se considera **obsoleto** desde diciembre de 2019 y [recomiendan usar la versión RTOS](https://github.com/espressif/ESP8266_NONOS_SDK/issues/229).
+
+> Support Policy for ESP8266 NonOS (Starting from December 2019)
+> - We will not add any new features to the ESP8266 NonOS SDK.
+> - We will only fix critical bugs in the ESP8266 NonOS SDK.
+> - It is suggested that the ESP8266_RTOS_SDK, instead of ESP8266 NonOS SDK, be used for your projects.
+
+Así haríamos un programa para hacer **parpadear un LED** en la versión NONOS: El código del usuario se escribe en la función `user_init`. Configuramos el pin como salida usando la macro `PIN_FUNC_SELECT`. Y llamamos periódicamente a la función de cambio de estado por medio de un temporizador.
 
 ```c
 void blinky(void *arg)
@@ -194,9 +199,7 @@ void ICACHE_FLASH_ATTR user_init(void) {
 }
 ```
 
-El código del usuario está en la función `user_init`. Se configura el pin como salida usando la macro `PIN_FUNC_SELECT` y con un temporizador  se llama periódicamente a la función de cambio de estado. El pin se activa y desactiva con la macro `GPIO_OUTPUT_SET`.
-
-[**Versión RTOS**](https://github.com/espressif/ESP8266_RTOS_SDK). Se trata de un SDK con el sistema operativo RTOS ([What is An RTOS?](https://www.freertos.org/about-RTOS.html)). Muy sencillo de usar y más con los ejemplos. Hay dos "estilos" de programación según la versión. Al primero llamémosle *pre ESP-IDF* (inferior a 3.0). Se programa de forma parecida a la NonOS. No se recomienda para nuevos desarrollos. El código para hacer parpadear un led sería así:
+[**Versión RTOS**](https://github.com/espressif/ESP8266_RTOS_SDK). Se trata de un SDK parecido al anterior pero han integrado el **sistema operativo RTOS** ([What is An RTOS?](https://www.freertos.org/about-RTOS.html)). Nuestro programa ahora comparte recursos con otras tareas internas como la conexión wifi o la pila TCP/IP. Hay dos "estilos" de programación según la versión. El primero, **pre ESP-IDF** no se recomienda para nuevos desarrollos. El programa sería similar al anterior, salvo que en lugar de utilizar un temporizador empleamos funciones de RTOS; `vTaskDelay` por ejemplo espera una pausa.
 
 ```c
 void user_init(void) {
@@ -211,9 +214,7 @@ void user_init(void) {
 }
 ```
 
-El código del usuario está en la función `user_init`, y la configuración es igual que antes. Solo que esta vez, en lugar de utilizar un temporizador y una subrutina, hacemos un bucle con el retardo de RTOS `vTaskDelay`.
-
-Finalmente tenemos el **estilo ESP-IDF**. Versión 3.0 o superior. Han unificado el estilo de programación con el SDK del ESP32. IDF significa, según Espressif, *IoT Development Framework*. Es la **versión recomendada** y la única disponible para el ESP32. Así haríamos parpadear un LED, aunque el estilo anterior sigue funcionando:
+Finalmente tenemos el **estilo ESP-IDF**. IDF significa, según Espressif, *IoT Development Framework*. Es la **versión recomendada** y la única disponible para el ESP32. Aunque seguimos usando RTOS, hay algunas **diferencias**. El código del usuario ya no está en `user_init` sino en `app_main` o la configuración del puerto se hace con la función `gpio_config` y no con macros.
 
 ```c
 void app_main()
@@ -232,58 +233,60 @@ void app_main()
 }
 ```
 
-Seguimos usando RTOS, pero el código del usuario ya no está en `user_init` sino en `app_main`. La configuración del puerto se hace con la función `gpio_config` y no con macros, el estado lógico con `gpio_set_level`.
+Las instrucciones de instalación y enlaces están en la web de Espressif [Get Started - v3.3](https://docs.espressif.com/projects/esp8266-rtos-sdk/en/release-v3.3/get-started/index.html). Lo primero es descargar los tres componentes:
 
-Las instrucciones para descargar e instalar los componentes están en la web de Espressif: [Get Started - v3.3](https://docs.espressif.com/projects/esp8266-rtos-sdk/en/release-v3.3/get-started/index.html). Te lo describo brevemente. Lo primero es descargar los tres componentes:
-
-- El entorno msys32 (viene con la toolchain para esp32, pero no la del ESP8266)
-- La última versión estable del SDK RTOS (ya es estilo ESP-IDF), a día de hoy la versión 3.3. En mi experiencia como principiante es mejor descargar la [última versión estable](https://github.com/espressif/ESP8266_RTOS_SDK/releases) de la SDK RTOS, en lugar de hacer *clone* del repositorio de desarrollo.
-- La *toolchain* de Xtensa lx106 para ESP8266 adecuada según la **versión** del SDK, para la RTOS-v3.3 es la v5.2.0. No nos serviría la gcc-8.4.0 por ejemplo.
+- El **entorno msys32** (incluye la toolchain para esp32, pero no la del ESP8266 que habremos de instalar aparte)
+- La **última versión estable del SDK RTOS** (ya es estilo ESP-IDF), a día de hoy la versión 3.3. En mi experiencia como principiante es mejor descargar la [última versión estable](https://github.com/espressif/ESP8266_RTOS_SDK/releases) de la SDK RTOS, en lugar de hacer *clone* del repositorio de desarrollo.
+- La **toolchain** de Xtensa lx106 acorde a la **versión** del SDK. Para la RTOS-v3.3 es la v5.2.0. No nos serviría la gcc-8.4.0 por ejemplo.
 
 {% include image.html  file="toolchain-ficheros.png" caption="Entorno de desarrollo, SDK y *toolchain*. EyC." %}
 
-Y seguidamente:
+A continuación, brevemente:
 
-1. Descomprimir el entorno msys32 en algún sitio, da igual.
-1. Descomprimir la SDK en algún punto dentro de la jerarquía de directorios msys32, por ejemplo `/opt`. Fijar la variable `IDF_PATH` en `.bashrc` para indicar dónde la hemos puesto.
+1. Descomprimir el **entorno msys32** en algún sitio, da igual.
+1. Descomprimir la **SDK** en algún punto dentro de la jerarquía de directorios msys32, por ejemplo `/opt`. Fijar la **variable `IDF_PATH`** en `.bashrc` para indicar dónde la hemos puesto.
 
        export IDF_PATH=/opt/ESP8266_RTOS_SDK
 
-1. Descomprimir la toolchain para lx106 en algún punto dentro de la jerarquía de directorios msys32, por ejemplo `/opt`. Incluir en el path su directorio bin:
+1. Descomprimir la **toolchain lx106** en algún punto dentro de la jerarquía de directorios msys32, por ejemplo `/opt`. Incluir **en el path** su directorio bin:
 
        export PATH="$PATH:/opt/xtensa-lx106-elf/bin"
 
-1. Actualizar los paquetes python necesarios:
+1. Por último, actualizar los paquetes python necesarios:
 
        python -m pip install --user -r $IDF_PATH/requirements.txt
 
-Con esto ya podemos copiar el ejemplo `hello_world` de la SDK a nuestro home:
+Ahora podemos probar si funciona copiando el ejemplo `hello_world` de la SDK a nuestro home:
 
        cp -r $IDF_PATH/examples/get-started/hello_world ~
 
-y configurar las opciones -como el puerto serie o la contraseña de la wifi- con `make menuconfig`, compilarlo, etc.
+e intentar compilarlo con `make menuconfig`, `make`, `make flash`.
 
-{% include image.html  file="menuconfig.png" caption="La configuración del SDK usa el sistema *kconfig* con *lxdialog*. Un extra para nostálgicos. EyC." %}
+{% include image.html  file="menuconfig.png" caption="El SDK emplea el sistema *kconfig* con *lxdialog*. Un extra para nostálgicos. EyC." %}
 
 ## Esquema eléctrico
 
-Usamos los chips de Espressif por su conexión WiFi. Proyectos obvios son leer datos de un sensor local y transmitirlos a un servidor remoto vía Internet; y viceversa, leer datos de Internet y visualizarlos en una pantalla. Nuestro proyecto hoy es del segundo tipo.
+Usamos los chips de Espressif por su **conexión WiFi**. Proyectos obvios son leer datos de un sensor local y transmitirlos a un servidor remoto vía Internet; y viceversa, leer datos de Internet y visualizarlos en una pantalla. Nuestro proyecto hoy es del segundo tipo.
 
-Como componente central usaremos el módulo ESP-01S y un LCD de 4x20. Hemos incorporado un buzzer piezoeléctrico para hacer sonar un aviso acústico. Este sería el esquema (aquí en formato vectorial: [ESP-Bus.svg]({{page.assets | relative_url}}/ESP-Bus.svg)).
+Los componentes principales son el módulo ESP-01S, un LCD de 4x20 como visor y un buzzer piezoeléctrico para hacer sonar un aviso acústico. Tanto el módulo ESP-01S como el visor LCD integran casi toda la electrónica. El esquema eléctrico se limita a acondicionarlos.
 
 {% include image.html file="esp-bus-retocado.jpg" caption="Esquema eléctrico del *avisador de autobuses*. EyC." %}
 
-Necesitaremos 5V de alimentación ya que nuestro LCD no funciona a 3.3V. Hay módulos LCD con una pequeña bomba de carga instalada que funcionan a 3.3, pero el nuestro no la lleva. El ESP8266 requiere 3.3V, no pudiendo superar nunca los 3.6V de máximo y con 200mA de corriente en pico. La opción más directa es reducir de 5 a 3.3V usando un regulador lineal. Pero hoy he preferido usar transistores.
+Necesitaremos 5V de alimentación ya que nuestro **LCD no funciona a 3.3V**. Hay módulos LCD con una pequeña bomba de carga instalada que funcionan a 3.3, pero el nuestro no la lleva. 
 
-Con un sólo transistor no vamos a poder ofrecer 200mA de forma estable. Será mejor usar dos en [configuración **Darlington**](https://es.wikipedia.org/wiki/Transistor_Darlington). Aunque hay una opción mejor, el *par Darlignton complementario* o [configuración **Sziklai**](https://en.wikipedia.org/wiki/Sziklai_pair). Es como el Darlington pero usando un transistor NPN y otro PNP. Como veis en la siguiente simulación, al aumentar el consumo la tensión de salida se mantiene más estable.
+El **ESP8266 requiere 3.3V**, no pudiendo superar nunca los 3.6V de máximo. La opción más directa es reducir de 5 a 3.3V usando un regulador lineal. Hoy he preferido usar transistores y un divisor resistivo, pero hay un problema: Durante la transmisión WiFi el chip requiere hasta 200mA. Con un divisor y un transistor no podemos regular tanta corriente de forma estable. Podríamos usar dos transistores en [**configuración Darlington**](https://es.wikipedia.org/wiki/Transistor_Darlington). 
+
+Pero hay una opción mejor, el *par Darlignton complementario* o [**configuración Sziklai**](https://en.wikipedia.org/wiki/Sziklai_pair). Es como el Darlington pero usando **un transistor NPN y otro PNP**. En este gráfico veis la comparación entre ambas configuraciones y cómo la tensión de salida se mantiene más estable en esta última.
 
 {% include image.html file="v_szklai_darlington.png" caption="Tensión a la salida del regulador frente a consumo. Comparación entre las configuraciones Darlington (rojo) y Szklai (verde). EyC." %}
 
-Cuando retiramos el módulo del socket, en ausencia de consumo la tensión podría subir por encima de 3.6V. **R3** está ahí para suministrar un consumo mínimo y que eso no suceda.
+Una cosa más. En ausencia de consumo, cuando retiramos el módulo de su socket, la tensión podría superar los 3.6V. Lo evitamos con **R3** haciendo circular una mínima corriente.
 
-Podríamos omitir **C1**, **C2**, **R4** y **R5** porque nuestro módulo ESP-01S ya trae estos componentes. No está previsto recibir comandos vía puerto serie, así que hemos reasignado la patilla RX como salida para la alarma. La salida sí la conservamos para emitir mensajes de depuración.
+Podríamos **omitir** **C1**, **C2**, **R4** y **R5** porque nuestro módulo ESP-01S ya incorpora estos componentes. 
 
-En cuanto a la salida I2C, no es necesario usar **conversor de tensión** porque es un puerto de colector abierto (*open drain*). Aunque la LCD funciona a 5V, lo único que hará es poner a masa o no la línea de datos. Por tanto sus 5V no alcanzan al integrado. Por otra parte, el controlador del LCD detecta un valor positivo si excede la mitad de la alimentación. Y 3.3V es mayor que 2.5V.
+No está previsto recibir comandos vía puerto serie, así que hemos **reasignado la patilla RX** como salida para la alarma. La patilla **TX**salida sí la conservamos para emitir mensajes de depuración.
+
+En cuanto al puerto I2C, no es necesario usar **conversor de tensión** porque I2C es un puerto de **colector abierto** (*open drain*). Eso significa que, aunque la LCD funciona a 5V, lo único que hará es poner a masa o no la línea de datos. Por tanto sus 5V no alcanzan nunca al integrado. Por otra parte, el controlador I2C del LCD detectará un valor positivo si excede la mitad de la tensión de alimentación. Y en este caso, 3.3V es mayor que 2.5V.
 
 Montar el esquema en una placa SMD es muy sencillo pero prefiero hacer el prototipo con componentes *through hole*.
 
@@ -295,34 +298,32 @@ Así ha quedado una vez soldados los componentes:
 
 ## El software
 
-Describir todo el programa línea a línea sería largo y aburrido. Como el código está en GitHub, te voy a contar los puntos principales y si quieres preguntarme algo déjame un comentario.
+Describir todo el programa línea por línea sería largo y aburrido. El proyecto completo está en [electronicayciencia/esp8266-learning](https://github.com/electronicayciencia/esp8266-learning/tree/main/esp_bus). Vamos a dividirlo en partes y comentar lo más relevante. Si quieres preguntarme algo concreto déjame **un comentario**.
 
-El proyecto completo está en [electronicayciencia/esp8266-learning](https://github.com/electronicayciencia/esp8266-learning). Vamos a dividirlo en partes y comentar lo más relevante.
+Lo primero, leer de un **API online**. Los tiempos de espera están disponibles públicamente en el [portal Opendata de Mobilitylabs](https://mobilitylabs.emtmadrid.es/es/portal/opendata) de EMT Madrid. El mismo que usan otras aplicaciones similares para móvil. Lo cual implica:
 
-Leer de un **API online**. Los tiempos de espera están disponibles públicamente en el [portal Opendata de Mobilitylabs](https://mobilitylabs.emtmadrid.es/es/portal/opendata) de EMT Madrid. El mismo que usan las aplicaciones similares para móvil. Para lograrlo tuve que:
-
-- Obtener un ClientId y password del API. Esto fue fácil ya que es un proceso online aunque requiere aprobación manual.
-- Conectar a la **wifi** al menos usando usuario y contraseña. Hay un ejemplo en el SDK.
-- Conectar con una web **HTTPS**. Hay un ejemplo en el SDK.
+- Obtener un **ClientId y password** de consumo. Esto fue fácil ya que es un proceso online aunque requiere aprobación manual.
+- Conectar a la **wifi** usando usuario y contraseña. Hay un ejemplo en el SDK.
+- Conectar con una web **HTTPS**. Hay un ejemplo en el SDK. Cuidado con los certificados.
 - Usar autorización básica. De esto no hay ejemplo, pero se trata de añadir una cabecera.
-- Recibir la respuesta en **JSON** e interpretarla usando cJSON. De esto no hay ejemplo. La librería cJSON está bien documentada pero tienes que manejarte bien en *C* o te liarás con los punteros.
+- Recibir la respuesta en **JSON** e interpretarla usando cJSON. De esto no hay ejemplo pero la librería cJSON está bien documentada. Eso sí, necesitas manejarte bien en *C* o te liarás con los punteros. Lo mejor es probar esa parte en otro programa fuera del ESP.
 
-Ahora hay que **visualizar** los datos en una pantalla LCD de 4x20 caracteres. Para lo cual:
+Ahora hay que **visualizar** los datos en una pantalla LCD de 4x20 caracteres.
 
 - El display está conectado por I2C. Si bien el ESP8266 no tiene puerto I2C, lo imita por software. La **librería I2C** es peculiar porque funciona con colas de comandos. Pero hay ejemplos y todo está documentado en la web.
-- La LCD se controla a través de un **expansor PCF8574**. Adaptaré mi [librería I2C LCD para Raspberry Pi](https://www.electronicayciencia.com/wPi_soft_lcd/).
-- Además del tiempo de espera, quiero mostrar un contador con los segundos desde la última actualización. Debo contar el **tiempo transcurrido**, no hay documentación pero resultó sencillo con `time`.
-- Hay varias formas de actualizar unas partes de la LCD sin sobrescribir otras. Yo he usado un **buffer** a modo de memoria de vídeo.
+- La LCD se controla a través de un **expansor PCF8574**. No es difícil adaptar mi [librería I2C LCD para Raspberry Pi](https://www.electronicayciencia.com/wPi_soft_lcd/) al ESP8266.
+- Además del tiempo de espera, quiero mostrar un **contador con los segundos** desde la última actualización. Eso es contar el tiempo transcurrido, no hay documentación pero resultó sencillo con `time`.
+- Hay varias formas de **actualizar unas partes de la LCD** sin sobrescribir otras. Yo he usado un **buffer** a modo de memoria de vídeo.
 
 La ejecución del programa consta de tres **tareas paralelas**:
 
-- Una se **conectará al API** y leerá los datos cada pocos segundos. Actualiza la información en el buffer de video.
-- Otra **cuenta los segundos** transcurridos desde la última actualización. Actualiza su parte de la memoria de video.
+- Una se **conectará al API** y leerá los datos cada pocos segundos. Formatea la información y actualiza los campos en el buffer de video.
+- Otra **cuenta los segundos** transcurridos desde la última actualización. Formatea el dato y actualiza su parte de la memoria de video.
 - Una tercera tarea **actualiza la LCD** con los datos del buffer en ese momento. Sólo esta interactúa con el puerto I2C.
 
-También quería hacer sonar un **aviso acústico** si el tiempo de espera es inferior a 5 minutos.
+También quería hacer sonar un **aviso acústico** si el tiempo de espera es inferior a 5 minutos:
 
-- He generado un tono de 1000Hz usando **PWM**. El ESP8266 no tiene PWM pero lo imita por software. Funciona regular; puedes usarlo con una frecuencia baja siempre que no tengas el ADC activo, ni el sniffer WiFi.
+- He generado un tono de 1000Hz usando **PWM**. El ESP8266 no tiene PWM pero lo imita por software. **Funciona regular**; puedes usarlo con una frecuencia baja siempre que no tengas el ADC activo, ni el sniffer WiFi.
 - La alarma se lanzará en una **tarea en segundo plano** para no bloquear el resto del programa mientras suena.
 
 Para terminar, aquí tenemos nuestro avisador:
