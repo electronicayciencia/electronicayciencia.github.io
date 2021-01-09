@@ -2,7 +2,7 @@
 title: Avisador personal de autobús con ESP8266
 layout: post
 assets: /assets/2021/01/avisador-personal-autobus-con-esp8266
-image: /assets/2021/01/avisador-personal-autobus-con-esp8266/img/esp01s-module-croppped.jpg
+image: /assets/2021/01/avisador-personal-autobus-con-esp8266/img/esp01s-module-cropped.jpg
 featured: false
 tags:
   - Circuitos
