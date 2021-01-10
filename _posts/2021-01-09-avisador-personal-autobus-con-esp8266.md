@@ -10,7 +10,7 @@ tags:
   - ESP8266
 ---
 
-Hoy vamos a hablar del **ESP8266**, un microcontrolador pensado para IoT. Repasaremos sus comienzos. Os contaré en qué consiste la **arquitectura Xtensa**, cómo funciona un **bootloader** y montaremos el entorno ESP-IDF con **FreeRTOS**. Como proyecto final, leeremos el valor de una variable mediante un API REST y lo mostraremos en tiempo real en un LCD.
+Hoy vamos a hablar del **ESP8266**, un microcontrolador pensado para IoT. Repasaremos sus comienzos. Os contaré en qué consiste la **arquitectura Xtensa**, cómo funciona un **bootloader** y montaremos el entorno ESP-IDF con **FreeRTOS**. Como proyecto final, leeremos el valor de una variable mediante un **API REST** y lo mostraremos en tiempo real en un LCD.
 
 {% include image.html file="board-display-cropped.jpg" caption="Avisador de autobuses construido con el módulo ESP-01S. EyC." %}
 
