@@ -332,10 +332,7 @@ Aquí tenemos nuestro avisador montado y conectado a un *power-bank*:
 
 {% include image.html file="usb-board-display.jpg" caption="" %}
 
-Algunas posibles mejoras:
-
-- Conexión WiFi con WPS en lugar de *harcoded*.
-- Servidor HTTP para configuración: cambiar de línea, parada, contraseña del API, tiempos de alarma, etc.
+Algunas posibles mejoras podrían ser usar WPS a la hora de conectar con la WiFi; en lugar de usuario y password en el código. O también un servidor HTTP para modificar la configuración: cambiar de línea, parada, contraseña del API, tiempos de alarma, etc.
 
 
 ## Referencias
