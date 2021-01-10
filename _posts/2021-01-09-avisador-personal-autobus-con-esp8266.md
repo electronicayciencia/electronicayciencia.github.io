@@ -344,18 +344,18 @@ Algunas posibles mejoras podrían ser usar WPS a la hora de conectar con la WiFi
 
 ## Troubleshooting
 
-En esta sección voy a contarte un par de problemas surgidos mientras hacía el proyecto. Como pasa muchas veces, la solución es evidente, pero en su momento me llevaron más tiempo del que me hubiera gustado.
+Déjame contarte un par de problemas surgidos mientras hacía el proyecto. Como pasa muchas veces, la solución es obvia cuando la sabes. Pero en su momento me llevaron más tiempo del que me hubiera gustado.
 
 ### Primer problema
 
-En las primeras pruebas tras portar la [librería wPi_soft_lcd](https://www.electronicayciencia.com/wPi_soft_lcd/) de wiringPi a ESP-IDF: **El módulo se ilumina, se enciende y se apaga cuando se lo ordenamos, pero no muestra caracteres.**
+Tras portar la [librería wPi_soft_lcd](https://www.electronicayciencia.com/wPi_soft_lcd/) de wiringPi a ESP-IDF, en las primeras pruebas **el módulo LCD se ilumina, la luz se enciende y se apaga cuando se lo ordenamos por I2C, pero no muestra ningún carácter, se queda en blanco.**
 
-1. Tengo unos diodos conectados a las líneas de I2C para ver cuándo hay señal. Podrían interferir, los quito. No funciona.
-1. Saco el analizador lógico para mirar la transmisión. La señal parece correcta. Pero la transmisión es larga y es fácil que cualquier error se te pase mirándolo a ojo.
+1. Tengo unos LED conectados a las líneas de I2C para ver cuándo hay señal. Podrían interferir, los quito. No funciona.
+1. Saco el analizador lógico para mirar la transmisión. La señal parece correcta. Pero el mensaje es largo y mirándolo a ojo es fácil pasar por alto un error. Probemos otra cosa.
 1. El LCD podría estar estropeado. Lo conecto a la Raspberry y lanzo el [ejemplo 20x04 de wPi_soft_lcd](https://www.electronicayciencia.com/wPi_soft_lcd/#example_20x4c). El ejemplo sí funciona. No es problema de la pantalla.
-1. Puede que los datos enviados sean incorrectos. Modifico el programa en el ESP para escribir [formato i2cli](https://www.electronicayciencia.com/wPi_soft_i2c/#i2clic) los mismos comandos que transmitiría por I2C.
+1. Puede que los datos enviados sean incorrectos. Modifico el programa en el ESP para escribir [en formato i2cli](https://www.electronicayciencia.com/wPi_soft_i2c/#i2clic) los mismos comandos que transmitiría por I2C.
 1. Reproduzco en la Raspberry tales comandos. **Funciona.** Luego la trasmisión es correcta y el LCD va bien.
-1. Podría ser la alimentación. Desconecto el LCD de la alimentación a 5V y lo conecto a una patilla de 3.3v. Lanzo ejemplo: no funciona.
+1. Podría ser la alimentación. Desconecto el LCD de la alimentación a 5V y lo conecto a una patilla de 3.3v. Lanzo de nuevo el ejemplo: esta vez no funciona.
 
 Ese era el problema: los módulos LCD requieren una tensión de 5V y yo no lo sabía. [Converting 5v LCDs to 3.3v](https://www.element14.com/community/groups/roadtest/blog/2019/06/15/converting-5v-lcds-to-33v).
 
