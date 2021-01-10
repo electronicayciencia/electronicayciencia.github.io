@@ -276,7 +276,7 @@ Los componentes principales son el módulo ESP-01S, un LCD de 4x20 como visor y 
 
 Necesitaremos 5V de alimentación ya que nuestro **LCD no funciona a 3.3V**. Hay módulos LCD con una pequeña bomba de carga instalada que funcionan a 3.3, pero el nuestro no la lleva. 
 
-El **ESP8266 requiere 3.3V**, no pudiendo superar nunca los 3.6V de máximo, con picos de 200mA. Suele usarse un regulador lineal o conmutado de 3.3V. Pero mi forma de ver la electrónica no consiste en **comprar y juntar piezas** como un juego de Lego; sino en resolver un problema aprendiendo a usar los componentes de que dispones. Como el objetivo no es maximizar la duración de la batería (de serlo no usaríamos el ESP-01S), he optado por usar transistores y un divisor resistivo. 
+El **ESP8266 requiere 3.3V**, no pudiendo superar nunca los 3.6V de máximo, con picos de 200mA. Suele usarse un regulador lineal o conmutado de 3.3V. Pero mi forma de ver la electrónica no consiste en **comprar y juntar piezas** como un juego de Lego; sino en resolver un problema aprendiendo a usar los componentes de que dispones. Como el objetivo no es maximizar la duración de la batería (de serlo no usaríamos el ESP-01S ni un LCD retroiluminado), he optado por transistores y un divisor resistivo. 
 
 Es inviable regular **200mA** de forma estable con un divisor y un transistor. Podríamos usar dos transistores en [**configuración Darlington**](https://es.wikipedia.org/wiki/Transistor_Darlington). O mejor aún, un *par Darlignton complementario* o [**configuración Sziklai**](https://en.wikipedia.org/wiki/Sziklai_pair). Es como el Darlington pero usando **un transistor NPN y otro PNP**. En este gráfico veis la comparación entre ambas configuraciones y cómo la tensión de salida se mantiene más estable en esta última.
 
@@ -331,6 +331,12 @@ También quería hacer sonar un **aviso acústico** si el tiempo de espera es in
 Aquí tenemos nuestro avisador montado y conectado a un *power-bank*:
 
 {% include image.html file="usb-board-display.jpg" caption="" %}
+
+Algunas posibles mejoras:
+
+- Conexión WiFi con WPS en lugar de *harcoded*.
+- Servidor HTTP para configuración: cambiar de línea, parada, contraseña del API, tiempos de alarma, etc.
+
 
 ## Referencias
 
