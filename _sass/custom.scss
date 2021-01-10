@@ -30,12 +30,12 @@
 }
 
 .fullwidth {
-	max-width: 100%;
+    max-width: 100%;
 }
 
 .postimage figure figcaption {
     text-align: center;
-  	margin-top: 0.5rem;	  
+    margin-top: 0.5rem;
 }
 
 /* Blogger sizes 
@@ -186,6 +186,9 @@ $img-x-large-width: 100%;
 
 .post-card .post-excerpt {
   overflow: hidden;
+}
+
+.post-excerpt p {
   cursor: pointer;
 }
 
