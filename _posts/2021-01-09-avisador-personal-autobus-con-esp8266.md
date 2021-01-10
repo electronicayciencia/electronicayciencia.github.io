@@ -357,20 +357,20 @@ En las primeras pruebas tras portar la [librería wPi_soft_lcd](https://www.elec
 1. Reproduzco en la Raspberry tales comandos. **Funciona.** Luego la trasmisión es correcta y el LCD va bien.
 1. Podría ser la alimentación. Desconecto el LCD de la alimentación a 5V y lo conecto a una patilla de 3.3v. Lanzo ejemplo: no funciona.
 
-Ese era el problema: los módulos LCD requieren una tensión de 5V y yo no había caído. [Converting 5v LCDs to 3.3v](https://www.element14.com/community/groups/roadtest/blog/2019/06/15/converting-5v-lcds-to-33v).
+Ese era el problema: los módulos LCD requieren una tensión de 5V y yo no lo sabía. [Converting 5v LCDs to 3.3v](https://www.element14.com/community/groups/roadtest/blog/2019/06/15/converting-5v-lcds-to-33v).
 
 ### Segundo problema
 
-Cuando por fin consigo mostrar algo en el la pantalla, resulta que **con la pantalla conectada da errores la wifi y no conecta**.
+Cuando por fin consigo mostrar algo en el la pantalla, resulta que **empieza a dar errores la wifi y no conecta**.
 
 1. Podría ser de la WiFi de pruebas. Cambio a la red principal, pero falla también.
 1. Reinicio el *router*: sigue fallando.
-1. Tal vez el consumo del LCD sumado al del ESP8266 sea demasiado para el conversor USB-Serie. Quito la LCD: funciona. Va a ser eso.
+1. Tal vez el consumo del LCD sumado al del ESP8266 sea demasiado para el conversor USB-Serie. Quito la pantalla. Funciona. Va a ser eso.
 1. Añado un condensador más grande para mitigar la caída de tensión en picos. Vuelve a fallar.
 1. Desconecto el positivo del LCD, pero dejo el negativo. Ahora la pantalla no está consumiendo nada: falla también. No va a ser del consumo.
-1. Quito positivo y negativo: funciona.
+1. Quito también el negativo. Ahora funciona. No tiene sentido.
 
-El problema era que tenía los cables del LCD demasiado cerca de la antena WiFi en la protoboard. Moviéndolos otra posición funciona correctamente. Tener partes metálicas pegadas a la antena reduce mucho su rendimiento, tenlo en cuenta en tus diseños.
+El problema era que tenía los cables del LCD demasiado cerca de la antena WiFi en la protoboard. Moviéndolos a otra posición funciona correctamente. La antena siempre debe quedar lo más libre posible, pues tener partes metálicas cercanas a ella reduce mucho su rendimiento.
 
 ## Referencias
 
