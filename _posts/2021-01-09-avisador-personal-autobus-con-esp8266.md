@@ -126,6 +126,8 @@ No sólo eso, en el bootloader podemos dejar programadas otras utilidades; sin i
 
 El ESP8266 lleva este método al extremo. El micro no posee memoria flash, su cargador está en una memoria de solo lectura (ROM) y no es modificable -o no sabemos cómo-. Eso es bueno, porque tampoco podemos *romperlo* por accidente. De hecho, podríamos decir que el ESP8266 no es programable: es un core Xtensa con radio, memoria RAM **y un bootloader**.
 
+### Modos de inicio
+
 ¿Cómo sabe el cargador si debe ejecutar el programa principal o ponerse a escuchar comandos? Por los **niveles lógicos** de las patillas 13, 14 y 15 (MTDO o GP15, GP2 y GP0). Hay tres patillas, ocho combinaciones, ocho modos de arranque distintos ([ESP8266EX - Frequently Asked Questions](https://www.espressif.com/sites/default/files/documentation/Espressif_FAQ_EN.pdf)).
 
 3-Bit Value [GPIO15, GPIO0, GPIO2] | Boot Mode
@@ -170,7 +172,9 @@ El entorno nativo de desarrollo es Linux con Eclipse. Yo voy a usar Windows con 
 
 Desde 2014 el SDK ha pasado por **varias versiones** y distintos estilos. Es importante tenerlo en cuenta a la hora de buscar en foros ejemplos de uso. Estas son las tres más importantes.
 
-[**Versión NONOS**](https://github.com/espressif/ESP8266_NONOS_SDK): Es un SDK simple, lineal. El primero en ser publicado. Sobre él están desarrolladas las librerías de Arduino para el ESP8266. Se considera **obsoleto** desde diciembre de 2019 y [recomiendan usar la versión RTOS](https://github.com/espressif/ESP8266_NONOS_SDK/issues/229).
+### Versión NonOS
+
+La primera versión fue la [**versión NONOS**](https://github.com/espressif/ESP8266_NONOS_SDK). Es un SDK simple, lineal. El primero en ser publicado. Sobre él están desarrolladas las librerías de Arduino para el ESP8266. Se considera **obsoleto** desde diciembre de 2019 y [recomiendan usar la versión RTOS](https://github.com/espressif/ESP8266_NONOS_SDK/issues/229).
 
 > Support Policy for ESP8266 NonOS (Starting from December 2019)
 > - We will not add any new features to the ESP8266 NonOS SDK.
@@ -199,7 +203,9 @@ void ICACHE_FLASH_ATTR user_init(void) {
 }
 ```
 
-[**Versión RTOS**](https://github.com/espressif/ESP8266_RTOS_SDK). Se trata de un SDK con el **sistema operativo FreeRTOS** ([What is An RTOS?](https://www.freertos.org/about-RTOS.html)) ya integrado. Al principio puede parecer más complicado, pero después resulta muy práctico. Nuestro programa ahora es una tarea más y comparte recursos con otras tareas internas como la conexión wifi o la pila TCP/IP: [System Tasks](https://docs.espressif.com/projects/esp8266-rtos-sdk/en/latest/api-guides/system-tasks.html).
+### Versión RTOS
+
+La [**versión RTOS**](https://github.com/espressif/ESP8266_RTOS_SDK) se trata de un SDK con el **sistema operativo FreeRTOS** ([What is An RTOS?](https://www.freertos.org/about-RTOS.html)) ya integrado. Al principio puede parecer más complicado, pero después resulta muy práctico. Nuestro programa ahora es una tarea más y comparte recursos con otras tareas internas como la conexión wifi o la pila TCP/IP: [System Tasks](https://docs.espressif.com/projects/esp8266-rtos-sdk/en/latest/api-guides/system-tasks.html).
 
 Según la versión, podemos ver en el SDK RTOS "estilos" de programación. El primero, **pre ESP-IDF** no se recomienda para nuevos desarrollos. El programa sería similar al anterior, salvo que en lugar de utilizar un temporizador empleamos funciones de RTOS; `vTaskDelay`, por ejemplo, espera una pausa.
 
@@ -216,7 +222,9 @@ void user_init(void) {
 }
 ```
 
-Por último tenemos el **estilo ESP-IDF**. IDF significa, según Espressif, *IoT Development Framework*. Es la **versión recomendada** y la única disponible para el ESP32. Aunque seguimos usando RTOS, hay algunas **diferencias**. El código del usuario ya no está en `user_init` sino en `app_main`; la configuración de puertos ya no se hace con macros sino usando funciones y estructuras.
+### Versión ESP-IDF
+
+Por último tenemos el **estilo ESP-IDF** dentro del SDK RTOS. IDF significa, según Espressif, *IoT Development Framework*. Es la **versión recomendada** y la única disponible para el ESP32. Aunque seguimos usando RTOS, hay algunas **diferencias**. El código del usuario ya no está en `user_init` sino en `app_main`; la configuración de puertos ya no se hace con macros sino usando funciones y estructuras.
 
 ```c
 void app_main()
@@ -234,6 +242,8 @@ void app_main()
     }
 }
 ```
+
+### Instalación
 
 Las instrucciones de instalación y enlaces están en la web de Espressif [Get Started - v3.3](https://docs.espressif.com/projects/esp8266-rtos-sdk/en/release-v3.3/get-started/index.html). Lo primero es descargar los tres componentes:
 
@@ -328,12 +338,39 @@ También quería hacer sonar un **aviso acústico** si el tiempo de espera es in
 - He generado un tono de **1000Hz por medio del PWM**. El ESP8266 no tiene PWM pero lo imita por software. **Funciona regular**; puedes usarlo con una frecuencia baja siempre y cuando no tengas el ADC activo, ni el sniffer WiFi.
 - Lanzamos la alarma dentro de una **tarea en segundo plano** para no bloquear el resto del programa mientras suena.
 
-Aquí tenemos nuestro avisador montado y conectado a un *power-bank*:
-
-{% include image.html file="usb-board-display.jpg" caption="" %}
-
 Algunas posibles mejoras podrían ser usar WPS a la hora de conectar con la WiFi; en lugar de usuario y password en el código. O también un servidor HTTP para modificar la configuración: cambiar de línea, parada, contraseña del API, tiempos de alarma, etc.
 
+{% include image.html file="usb-board-display.jpg" caption="Avisador montado y conectado a un *power-bank*." %}
+
+## Troubleshooting
+
+En esta sección voy a contarte un par de problemas surgidos mientras hacía el proyecto. Como pasa muchas veces, la solución es evidente, pero en su momento me llevaron más tiempo del que me hubiera gustado.
+
+### Primer problema
+
+En las primeras pruebas tras portar la [librería wPi_soft_lcd](https://www.electronicayciencia.com/wPi_soft_lcd/) de wiringPi a ESP-IDF: **El módulo se ilumina, se enciende y se apaga cuando se lo ordenamos, pero no muestra caracteres.**
+
+1. Tengo unos diodos conectados a las líneas de I2C para ver cuándo hay señal. Podrían interferir, los quito. No funciona.
+1. Saco el analizador lógico para mirar la transmisión. La señal parece correcta. Pero la transmisión es larga y es fácil que cualquier error se te pase mirándolo a ojo.
+1. El LCD podría estar estropeado. Lo conecto a la Raspberry y lanzo el [ejemplo 20x04 de wPi_soft_lcd](https://www.electronicayciencia.com/wPi_soft_lcd/#example_20x4c). El ejemplo sí funciona. No es problema de la pantalla.
+1. Puede que los datos enviados sean incorrectos. Modifico el programa en el ESP para escribir [formato i2cli](https://www.electronicayciencia.com/wPi_soft_i2c/#i2clic) los mismos comandos que transmitiría por I2C.
+1. Reproduzco en la Raspberry tales comandos. **Funciona.** Luego la trasmisión es correcta y el LCD va bien.
+1. Podría ser la alimentación. Desconecto el LCD de la alimentación a 5V y lo conecto a una patilla de 3.3v. Lanzo ejemplo: no funciona.
+
+Ese era el problema: los módulos LCD requieren una tensión de 5V y yo no había caído. [Converting 5v LCDs to 3.3v](https://www.element14.com/community/groups/roadtest/blog/2019/06/15/converting-5v-lcds-to-33v).
+
+### Segundo problema
+
+Cuando por fin consigo mostrar algo en el la pantalla, resulta que **con la pantalla conectada da errores la wifi y no conecta**.
+
+1. Podría ser de la WiFi de pruebas. Cambio a la red principal, pero falla también.
+1. Reinicio el *router*: sigue fallando.
+1. Tal vez el consumo del LCD sumado al del ESP8266 sea demasiado para el conversor USB-Serie. Quito la LCD: funciona. Va a ser eso.
+1. Añado un condensador más grande para mitigar la caída de tensión en picos. Vuelve a fallar.
+1. Desconecto el positivo del LCD, pero dejo el negativo. Ahora la pantalla no está consumiendo nada: falla también. No va a ser del consumo.
+1. Quito positivo y negativo: funciona.
+
+El problema era que tenía los cables del LCD demasiado cerca de la antena WiFi en la protoboard. Moviéndolos otra posición funciona correctamente. Tener partes metálicas pegadas a la antena reduce mucho su rendimiento, tenlo en cuenta en tus diseños.
 
 ## Referencias
 
