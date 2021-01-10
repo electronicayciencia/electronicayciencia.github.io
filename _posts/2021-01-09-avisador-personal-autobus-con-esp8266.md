@@ -276,17 +276,17 @@ Los componentes principales son el módulo ESP-01S, un LCD de 4x20 como visor y 
 
 Necesitaremos 5V de alimentación ya que nuestro **LCD no funciona a 3.3V**. Hay módulos LCD con una pequeña bomba de carga instalada que funcionan a 3.3, pero el nuestro no la lleva. 
 
-El **ESP8266 requiere 3.3V**, no pudiendo superar nunca los 3.6V de máximo. La opción más directa es reducir de 5 a 3.3V usando un regulador lineal. Hoy he preferido usar transistores y un divisor resistivo, pero hay un problema: Durante la transmisión WiFi el chip requiere hasta 200mA. Con un divisor y un transistor no podemos regular tanta corriente de forma estable. Podríamos usar dos transistores en [**configuración Darlington**](https://es.wikipedia.org/wiki/Transistor_Darlington). 
+El **ESP8266 requiere 3.3V**, no pudiendo superar nunca los 3.6V de máximo, con picos de 200mA. Suele usarse un regulador lineal o conmutado de 3.3V. Pero mi forma de ver la electrónica no consiste en **comprar y juntar piezas** como un juego de Lego; sino en resolver un problema aprendiendo a usar los componentes de que dispones. Como el objetivo no es maximizar la duración de la batería (de serlo no usaríamos el ESP-01S), he optado por usar transistores y un divisor resistivo. 
 
-Pero hay una opción mejor, el *par Darlignton complementario* o [**configuración Sziklai**](https://en.wikipedia.org/wiki/Sziklai_pair). Es como el Darlington pero usando **un transistor NPN y otro PNP**. En este gráfico veis la comparación entre ambas configuraciones y cómo la tensión de salida se mantiene más estable en esta última.
+Es inviable regular **200mA** de forma estable con un divisor y un transistor. Podríamos usar dos transistores en [**configuración Darlington**](https://es.wikipedia.org/wiki/Transistor_Darlington). O mejor aún, un *par Darlignton complementario* o [**configuración Sziklai**](https://en.wikipedia.org/wiki/Sziklai_pair). Es como el Darlington pero usando **un transistor NPN y otro PNP**. En este gráfico veis la comparación entre ambas configuraciones y cómo la tensión de salida se mantiene más estable en esta última.
 
 {% include image.html file="v_szklai_darlington.png" caption="Tensión a la salida del regulador frente a consumo. Comparación entre las configuraciones Darlington (rojo) y Szklai (verde). EyC." %}
 
-Una cosa más. En ausencia de consumo, cuando retiramos el módulo de su socket, la tensión podría superar los 3.6V. Lo evitamos con **R3** haciendo circular una mínima corriente.
+En ausencia de consumo, cuando retiramos el módulo de su socket, la tensión podría superar los 3.6V. Lo evitamos haciendo circular una mínima corriente a través de **R3**.
 
-Podríamos **omitir** **C1**, **C2**, **R4** y **R5** porque nuestro módulo ESP-01S ya incorpora estos componentes. 
+**C1**, **C2**, **R4** y **R5** son redundantes porque nuestro módulo ESP-01S ya incorpora estos componentes. 
 
-No está previsto recibir comandos vía puerto serie, así que hemos **reasignado la patilla RX** como salida para la alarma. La patilla **TX**salida sí la conservamos para emitir mensajes de depuración.
+No está previsto recibir comandos vía puerto serie, así que hemos **reasignado la patilla RX** como salida para la alarma. La salida **TX** sí la conservamos para emitir mensajes de depuración.
 
 En cuanto al puerto I2C, no es necesario usar **conversor de tensión** porque I2C es un puerto de **colector abierto** (*open drain*). Eso significa que, aunque la LCD funciona a 5V, lo único que hará es poner a masa o no la línea de datos. Por tanto sus 5V no alcanzan nunca al integrado. Por otra parte, el controlador I2C del LCD detectará un valor positivo si excede la mitad de la tensión de alimentación. Y en este caso, 3.3V es mayor que 2.5V.
 
