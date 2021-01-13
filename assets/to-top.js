@@ -1,3 +1,6 @@
+/* This file original name was back-to-top.js, 
+ * but it was renamed because ublock's fanboy annyances list matches it */
+
 var old_offset = 0;
 var button_visible = false;
 var scroll_up_started_at = 0;
