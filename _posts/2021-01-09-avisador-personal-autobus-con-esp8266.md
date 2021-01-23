@@ -361,7 +361,7 @@ Ese era el problema: los módulos LCD requieren una tensión de 5V y yo no lo sa
 
 ### Segundo problema
 
-Cuando por fin consigo mostrar algo en el la pantalla, resulta que **empieza a dar errores la wifi y no conecta**.
+Cuando por fin consigo mostrar algo en la pantalla, resulta que **empieza a dar errores la wifi y no conecta**.
 
 1. Podría ser de la WiFi de pruebas. Cambio a la red principal, pero falla también.
 1. Reinicio el *router*: sigue fallando.
