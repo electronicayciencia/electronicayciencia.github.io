@@ -1,4 +1,4 @@
----
+﻿---
 assets: /assets/2020/09/sintetizador-de-frecuencias-digital-con
 description: Un repaso a los PLL (Phase-Locked Loop) y a mis comienzos con la radio
   y la electrónica.
@@ -172,7 +172,7 @@ La líneas **P0 a P7** van conectadas en paralelo con ciertos segmentos del disp
 
 Como el SM5124A no incorpora VCO debe usarse con un **oscilador externo**. Si bien este puede ser muy sencillo. Ya se encarga el PLL de monitorizar la salida y ajustar la tensión de referencia para la frecuencia que necesitamos. La imagen siguiente está tomada del esquema de una Uniden 520.
 
-El diagrama original lo obtuve de [www.cbtricks.com]({{page.assets | relative_url}}/uniden_pro_520e_sm_sch.jpg). He hecho una [copia en GitHub]({{page.assets | relative_url}}/uniden_pro_520e_sm_sch.jpg) por si en el futuro deja de estar disponible. Del original he eliminado todo salvo las partes que nos interesan: el PLL y el VCO. Para facilitar la legibilidad he eliminado algunos componentes, tal vez los echéis en falta.
+El diagrama original lo obtuve de [www.cbtricks.com](http://www.cbtricks.com/radios/uniden/pro_520e/graphics/uniden_pro_520e_sm_sch.jpg). He hecho una [copia en GitHub]({{page.assets | relative_url}}/uniden_pro_520e_sm_sch.jpg) por si en el futuro deja de estar disponible. Del original he eliminado todo salvo las partes que nos interesan: el PLL y el VCO. Para facilitar la legibilidad he eliminado algunos componentes, tal vez los echéis en falta.
 
 {% include image.html class="x-large-width" file="uniden_pro_520e_vco.jpg" caption="Esquema de la Uniden Pro 520e mostrando sólo el VCO y el PLL. EyC." %}
 

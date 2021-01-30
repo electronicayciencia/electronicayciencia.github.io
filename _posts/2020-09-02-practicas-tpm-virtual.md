@@ -348,7 +348,7 @@ La respuesta decodificada es:
     24 0d b7 56 3a 76 32 9e 3a 5a 96 f1 d0 38 1b 9f ff 69 bc 08 <- random bytes                        
 
 
-# Guardar secretos
+## Guardar secretos
 
 La característica más distintiva de un TPM es poder guardar un secreto bajo una clave y ligarlo al estado actual del sistema.
 
