@@ -579,6 +579,24 @@ Decryption returned: 0
 
 Hemos conseguido hacer funcionar el programa Python con tan sólo cambios menores. En este repositorio GitHub os dejo el resultado: [tr-069-proxy part2](https://github.com/electronicayciencia/tr-069-proxy/tree/main/part2).
 
+Si quisiéramos, ahora podemos **activar el acceso remoto** sin más que incluir el nodo `SSHEnable` en el fichero de configuración, comprimirlo, cifrarlo y volverlo a subir.
+
+```xml
+<Device>
+  <Services>
+    <RemoteAccess>
+      <HTTPEnable>true</HTTPEnable>
+      <HTTPSEnable>true</HTTPSEnable>
+      <SSHEnable>true</SSHEnable>
+    </RemoteAccess>
+```
+
+Aquí tienes los dos programas necesarios para hacer eso, [tr-069-proxy part2](https://github.com/electronicayciencia/tr-069-proxy/tree/main/part2):
+
+- con `showconfig.py device.cfg device.xml` descifras el fichero
+- editas `device.xml` para incluir el nodo SSH o las opciones que quieras
+- y regeneras el fichero cfg con `xml2cfg.py`.
+
 ## Implicaciones de seguridad
 
 Una vez descifrado, el fichero de configuración contiene información de todo tipo. Por ejemplo:
@@ -605,7 +623,7 @@ Una solución más adecuada podría ser **solicitar una contraseña** al usuario
 
 ## Conclusiones
 
-En este artículo hemos investigado cómo funciona el mecanismo de cifrado de la configuración de un router doméstico. Partiendo del algoritmo de un modelo anterior, lo hemos actualizado con tan sólo unos **cambios menores**.
+En este artículo hemos investigado cómo funciona el mecanismo de cifrado de la configuración de un router doméstico. Partiendo del algoritmo de un modelo anterior, lo hemos actualizado con tan sólo unos **cambios menores**. Hemos modificado el fichero y lo hemos vuelto a cifrar para activar el acceso remoto.
 
 Hemos visto cómo llamar a las funciones de una librería desconocida; para lo cual fue necesario compilar un programa totalmente desligado de las librerías del sistema anfitrión.
 
