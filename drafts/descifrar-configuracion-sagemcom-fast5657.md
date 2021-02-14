@@ -234,15 +234,15 @@ $ file /bin/bash
 /bin/bash: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-armhf.so.3, for GNU/Linux 2.6.32, stripped
 ```
 
-Hay múltiples formas de indicarle al cargador dónde encontrar una librería. Las dos más habituales son copiar la libería a una ruta del sistema o bien añadir la ruta adecuada a la variable de entorno LD_LIBRARY_PATH.
+Hay múltiples formas de indicarle al cargador dónde encontrar una librería. Las dos más habituales son copiar la librería a una ruta del sistema o bien añadir la ruta adecuada a la variable de entorno LD_LIBRARY_PATH.
 
 Te lo puedes ahorrar. Da igual, no te vale.
 
-El problema no es ese. Aunque diga *not found* no es que no la encuentre, es que **no puede cargarla**. La arquitectura es compatible. El procesador reconoce las instrucciones ARM y puede ejecutarlas. Pero los binarios han sido compilados para otra versión de linux, con otras librerías y, por supuesto, otro cargador dinámico. El programa terminará funcionando. Pero no lo hará con las librerías de nuestro sistema.
+El problema no es ese. Aunque diga *not found* no es que no la encuentre, es que **no puede cargarla**. La arquitectura es compatible. El procesador reconoce las instrucciones ARM y puede ejecutarlas. Pero los binarios han sido compilados para otra versión de Linux, con otras librerías y, por supuesto, otro cargador dinámico. El programa terminará funcionando. Pero no lo hará con las librerías de nuestro sistema.
 
-Necesitamos hacer una **compilación cruzada**. Usaremos la toolchain de raspbian para compilar. Y a la hora de linkar el ejecutable final lo haremos **con la glibc del router** (digamos OpenWrt). También debemos indicar el cargador correcto porque, con esas librerías extrañas, el de raspbian se va a estrellar.
+Necesitamos hacer una **compilación cruzada**. Usaremos la toolchain de Raspbian para compilar. Y a la hora de linkar el ejecutable final lo haremos **con la glibc del router** (digamos OpenWrt). También debemos indicar el cargador correcto porque, con esas librerías extrañas, el de Raspbian se va a estrellar.
 
-Primero copiamos los directorios `/lib` y `/usr/lib` a la raspberry. Y después le decimos a GCC lo que queremos hacer:
+Primero copiamos los directorios `/lib` y `/usr/lib` a la Raspberry. Y después le decimos a GCC lo que queremos hacer:
 
 ```console
 $ ROUTERFS=/home/pi/router_arm/squashfs
@@ -262,7 +262,7 @@ $ gcc -o prog prog.c \
 - añadimos la librerías gsdf (la que queremos usar)
 - añadimos la libc externa
 - las versiones modernas de libc requieren librt y libpthread, las añadimos también
-- con el parámetro `rpath` ordenamos al linker incluir en el fichero binario las rutas *hardcoded* donde buscar las librerías. Estas rutas tienen preferencia sobre las indicadas en `/etc/ld.so.conf`. Por tanto, cuando el cargador bisque una *libc* para este ejecutable, encontrará la del router en lugar de cargar la de raspbian.
+- con el parámetro `rpath` ordenamos al linker incluir en el fichero binario las rutas *hardcoded* donde buscar las librerías. Estas rutas tienen preferencia sobre las indicadas en `/etc/ld.so.conf`. Por tanto, cuando el cargador busque una *libc* para este ejecutable, encontrará la del router en lugar de cargar la de Raspbian.
 - forzamos el cargador correcto, que es quien entiende cómo manejar esas librerías.
 
 Compilado así, funciona sin problemas:
@@ -321,7 +321,7 @@ close(3)                                = 0
 
 Aquí vemos cómo se ha abierto `/dev/urandom` y se han leído 16 bytes: `1e 19 ... ff 66`. Ve arriba y mira en el volcado del fichero la linea 00000010. Ahí tienes los 16 bytes del vector de inicialización.
 
-Tal como habíamos supuesto, el algoritmo de cifrado no ha cambiado apenas respecto a lo encontrado en noconroy.net. Vamos a comprobar si la clave es distinta.
+Tal como habíamos supuesto, el algoritmo de cifrado no ha cambiado apenas respecto a lo encontrado en *noconroy.net*. Vamos a comprobar si la clave es distinta.
 
 ## La *nueva* clave
 
@@ -364,9 +364,9 @@ Make breakpoint pending on future shared library load? (y or [n]) y
 Breakpoint 1 (aes_setkey_enc) pending.
 
 (gdb) r
-Starting program: /home/pi/router_arm/prog e testfile testfile.out
+Starting program: prog e testfile testfile.out
 ...
-Breakpoint 1, 0x76fae380 in aes_setkey_enc () from /usr/lib/libgsdf.so.1
+Breakpoint 1, 0x76fae380 in aes_setkey_enc () from libgsdf.so.1
 
 (gdb)
 ```
@@ -485,7 +485,7 @@ Este esquema se denomina ***Encrypt-then-MAC (EtM)***. Y, aunque cumple su funci
 - Es más, en lugar de usar un hash deberían haber usado una construcción **HMAC**, parecida a un hash, pero pensada especialmente para esta función.
 - También se recomienda usar **claves diferentes** para cifrar y para calcular el MAC.
 
-En cuaquier caso, es suficiente para guardar la configuración de un router que tiene ***hardcoded*** la clave de cifrado. Veamos qué ha cambiado entre el modelo 5355 y el 5657 para que no funcione.
+En cualquier caso, es suficiente para guardar la configuración de un router que tiene ***hardcoded*** la clave de cifrado. Veamos qué ha cambiado entre el modelo 5355 y el 5657 para que no funcione.
 
 Empezamos por listar aquellas funciones de `libgsdf.so` relacionadas con un SHA-256.
 
@@ -585,9 +585,9 @@ Una vez descifrado, el fichero de configuración contiene información de todo t
 
 - Datos identificativos del dispositivo (fabricante, modelo y número de serie)
 - Cuentas de usuario, perfiles de acceso y contraseñas en claro
-- Configuración de los puntos de acceso wifi (SSID, contraseña, PIN WPS, filtrado por MAC)
+- Configuración de los puntos de acceso WiFi (SSID, contraseña, PIN WPS, filtrado por MAC)
 - Datos de registro VoIP del usuario
-- Configuración del ACS (url, usuario y contraseña)
+- Configuración del ACS (URL, usuario y contraseña)
 - Accesos remotos habilitados (HTTPS, HTTP, SSH o telnet)
 - Configuración del filtro parental y cortafuegos
 - Listado de los hosts conectados a la red (IP, MAC, hostname)
@@ -599,7 +599,7 @@ Un intruso que accediera puntualmente a tu red por un punto de acceso mal config
 
 El fichero también contiene los **datos de configuración VoIP**. Con estos datos alguien podría configurar un teléfono SIP y hacer llamadas que quedarían reflejadas **en tu factura**.
 
-Con el fin de **evitarlo**, algunos ISP han eliminado la opción de salvar y cargar un backup. Un movimiento agresivo y desconsiderado hacia el usuario final.
+Con el fin de **evitarlo**, algunos ISP han eliminado la opción de salvar y cargar un *backup*. Un movimiento agresivo y desconsiderado hacia el usuario final.
 
 Una solución más adecuada podría ser **solicitar una contraseña** al usuario en el momento de generar el fichero y utilizarla para derivar la clave de cifrado; en lugar de usar siempre la misma clave estática.
 
@@ -611,7 +611,7 @@ Hemos visto cómo llamar a las funciones de una librería desconocida; para lo c
 
 A la hora de estudiar el funcionamiento interno del algoritmo nos hemos valido únicamente de **herramientas genéricas** como *strings*, *gcc*, *gdb*, *strace* o *hexdump*, presentes en muchos sistemas Unix.
 
-Para terminar, hemos discutido algunas implicaciones de seguridad relacionadas con el uso de una **clave estática** oculta al usuario. Exponiendo, una vez más, cómo la **seguridad por oscuridad** penaliza al usuario final sin ofrecer protección contra un atacante.
+Para terminar, hemos discutido algunas implicaciones de seguridad relacionadas con el uso de una **clave estática** oculta al usuario. Exponiendo, una vez más, cómo la **seguridad por oscuridad** penaliza al usuario final sin aportar protección contra un atacante.
 
 ## Referencias
 
