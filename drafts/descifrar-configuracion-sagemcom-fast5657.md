@@ -381,7 +381,7 @@ Desconozco cómo se hace el **paso de parámetros** en arquitectura ARM. ¿En la
 
 Cuando aes_setkey_enc retorne, la ejecución se reanudará desde la dirección 0x76fad628, así que examinaremos los bytes previos a la llamada volcándolos en ensamblador:
 
-```asm
+```nasm
    0x76fad618 <+408>:   mov     r1, r8
    0x76fad61c <+412>:   mov     r0, r9
    0x76fad620 <+416>:   mov     r2, #256        ; 0x100
@@ -597,13 +597,11 @@ Sumado al **usuario y contraseña por defecto** "1234/1234" podría dar lugar a 
 
 Un intruso que accediera puntualmente a tu red por un punto de acceso mal configurado, podría entrar en el router usando el usuario 1234. Y una vez dentro volcar la configuración y descifrarla. Escalaría privilegios sabiendo la **contraseña del usuario admin**. También obtendría la configuración del resto de puntos de acceso WiFi.
 
-No sólo eso. Podría manipular la configuración. Activando el WPS, o por ejemplo, con el **acceso remoto SSH** se aseguraría el acceso a través de internet. Si cambias la contraseña de la WiFi, podría entrar por SSH y descubrirla de nuevo.
+No sólo eso. Podría manipular la configuración. Activando el WPS el **acceso remoto SSH** a través de internet. Si cambias la contraseña de la WiFi, podría entrar por SSH y descubrirla de nuevo.
 
 El fichero también contiene los **datos de configuración VoIP**. Con estos datos alguien podría configurar un teléfono SIP y hacer llamadas que quedarían reflejadas **en tu factura** de teléfono.
 
-Es más, teniendo los datos del dispositivo (especiamente el **número de serie** y el fabricante) alguien podría aprovecharse del servidor ACS del operador. Y, hacíendose pasar por tu dispositivo, solicitar la configuración VoIP del abonado. Con las mismas consecuencias que en el punto anterior. Si publicas **fotos de tu router** -por ejemplo para venderlo- procura **tachar** esta información.
-
-Con el fin de **evitarlo**, algunos ISP han **eliminado la opción** de salvar y cargar un backup de la configuración. Un tanto **agresivo y desconsiderado** hacia el usuario final.
+Con el fin de **evitarlo**, algunos ISP han **eliminado la opción** de salvar y cargar un backup. Un tanto **agresivo y desconsiderado** hacia el usuario final.
 
 Una solución más adecuada podría ser **solicitar una contraseña** al usuario en el momento de generar el fichero y utilizarla para derivar la clave de cifrado; en lugar de usar siempre la misma clave estática.
 
