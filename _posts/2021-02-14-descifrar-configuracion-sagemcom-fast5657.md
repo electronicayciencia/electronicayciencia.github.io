@@ -72,7 +72,7 @@ Tras hacernos *root* por aquel otro camino, vamos a saber más acerca de ese fic
 
 A la hora de analizar un fichero binario hay dos cosas por donde empezar a desgranar el formato. Una son las palabras legibles (**strings**) y la otra los **ceros**. De esto habíamos hablado ya en [Describiendo un protocolo desconocido]({{site.baseurl}}{% post_url 2017-12-25-describiendo-un-protocolo-desconocido %}).
 
-Tenemos varios elementos que son comunen en todos los ficheros. Dos son palabras legibles: `AEAD 10` al principio del todo, que podría ser una **firma** identificativa del tipo de fichero. Y más adelante `default`. El resto es binario.
+Tenemos varios elementos comunes en todos los ficheros. Dos son palabras legibles: `AEAD 10` al principio del todo, que podría ser una **firma** identificativa del tipo de fichero. Y más adelante `default`. El resto es binario.
 
 En cuanto a ceros tenemos uno al final de `AEAD 10`, podría ser una cadena terminada en cero. Luego encontramos `00 00 53 d7`. Cabe suponer que sea un entero de 32 bits,en tal caso equivaldría a 21463 en hexadecimal. Lo cual coincide con el **tamaño** en bytes del fichero:
 
@@ -196,7 +196,7 @@ int main(int argc, char *argv[]) {
 
 Pero ¿dónde lo ejecutamos?
 
-El FAST 5355 **es MIPS**. El autor debió hacerse con una toolchain MIPS y usar Qemu para emular en local dicha plataforma. El modelo 5657, por el contrario, **es ARM**.
+El FAST 5355 **es MIPS**. El modelo 5657, por el contrario, **es ARM**.
 
 ```console
 admin@home:/tmp$ cat /proc/cpuinfo
@@ -208,9 +208,7 @@ Features        : half thumb fastmult edsp tls idiva idivt lpae
 Hardware        : BCM96846
 ```
 
-Estamos de suerte. Precisamente conozco bien la toolchain para otro dispositivo ARM: la **Raspberry Pi**.
-
-No es exactamente el mismo SOC pero la arquitectura es compatible. De hecho los binarios vienen compilados para ARM EABI5. 
+Estamos de suerte. Precisamente conozco bien la toolchain para otro dispositivo ARM: la **Raspberry Pi**. No es exactamente el mismo SOC pero la arquitectura es compatible. De hecho los binarios vienen compilados para ARM EABI5.
 
 ```console
 $ file libgsdf.so.1.0.0
@@ -227,9 +225,9 @@ pi@raspberrypi:~$ ./prog
 
 El compilador sí encuentra la librería. De lo contrario habría fallado en la fase de linkado.
 
-Quien no la encuentra es el **cargador dinámico**. Los binarios ELF necesitan de un programa aparte que los lee; recoge los módulos que necesitan, los busca en el sistema y carga en memoria; resuelve a su vez los que estos necesitan y, al final del todo, carga el binario ELF y le pasa el control.
+Los binarios ELF necesitan de un programa aparte que los lee; recoge los módulos que necesitan, los busca en el sistema y carga en memoria; resuelve a su vez los que estos necesitan y, al final del todo, carga el binario ELF y le pasa el control. Es el **cargador dinámico** y es él quien no la encuentra.
 
-Y se llama precisamente **intérprete**, como el intérprete de Python o de Bash:
+El comando `file` lo llama **intérprete**, como el intérprete de Python o de Bash:
 
 ```console
 $ file /bin/bash
@@ -238,11 +236,11 @@ $ file /bin/bash
 
 Hay múltiples formas de indicarle al cargador dónde encontrar una librería. Las dos más habituales son copiar la librería a una ruta del sistema o bien añadir la ruta adecuada a la variable de entorno LD_LIBRARY_PATH.
 
-Te lo puedes ahorrar. Da igual, no te vale.
+Te las puedes ahorrar. Da igual, no te vale.
 
-El problema no es ese. Aunque diga *not found* no es que no la encuentre, es que **no puede cargarla**. La arquitectura es compatible. El procesador reconoce las instrucciones ARM y puede ejecutarlas. Pero los binarios han sido compilados para otra versión de Linux, con otras librerías y, por supuesto, otro cargador dinámico. El programa terminará funcionando. Pero no lo hará con las librerías de nuestro sistema.
+El problema no es ese. Aunque diga *not found* no es que no la encuentre, es que no encuentra una que pueda cargar. Porque esta **no puede cargarla**. La arquitectura es compatible. El procesador reconoce las instrucciones ARM. Pero hasta ahí. Los binarios han sido compilados para otra versión de Linux, con otras librerías y, por supuesto, otro cargador dinámico. El programa terminará funcionando. Pero no lo hará con las librerías de nuestro sistema.
 
-Necesitamos hacer una **compilación cruzada**. Usaremos la toolchain de Raspbian para compilar. Y a la hora de linkar el ejecutable final lo haremos **con la glibc del router** (digamos OpenWrt). También debemos indicar el cargador correcto porque, con esas librerías extrañas, el de Raspbian se va a estrellar.
+Necesitamos hacer una **compilación cruzada**. Usaremos la toolchain de Raspbian para compilar. Y, a la hora de enlazar el ejecutable final, lo haremos **con la glibc del router**. También debemos indicar el cargador correcto porque, con esas librerías extrañas, el de Raspbian se va a estrellar.
 
 Primero copiamos los directorios `/lib` y `/usr/lib` a la Raspberry. Y después le decimos a GCC lo que queremos hacer:
 
@@ -321,7 +319,7 @@ read(3, "\x1e\x19\x15\x3b\x53\x30\x45\x8f\x12\x99\x99\xb6\xd5\xdb\xff\x66", 16) 
 close(3)                                = 0
 ```
 
-Aquí vemos cómo se ha abierto `/dev/urandom` y se han leído 16 bytes: `1e 19 ... ff 66`. Ve arriba y mira en el volcado del fichero la linea 00000010. Ahí tienes los 16 bytes del vector de inicialización.
+Aquí vemos cómo se ha abierto `/dev/urandom` y se han leído 16 bytes: `1e 19 ... ff 66`. Ve arriba y mira en el volcado del fichero la linea 00000010. Ahí tienes esos mismos 16 bytes formando el vector de inicialización.
 
 Tal como habíamos supuesto, el algoritmo de cifrado no ha cambiado apenas respecto a lo encontrado en *noconroy.net*. Vamos a comprobar si la clave es distinta.
 
@@ -626,7 +624,6 @@ Para ampliar información:
 
 - [Seguridad por oscuridad - Wikipedia](https://es.wikipedia.org/wiki/Seguridad_por_oscuridad)
 - [Magic number (programming) - In Files - Wikipedia](https://en.wikipedia.org/wiki/Magic_number_(programming)#In_files)
-- [Null-terminated_string - Wikipedia](https://en.wikipedia.org/wiki/Null-terminated_string)
 - [DOS_MZ_executable - Wikipedia](https://en.wikipedia.org/wiki/DOS_MZ_executable)
 - [Authenticated encryption - Wikipedia](https://en.wikipedia.org/wiki/Authenticated_encryption)
 - [Block cipher mode of operation - Counter (CTR) - Wikipedia](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Counter_(CTR))
