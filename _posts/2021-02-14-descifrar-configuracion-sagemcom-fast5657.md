@@ -624,6 +624,7 @@ Artículos relacionados:
 
 Para ampliar información:
 
+- [Seguridad por oscuridad - Wikipedia](https://es.wikipedia.org/wiki/Seguridad_por_oscuridad)
 - [Magic number (programming) - In Files - Wikipedia](https://en.wikipedia.org/wiki/Magic_number_(programming)#In_files)
 - [Null-terminated_string - Wikipedia](https://en.wikipedia.org/wiki/Null-terminated_string)
 - [DOS_MZ_executable - Wikipedia](https://en.wikipedia.org/wiki/DOS_MZ_executable)
