@@ -9,11 +9,13 @@ tags:
   - Informática
 ---
 
-En esta entrada hablaremos de **compilación cruzada**, **depuración** de software y **criptografía** y seguridad por oscuridad. ¿Te acuerdas de cuando [obtuvimos la PLOAM password de este router]({{site.baseurl}}{% post_url 2020-10-26-obteniendo-ploam-password-fast-5657 %})? Hoy vamos a profundizar hasta descubrir el algoritmo y la clave con que se cifra el *backup* de la configuración.
+Hoy hablaremos de **criptografía**, **depuración** de software y seguridad por oscuridad. ¿Te acuerdas de cuando [obtuvimos la PLOAM password de este router]({{site.baseurl}}{% post_url 2020-10-26-obteniendo-ploam-password-fast-5657 %})? Hoy vamos a profundizar hasta descubrir el algoritmo y la clave con que se cifra el *backup* de la configuración.
 
 **Nota**. Si sólo has venido a por el programa y no te interesan los detalles, aquí está el binario para windows: [Sagemcom F@ST 5657 configuration decryptor v1.0](https://github.com/electronicayciencia/tr-069-proxy/releases/tag/v1.0). Suerte.
 
 ## El método anterior: MitM
+
+Un inciso antes de comenzar.
 
 El método que describía en la otra entrada consiste en **interceptar la comunicación** con el servidor de configuración (ACS) e inyectar los parámetros necesarios para habilitar el acceso al dispositivo. Era necesario porque el router estaba completamente cerrado. No teníamos ni SSH ni telnet desde la propia LAN. Era un desafío, pero **era un rollo**.
 
