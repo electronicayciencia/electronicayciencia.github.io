@@ -9,7 +9,7 @@ tags:
   - Informática
 ---
 
-Hoy hablaremos de **criptografía**, **depuración** de software y seguridad por oscuridad. ¿Te acuerdas de cuando [obtuvimos la PLOAM password de este router]({{site.baseurl}}{% post_url 2020-10-26-obteniendo-ploam-password-fast-5657 %})? Hoy vamos a profundizar hasta descubrir el algoritmo y la clave con que se cifran los *backups* de la configuración.
+Hoy hablaremos de **criptografía**, **depuración** de software y seguridad por oscuridad. ¿Te acuerdas de cuando [obtuvimos la PLOAM password de este router]({{site.baseurl}}{% post_url 2020-10-26-obteniendo-ploam-password-fast-5657 %})? Hoy vamos a profundizar hasta **descubrir el algoritmo** y la clave con que se cifran los *backups* de la configuración.
 
 **Nota**. Si sólo has venido a por el programa y no te interesan los detalles, aquí está el binario para Windows: [Sagemcom F@ST 5657 configuration decryptor v1.0](https://github.com/electronicayciencia/tr-069-proxy/releases/tag/v1.0). Suerte.
 
