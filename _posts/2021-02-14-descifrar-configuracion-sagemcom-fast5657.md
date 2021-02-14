@@ -577,7 +577,7 @@ decrypted data size : 4
 Decryption returned: 0
 ```
 
-Hemos conseguido hacer funcionar el programa Python con tan sólo cambios menores. En este repositorio GitHub os dejo el resultado: [tr-069-proxy part2](https://github.com/electronicayciencia/tr-069-proxy/tree/main/part2).
+Hemos conseguido hacer funcionar el programa Python con tan sólo cambios menores.
 
 Si quisiéramos, ahora podemos **activar el acceso remoto** sin más que incluir el nodo `SSHEnable` en el fichero de configuración, comprimirlo, cifrarlo y volverlo a subir.
 
