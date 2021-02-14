@@ -490,7 +490,7 @@ En cuaquier caso, es suficiente para guardar la configuración de un router que 
 Empezamos por listar aquellas funciones de `libgsdf.so` relacionadas con un SHA-256.
 
 ```console
-$ strings squashfs/usr/lib/libgsdf.so | grep -i sha2
+$ strings libgsdf.so | grep -i sha2
 sha2_starts
 sha2_update
 sha2_finish
@@ -577,6 +577,8 @@ decrypted data size : 4
 Decryption returned: 0
 ```
 
+Hemos conseguido hacer funcionar el programa Python con tan sólo cambios menores. En este repositorio GitHub os dejo el resultado: [tr-069-proxy part2](https://github.com/electronicayciencia/tr-069-proxy/tree/main/part2).
+
 ## Implicaciones de seguridad
 
 Una vez descifrado, el fichero de configuración contiene información de todo tipo. Por ejemplo:
@@ -609,11 +611,11 @@ Una solución más adecuada podría ser **solicitar una contraseña** al usuario
 
 En este artículo hemos investigado cómo funciona el mecanismo de cifrado de la configuración de un router doméstico.
 
-Partiendo del algoritmo de un modelo anterior, lo hemos adaptado para hacerlo funcionar en el nuestro.
+Partiendo del algoritmo de un modelo anterior, lo hemos adaptado para hacerlo funcionar en el nuestro con unos **cambios menores**.
 
 Hemos visto cómo llamar a las funciones de una librería desconocida; para lo cual fue necesario compilar un programa totalmente desligado de las librerías del sistema anfitrión.
 
-A la hora de estudiar el funcionamiento interno del algoritmo nos hemos valido únicamente de herramientas genéricas como *strings*, *gcc*, *gdb*, *strace* o *hexdump*, presentes en muchos sistemas Unix.
+A la hora de estudiar el funcionamiento interno del algoritmo nos hemos valido únicamente de **herramientas genéricas** como *strings*, *gcc*, *gdb*, *strace* o *hexdump*, presentes en muchos sistemas Unix.
 
 Para terminar, hemos discutido algunas implicaciones de seguridad relacionadas con el descifrado y la manipulación de esta información. Espero que os haya gustado.
 
