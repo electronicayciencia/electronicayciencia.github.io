@@ -196,7 +196,7 @@ int main(int argc, char *argv[]) {
 
 Pero ¿dónde lo ejecutamos?
 
-El FAST 5355 **es MIPS**. El autor debió hacerse con una toolchain MIPS y usar Qemu para emular en local dicha  plataforma. El modelo 5657, por el contrario, **es ARM**.
+El FAST 5355 **es MIPS**. El autor debió hacerse con una toolchain MIPS y usar Qemu para emular en local dicha plataforma. El modelo 5657, por el contrario, **es ARM**.
 
 ```console
 admin@home:/tmp$ cat /proc/cpuinfo
@@ -210,14 +210,14 @@ Hardware        : BCM96846
 
 Estamos de suerte. Precisamente conozco bien la toolchain para otro dispositivo ARM: la **Raspberry Pi**.
 
-No es exactamente el mismo SOC pero la arquitectura parece compatible. De hecho los binarios vienen compilados para ARM EABI5. Es más, si copiamos el `busybox` del router a la Raspberry se ejecuta sin problema.
+No es exactamente el mismo SOC pero la arquitectura es compatible. De hecho los binarios vienen compilados para ARM EABI5. 
 
 ```console
 $ file libgsdf.so.1.0.0
 libgsdf.so.1.0.0: ELF 32-bit LSB shared object, ARM, EABI5 version 1 (SYSV), dynamically linked, stripped
 ```
 
-Copiamos, pues, la librería *libgsdf.so* a nuestra raspberry. Ningún error al compilar. Pero falla la ejecución.
+Es más, el `busybox` del router se ejecuta en Raspberry sin problemas. Copiamos, pues, la librería *libgsdf.so* a nuestra Raspberry. Ningún error al compilar. Pero falla la ejecución.
 
 ```console
 pi@raspberrypi:~$ gcc -o prog prog.c -L . -l gsdf
@@ -597,7 +597,7 @@ Una vez descifrado, el fichero de configuración contiene información de todo t
 
 Sumado al **usuario y contraseña por defecto** "1234/1234" podría dar lugar a escenarios como estos:
 
-Un intruso que accediera puntualmente a tu red por un punto de acceso mal configurado, podría entrar en el router usando el usuario 1234. Y una vez dentro volcar la configuración y descifrarla. Obteniendo toda la información. No sólo eso. Podría manipular la configuración. Activando el WPS o el **acceso remoto SSH**.
+Un intruso que accediera puntualmente a tu red por un punto de acceso mal configurado, podría entrar en el router usando el usuario 1234. Y una vez dentro volcar la configuración y descifrarla obteniendo toda la información. No sólo eso. Podría manipularla activando el WPS o el **acceso remoto SSH**.
 
 El fichero también contiene los **datos de configuración VoIP**. Con estos datos alguien podría configurar un teléfono SIP y hacer llamadas que quedarían reflejadas **en tu factura**.
 
