@@ -161,7 +161,7 @@ El autor de *noconroy.net* descubre la clave para su firmware haciendo **anális
 
 {% include image.html file="byte_a_byte.png" caption="Rutina de generación de la clave en el firmware del modelo 5355. Los números 7d, 58 o 13 son los bytes individuales de la clave de cifrado. EyC." %}
 
-## Llamar a las funciones
+## Compilación cruzada
 
 Lo primero será ejecutar esas dos funciones de la librería. Probaremos el mismo programa usado en los artículos mencionados:
 
