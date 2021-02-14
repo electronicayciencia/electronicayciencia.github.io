@@ -9,7 +9,7 @@ tags:
   - Informática
 ---
 
-En esta entrada hablaremos de **compilación cruzada**, **depuración** de software y **criptografía**. ¿Te acuerdas de cuando [obtuvimos la PLOAM password de este router]({{site.baseurl}}{% post_url 2020-10-26-obteniendo-ploam-password-fast-5657 %})? Hoy vamos a profundizar hasta descubrir el algoritmo y la clave con que se cifra el backup de la configuración.
+En esta entrada hablaremos de **compilación cruzada**, **depuración** de software y **criptografía** y seguridad por oscuridad. ¿Te acuerdas de cuando [obtuvimos la PLOAM password de este router]({{site.baseurl}}{% post_url 2020-10-26-obteniendo-ploam-password-fast-5657 %})? Hoy vamos a profundizar hasta descubrir el algoritmo y la clave con que se cifra el *backup* de la configuración.
 
 **Nota**. Si sólo has venido a por el programa y no te interesan los detalles, aquí está el binario para windows: [Sagemcom F@ST 5657 configuration decryptor v1.0](https://github.com/electronicayciencia/tr-069-proxy/releases/tag/v1.0). Suerte.
 
@@ -595,27 +595,23 @@ Una vez descifrado, el fichero de configuración contiene información de todo t
 
 Sumado al **usuario y contraseña por defecto** "1234/1234" podría dar lugar a escenarios como estos:
 
-Un intruso que accediera puntualmente a tu red por un punto de acceso mal configurado, podría entrar en el router usando el usuario 1234. Y una vez dentro volcar la configuración y descifrarla. Escalaría privilegios sabiendo la **contraseña del usuario admin**. También obtendría la configuración del resto de puntos de acceso WiFi.
+Un intruso que accediera puntualmente a tu red por un punto de acceso mal configurado, podría entrar en el router usando el usuario 1234. Y una vez dentro volcar la configuración y descifrarla. Obteniendo toda la información. No sólo eso. Podría manipular la configuración. Activando el WPS o el **acceso remoto SSH**.
 
-No sólo eso. Podría manipular la configuración. Activando el WPS el **acceso remoto SSH** a través de internet. Si cambias la contraseña de la WiFi, podría entrar por SSH y descubrirla de nuevo.
+El fichero también contiene los **datos de configuración VoIP**. Con estos datos alguien podría configurar un teléfono SIP y hacer llamadas que quedarían reflejadas **en tu factura**.
 
-El fichero también contiene los **datos de configuración VoIP**. Con estos datos alguien podría configurar un teléfono SIP y hacer llamadas que quedarían reflejadas **en tu factura** de teléfono.
-
-Con el fin de **evitarlo**, algunos ISP han **eliminado la opción** de salvar y cargar un backup. Un tanto **agresivo y desconsiderado** hacia el usuario final.
+Con el fin de **evitarlo**, algunos ISP han eliminado la opción de salvar y cargar un backup. Un movimiento agresivo y desconsiderado hacia el usuario final.
 
 Una solución más adecuada podría ser **solicitar una contraseña** al usuario en el momento de generar el fichero y utilizarla para derivar la clave de cifrado; en lugar de usar siempre la misma clave estática.
 
-## Conclusión
+## Conclusiones
 
-En este artículo hemos investigado cómo funciona el mecanismo de cifrado de la configuración de un router doméstico.
-
-Partiendo del algoritmo de un modelo anterior, lo hemos adaptado para hacerlo funcionar en el nuestro con unos **cambios menores**.
+En este artículo hemos investigado cómo funciona el mecanismo de cifrado de la configuración de un router doméstico. Partiendo del algoritmo de un modelo anterior, lo hemos actualizado con tan sólo unos **cambios menores**.
 
 Hemos visto cómo llamar a las funciones de una librería desconocida; para lo cual fue necesario compilar un programa totalmente desligado de las librerías del sistema anfitrión.
 
 A la hora de estudiar el funcionamiento interno del algoritmo nos hemos valido únicamente de **herramientas genéricas** como *strings*, *gcc*, *gdb*, *strace* o *hexdump*, presentes en muchos sistemas Unix.
 
-Para terminar, hemos discutido algunas implicaciones de seguridad relacionadas con el descifrado y la manipulación de esta información. Espero que os haya gustado.
+Para terminar, hemos discutido algunas implicaciones de seguridad relacionadas con el uso de una **clave estática** oculta al usuario. Exponiendo, una vez más, cómo la **seguridad por oscuridad** penaliza al usuario final sin ofrecer protección contra un atacante.
 
 ## Referencias
 
