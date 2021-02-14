@@ -1,5 +1,5 @@
 ---
-no-title: Descifrando la configuración del Sagemcom F@ST 5657
+title: Descifrando la configuración del Sagemcom F@ST 5657
 layout: post
 assets: /assets/2021/02/descifrar-configuracion-sagemcom-fast5657
 image: /assets/2021/02/descifrar-configuracion-sagemcom-fast5657/img/aead_10.png
@@ -9,9 +9,9 @@ tags:
   - Informática
 ---
 
-Hoy hablaremos de **criptografía**, **depuración** de software y seguridad por oscuridad. ¿Te acuerdas de cuando [obtuvimos la PLOAM password de este router]({{site.baseurl}}{% post_url 2020-10-26-obteniendo-ploam-password-fast-5657 %})? Hoy vamos a profundizar hasta descubrir el algoritmo y la clave con que se cifra el *backup* de la configuración.
+Hoy hablaremos de **criptografía**, **depuración** de software y seguridad por oscuridad. ¿Te acuerdas de cuando [obtuvimos la PLOAM password de este router]({{site.baseurl}}{% post_url 2020-10-26-obteniendo-ploam-password-fast-5657 %})? Hoy vamos a profundizar hasta descubrir el algoritmo y la clave con que se cifran los *backups* de la configuración.
 
-**Nota**. Si sólo has venido a por el programa y no te interesan los detalles, aquí está el binario para windows: [Sagemcom F@ST 5657 configuration decryptor v1.0](https://github.com/electronicayciencia/tr-069-proxy/releases/tag/v1.0). Suerte.
+**Nota**. Si sólo has venido a por el programa y no te interesan los detalles, aquí está el binario para Windows: [Sagemcom F@ST 5657 configuration decryptor v1.0](https://github.com/electronicayciencia/tr-069-proxy/releases/tag/v1.0). Suerte.
 
 ## El método anterior: MitM
 
@@ -36,8 +36,8 @@ Siguiendo con el procedimiento, activo el SSH y accedo desde una máquina remota
 
 ```console
 admin@home:/tmp$ ps | grep dropbear
- 1865 root      3448 S    dropbear -F -j -k -U admin -p [192.168.1.1]:22 -P /v
- 2576 root      3448 S    dropbear -F -j -k -U admin -p [88.27.275.35]:22 -P /v
+ 1865 root  3448 S dropbear -F -j -k -U admin -p [192.168.1.1]:22 -P /v
+ 2576 root  3448 S dropbear -F -j -k -U admin -p [88.27.275.35]:22 -P /v
 ```
 
 Lo cual significa que:
@@ -58,7 +58,7 @@ Decíamos entonces:
 
 > No es texto, es un fichero binario. Quizá comprimido, cifrado o las dos cosas. La cabecera AEAD me recuerda a Authenticated Encryption with Associated Data, prefiero buscar otro camino.
 
-Tras hacernos *root* por aquel otro camino, he decidido indagar acerca de ese fichero de aspecto intimidatorio. El primer paso será verlo en hexadecimal. Empieza así:
+Tras hacernos *root* por aquel otro camino, vamos a saber más acerca de ese fichero de aspecto intimidatorio. El primer paso será verlo en hexadecimal. Empieza así:
 
 ```text
 00000000  41 45 41 44 20 31 30 00  00 00 53 d7 00 00 00 07  |AEAD 10...S.....|
@@ -70,11 +70,11 @@ Tras hacernos *root* por aquel otro camino, he decidido indagar acerca de ese fi
 00000060  ...
 ```
 
-Como ya vimos en [Describiendo un protocolo desconocido]({{site.baseurl}}{% post_url 2017-12-25-describiendo-un-protocolo-desconocido %}), a la hora de analizar un fichero binario hay dos cosas por donde empezar a tirar del hilo. Una son las palabras legibles (**strings**) y la otra los **ceros**.
+A la hora de analizar un fichero binario hay dos cosas por donde empezar a desgranar el formato. Una son las palabras legibles (**strings**) y la otra los **ceros**. De esto habíamos hablado ya en [Describiendo un protocolo desconocido]({{site.baseurl}}{% post_url 2017-12-25-describiendo-un-protocolo-desconocido %}).
 
-Aquí tenemos dos palabras legibles: `AEAD 10` al principio del todo, que podría ser una **firma** identificativa del tipo de fichero. Y más adelante dice `default`. El resto es binario.
+Tenemos varios elementos que son comunen en todos los ficheros. Dos son palabras legibles: `AEAD 10` al principio del todo, que podría ser una **firma** identificativa del tipo de fichero. Y más adelante `default`. El resto es binario.
 
-En cuanto a ceros tenemos uno al final de `AEAD 10`, podría ser una cadena terminada en cero. Luego encontramos `00 00 53 d7`. Cabe suponer que sea un entero de 32 bits. En tal caso equivaldría a 21463 en hexadecimal. Casualmente coincide con el **tamaño** en bytes del fichero:
+En cuanto a ceros tenemos uno al final de `AEAD 10`, podría ser una cadena terminada en cero. Luego encontramos `00 00 53 d7`. Cabe suponer que sea un entero de 32 bits,en tal caso equivaldría a 21463 en hexadecimal. Lo cual coincide con el **tamaño** en bytes del fichero:
 
 ```console
 $ wc -c device.cfg
@@ -151,9 +151,9 @@ Su script **ya no funciona** en el modelo FAST 5657; no obstante es un gran avan
 Hay razones para pesar que el algoritmo no ha cambiado demasiado:
 
 - La firma AEAD 10 sigue siendo la misma.
-- Las funciones *gsdfDecryptFile* y *gsdfEncryptFile* existen igualmente en nuestra versión.
+- La librería se llama igual y las funciones *gsdfDecryptFile* y *gsdfEncryptFile* existen en nuestra versión.
 - La cabecera del fichero y los campos descritos en el artículo son compatibles con lo que hemos encontrado hasta ahora.
-- Sólo han pasado tres años.
+- Es el mismo fabricante y entre un modelo y otro sólo hay cuatro años.
 
 Seguramente sólo hayan cambiado la clave. Vamos a comprobarlo.
 
