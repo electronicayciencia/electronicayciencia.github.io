@@ -1,17 +1,17 @@
 ---
 no-title: Descifrando la configuración del Sagemcom F@ST 5657
 layout: post
-assets: /assets/2021/02/descifrar-configuración-sagemcom-fast5657
-image: /assets/2021/02/descifrar-configuración-sagemcom-fast5657/img/aead_10.png
+assets: /assets/2021/02/descifrar-configuracion-sagemcom-fast5657
+image: /assets/2021/02/descifrar-configuracion-sagemcom-fast5657/img/aead_10.png
 featured: false
 tags:
   - Binario
   - Informática
 ---
 
-En esta entrada hablaremos de **compilación cruzada**, **depuración** de software y **criptografía**. ¿Te acuerdas de cuando [obtuvimos la PLOAM password de este router]({post_url 2020-10-26-obteniendo-ploam-password-fast-5657} | relative_url)? Hoy vamos a profundizar hasta descubrir el algoritmo y la clave con que se cifra el backup de la configuración.
+En esta entrada hablaremos de **compilación cruzada**, **depuración** de software y **criptografía**. ¿Te acuerdas de cuando [obtuvimos la PLOAM password de este router]({{site.baseurl}}{% post_url 2020-10-26-obteniendo-ploam-password-fast-5657 %})? Hoy vamos a profundizar hasta descubrir el algoritmo y la clave con que se cifra el backup de la configuración.
 
-Nota. Si sólo has venido a por el programa y no te interesan los detalles, aquí está el binario para windows: [Sagemcom F@ST 5657 configuration decryptor v1.0](https://github.com/electronicayciencia/tr-069-proxy/releases/tag/v1.0). Suerte.
+**Nota**. Si sólo has venido a por el programa y no te interesan los detalles, aquí está el binario para windows: [Sagemcom F@ST 5657 configuration decryptor v1.0](https://github.com/electronicayciencia/tr-069-proxy/releases/tag/v1.0). Suerte.
 
 ## El método anterior: MitM
 
@@ -58,18 +58,17 @@ Decíamos entonces:
 
 Tras hacernos *root* por aquel otro camino, he decidido indagar acerca de ese fichero de aspecto intimidatorio. El primer paso será verlo en hexadecimal. Empieza así:
 
-```console
+```text
 00000000  41 45 41 44 20 31 30 00  00 00 53 d7 00 00 00 07  |AEAD 10...S.....|
 00000010  ee f7 87 c4 6c 12 ae d8  a7 3a d5 1c 3c 25 f4 d0  |....l....:..<%..|
 00000020  bc 3d b1 36 3e 40 0a f8  a9 6b bc ee 0f cb d0 bb  |.=.6>@...k......|
 00000030  64 65 66 61 75 6c 74 f1  28 46 ca 0f 49 9c 31 40  |default.(F..I.1@|
 00000040  47 3a 01 f9 93 22 06 29  01 97 25 a9 b4 9b 96 d1  |G:...".)..%.....|
 00000050  30 30 08 7c c4 9e ff 1a  79 4d ec 52 75 bb 69 3f  |00.|....yM.Ru.i?|
-00000060  5f 46 a0 10 7d 28 6d c4  bf 30 0e 02 fb 5f d8 65  |_F..}(m..0..._.e|
-...
+00000060  ...
 ```
 
-Como ya vimos en [Describiendo un protocolo desconocido]({post_url 2017-12-25-describiendo-un-protocolo-desconocido} | relative_url), a la hora de analizar un fichero binario hay dos cosas por donde empezar a tirar del hilo. Una son las palabras legibles (**strings**) y la otra los **ceros**.
+Como ya vimos en [Describiendo un protocolo desconocido]({{site.baseurl}}{% post_url 2017-12-25-describiendo-un-protocolo-desconocido %}), a la hora de analizar un fichero binario hay dos cosas por donde empezar a tirar del hilo. Una son las palabras legibles (**strings**) y la otra los **ceros**.
 
 Aquí tenemos dos palabras legibles: `AEAD 10` al principio del todo, que podría ser una **firma** identificativa del tipo de fichero. Y más adelante dice `default`. El resto es binario.
 
@@ -129,7 +128,7 @@ Con un comando strings vemos básicamente tres cosas:
 - **Símbolos**, es decir, funciones que el ejecutable exporta o importa. Nos dan una idea de qué cosas hace. En este caso, por ejemplo, sabemos que usa criptografía pues vemos funciones relacionadas con AES, SHA2 o RSA. También nos llaman la atención *gsdfAeadDecrypt* porque contiene la marca AEAD y *gsdfDecryptFile* parece operar con ficheros.
 - Datos inicializados del ejecutable. Si este tuviera un certificado o una clave sin ofuscar ni comprimir lo veríamos. También **mensajes** y cadenas de formato. Conocer el tipo de mensajes o de errores que muestra nos da una idea de cómo funciona. Así sabemos que *gsdfAeadEncrypt* hace uso de */dev/urandom*.
 
-## noconroy.net
+## Posts de noconroy.net
 
 Con esta nueva información en la mano, volvemos a buscar en Internet. Con más suerte esta vez. Encontramos una serie de artículos de hace unos años. El dominio *noconroy.net* ya no existe pero podemos visitarlo en Archive.org.
 
@@ -195,7 +194,7 @@ int main(int argc, char *argv[]) {
 
 Pero ¿dónde lo ejecutamos?
 
-El FAST 5355 es MIPS. El autor debió hacerse con una toolchain MIPS y usar Qemu para emular en local dicha  plataforma. El modelo 5657, por el contrario, **es ARM**.
+El FAST 5355 **es MIPS**. El autor debió hacerse con una toolchain MIPS y usar Qemu para emular en local dicha  plataforma. El modelo 5657, por el contrario, **es ARM**.
 
 ```console
 admin@home:/tmp$ cat /proc/cpuinfo
@@ -219,8 +218,8 @@ libgsdf.so.1.0.0: ELF 32-bit LSB shared object, ARM, EABI5 version 1 (SYSV), dyn
 Copiamos, pues, la librería *libgsdf.so* a nuestra raspberry. Ningún error al compilar. Pero falla la ejecución.
 
 ```console
-pi@raspberrypi:~/router_arm$ gcc -o prog prog.c -L . -l gsdf
-pi@raspberrypi:~/router_arm$ ./prog
+pi@raspberrypi:~$ gcc -o prog prog.c -L . -l gsdf
+pi@raspberrypi:~$ ./prog
 ./prog: error while loading shared libraries: libgsdf.so.1: cannot open shared object file: No such file or directory
 ```
 
@@ -273,7 +272,7 @@ pi@raspberrypi:~$ ./prog
 Usage: ./prog [e|d] file_in file_out
 ```
 
-Ya podemos cifrar y descifrar a voluntad usando las mismas funciones que el firmware. Nos será más sencillo hacer pruebas.
+Ya podemos **cifrar y descifrar a voluntad** usando las mismas funciones que el firmware. Nos será más sencillo hacer pruebas.
 
 ## Algoritmo de cifrado
 
@@ -342,7 +341,7 @@ x509parse_keyfile
 ...
 ```
 
-Me gusta *aes_setkey_enc* suena a "función que llamas para establecer cuál va a ser la clave". La buscamos en Google. Encontramos lo que parece ser un SDK
+Me gusta *aes_setkey_enc*. Suena a "función que llamas para establecer cuál va a ser la clave". La buscamos en Google. Encontramos lo que parece ser un SDK:
 [WICED™ v3.1.0 - API Reference Guide](https://chenchenece.github.io/wiced-sdk/API/group__aes.html). Según dice ahí, este es su prototipo:
 
 ```c
@@ -352,7 +351,7 @@ void aes_setkey_enc (aes_context_t *ctx, const unsigned char *key, int32_t keysi
 
 Recibe un puntero a una estructura (que no nos interesa), un puntero al buffer con la clave (que nos interesa mucho) y un entero con el tamaño de esta.
 
-Abrimos gdb, ponemos un **punto de ruptura** y ejecutamos, si tenemos suerte la ejecución se detendrá al entrar en la función:
+Abrimos gdb, ponemos un **punto de ruptura** y ejecutamos. Si tenemos suerte la ejecución se detendrá al entrar en la función:
 
 ```console
 $ gdb --args ./prog e testfile testfile.out
@@ -372,19 +371,17 @@ Breakpoint 1, 0x76fae380 in aes_setkey_enc () from /usr/lib/libgsdf.so.1
 (gdb)
 ```
 
-Desconozco cómo se hace el paso de parámetros en arquitectura ARM. ¿En la pila, en los registros, depende?
-
-Lo averiguamos inspeccionando el código justo antes de hacer la llamada a la función *aes_setkey_enc*. Pedimos al depurador el stack de ejecución:
+Desconozco cómo se hace el **paso de parámetros** en arquitectura ARM. ¿En la pila, en los registros? Lo averiguaremos inspeccionando el código justo antes de hacer la llamada a la función *aes_setkey_enc*. Pedimos al depurador el stack de ejecución:
 
 ```console
 (gdb) info stack
-#0  0x76fae380 in aes_setkey_enc () from /home/pi/router_arm/squashfs/usr/lib/libgsdf.so.1
-#1  0x76fad628 in gsdfAeadEncrypt () from /home/pi/router_arm/squashfs/usr/lib/libgsdf.so.1
+#0  0x76fae380 in aes_setkey_enc () from libgsdf.so.1
+#1  0x76fad628 in gsdfAeadEncrypt () from libgsdf.so.1
 ```
 
 Cuando aes_setkey_enc retorne, la ejecución se reanudará desde la dirección 0x76fad628, así que examinaremos los bytes previos a la llamada volcándolos en ensamblador:
 
-```console
+```asm
    0x76fad618 <+408>:   mov     r1, r8
    0x76fad61c <+412>:   mov     r0, r9
    0x76fad620 <+416>:   mov     r2, #256        ; 0x100
@@ -394,7 +391,7 @@ Cuando aes_setkey_enc retorne, la ejecución se reanudará desde la dirección 0
 
 Se fijan tres registros: `r1`, `r0` y `r2`. En `0x76fad624` se produce la llamada y la instrucción siguiente ya es por donde seguiría ejecutando el programa. Esos tres registros pueden ser los tres parámetros. ¿Qué valor toman?
 
-```console
+```gdb
 (gdb) i r
 r0             0x7efff438       2130703416
 r1             0x7efff3f8       2130703352
@@ -405,7 +402,7 @@ Uno debe ser un puntero a estructura AES. El otro un puntero al buffer con la cl
 
 El registro `r1` contiene la dirección del buffer. 256 bits son 32 caracteres, los volcamos:
 
-```console
+```gdb
 (gdb) x /32bx $r1
 0x7efff3f8:     0x7d    0xa2    0x58    0x13    0xdd    0x9d    0x7a    0x15
 0x7efff400:     0x3e    0x60    0xa0    0x28    0xba    0xdd    0xb2    0x88
@@ -445,11 +442,11 @@ Decryption returned: -1
 
 ## Cifrado autenticado
 
-AEAD, decíamos al principio, eran las iniciales de *Authenticated Encryption with Associated Data*. Lo cual es un derivado de *Authenticated Encryption*. Y consiste en añadir al texto cifrado un código en el que involucramos el mensaje y la propia clave de cifrado. El sistema destino se asegura así de procesar solo aquellos mensajes generados por alguien que estaba en posesión de la clave.
+AEAD, decíamos al principio, eran las iniciales de ***Authenticated Encryption with Associated Data***. Lo cual es un derivado de *Authenticated Encryption*. Y consiste en añadir al texto cifrado un **código** (MAC) en el que involucramos el mensaje y la propia clave de cifrado. El sistema destino se asegura así de procesar solo aquellos mensajes generados por alguien que estaba en posesión de la clave.
 
-Hay varios esquemas en función de si calculamos el código del mensaje en claro o del mensaje ya cifrado. El más común y el recomendado es cifrar el mensaje primero, y luego calcular un HMAC de la clave y el texto cifrado.
+Hay varios esquemas en función de si calculamos el código del mensaje en claro o del mensaje ya cifrado. El más común y el recomendado es **cifrar el mensaje primero, y luego calcular un HMAC** de la clave y el texto cifrado.
 
-El *Associated Data* simplemente son datos añadidos al mensaje cifrado. Que van en claro pero también entran en el cálculo del HMAC. Por lo que solamente se garantiza su integridad.
+El *Associated Data* simplemente son datos añadidos al mensaje cifrado. Que van **en claro** pero también entran en el cálculo del HMAC. Por lo que solamente se garantiza su integridad.
 
 Según el programa de noconroy, en el F@ST 5355 se calculaba así:
 
@@ -480,15 +477,15 @@ El buffer se compone de:
 - los datos asociados (en la variable `tag`)
 - y el mensaje cifrado
 
-Se calcula un hash SHA-256 de todo y los primeros 16 bytes de ese hash es lo que emplean como MAC.
+Se calcula un hash SHA-256 de todo y **los primeros 16 bytes** de ese hash es lo que emplean como MAC.
 
-Este esquema se denomina *Encrypt-then-MAC (EtM)*. Y, aunque cumple su función, la implementación es **mejorable**.
+Este esquema se denomina ***Encrypt-then-MAC (EtM)***. Y, aunque cumple su función, la implementación es **mejorable**.
 
 - En primer lugar, **truncar un hash** es muy mala idea. Una propiedad fundamental de una función hash como SHA256 es su alta resistencia a colisiones. Pero sólo es cierto si conservamos sus 256 bits (32 bytes) de salida. Si lo truncamos a 16 dicha propiedad se pierde.
-- Es más, en lugar de usar un hash deberían haber usado una construcción **HMAC**, parecida, pero más apropiada.
+- Es más, en lugar de usar un hash deberían haber usado una construcción **HMAC**, parecida a un hash, pero pensada especialmente para esta función.
 - También se recomienda usar **claves diferentes** para cifrar y para calcular el MAC.
 
-En cuaquier caso, es suficiente para guardar la configuración de un router que tiene ***harcoded*** la clave de cifrado. Veamos qué ha cambiado entre el modelo 5355 y el 5657 para que no funcione.
+En cuaquier caso, es suficiente para guardar la configuración de un router que tiene ***hardcoded*** la clave de cifrado. Veamos qué ha cambiado entre el modelo 5355 y el 5657 para que no funcione.
 
 Empezamos por listar aquellas funciones de `libgsdf.so` relacionadas con un SHA-256.
 
@@ -506,7 +503,7 @@ sha2_hmac
 
 Cifraremos un fichero de prueba mientras ponemos *breakpoints* en `sha2_hmac_update` y en `sha2_update` para ver cuál usa y sobre qué se calcula:
 
-```console
+```gdb
 Breakpoint 3, 0x76fb2898 in sha2_update () from libgsdf.so.1
 ```
 
@@ -522,7 +519,7 @@ Recibe tres parámetros:
 - un puntero al buffer sobre el que se calcula el hash
 - el tamaño del buffer
 
-```console
+```gdb
 (gdb) i r
 r0             0x7efff2c4    2130703044
 r1             0x21018       135192
@@ -594,11 +591,11 @@ Una vez descifrado, el fichero de configuración contiene información de todo t
 - Listado de los hosts conectados a la red (IP, MAC, hostname)
 - Configuración de la interfaz óptica (RegId o PLOAM password)
 
-Sumado al usuario por defecto "1234" podría dar lugar a escenarios como estos:
+Sumado al **usuario y contraseña por defecto** "1234/1234" podría dar lugar a escenarios como estos:
 
-Un intruso que accediera puntualmente a tu red por un punto de acceso mal configurado, podría entrar en el router usando el usuario por defecto 1234/1234. Y una vez dentro volcar la configuración y descifrarla. Descubriría la **contraseña de administración** así como la configuración del resto de puntos de acceso WiFi.
+Un intruso que accediera puntualmente a tu red por un punto de acceso mal configurado, podría entrar en el router usando el usuario 1234. Y una vez dentro volcar la configuración y descifrarla. Escalaría privilegios sabiendo la **contraseña del usuario admin**. También obtendría la configuración del resto de puntos de acceso WiFi.
 
-No sólo eso. También podría manipular la configuración. Activando el WPS, o por ejemplo, con el **acceso remoto SSH** se aseguraría el acceso a través de internet. Si cambias la contraseña de la WiFi, podría entrar por SSH y descubrirla de nuevo.
+No sólo eso. Podría manipular la configuración. Activando el WPS, o por ejemplo, con el **acceso remoto SSH** se aseguraría el acceso a través de internet. Si cambias la contraseña de la WiFi, podría entrar por SSH y descubrirla de nuevo.
 
 El fichero también contiene los **datos de configuración VoIP**. Con estos datos alguien podría configurar un teléfono SIP y hacer llamadas que quedarían reflejadas **en tu factura** de teléfono.
 
@@ -624,8 +621,8 @@ Para terminar, hemos discutido algunas implicaciones de seguridad relacionadas c
 
 Artículos relacionados:
 
-- [Describiendo un protocolo desconocido - electronicayciencia]({post_url 2017-12-25-describiendo-un-protocolo-desconocido} | relative_url)
-- [Obteniendo la PLOAM password de un router F@ST 5657 - electronicayciencia]({post_url 2020-10-26-obteniendo-ploam-password-fast-5657} | relative_url)
+- [Describiendo un protocolo desconocido - electronicayciencia]({{site.baseurl}}{% post_url 2017-12-25-describiendo-un-protocolo-desconocido %})
+- [Obteniendo la PLOAM password de un router F@ST 5657 - electronicayciencia]({{site.baseurl}}{% post_url 2020-10-26-obteniendo-ploam-password-fast-5657 %})
 
 Para ampliar información:
 
