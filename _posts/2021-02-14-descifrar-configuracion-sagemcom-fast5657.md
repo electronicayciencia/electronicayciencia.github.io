@@ -420,7 +420,7 @@ Espera... en el post de noconroy la clave de 128 bits (16 carácteres) era esta:
 7d a2 58 13 dd 9d 7a 15 3e 60 a0 28 ba dd b2 88
 ```
 
-¡La primera mitad es idéntica! Ahora vez de 128 son 256 bits, pero se han limitado a **completar con ceros**.
+¡La primera mitad es idéntica! Ahora en vez de 128 son 256 bits, pero se han limitado a **completar con ceros**.
 
 Actualizamos el script de Python con esta *nueva* clave y ya puedo descifrar con él lo cifrado con la librería. Funciona.
 
