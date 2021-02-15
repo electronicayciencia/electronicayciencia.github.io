@@ -11,7 +11,11 @@ tags:
 
 Hoy hablaremos de **criptografía**, **depuración** de software y seguridad por oscuridad. ¿Te acuerdas de cuando [obtuvimos la PLOAM password de este router]({{site.baseurl}}{% post_url 2020-10-26-obteniendo-ploam-password-fast-5657 %})? Hoy vamos a profundizar hasta **descubrir el algoritmo** y la clave con que se cifran los *backups* de la configuración.
 
-**Nota**. Si sólo has venido a por el programa y no te interesan los detalles, aquí está el binario para Windows: [Sagemcom F@ST 5657 configuration decryptor v1.0](https://github.com/electronicayciencia/tr-069-proxy/releases/tag/v1.0). Suerte.
+**Nota**:
+
+- Si sólo necesitas tus datos SIP o RegId, con este programa podrás descifrar tu configuración: [Sagemcom F@ST 5657 configuration decryptor v1.0](https://github.com/electronicayciencia/tr-069-proxy/releases/tag/v1.0).
+- Si buscas experimentar por tu cuenta, encontrarás el código fuente en [tr-069-proxy part2](https://github.com/electronicayciencia/tr-069-proxy/tree/main/part2).
+- Si quieres conocer los detalles del proceso, continúa leyendo.
 
 ## El método anterior: MitM
 
@@ -325,7 +329,7 @@ Tal como habíamos supuesto, el algoritmo de cifrado no ha cambiado apenas respe
 
 ## La *nueva* clave
 
-El cifrado, suponemos, sigue haciéndose con AES_CTR. Hay herramientas como [*aesfinder*](https://github.com/mmozeiko/aes-finder) capaces de encontrar una clave AES en la memoria de un proceso simplemente viendo el rastro que dejan las operaciones derivadas de ella. Realmente ingenioso. Una maravilla. No vamos a usarlo.
+El cifrado, suponemos, sigue haciéndose con AES-CTR. Hay herramientas como [*aesfinder*](https://github.com/mmozeiko/aes-finder) capaces de encontrar una clave AES en la memoria de un proceso simplemente viendo el rastro que dejan las operaciones derivadas de ella. Realmente ingenioso. Una maravilla. No vamos a usarlo.
 
 Seguiremos el método tradicional: ejecutaré el programa con el **depurador**, buscaré algún sitio donde pueda estar la clave y miraré cuál es. Veamos algunas funciones de la librería que podrían estar relacionadas con la clave:
 
@@ -615,7 +619,7 @@ Sumado al **usuario y contraseña por defecto** "1234/1234" podría dar lugar a 
 
 Un intruso que accediera puntualmente a tu red por un punto de acceso mal configurado, podría entrar en el router usando el usuario 1234. Y una vez dentro volcar la configuración y descifrarla obteniendo toda la información. No sólo eso. Podría manipularla activando el WPS o el **acceso remoto SSH**.
 
-El fichero también contiene los **datos de configuración VoIP**. Con estos datos alguien podría configurar un teléfono SIP y hacer llamadas que quedarían reflejadas **en tu factura**.
+El fichero también contiene las **credenciales del servicio VoIP**. Con estos datos alguien podría configurar un teléfono SIP y hacer llamadas que quedarían reflejadas **en tu factura**.
 
 Con el fin de **evitarlo**, algunos ISP han eliminado la opción de salvar y cargar un *backup*. Un movimiento agresivo y desconsiderado hacia el usuario final.
 
