@@ -227,22 +227,20 @@ pi@raspberrypi:~$ ./prog
 ./prog: error while loading shared libraries: libgsdf.so.1: cannot open shared object file: No such file or directory
 ```
 
-El compilador sí encuentra la librería. De lo contrario habría fallado en la fase de linkado.
+Antes de ejecutar un binario ELF, el **cargador dinámico** debe haber leído los módulos que necesita, buscarlos en el sistema, cargarlos en memoria, resolver a su vez las dependencias de estos, buscarlas, cargarlas, etc. Al finál del todo cargará el binario ELF y le pasará el control.
 
-Los binarios ELF necesitan de un programa aparte que los lee; recoge los módulos que necesitan, los busca en el sistema y carga en memoria; resuelve a su vez los que estos necesitan y, al final del todo, carga el binario ELF y le pasa el control. Es el **cargador dinámico** y es él quien no la encuentra.
-
-El comando `file` lo llama **intérprete**, como el intérprete de Python o de Bash:
+Cada binario ELF indica en su interior cuál es su cargador. El comando `file` lo llama **intérprete**, como el intérprete de Python o de Bash:
 
 ```console
 $ file /bin/bash
 /bin/bash: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-armhf.so.3, for GNU/Linux 2.6.32, stripped
 ```
 
-Hay múltiples formas de indicarle al cargador dónde encontrar una librería. Las dos más habituales son copiar la librería a una ruta del sistema o bien añadir la ruta adecuada a la variable de entorno LD_LIBRARY_PATH.
+Él es quien no encuentra la librería. Las dos formas habituales de resolverlo son copiar la librería a una ruta del sistema o bien añadir la ruta adecuada a la variable de entorno LD_LIBRARY_PATH.
 
-Te las puedes ahorrar. Da igual, no te vale.
+Te las puedes ahorrar. Aquí no te valen.
 
-El problema no es ese. Aunque diga *not found* no es que no la encuentre, es que no encuentra una que pueda cargar. Porque esta **no puede cargarla**. La arquitectura es compatible. El procesador reconoce las instrucciones ARM. Pero hasta ahí. Los binarios han sido compilados para otra versión de Linux, con otras librerías y, por supuesto, otro cargador dinámico. El programa terminará funcionando. Pero no lo hará con las librerías de nuestro sistema.
+El problema no es ese. Aunque diga *not found* no es que no la encuentre, lo que no encuentra es una que le sirva. Porque esta **no puede cargarla**. La arquitectura es compatible. El procesador reconoce las instrucciones ARM. Pero hasta ahí. Los binarios han sido compilados para otra versión de Linux, con otras librerías y, por supuesto, otro cargador dinámico. El programa terminará funcionando. Pero no lo hará con las librerías de nuestro sistema.
 
 Necesitamos hacer una **compilación cruzada**. Usaremos la toolchain de Raspbian para compilar. Y, a la hora de enlazar el ejecutable final, lo haremos **con la glibc del router**. También debemos indicar el cargador correcto porque, con esas librerías extrañas, el de Raspbian se va a estrellar.
 
