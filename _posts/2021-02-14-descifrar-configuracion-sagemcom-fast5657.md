@@ -21,9 +21,9 @@ Hoy hablaremos de **criptografía**, **depuración** de software y seguridad por
 
 Un inciso antes de comenzar.
 
-El método que describía en la otra entrada consiste en **interceptar la comunicación** con el servidor de configuración (ACS) e inyectar los parámetros necesarios para habilitar el acceso al dispositivo. Era necesario porque el router estaba completamente cerrado. No teníamos ni SSH ni telnet desde la propia LAN. Era un desafío, pero **era un rollo**.
+El método que describía en [la otra entrada]({{site.baseurl}}{% post_url 2020-10-26-obteniendo-ploam-password-fast-5657 %}) consiste en **interceptar la comunicación** con el servidor de configuración (ACS) e inyectar los parámetros precisos para habilitar el acceso al dispositivo. Tuvimos que hacerlo así porque el router estaba completamente cerrado. No teníamos ni SSH ni telnet desde la propia LAN. Era un desafío, pero **era un rollo**.
 
-Según algunos comentarios, en la versión más reciente del firmware ya no funciona. Lo acabo de probar con la versión SGDV10000043 (GUI versión 4.100.0) y ciertamente he notado algunos cambios.
+Según algunos comentarios, en la versión más reciente del firmware ya no funciona. Acabo de probar con la versión SGDV10000043 y ciertamente hay cambios.
 
 **Sigue funcionando**. Cambio la URL del ACS a mi servidor local. Al poco se establece la comunicación. Ahora bien, durante la primera fase en que el router envía al servidor el estado actual de la configuración, no había ni rastro de la PLOAM Password. Sin embargo ahora sí lo incluye:
 
@@ -34,9 +34,9 @@ Según algunos comentarios, en la versión más reciente del firmware ya no func
 </ParameterValueStruct>
 ```
 
-Si sólo queríamos eso, ya no es preciso entrar por SSH para verlo. Pero hay más.
+Si sólo queríamos eso, ya no tenemos que entrar por SSH para verlo. Pero hay más.
 
-Siguiendo con el procedimiento, activo el SSH y accedo desde una máquina remota. Entro por ssh con el usuario *admin* y la contraseña que he visto durante la comunicación con el ACS. Entre los procesos ahora hay un segundo dropbear (una versión ligera de SSH) también en la interfaz local.
+Siguiendo con el procedimiento, activo el SSH y accedo desde una máquina remota. Entro por ssh con el usuario *admin* y la contraseña recogida durante la comunicación con el ACS. Entre los procesos ahora hay un segundo dropbear (una versión ligera de SSH) también en la interfaz local.
 
 ```console
 admin@home:/tmp$ ps | grep dropbear
@@ -227,7 +227,7 @@ pi@raspberrypi:~$ ./prog
 ./prog: error while loading shared libraries: libgsdf.so.1: cannot open shared object file: No such file or directory
 ```
 
-Antes de ejecutar un binario ELF, el **cargador dinámico** debe haber leído los módulos que necesita, buscarlos en el sistema, cargarlos en memoria, resolver a su vez las dependencias de estos, buscarlas, cargarlas, etc. Al finál del todo cargará el binario ELF y le pasará el control.
+Antes de ejecutar un binario ELF, el **cargador dinámico** debe haber leído los módulos que necesita, buscarlos en el sistema, cargarlos en memoria, resolver a su vez las dependencias de estos, buscarlas, cargarlas, etc. Al final del todo cargará el binario ELF y le pasará el control.
 
 Cada binario ELF indica en su interior cuál es su cargador. El comando `file` lo llama **intérprete**, como el intérprete de Python o de Bash:
 
