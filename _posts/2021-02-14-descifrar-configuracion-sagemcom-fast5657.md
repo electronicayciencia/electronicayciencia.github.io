@@ -23,9 +23,9 @@ Un inciso antes de comenzar.
 
 El método que describía en [la otra entrada]({{site.baseurl}}{% post_url 2020-10-26-obteniendo-ploam-password-fast-5657 %}) consiste en **interceptar la comunicación** con el servidor de configuración (ACS) e inyectar los parámetros precisos para habilitar el acceso al dispositivo. Tuvimos que hacerlo así porque el router estaba completamente cerrado. No teníamos ni SSH ni telnet desde la propia LAN. Era un desafío, pero **era un rollo**.
 
-Según algunos comentarios, en la versión más reciente del firmware ya no funciona. Acabo de probar con la versión SGDV10000043 y ciertamente hay cambios.
+Según algunos comentarios, en la versión más reciente del firmware ya no funciona.
 
-**Sigue funcionando**. Cambio la URL del ACS a mi servidor local. Al poco se establece la comunicación. Ahora bien, durante la primera fase en que el router envía al servidor el estado actual de la configuración, no había ni rastro de la PLOAM Password. Sin embargo ahora sí lo incluye:
+Voy a probar con la versión SGDV10000043. Cambio la URL del ACS a mi servidor local. Al poco se establece la comunicación. **Sigue funcionando**. Aunque ciertamente hay cambios. Durante la primera fase en que el router envía al servidor el estado actual de la configuración, antes no había ni rastro de la PLOAM Password. Sin embargo ahora sí lo incluye:
 
 ```xml
 <ParameterValueStruct>
@@ -34,9 +34,11 @@ Según algunos comentarios, en la versión más reciente del firmware ya no func
 </ParameterValueStruct>
 ```
 
-Si sólo queríamos eso, ya no tenemos que entrar por SSH para verlo. Pero hay más.
+Si sólo queríamos eso, ya no tenemos que entrar por SSH para verlo.
 
-Siguiendo con el procedimiento, activo el SSH y accedo desde una máquina remota. Entro por ssh con el usuario *admin* y la contraseña recogida durante la comunicación con el ACS. Entre los procesos ahora hay un segundo dropbear (una versión ligera de SSH) también en la interfaz local.
+Siguiendo el procedimiento, activo el SSH y accedo desde una máquina remota. Entro por ssh con el usuario *admin* y la contraseña recogida durante la comunicación con el ACS.
+
+Entre los procesos corriendo ahora hay un segundo dropbear (una versión ligera de SSH) también en la interfaz local.
 
 ```console
 admin@home:/tmp$ ps | grep dropbear
@@ -152,7 +154,7 @@ Escribe un programa para llamar a las funciones *gsdfDecryptFile* y *gsdfEncrypt
 
 Su script **ya no funciona** en el modelo FAST 5657; no obstante es un gran avance. Hemos pasado de no saber nada a tener que actualizar un script existente.
 
-Hay razones para pesar que el algoritmo no ha cambiado demasiado:
+Hay razones para pensar que el algoritmo no ha cambiado demasiado:
 
 - La firma AEAD 10 sigue siendo la misma.
 - La librería se llama igual y las funciones *gsdfDecryptFile* y *gsdfEncryptFile* existen en nuestra versión.
