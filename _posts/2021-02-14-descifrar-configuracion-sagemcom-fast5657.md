@@ -263,7 +263,7 @@ $ gcc -o prog prog.c \
 ```
 
 - incluimos esos dos directorios como ruta preferente a la hora de buscar las librerías para el linker
-- añadimos la librerías gsdf (la que queremos usar)
+- añadimos la librería gsdf (la que queremos usar)
 - añadimos la libc externa
 - las versiones modernas de libc requieren librt y libpthread, las añadimos también
 - con el parámetro `rpath` ordenamos al linker incluir en el fichero binario las rutas *hardcoded* donde buscar las librerías. Estas rutas tienen preferencia sobre las indicadas en `/etc/ld.so.conf`. Por tanto, cuando el cargador busque una *libc* para este ejecutable, encontrará la del router en lugar de cargar la de Raspbian.
@@ -280,7 +280,7 @@ Ya podemos **cifrar y descifrar a voluntad** usando las mismas funciones que el 
 
 ## Algoritmo de cifrado
 
-Para estudiar cómo funciona el el cifrado **sin hacer ingeriería inversa** vamos a cifrar un fichero muy cortito. Por ejemplo 4 bytes, 4 letras "a".
+Para estudiar cómo funciona el el cifrado **sin hacer ingeniería inversa** vamos a cifrar un fichero muy cortito. Por ejemplo 4 bytes, 4 letras "a".
 
 ```console
 $ echo -n aaaa > testfile
