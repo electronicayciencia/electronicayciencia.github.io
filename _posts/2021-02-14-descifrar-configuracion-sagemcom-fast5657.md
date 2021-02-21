@@ -647,7 +647,6 @@ Para ampliar información:
 - Programa similar en Go para el modelo F@st 5566 (sirve para el 5657) [up-n-atom/gsdfcrypt](https://github.com/up-n-atom/gsdfcrypt) y [up-n-atom/gsdfcrypt wiki](https://github.com/up-n-atom/gsdfcrypt/wiki/F@st-5566-SSH).
 - [Sagemcom F@ST5355 Reverse Engineering - Part 2 - noconroy.net](https://web.archive.org/web/20180129221204/https://noconroy.net/sagemcom-fast5355-re-p2.html)
 - [Sagemcom F@ST5355 Reverse Engineering - Part 3 - noconroy.net](https://web.archive.org/web/20180129221204/https://noconroy.net/sagemcom-fast5355-re-p3.html)
-
 - [Seguridad por oscuridad - Wikipedia](https://es.wikipedia.org/wiki/Seguridad_por_oscuridad)
 - [Magic number (programming) - In Files - Wikipedia](https://en.wikipedia.org/wiki/Magic_number_(programming)#In_files)
 - [DOS_MZ_executable - Wikipedia](https://en.wikipedia.org/wiki/DOS_MZ_executable)
