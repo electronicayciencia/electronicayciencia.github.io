@@ -9,10 +9,12 @@ permalink: /tags/
 
 <div class="tags">
     <h2 class="post-list-heading">Selecciona un tema</h2>
-        <p>
-        {% for tag in sorted_tags %}
-            <a class="post-tag" href="{{ site.baseurl }}/tags/#{{ tag[0] | slugify }}">{{ tag[0] }}</a>
-        {% endfor %}
+        <p class="all-tags-enumeration">
+          {% for tag in sorted_tags %}
+            <a class="post-tag" href="{{ site.baseurl }}/tags/#{{ tag[0] | slugify }}">
+              {{ tag[0] }} ({{ tag[1].size }})
+            </a>
+          {% endfor %}
         </p>
 
     <h2 class="post-list-heading">Artículos</h2>
