@@ -60,6 +60,7 @@ twitter:
 exclude:
   - notas
   - importer
+  - tools
 
 defaults:
   - scope:
