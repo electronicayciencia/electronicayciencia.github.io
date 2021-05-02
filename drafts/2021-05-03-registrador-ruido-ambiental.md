@@ -6,7 +6,6 @@ image: /assets/2021/05/registrador-ruido-ambiental/img/featured.png
 featured: false
 tags:
   - DSP
-  - Experimentos
   - Informática
   - Raspberry
   - Sonido
@@ -18,12 +17,12 @@ La idea principal es un programa que esté continuamente recogiendo audio. Calcu
 
 Aunque la idea en sí es muy sencilla y sólo requiere unas pocas líneas de código, hay algunos puntos interesantes que seguramente puedas reutilizar en otros proyectos. Tal como:
 
-- utilizar SoX para obtener y eliminar un perfil de ruido
-- leer un stream binario en Python
-- conocer la magnitud RMS y cómo se relaciona con la forma de onda
-- enviar datos a InfluxDB 2.0 con Curl llamando directamente al API
-- usar Bash para monitorizar un fichero y ejecutar un comando por cada línea nueva
-- hacer consultas complejas con Flux
+- utilizar SoX para obtener y eliminar un **perfil de ruido**
+- leer un **stream binario** en Python
+- conocer el **valor eficaz** y cómo se relaciona con la forma de onda
+- enviar datos a **InfluxDB Cloud** v2.0 con Curl llamando directamente al API
+- usar Bash para monitorizar un fichero y **ejecutar un comando** por cada línea nueva
+- hacer consultas complejas con **Flux**
 
 {% include image.html file="featured.png" caption="Gráfico del ruido ambiental una mañana con los vecinos de obras. EyC." %}
 
@@ -176,7 +175,7 @@ El objetivo es averiguar en qué momento del día se recogen sonidos altos. Grab
 
 Es decir, estaremos *grabando* continuamente. Pero en lugar de volcar todas las muestras a disco, las recogeremos con nuestro programa. Y cada 5 segundos escribiremos el valor máximo y el RMS durante dicho intervalo.
 
-Ejecutando SoX como un subproceso podremos leer su salida en nuestro bucle principal. En Python sería algo así:
+Ejecutando SoX como un subproceso podremos leer su salida en nuestro bucle principal. En Python sería algo así ([GitHub electronicayciencia - sndobras/sndobras.py](https://github.com/electronicayciencia/sndobras/blob/master/sndobras.py)):
 
 ```python
 cmdline = "sox -t alsa hw:1 -r 8000 -t raw - highpass 20 noisered noise.prof 0.3 gain 32"
@@ -184,15 +183,17 @@ proc = Popen(cmdline, shell=True, stdin=PIPE, stdout=PIPE)
 
 while True:
     twobytes = proc.stdout.read(2)
-
     i = int.from_bytes(twobytes, byteorder='little', signed=True)
+	
+    nsamples = nsamples + 1
+    sumsq = sumsq + i*i
+    maxvalue = max(abs(i), maxvalue)
 ```
 
-El fichero de salida es `-`, o sea *stdout*. Para ahorrar CPU reduciremos el número de muestras por segundo. Aunque la **frecuencia de muestreo** del TP6911 es de 24kHz y no se puede cambiar, al especificar la opción `-r 8000` SoX hará el resampling. 
+Para SoX, su fichero de salida es `-`, o sea *stdout*. Ahorraremos tiempo de procesador reduciendo de 24000 a 8000 muestras por segundo. Aunque la **frecuencia de muestreo** del TP6911 es de 24kHz y no se puede cambiar, al especificar la opción `-r 8000` SoX hará el resampling. 
 
 Durante el bucle principal contaremos del número de muestras, el máximo y la suma de los cuadrados. Cada intervalo de 5 segundos a 8kHz, tiene 40000 muestras.
 
-El programa completo está en [GitHub electronicayciencia - sndobras/sndobras.py](https://github.com/electronicayciencia/sndobras/blob/master/sndobras.py).
 
 Ejecutamos el monitor y vamos guardando los resultados en un archivo:
 
@@ -213,7 +214,7 @@ Mira estas dos grabaciones, una es un **golpe seco** y la otra un **silbido**.
 
 {% include image.html file="rms_puntual_continuo.png" caption="Juntos, los valores máximo y eficaz nos dan una idea del tipo de sonido. EyC." %}
 
-El RMS es *proporcional* al área coloreada. En la pista superior el **valor máximo** es tope. No puede pasar de ahí. Pero debido a su brevedad el **valor eficaz** será relativamente pequeño. En el ejemplo inferior, con un máximo más discreto, el RMS será mayor porque se prolonga en el tiempo.
+El **RMS** o valor eficaz es simplemente una media cuadrática. Digamos que es *proporcional* al área coloreada. En la pista superior el **valor máximo** es tope. No puede pasar de ahí. Pero debido a su brevedad el **valor eficaz** será relativamente pequeño. En el ejemplo inferior, con un máximo más discreto, el RMS será mayor porque se prolonga en el tiempo.
 
 ¿Podríamos decir que el **máximo** es la **amplitud** y el **RMS** una combinación de **amplitud y duración**? 
 
@@ -571,5 +572,6 @@ Varios:
 
 - [SoX - Sound eXchange HomePage](http://sox.sourceforge.net/)
 - [Wikipedia - Chip On Board](https://es.wikipedia.org/wiki/Chip_en_placa)
+- [Wikipedia - Root mean square](https://en.wikipedia.org/wiki/Root_mean_square)
 - [Electrónica y Ciencia - Medir valores lógicos con tarjeta de sonido]({{site.baseurl}}{% post_url 2010-10-20-medir-valores-logicos-con-tarjeta-de %})
 

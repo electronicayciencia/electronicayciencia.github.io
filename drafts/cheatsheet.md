@@ -22,6 +22,8 @@ tags:
   - Sonido
 ---
 
+No pongas un título de sección al principio con # o ## porque lo toma como título y la muestra en el menú.
+
 Esta página no aparece en el menú de navegación porque no tiene título. 
 Tampoco aparece en el *sitemap* porque `/drafts/**` está excluido en la configuración. 
 Para llegar a ella utiliza este enlace: `/drafts/cheatsheet.html`.
