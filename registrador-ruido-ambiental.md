@@ -12,7 +12,7 @@ tags:
   - Sonido
 ---
 
-# Registrador de ruido ambiental
+## Registrador de ruido ambiental
 
 ¿Cuentas con un lugar tranquilo para relajarte o trabajar? Obras en el piso de al lado, o en la calle, perros ladrando, tráfico, aviones, niños, vecinos... El ruido distrae y aumenta tu nivel de estrés. Con un micrófono y una **Raspberry Pi** programaremos un sencillo **Registrador de nivel de Sonido Ambiental** y mostraremos los intervalos de ruido o silencio en una gráfica. Aprovecharemos para hablar de SoX, Python, InfluxDB 2.0 y Grafana.
 
@@ -245,7 +245,7 @@ Hay múltiples herramientas para recolectar datos y enviarlos InfluxDB. Pero est
 
 Como es la versión 2, se necesita el *bucket* y la *organización*. La autorización se hace por medio de un token que habremos creado previamente con  permisos de escritura sobre dicho bucket.
 
-```
+```bash
 curl "$URL/api/v2/write?bucket=$BUCKET&org=$ORG" \
     -H "Authorization: Token $TOKEN" \
     -H 'Content-Type: text/plain' \

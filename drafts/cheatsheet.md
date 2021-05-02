@@ -26,6 +26,8 @@ Esta página no aparece en el menú de navegación porque no tiene título.
 Tampoco aparece en el *sitemap* porque `/drafts/**` está excluido en la configuración. 
 Para llegar a ella utiliza este enlace: `/drafts/cheatsheet.html`.
 
+Tampodo puede tener un apartado que empiece por #, ya que se consideraría título y aparecería en el menú,
+
 ## Formato
 
 Texto normal. El primer párrafo será lo que se use como resúmen en la portada.
