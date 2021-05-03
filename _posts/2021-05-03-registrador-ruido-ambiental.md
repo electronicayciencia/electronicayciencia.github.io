@@ -11,9 +11,9 @@ tags:
   - Sonido
 ---
 
-Hoy vamos a hacer un sencillo **Registrador de Ruido Ambiente**. En la primera mitad del artículo usaremos un micrófono y una **Raspberry Pi** para programarlo con **Python** y **SoX**. En la segunda, enviaremos los resultados a **InfluxDB Cloud** y mostraremos los intervalos de ruido o silencio en Grafana mediante consultas **Flux**.
+Hoy vamos a hacer un sencillo Registrador de Ruido Ambiente. En la primera mitad del artículo usaremos un micrófono y una **Raspberry Pi** para programarlo con **Python** y **SoX**. En la segunda, enviaremos los resultados a **InfluxDB Cloud** y mostraremos los intervalos de ruido o silencio en Grafana mediante consultas **Flux**.
 
-La idea principal es un programa que esté continuamente recogiendo audio. Calcule el **RMS** cada 5 segundos y lo escriba por la salida estándar. Después cargarlo en una base de datos y dibujar gráficas. En sí es sencillo y sólo requiere unas pocas líneas de código, pero hay algunos puntos interesantes que seguramente puedas reutilizar en otros proyectos. Tal como:
+La idea principal es un programa que esté continuamente recogiendo audio. Calcule el **RMS** cada 5 segundos y lo escriba por la salida estándar. Después cargarlo en una base de datos y dibujar gráficas. En sí es sencillo y sólo requiere unas pocas líneas de código, pero hay algunos **puntos interesantes** que seguramente puedas **reutilizar** en otros proyectos. Tal como:
 
 - utilizar SoX para obtener y eliminar un **perfil de ruido**
 - leer un **stream binario** en Python
@@ -552,7 +552,7 @@ Hay más eventos periódicos, sin embargo no se trata de algo automático porque
 
 ## Conclusión y enlaces
 
-Hemos visto cómo capturar sonido en la Raspberry, filtrarlo con **SoX**, procesarlo en tiempo real con **Python** y calcular el RMS. Con un script hemos enviado el resultado al API de externa de **InfluxDB Cloud**, al mismo tiempo que guardamos el histórico en local. Luego te he descrito varias *queries* básicas y no tan básicas en **Flux**. Y, para terminar, hemos diseñado un panel de **Grafana** con el que identificar fácilmente eventos periódicos.
+Hemos visto cómo capturar sonido en la Raspberry, filtrarlo con **SoX**, procesarlo en tiempo real con **Python** y calcular el RMS. Con un script hemos enviado el resultado al API de **InfluxDB Cloud**, al mismo tiempo que guardamos el histórico en local. Luego te he descrito varias *queries* básicas y no tan básicas en **Flux**. Y, para terminar, hemos diseñado un panel de **Grafana** con el que identificar fácilmente eventos periódicos.
 
 Repositorio del artículo:
 
