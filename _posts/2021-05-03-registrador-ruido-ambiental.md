@@ -570,5 +570,9 @@ Varios:
 - [SoX - Sound eXchange HomePage](http://sox.sourceforge.net/)
 - [Wikipedia - Root mean square](https://en.wikipedia.org/wiki/Root_mean_square)
 - [Wikipedia - Ambient noise level](https://en.wikipedia.org/wiki/Ambient_noise_level)
-- [Electrónica y Ciencia - Medir valores lógicos con tarjeta de sonido]({{site.baseurl}}{% post_url 2010-10-20-medir-valores-logicos-con-tarjeta-de %})
 
+Artículos relacionados:
+
+- [Electrónica y Ciencia - Medir valores lógicos con tarjeta de sonido]({{site.baseurl}}{% post_url 2010-10-20-medir-valores-logicos-con-tarjeta-de %})
+- [Electrónica y Ciencia - Describiendo un protocolo desconocido]({{site.baseurl}}{% post_url 2017-12-25-describiendo-un-protocolo-desconocido %})
+- [Electrónica y Ciencia - Espectroscopía mediante Transformada de Fourier]({{site.baseurl}}{% post_url 2015-12-07-espectroscopia-transformada-de-fourier %})
