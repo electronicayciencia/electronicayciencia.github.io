@@ -1,5 +1,5 @@
 ---
-no-title: Registrador de ruido ambiental
+title: Registrador de ruido ambiental
 layout: post
 assets: /assets/2021/05/registrador-ruido-ambiental/
 image: /assets/2021/05/registrador-ruido-ambiental/img/featured.png
