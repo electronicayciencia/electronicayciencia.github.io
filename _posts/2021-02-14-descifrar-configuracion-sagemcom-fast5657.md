@@ -3,7 +3,7 @@ title: Descifrando la configuración del Sagemcom F@ST 5657
 layout: post
 assets: /assets/2021/02/descifrar-configuracion-sagemcom-fast5657
 image: /assets/2021/02/descifrar-configuracion-sagemcom-fast5657/img/aead_10.png
-featured: false
+featured: true
 tags:
   - Binario
   - Informática
