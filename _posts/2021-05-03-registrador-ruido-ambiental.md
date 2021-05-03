@@ -11,7 +11,7 @@ tags:
   - Sonido
 ---
 
-El ruido te distrae y aumenta tu nivel de estrés. Obras en el piso de al lado, perros, tráfico, aviones, niños, vecinos... En la primera mitad del artículo usaremos un micrófono y una **Raspberry Pi** para programar con **Python** y **SoX** un **Registrador de Ruido Ambiente**. En la segunda, enviaremos los resultados a **InfluxDB Cloud** y mostraremos los intervalos de ruido o silencio en Grafana mediante consultas **Flux**.
+Hoy vamos a hacer un sencillo **Registrador de Ruido Ambiente**. En la primera mitad del artículo usaremos un micrófono y una **Raspberry Pi** para programarlo con **Python** y **SoX**. En la segunda, enviaremos los resultados a **InfluxDB Cloud** y mostraremos los intervalos de ruido o silencio en Grafana mediante consultas **Flux**.
 
 La idea principal es un programa que esté continuamente recogiendo audio. Calcule el **RMS** cada 5 segundos y lo escriba por la salida estándar. Después cargarlo en una base de datos y dibujar gráficas. En sí es sencillo y sólo requiere unas pocas líneas de código, pero hay algunos puntos interesantes que seguramente puedas reutilizar en otros proyectos. Tal como:
 
