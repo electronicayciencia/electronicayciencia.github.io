@@ -11,11 +11,9 @@ tags:
   - Sonido
 ---
 
-¿Cuentas con un lugar tranquilo para relajarte o trabajar? Obras en el piso de al lado, o en la calle, perros ladrando, tráfico, aviones, niños, vecinos... El ruido distrae y aumenta tu nivel de estrés. Con un micrófono y una **Raspberry Pi** programaremos un sencillo **Registrador de nivel de Sonido Ambiental** y mostraremos los intervalos de ruido o silencio en una gráfica. Aprovecharemos para hablar de SoX, Python, InfluxDB 2.0 y Grafana.
+El ruido te distrae y aumenta tu nivel de estrés. Obras en el piso de al lado, perros, tráfico, aviones, niños, vecinos... En la primera mitad del artículo usaremos un micrófono y una **Raspberry Pi** para programar con **Python** y **SoX** un **Registrador de Ruido Ambiente**. En la segunda, enviaremos los resultados a **InfluxDB Cloud** y mostraremos los intervalos de ruido o silencio en Grafana mediante consultas **Flux**.
 
-La idea principal es un programa que esté continuamente recogiendo audio. Calcule el **RMS** cada 5 segundos y lo escriba por la salida estándar. Después volcaremos los resultados a una base de datos InfluxDB y los graficaremos en Grafana. Así podrás ver cuántas interrupciones sufres en tus periodos de trabajo o estudio.
-
-Aunque la idea en sí es muy sencilla y sólo requiere unas pocas líneas de código, hay algunos puntos interesantes que seguramente puedas reutilizar en otros proyectos. Tal como:
+La idea principal es un programa que esté continuamente recogiendo audio. Calcule el **RMS** cada 5 segundos y lo escriba por la salida estándar. Después cargarlo en una base de datos y dibujar gráficas. En sí es sencillo y sólo requiere unas pocas líneas de código, pero hay algunos puntos interesantes que seguramente puedas reutilizar en otros proyectos. Tal como:
 
 - utilizar SoX para obtener y eliminar un **perfil de ruido**
 - leer un **stream binario** en Python
@@ -28,11 +26,11 @@ Aunque la idea en sí es muy sencilla y sólo requiere unas pocas líneas de có
 
 ## Entrada de micrófono
 
-La Raspberry Pi -al menos la versión 3- no tiene entrada de audio. Tiene un Jack pero es sólo salida. Para conectar un micrófono y registrar audio es preciso conectar una tarjeta de sonido. Las hay USB por menos de un dólar. Son de mala calidad, por supuesto, pero suficiente. Hace tiempo modificamos una para [Medir valores lógicos con tarjeta de sonido]({{site.baseurl}}{% post_url 2010-10-20-medir-valores-logicos-con-tarjeta-de %}).
+La Raspberry Pi -al menos la versión 3- no tiene entrada de audio. Tiene un Jack, sí, pero es sólo salida. Para conectar un micrófono y registrar audio es preciso conectar una tarjeta de sonido. Las hay USB por menos de un dólar. Son de mala calidad, por supuesto, pero suficiente. Hace tiempo modificamos una para [Medir valores lógicos con tarjeta de sonido]({{site.baseurl}}{% post_url 2010-10-20-medir-valores-logicos-con-tarjeta-de %}).
 
 {% include image.html class="small-width" file="usb_soundcard.jpg" caption="Tarjeta de sonido USB. Aliexpress." %}
 
-Cuenta con un codec TP6911 (bien en chip o [en gota](https://es.wikipedia.org/wiki/Chip_en_placa) y varios componentes pasivos. Aunque menos de los que debería.
+Cuenta con un [chip TP6911]({{page.assets | relative_url}}/DS-TP6911_V10.pdf) (bien en chip o en gota) y varios componentes pasivos. Aunque menos de los que debería.
 
 Una vez enchufada, Raspbian la reconoce automáticamente:
 
@@ -60,7 +58,7 @@ El paquete **SoX** es un software de procesamiento de audio en línea de comando
 sox <opciones_archivo_entrada> <archivo_entrada> <opciones_archivo_salida> <archivo_salida> <filtros y efectos>
 ```
 
-Con la ventaja de que los archivos de entrada y salida pueden ser ficheros de disco, dispositivos físicos, la entrada y salida estándar o *ninguno*.
+Los archivos de entrada y salida pueden ser **ficheros de disco**, **dispositivos físicos**, la **entrada y salida estándar** o *ninguno*.
 
 En este caso el fichero de entrada es `hw:1` (card 1) de tipo *alsa* con los parámetros por defecto y la salida será a `/tmp/output.wav`. Como termina en **wav** SoX ya identifica el tipo por la extensión. Y si no indicamos los parámetros de salida tomará los mismos que de entrada. O sea los valores por defecto del TP6911: un canal (mono) a 16 bit y a 24kHz.
 
@@ -78,7 +76,7 @@ Grabamos unos segundos hablando al micro y lo abrimos con *audacity*. El resulta
 
 {% include image.html file="snd_prueba.png" caption="Primera prueba de sonido con tarjeta USB y micro electret. EyC." %}
 
-Extraño que la pista no esté centrada en 0. Puede pasar por un defecto en el hardware. El filtro `stat` nos muestra entre otros valores la media aritmética de las muestras. Efectivamente está desplazado *-0.170199*. Las unidades ahora no importan.
+Extraño que la pista no esté centrada en 0. Puede pasar por un defecto en el hardware. El filtro `stat` nos muestra entre otros valores la **media aritmética** de las muestras. 
 
 ```console
 $ sox -t alsa hw:1 -n stat
@@ -88,9 +86,9 @@ Minimum amplitude:    -0.480469
 Mean    amplitude:    -0.170199
 ```
 
-Por cierto, el fichero de salida aquí es `-n`, es decir, ninguno. Porque lo que nos interesa es sólo la estadística.
+Efectivamente está desplazado *-0.170199*. Las unidades ahora no importan. Por cierto, el fichero de salida aquí es `-n`, es decir, ninguno. Porque lo que nos interesa es sólo la estadística.
 
-Se soluciona bloqueando la componente continua con un filtro paso alto. SoX tiene un filtro que sirve justo para corregir desplazamientos y se llama `dcshift`. Pero un filtro es más versátil.
+Se soluciona bloqueando la componente continua con un **filtro paso alto**. SoX tiene un filtro que sirve justo para corregir desplazamientos y se llama `dcshift`. Pero un filtro es más versátil.
 
 Una vez centrado, amplificamos para ver la relación señal-ruido:
 
@@ -103,9 +101,9 @@ Una vez centrado, amplificamos para ver la relación señal-ruido:
 
 Había escrito unos párrafos hablando sobre las fuentes del ruido eléctrico. Pero no veas qué tostón me estaba quedando. Resumiendo: filtros insuficientes (o ninguno), alimentación no desacoplada, componentes baratos y partes importantes sin blindar. Además recuerda que, sin filtros, las señales de alta frecuencia acaban plegadas por *aliasing* en cualquier frecuencia audible.
 
-Si queremos captar ruido ambiental, lo primero será eliminar el ruido de la línea. Por suerte es un murmullo de fondo más o menos continuo. Así que podemos hacer un perfil de frecuencias y luego filtrarlo. Lo malo es que la señal buena se distorsionará. Pero en este caso nos da igual la fidelidad. Sólo buscamos su volumen.
+Si queremos captar el ruido de la **habitación**, lo primero será eliminar el de la línea. Como es un murmullo de fondo más o menos continuo se puede hacer un perfil de frecuencias y luego filtrarlo. Lo malo es que la señal buena se distorsionará. Pero en este caso nos da igual la fidelidad. Son ruidos, sólo buscamos su volumen.
 
-Crearemos un perfil de ruido grabando un segundo de "silencio" con SoX.
+Crearemos un perfil grabando un segundo de "silencio" con SoX.
 
 ```
 sox -t alsa hw:1 -r 8000 -b 16 -c 1 -n trim 0 1 highpass 20 noiseprof noise.prof
@@ -222,13 +220,13 @@ Además es formalmente correcto. Aquí tienes una tabla de conversión de valor 
 
 {% include image.html file="TrueRmsValue.gif" caption="Tabla de un tester TrueRMS. [KYORITSU](https://www.kew-ltd.co.jp/en/support/mame/detail.php?id=90)" %}
 
-En el **primer caso**, todo el intervalo lleno con una **sinusoidal** de amplitud A. El valor eficaz será 0.7 veces A. Da igual la frecuencia. En nuestro caso, con muestras de 16 bits el máximo es 32768; resultaría un RMS de 23000 más o menos.
+En el **primer caso** es todo el intervalo lleno con una **sinusoidal** de amplitud A. El valor eficaz será 0.7 veces A. Da igual la frecuencia. En nuestro caso, con muestras de 16 bits el máximo es 32768; resultaría un RMS de 23000 más o menos.
 
 Si aumentamos el volumen la onda se saturará y la sinusoidal se volverá cuadrada. Estaríamos en el **segundo caso**: el máximo RMS daría el mayor valor posible, o sea los 32768. Tendría que ser un sonido fuerte que durara todo el intervalo de 5 segundos.
 
 Con una onda arbitraria, tendríamos el **tercer caso**: el RMS depende de la forma de onda.
 
-Y si es un ruido intenso pero breve estaríamos en el **cuarto caso**: el RMS vendrá en función de la duración.
+Y si es un ruido intenso pero breve estaríamos en el **cuarto caso**: el RMS vendrá en función de la duración relativa del sonido e intervalo.
 
 
 ## Envío a InfluxDB Cloud
@@ -285,7 +283,7 @@ done
 El `tail -f` va acoplado a un `while` que ejecuta lo siguiente:
 
 - `read` divide en campos la línea recibida y los mete en cuatro variables
-- construimos el formato *Line protocol*
+- construimos el formato *Line protocol*. La serie se llamará **sndobras**. Las medidas de RMS serán **rms** y las de amplitud máxima **maxvalue**.
 - llamamos al API. La opción `-sS` omitirá cualquier mensaje que no sea un error.
 
 Para cuando se efectúa la llamada, los datos ya están escritos en el fichero. Por tanto si falla o se cae la conexión esas líneas no se pierden.
@@ -293,18 +291,18 @@ Para cuando se efectúa la llamada, los datos ya están escritos en el fichero. 
 
 ## Paneles en Grafana
 
-Encuentro algo limitada la herramienta de visualización que incorpora InfluxDB Cloud. Empezando porque no tiene autorefresco, ni se actualiza el intervalo temporal al seleccionar en uno de los paneles. Posiblemente no haya dado con la tecla. En cualquier caso vamos a Grafana.
+Encuentro algo limitada la herramienta de visualización que incorpora InfluxDB Cloud. Empezando porque carece de autorefresco, ni se actualiza el intervalo temporal al seleccionar en uno de los paneles. Posiblemente no haya dado con la tecla. En cualquier caso vamos a Grafana.
 
 Grafana se puede instalar también en la Raspberry. Pero -al igual que InfluxDB- ofrece una cuenta gratuita online. La probaremos.
 
-Nos damos de alta, seleccionamos como fuente de datos InfluxDB. Lenguaje de consulta Flux. La autenticación también se hace con un token. A diferencia del que usamos para llamar al API, este debe tener permisos de **lectura** sobre el *bucket* en vez de escritura.
+Nos damos de alta, seleccionamos como fuente de datos InfluxDB. La autenticación también se hace con un token. Este debe tener permisos de **lectura** sobre el *bucket* en vez de escritura.
 
-Hasta ahí la parte fácil. Lo complicado viene ahora. Porque Grafana (al menos hasta la versión actual v7.5.4) no tiene un asistente para escribir las consultas en lenguaje Flux.
+Hasta aquí la parte fácil. Lo complicado viene ahora. Porque Grafana (al menos hasta la versión actual v7.5.4) no tiene un asistente para escribir las consultas en lenguaje Flux. Y no sabemos Flux.
 
-Según sus creadores, Flux -o *fluxlang*- es un lenguaje especialmente pensado para consultar series temporales. Su sintaxis recuerda en parte a JavaScript y en parte a *pipes*. Está bien documentado pero en continuo desarrollo: 
+Según sus creadores, **Flux** -o *fluxlang*- es un lenguaje especialmente pensado para consultar series temporales. Su sintaxis recuerda en parte a JavaScript y en parte a *pipes*. Está bien documentado aunque en continuo desarrollo: 
 [Get started with Flux](https://docs.influxdata.com/influxdb/v2.0/query-data/get-started/).
 
-Una query básica para Grafana sería así:
+Viene de ejemplo una query básica para Grafana:
 
 ```js
 from(bucket: "testing")
@@ -382,7 +380,7 @@ _time         _measurement   maxvalue  rms
 1619604500000 sndobras       32767     3120
 ```
 
-El panel de grafana espera el nombre de la serie en *_field* y su valor en *_value*. Como es nueva le pondremos un nombre, por ejemplo *points*. La función `map()` sirve para asignar valores a columnas.
+El panel de Grafana espera el nombre de la serie en *_field* y su valor en *_value*. Como es nueva le pondremos un nombre, por ejemplo *points*. La función `map()` sirve para asignar valores a columnas.
 
 ```js
   |> map(fn: (r) => ({ r with _value: r.rms, _field: "points" }))
@@ -423,7 +421,7 @@ from(bucket: "testing")
   |> keep(columns:["_field", "_time", "_value"])
 ```
 
-Basta con unos retoques para hacer destacar la serie *points* en el panel de grafana:
+Basta con unos retoques para hacer destacar la serie *points* en el panel de Grafana:
 
 {% include image.html file="obras_12h.png" caption="Los momentos de máxima amplitud se resaltan con puntos naranjas sobre la serie RMS. EyC." %}
 
@@ -460,8 +458,6 @@ from(bucket: v.bucket)
 El resultado lo asignamos a la variable `starttime` y es la que usamos al filtrar con `range`. Una vez hecho eso, la query es sencilla y la terminamos con `mean()`.
 
 {% include image.html file="noisy.png" caption="Indicador de nivel de ruido ambiental. EyC." %}
-
-De forma similar podríamos programar una alerta en Grafana que nos envíe, por ejemplo, un aviso a Telegram.
 
 
 ## Tipos de sonidos
@@ -566,12 +562,13 @@ Grafana, InfluxDB y Fluxlang:
 
 - [Grafana Cloud](https://grafana.com/products/cloud/)
 - [InfluxDB Cloud](https://www.influxdata.com/get-influxdb/)
-- [InfluxDB v2.0 Reference](https://docs.influxdata.com/influxdb/v2.0/).
+- [InfluxDB v2.0 Reference](https://docs.influxdata.com/influxdb/v2.0/)
+- [Why We’re Building Flux, a New Data Scripting and Query Language](https://www.influxdata.com/blog/why-were-building-flux-a-new-data-scripting-and-query-language/)
 
 Varios:
 
 - [SoX - Sound eXchange HomePage](http://sox.sourceforge.net/)
-- [Wikipedia - Chip On Board](https://es.wikipedia.org/wiki/Chip_en_placa)
 - [Wikipedia - Root mean square](https://en.wikipedia.org/wiki/Root_mean_square)
+- [Wikipedia - Ambient noise level](https://en.wikipedia.org/wiki/Ambient_noise_level)
 - [Electrónica y Ciencia - Medir valores lógicos con tarjeta de sonido]({{site.baseurl}}{% post_url 2010-10-20-medir-valores-logicos-con-tarjeta-de %})
 
