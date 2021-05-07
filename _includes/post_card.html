@@ -22,7 +22,7 @@
    {%- if post.image -%}
    <a href="{{ post.url | relative_url }}">
       <div class="teaser-image-frame">
-         <img src="{{post.image | relative_url}}"/>
+         <img src="{{post.image | relative_url}}" loading="lazy"/>
       </div>
    </a>
    {%- endif -%}
