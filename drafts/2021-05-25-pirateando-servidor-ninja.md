@@ -103,9 +103,10 @@ La función *memcmp* compara dos fragmentos de memoria de la longitudad dada. Si
 
 Yo creo que está comparando las líneas con el valor esperado, como no son iguales da error y termina.
 
-Dice el diccionaro:
+Dice el diccionario:
 
 > obviar:
+>
 >   Evitar un impedimento o una dificultad o eludir una cosa inconveniente.
 
 Puede que conozcas el truco del LD_PRELOAD. Sáltate el apartado si quieres. Si no, te va a encantar. Me voy a hacer mi propia **memcmp**, y esta sí va a devolver 0.
@@ -167,7 +168,7 @@ Si quieres ampliar información sobre LD_PRELOAD, aquí hay una explicación muy
 
 ¿Recuerdas las funciones ilegibles que salían cuando *ltrace*? Se llaman ***mangled names***. En C no, pero en C++ ocurre que la misma función puede tener distintos argumentos o resultados, siendo en realidad funciones diferentes con el mismo nombre. Se llama *sobrecarga de funciones*. Lo cual supone un problema para el compilador, porque ahora tiene símbolos diferentes que se llaman igual.
 
-Para solucionarlo compone un nombre incluyendo la clase, el método, los argumentos, tipo de salida, etc. Por ejemplo 
+Para solucionarlo, les asigna un nombre incluyendo la clase, el método, los argumentos, tipo de salida, etc. Por ejemplo 
 
 ```
 _ZNK10QByteArray5toHexEv ==> QByteArray::toHex()
@@ -179,18 +180,18 @@ El parámetro `-C` de ltrace realiza la operación inversa: *demangle*. Habría 
 $ ltrace -C ./ninja_server
 ...
 QCryptographicHash::hash(QByteArray const&, QCryptographicHash::Algorithm)(0x7ffedc349ae0, 0x7ffedc3499e0, 2, 0x7ffedc3499e0) = 0x7ffedc349ae0
-qFree(void*)(0xb9c5d0, 0x7ffedc349ae0, 0xb9c500, 1)                                          = 0
-QByteArray::toHex() const(0x7ffedc349b00, 0x7ffedc3499e0, 0x7ffedc3499e0, 6)                 = 0x7ffedc349b00
-QByteArray::toUpper() const(0x7ffedc349af0, 0x7ffedc349b00, 0x7ffedc349b00, 20)              = 0x7ffedc349af0
-qFree(void*)(0xb9c340, 0x7ffedc349af0, 0xb9c300, 6352)                                       = 0
-qFree(void*)(0xba6b20, 0xb84020, 0xba6b00, 7)                                                = 0
-QString::toUtf8() const(0x7ffedc349b10, 0xba5f68, 0xba5f68, 0)                               = 0x7ffedc349b10
-memcmp(0xba61e8, 0xba6408, 40, 4)                                                            = 4
+qFree(void*)(0xb9c5d0, 0x7ffedc349ae0, 0xb9c500, 1)                              = 0
+QByteArray::toHex() const(0x7ffedc349b00, 0x7ffedc3499e0, 0x7ffedc3499e0, 6)     = 0x7ffedc349b00
+QByteArray::toUpper() const(0x7ffedc349af0, 0x7ffedc349b00, 0x7ffedc349b00, 20)  = 0x7ffedc349af0
+qFree(void*)(0xb9c340, 0x7ffedc349af0, 0xb9c300, 6352)                           = 0
+qFree(void*)(0xba6b20, 0xb84020, 0xba6b00, 7)                                    = 0
+QString::toUtf8() const(0x7ffedc349b10, 0xba5f68, 0xba5f68, 0)                   = 0x7ffedc349b10
+memcmp(0xba61e8, 0xba6408, 40, 4)                                                = 4
 ```
 
 De ahí deducimos que *ninja_server* está hecho en C++ y utiliza las librerías Qt. 
 
-Que, bueno, también podíamos haber visto el Zip:
+Claro que también podíamos haber visto el Zip:
 
 ```
 ninja_server
@@ -204,7 +205,7 @@ ninja.lic
 
 Eso puede configurar editando (o creando) el fichero `~./ltrace.conf`. Escribimos lo siguiente para forzar el prototipo de *memcmp*:
 
-```
+```c
 int memcmp(string, string, int);
 ```
 
@@ -258,7 +259,7 @@ $ ./ninja_server
 19:29 > server started successfully
 ```
 
-Ya tenemos nuestra licencia validada sin haber entrado ni a mirar el ejecutale.
+Ya tenemos nuestra licencia validada sin haber entrado ni a mirar el ejecutable.
 
 
 ## Camino chungo: Llamada a QCryptographicHash
@@ -348,7 +349,7 @@ El frame `#1` ya está en el programa principal. Se sabe por el nombre pero tamb
 
 E inspeccionamos las operaciones justo anteriores al `call`:
 
-```asm
+```nasm
 lea    rax,[rbp-0x1b0]
 lea    rcx,[rbp-0x1a0]
 mov    edx,0x2
@@ -432,7 +433,7 @@ Entonces, en la pila, en `[rbp-0x1a0]` es donde está el puntero al QByteArray q
 Run till exit from #0  0x00007ffff795fe00 in QCryptographicHash::hash(QByteArray const&, QCryptographicHash::Algorithm) ()
 ```
 
-Examinamos las varialbes nuevamente:
+Examinamos las variables nuevamente:
 
 ```
 (gdb) x/a $rbp-0x1a0
@@ -489,7 +490,7 @@ Este listado aunque parezca largo es fácil de seguir. Se repite siempre la mism
 - Llamada a la función que corresponda.
 
 
-```asm
+```nasm
 ; hash: data = sha1(licencia)
 lea    rax,[rbp-0x1b0] ; destino => data
 lea    rcx,[rbp-0x1a0] ; origen  => licencia
@@ -586,7 +587,7 @@ Correcto.
 
 Vamos a la segunda línea. Un código similar que parte también de `[rbp-0x1a0]` (ahí estaba el texto de la licencia *ninja.lic*).
 
-```asm
+```nasm
 lea    rax,[rbp-0x1c0] ; destino => data
 lea    rcx,[rbp-0x1a0] ; origen  => licencia
 mov    edx,0x1         ; alg     => md5
@@ -658,7 +659,7 @@ En la vida real la gente se deja los símbolos para encontrar los fallos más f�
 
 Arriba habíamos visto cómo ltrace mostraba la siguiente llamada:
 
-```
+```console
 $ ltrace -C ./ninja_server
 ...
 QCryptographicHash::hash(QByteArray const&, QCryptographicHash::Algorithm)(0x7ffedc349ae0, 0x7ffedc3499e0, 2, 0x7ffedc3499e0) = 0x7ffedc349ae0
@@ -691,7 +692,7 @@ De esos sólo nos interesa el tamaño y el puntero al string.
 
 Lo metemos en `~/.ltrace.conf` junto a la enumeración del algoritmo y el prototipo de la función (con su nombre *mangled*):
 
-```
+```c
 typedef alg = enum(MD4,MD5,SHA1);
 typedef QByteArray = struct (hide(int), hide(int), int, array(hex(char),elt3)*);
 
