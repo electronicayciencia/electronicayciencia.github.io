@@ -120,7 +120,7 @@ La compilamos como una librería compartida:
 $ gcc -fpic -shared -o memcmp.so memcmp.c
 ```
 
-Y al lanzar el *servidor ninja* lo hacemos con la variable LD_PRELOAD apuntando a nuestra librería. Con esta variable, el cargador dinámico preferirá nuestra función a la original.
+Y al lanzar el *servidor ninja* lo hacemos con la variable **LD_PRELOAD** apuntando a nuestra librería. Con esta variable, el cargador dinámico preferirá nuestra función a la original.
 
 ```console
 $ LD_PRELOAD=memcmp.so ./ninja_server 
@@ -142,9 +142,9 @@ $ LD_PRELOAD=memcmp.so ./ninja_server
 11:14 > server started successfully
 ```
 
-¡Bien! Arranca porque todas las comparaciones han salido bien (todas han devuelto 0, *guiño*).
+¡Sí! Arranca porque todas las **comparaciones** han salido bien (todas han devuelto **0** ¿no?, *guiño*).
 
-En este caso el programa es lo suficientemente simple. Pero lo normal habria sido devolver 0 sólo cuando el número de caracteres a comparar es 40 y, en caso contrario, llamar a la función *memcmp* original con los parámetros recibidos.
+En este caso el programa es lo suficientemente simple. Pero lo normal habria sido devolver 0 sólo cuando el número de caracteres a comparar es 40 y, en caso contrario, llamar a la función *memcmp* **original** con los parámetros recibidos.
 
 Si quieres ampliar información sobre LD_PRELOAD, aquí hay una explicación muy buena: [Playing with LD_PRELOAD - BreakInSecurity](https://axcheron.github.io/playing-with-ld_preload/).
 
@@ -178,7 +178,7 @@ memcmp(0xba61e8, 0xba6408, 40, 4)                                               
 
 De ahí deducimos que *ninja_server* está hecho en C++ y utiliza las librerías Qt. 
 
-Claro que también podíamos haber visto el Zip:
+Claro que también podíamos haber mirado el Zip:
 
 ```
 ninja_server
@@ -190,7 +190,7 @@ ninja.lic
 
 *ltrace* muestra los parámetros de la llamada a *memcmp* como **punteros**, a nosotros nos sería más útil si los mostrara como **strings**. Así sabríamos qué compara.
 
-Eso puede configurar editando (o creando) el fichero `~./ltrace.conf`. Escribimos lo siguiente para forzar el prototipo de *memcmp*:
+Eso lo puedes configurar editando (o creando) el fichero `~./ltrace.conf`. Escribimos lo siguiente para forzar el prototipo de *memcmp*:
 
 ```c
 int memcmp(string, string, int);
