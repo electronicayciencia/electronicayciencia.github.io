@@ -9,7 +9,7 @@ tags:
   - Informática
 ---
 
-¡Vamos a piratear Software! No, es broma. Vamos a aprender de informática... a bajo nivel... mientras depuramos software.
+¡Vamos a piratear Software! No, es broma. Vamos a aprender de informática... a bajo nivel... mientras **depuramos** software.
 
 {% include image.html file="featured.jpg" caption="Ninja, Pirate, Awesome. [PixelBunny - Devianart](https://www.deviantart.com/pixelbunny/art/Ninja-Pirate-Awesome-132809508)" %}
 
