@@ -86,7 +86,7 @@ memcmp(0xdfd238, 0xdfdee8, 40, 4)                                               
 
 Unas cuantas funciones con nombre ilegible. Luego una llamada a **memcmp**. Después imprime el error y termina.
 
-La función *memcmp* compara dos fragmentos de memoria de la longitudad dada. Si son iguales devuelve **0**. Aquí devuelve 4 o sea que son distintos. Compara 40 caracteres, precisamente lo que miden las tres líneas finales del fichero.
+La función *memcmp* compara dos fragmentos de memoria de la longitudad dada. Si son iguales devuelve **0**. Aquí devuelve **4** o sea que son distintos. Compara **40** caracteres, precisamente lo que miden las tres líneas finales del fichero.
 
 Yo creo que está comparando las líneas con el valor esperado, como no son iguales da error y termina.
 
@@ -96,7 +96,7 @@ Dice el diccionario:
 >
 >   Evitar un impedimento o una dificultad o eludir una cosa inconveniente.
 
-Puede que conozcas el truco del LD_PRELOAD. Sáltate el apartado si quieres. Si no, te va a encantar. Me voy a hacer mi propia **memcmp**, y esta sí va a devolver 0.
+Puede que conozcas el truco del *LD_PRELOAD*. Sáltate el apartado si quieres. Si no, te va a encantar. Me voy a hacer mi propia **memcmp**, y va a devolver 0.
 
 Este es el prototipo de *memcmp* según el manual:
 
