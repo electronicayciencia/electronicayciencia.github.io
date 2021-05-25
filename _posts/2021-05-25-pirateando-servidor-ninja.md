@@ -50,7 +50,7 @@ Yo te voy a contar **otras formas** de hacer que funcione. Empezando por un truc
 
 ## Camino fácil: Obviar la comprobación
 
-Editamos la licencia original y actualizamos la fecha y la MAC. En tu cabeza ya sabes que no sirve. Porque intuyes que las tres líneas en hexadecimal al final del fichero deben servir para algo.
+Editamos la licencia original y actualizamos la fecha y la MAC. En tu cabeza ya sabes que no sirve. Porque intuyes que las tres líneas en hexadecimal al final del fichero deben valer para algo.
 
 ```
 TYPE = FLOATING
@@ -86,7 +86,7 @@ memcmp(0xdfd238, 0xdfdee8, 40, 4)                                               
 
 Unas cuantas funciones con nombre ilegible. Luego una llamada a **memcmp**. Después imprime el error y termina.
 
-La función *memcmp* compara dos fragmentos de memoria de la longitudad dada. Si son iguales devuelve **0**. Aquí devuelve **4** o sea que son distintos. Compara **40** caracteres, precisamente lo que miden las tres líneas finales del fichero.
+La función *memcmp* compara dos fragmentos de memoria de longitud dada. Si son iguales devuelve **0**. Aquí devuelve **4** o sea que son distintos. Compara **40** caracteres, precisamente lo que miden las tres líneas finales del fichero.
 
 Yo creo que está comparando las líneas con el valor esperado, como no son iguales da error y termina.
 
