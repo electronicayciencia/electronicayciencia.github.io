@@ -280,16 +280,16 @@ set print demangle on
 set print asm-demangle on
 ```
 
-Habilitamos el historial. Cambiamos el ensamblador de AT&T a Intel (me apaño mejor). Definimos la función `hd` para volcar el contenido en hexadecimal y ASCII. Por último, activamos el *demangle*.
+Habilitamos el **historial**. Cambiamos el ensamblador de AT&T a Intel (me apaño mejor). Definimos la **función `hd`** para volcar el contenido en hexadecimal y ASCII. Por último, activamos el ***demangle***.
 
-Pondremos un punto de ruptura en `QCryptographicHash::hash(QByteArray const&, QCryptographicHash::Algorithm)`. La función se llama así, todo eso.
+Pondremos un punto de ruptura en `QCryptographicHash::hash(QByteArray const&, QCryptographicHash::Algorithm)`. La función se llama así.
 
 ```
 (gdb) b QCryptographicHash::hash(QByteArray const&, QCryptographicHash::Algorithm)
 Breakpoint 1 at 0x40ab78
 ```
 
-La descripción de QCryptographicHash::hash la podéis ver en la documentación de Qt. [QCryptographicHash Class - Qt Documentation](https://doc.qt.io/qt-5/qcryptographichash.html)
+Puedes ver la declaración de QCryptographicHash::hash en la documentación de Qt. [QCryptographicHash Class - Qt Documentation](https://doc.qt.io/qt-5/qcryptographichash.html)
 
 ```cpp
 QByteArray QCryptographicHash::hash(const QByteArray &data, QCryptographicHash::Algorithm method)
