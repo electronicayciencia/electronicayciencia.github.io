@@ -151,6 +151,8 @@ Mensaje: 0111 0011 0001 1101 1111 0010 1
 </ParameterValueStruct>
 ```
 
+Formato de código: https://www.redmine.org/projects/redmine/wiki/RedmineCodeHighlightingLanguages
+
 ### Líneas preformateadas
 
     Device.IP.Diagnostics.IPPing.DataBlockSize: 64

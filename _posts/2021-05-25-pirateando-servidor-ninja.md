@@ -1,5 +1,5 @@
 ---
-no-title: Pirateando licencias de *el servidor Ninja*.
+title: Pirateando licencias del servidor Ninja
 layout: post
 assets: /assets/2021/05/pirateando-servidor-ninja/
 image: /assets/2021/05/pirateando-servidor-ninja/img/featured.jpg
@@ -9,7 +9,7 @@ tags:
   - Informática
 ---
 
-¡Vamos a piratear Software! No, es broma. Vamos a aprender de informática... a bajo nivel... mientras pirateamos software.
+¡Vamos a piratear Software! No, es broma. Vamos a aprender de informática... a bajo nivel... mientras depuramos software.
 
 {% include image.html file="featured.jpg" caption="Ninja, Pirate, Awesome. [PixelBunny - Devianart](https://www.deviantart.com/pixelbunny/art/Ninja-Pirate-Awesome-132809508)" %}
 
@@ -19,38 +19,25 @@ Como decía, te descargas el *Servidor Ninja*, que funciona en **Linux**. Y vien
 
 ```ini
 #-------------------------------------------------------------
-#
 # License created by Ninja_LIC_Generator
-#
 # WARNING: do NOT modify any part of this file.
-#
 #-------------------------------------------------------------
-
 
 TYPE = FLOATING
 HOST = 000C32F4EAC4
 TOOL = {ninja, 2016-06-01, 10}
-
 
 58DA44C35FB678F44056EE11B5E6C289480A78E2
 673F17DD54BC551BA9E5E4B2FD11F90B45945C46
 B7B635AAA6FA12D271C544A4B9D6D9B677AC45CD
 ```
 
-Hay una fecha, caducada. Y además va ligada al equipo (HOST) por lo que parece ser la MAC de la tarjeta de red. Al final varias líneas sin sentido.
+Hay una **fecha**, caducada. Y además va ligada al equipo (HOST) por lo que parece ser la **MAC** de la tarjeta de red. Al final varias líneas sin sentido.
 
-Total, que cuando vas a ejecutar el *Servidor Ninja* te devuelve un error:
+Total, que cuando vas a ejecutar el *Servidor Ninja* te devuelve un **error**:
 
 ```console
 $ ./ninja_server 
-===========OooO=============================OooO==========
-=======                                            =======
-=====                                                =====
-====          NINJA Floating License Server           ====
-====        Copyright (C) 2014-2020 NINJASOFT         ====
-=====                                                =====
-=======                                            =======
-===========OooO=============================OooO==========
 
 10:35 > loading license...
 10:35 > <error> host-id does not match, please check your license file.
@@ -768,7 +755,7 @@ El entero lo relleno con todo **unos**. El puntero con **doses** y **treses**. M
 00000000  11 11 11 11 ff 7f 00 00  33 33 33 33 22 22 22 22  |........3333""""|
 ```
 
-¿Ves el valor `ff 7f 00 00`? Para rellenar. Igual que este apartado.
+¿Ves el valor `ff 7f 00 00`? Para **rellenar**. Igual que este apartado.
 
 
 ## Referencias
@@ -777,12 +764,12 @@ Si te ha gustado, aquí te dejo las referencias y enlaces para seguir por tu cue
 
 Manuales y referencias:
 
-- [Data structure alignment - Wikipedia](https://en.wikipedia.org/wiki/Data_structure_alignment)
-- [QCryptographicHash Class - Qt Documentation](https://doc.qt.io/qt-5/qcryptographichash.html)
 - [ltrace(1) - Linux manual page](https://man7.org/linux/man-pages/man1/ltrace.1.html)
 - [ltrace.conf(5) - Linux manual page](https://man7.org/linux/man-pages/man5/ltrace.conf.5.html)
 - [memcmp(3) - Linux manual page](https://man7.org/linux/man-pages/man3/memcmp.3.html)
-- [System V AMD64 ABI calling convention](https://en.wikipedia.org/wiki/X86_calling_conventions#System_V_AMD64_ABI)
+- [Data structure alignment - Wikipedia](https://en.wikipedia.org/wiki/Data_structure_alignment)
+- [System V AMD64 ABI calling convention - Wikipedia](https://en.wikipedia.org/wiki/X86_calling_conventions#System_V_AMD64_ABI)
+- [QCryptographicHash Class - Qt Documentation](https://doc.qt.io/qt-5/qcryptographichash.html)
 
 
 Artículos de blogs:
