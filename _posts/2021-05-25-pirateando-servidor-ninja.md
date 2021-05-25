@@ -327,14 +327,14 @@ Backtrace para saber de dónde viene la llamada:
 #3  0x000000000040afb5 in main (argc=1, argv=0x7fffffffe008)
 ```
 
-El frame `#1` ya está en el programa principal. Se sabe por el nombre pero también por la dirección de memoria donde está la función. Lo seleccionamos.
+El frame `#1` ya está en el programa principal. Se sabe por el nombre pero también por la dirección de memoria. Lo seleccionamos.
 
 ```
 (gdb) f 1
 #1  0x00000000004133f3 in GLIC::LicData::fromTextStream (stream=...)
 ```
 
-E inspeccionamos las operaciones justo anteriores al `call`:
+E inspeccionamos las operaciones justo antes del `call`:
 
 ```nasm
 lea    rax,[rbp-0x1b0]
@@ -345,9 +345,9 @@ mov    rdi,rax
 call   0x40ab78 <QCryptographicHash::hash(QByteArray const&, QCryptographicHash::Algorithm)@plt>
 ```
 
-El entero está en **EDX**. Es 2, corresponde a sha1.
+El entero está en **EDX**. Es **2**, corresponde a **sha1**.
 
-Sobre los punteros de entrada y salida, uno será **RSI** y el otro **RDI**. No sé cuál es cual. En cualquier caso está claro que vienen de sendas variables locales en `[rbp-0x1a0]` y `[rbp-0x1b0]` respectivamente.
+Sobre los punteros de entrada y salida, uno será **RSI** y el otro **RDI**. No sé cuál es cual. Eso sí, está claro que vienen de sendas variables locales en `[rbp-0x1a0]` y `[rbp-0x1b0]` respectivamente.
 
 En el momento de efectuar la llamada, el contenido de ambos registros (como puntero *address*) es:
 
@@ -379,7 +379,7 @@ Y en **RSI**:
 00000060  73 65 20 63 72 65 61 74  65 64 20 62 79 20 4e 69  |se created by Ni|
 ```
 
-Eso parece el contenido del fichero con unos bytes encima a modo de cabecera. Esa debe ser la estructura `QByteArray`.
+Eso parece el contenido del fichero con unos bytes encima a modo de cabecera. Debe ser la estructura `QByteArray`.
 
 ```
 01 00 00 00  <- no sé
@@ -410,7 +410,7 @@ La dirección `0x63dc48` es justo donde comienza el string:
 000001e0
 ```
 
-Los primeros 0x123 bytes son el texto del fichero de licencia menos las tres últimas líneas. El resto, ceros. Probablemente espacio reservado por si crece QByteArray.
+Los primeros `0x123` bytes son el texto del fichero de licencia menos las tres últimas líneas. El resto, ceros. Probablemente espacio reservado por si crece QByteArray.
 
 Entonces, en la pila, en `[rbp-0x1a0]` es donde está el puntero al QByteArray que contiene la licencia sin los *hashes*. Volvemos al frame `#0` para terminar la llamada y cotillear el valor devuelto.
 
@@ -429,7 +429,7 @@ Examinamos las variables nuevamente:
 0x7fffffffda80:    0x63ba70
 ```
 
-En `[$rbp-0x1a0]` estaba la licencia, sigue igual. Ahora `[$rbp-0x1b0]` ya sí es accesible:
+En `[rbp-0x1a0]` estaba la licencia, sigue igual. Ahora `[rbp-0x1b0]` ya sí es accesible:
 
 ```
 (gdb) hd 0x63ba70 0x40
@@ -439,7 +439,7 @@ En `[$rbp-0x1a0]` estaba la licencia, sigue igual. Ahora `[$rbp-0x1b0]` ya sí e
 00000030  40 00 00 00 00 00 00 00  41 00 00 00 00 00 00 00  |@.......A.......|
 ```
 
-Debe contener el valor devuelto en forma de QByteArray. Se supone que con el SHA1 del texto de entrada:
+Debe contener el valor devuelto en forma de **QByteArray**. Se supone que con el **SHA1** del texto de entrada:
 
 ```
 01 00 00 00  <- (no sé qué es)
@@ -457,7 +457,7 @@ $ cat ninja.lic | head -n-3 | sha1sum
 24cdfc68bfd7a1d5cb1bb59ddb22351bdc495df1  -
 ```
 
-¡Sí! Correcto por ahora.
+¡Sí! Vamos bien por ahora.
 
 
 ## Desensamblado del primer hash
@@ -466,13 +466,13 @@ Si te has liado con lo anterior no pasa nada. Te miras la *[System V AMD64 ABI c
 
 > The first six integer or pointer arguments are passed in registers RDI, RSI, RDX, RCX, R8, R9
 
-Es decir, el valor de salida -argumento cero- va en **RDI**, el puntero origen -primer argumento- en **RSI** y el Algoritmo, -segundo argumento- en **RDX**.
+En resumen, el valor de salida -argumento cero- va en **RDI**, el puntero origen -primer argumento- en **RSI** y el algoritmo, -segundo argumento- en **RDX**.
 
 El *servidor ninja* comprueba la licencia validando tres líneas. Veamos cómo se calcula la primera.
 
 Este listado aunque parezca largo es fácil de seguir. Se repite siempre la misma estructura: 
 
-- Carga en registros de variables en la pila
+- Carga de variables en la pila a registros
 - Asignación de los registros adecuados (RDI, RSI, ...)
 - Llamada a la función que corresponda.
 
@@ -556,7 +556,7 @@ Y uno bueno, a esto otro:
 hash1 = sha1(sha1(sha1(licencia)))
 ```
 
-O sea, no hay salt, ni contraseña, nada de HMAC ni de firma RSA. Tan sólo tres SHA1 en cascada. ¿¡En serio!?
+O sea, no hay salt, ni contraseña, nada de HMAC ni de firma RSA. Tan sólo tres SHA1 en **cascada**. ¿¡En serio!?
 
 La primera línea de nuestra licencia válida es: `F6FF57A3826AD18F28B98EA97F52B4533CD319D1`.
 
