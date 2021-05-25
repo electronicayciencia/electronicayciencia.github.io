@@ -1,5 +1,5 @@
 ---
-no-title: Pirateando el *servidor Ninja*
+no-title: Pirateando licencias de *el servidor Ninja*.
 layout: post
 assets: /assets/2021/05/pirateando-servidor-ninja/
 image: /assets/2021/05/pirateando-servidor-ninja/img/featured.jpg
@@ -56,14 +56,14 @@ $ ./ninja_server
 10:35 > <error> host-id does not match, please check your license file.
 ```
 
-El camino más rápido es cambiar la MAC y la fecha del equipo. Todos sabemos buscar en Google cómo se hace. No tiene ciencia.
+Lo más rápido **es cambiar la MAC y la fecha** del equipo. Todos sabemos buscar en Google cómo se hace. No tiene ciencia.
 
-Yo te voy a contar otras formas de hacerlo funcionar. Empezando por un truco sencillo y terminando por... por aburrirte o sorprenderte. Ya veremos.
+Yo te voy a contar **otras formas** de hacer que funcione. Empezando por un truco sencillo y terminando por... por aburrirte o sorprenderte. Ya veremos.
 
 
 ## Camino fácil: Obviar la comprobación
 
-Editamos la licencia original y actualizamos la fecha y la MAC. En tu cabeza ya sabes que no va a funcionar. Porque intuyes que las tres líneas en hexadecimal al final del fichero deben servir para algo.
+Editamos la licencia original y actualizamos la fecha y la MAC. En tu cabeza ya sabes que no sirve. Porque intuyes que las tres líneas en hexadecimal al final del fichero deben servir para algo.
 
 ```
 TYPE = FLOATING
@@ -601,7 +601,6 @@ mov    edx,0x2         ; alg     => sha1
 mov    rsi,rcx
 mov    rdi,rax
 call   0x40ab78 <QCryptographicHash::hash(QByteArray const&, QCryptographicHash::Algorithm)@plt>
-
 ...
 ```
 
@@ -642,22 +641,20 @@ Si pasas el resultado a mayúsculas ya puedes hacerte un **generador de licencia
 
 ## Conclusión
 
-*Ninja Soft* no es una empresa de software. Lo que vende son... digamos... *patatas fritas* ¿ok?.
+*Ninja Soft* **no** es una empresa de software. Se dedica a... digamos... las *patatas fritas* ¿ok?.
 
-El *servidor ninja* es para que te puedas comer sus patatas fritas. Licenciará su software por motivos administrativos o legales. Tal vez le suponga unos ingresos extra, es posible, pero su negocio son las *patatas fritas*. No le merece la pena invertir mucho dinero en un gestor de licencias sofisticado para su software.
+El *servidor ninja* es para que te puedas comer sus *patatas fritas*. Licenciará su software por motivos administrativos o legales. Tal vez le suponga unos ingresos extra, es posible, pero su negocio son las *patatas fritas*. No le merece la pena invertir mucho dinero en un gestor de licencias sofisticado para su software.
 
-No es que justifique el usar tres hashes calculados a base de encadenar distintos algoritmos sobre el mismo texto. Una firma asimétrica o un HMAC, incluso un SHA1 con salt, habría sido igual de sencillo y -diría- más elegante.
+Claro que, en vez de **tres hashes sencillos** calculados a base de encadenar distintos algoritmos sobre el **mismo texto**, una firma asimétrica o un HMAC habrían sido igual de efectivos y -diría- más elegantes.
 
-No me gustan los crackmes ni los CTF porque son demasiado enrevesados. En la **vida real** programas para hacer lo que te pide tu jefe, lo mejor que sabes, en el menor tiempo posible. Cumplir objetivos, y llevar dinero a casa.
-
-En la vida real la gente se deja los símbolos para encontrar los fallos más fácilmente. Y distribuye un software con información de depuración porque simplemente nadie le ha pedido que los quite.
+No me gustan los **crackme** ni los CTF porque son demasiado enrevesados. En la **vida real** la gente programa para hacer lo que le pide su jefe, lo mejor que sabe, en el menor tiempo posible. Cumplir objetivos y llevar dinero a casa. En la vida real la gente se deja los *símbolos* para encontrar los fallos más fácilmente. Y distribuye un software con información de depuración porque sencillamente nadie le ha pedido que la quite.
 
 
 ## Camino hardcore: Bonus con *ltrace*
 
 ¿Te parece atrevido usar **gdb** como herramienta de reversing? De acuerdo, lo haré sin él.
 
-Arriba habíamos visto cómo ltrace mostraba la siguiente llamada:
+Arriba habíamos visto cómo *ltrace* mostraba la siguiente llamada:
 
 ```console
 $ ltrace -C ./ninja_server
@@ -724,11 +721,11 @@ ninja_server->QCryptographicHash::hash({  16, [ 0x88, 0x99, 0x57, 0x95... ] }, S
 
 Si aumentas el parámetro puedes ver todo lo que entra y sale de las funciones.
 
-De ahí la puedes deducir el algoritmo, más aún ahora sabiendo cómo va:
+De ahí puedes deducir el algoritmo, más aún ahora que sabes cómo va:
 
-- Hay tres grupos de tres llamadas
-- La primera llamada es igual en los tres grupos y se hace con un contenido de 291 bytes
-- El resultado de la primera se pasa a la segunda, y este a su vez a la tercera.
+- Hay tres grupos de tres llamadas al método *hash*.
+- La primera llamada es igual en los tres grupos y se hace con un contenido de 291 bytes.
+- El resultado de la primera se pasa a la segunda, y el de esta a su vez a la tercera.
 - El resultado de la tercera llamada de cada grupo coincide con la línea del fichero de licencia.
 
 Por cierto, una curiosidad más. ¿Te acuerdas arriba cuando describimos así a ojo el formato de QByteArray?
@@ -771,7 +768,7 @@ El entero lo relleno con todo **unos**. El puntero con **doses** y **treses**. M
 00000000  11 11 11 11 ff 7f 00 00  33 33 33 33 22 22 22 22  |........3333""""|
 ```
 
-¿Ves el valor `ff 7f 00 00`? Para rellenar. Igual que en las QByteArray.
+¿Ves el valor `ff 7f 00 00`? Para rellenar. Igual que este apartado.
 
 
 ## Referencias
