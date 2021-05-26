@@ -226,7 +226,7 @@ ninja_server->memcmp("D48CDE2967BA6EF17750CB166FC4D934B6AF9A7E", "9B5A560B5950A3
 
 Tras sustituir las tres líneas la licencia se convierte en válida.
 
-```
+```console
 $ ./ninja_server 
 ===========OooO=============================OooO==========
 =======                                            =======
