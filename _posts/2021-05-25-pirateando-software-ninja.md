@@ -1,8 +1,8 @@
----
-title: Pirateando licencias del servidor Ninja
+﻿---
+title: Pirateando software Ninja
 layout: post
-assets: /assets/2021/05/pirateando-servidor-ninja/
-image: /assets/2021/05/pirateando-servidor-ninja/img/featured.jpg
+assets: /assets/2021/05/pirateando-software-ninja/
+image: /assets/2021/05/pirateando-software-ninja/img/featured.jpg
 featured: false
 tags:
   - Binario

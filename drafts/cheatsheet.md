@@ -1,4 +1,4 @@
----
+﻿---
 title: Cheatsheet
 layout: post
 assets: /assets/drafts/cheatsheet
@@ -186,7 +186,7 @@ El servidor se lanza con:
 
 See `tools/post_links.sh`.
 
-- [Electrónica y Ciencia - Pirateando licencias del servidor Ninja]({{site.baseurl}}{% post_url 2021-05-25-pirateando-servidor-ninja %})
+- [Electrónica y Ciencia - Pirateando software Ninja]({{site.baseurl}}{% post_url 2021-05-25-pirateando-software-ninja %})
 - [Electrónica y Ciencia - Registrador de ruido ambiental]({{site.baseurl}}{% post_url 2021-05-03-registrador-ruido-ambiental %})
 - [Electrónica y Ciencia - Descifrando la configuración del Sagemcom F@ST 5657]({{site.baseurl}}{% post_url 2021-02-14-descifrar-configuracion-sagemcom-fast5657 %})
 - [Electrónica y Ciencia - Avisador personal de autobús con ESP8266]({{site.baseurl}}{% post_url 2021-01-09-avisador-personal-autobus-con-esp8266 %})
