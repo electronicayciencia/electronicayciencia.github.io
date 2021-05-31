@@ -149,7 +149,7 @@ En este caso el programa es lo suficientemente simple. Pero lo normal habria sid
 Si quieres ampliar información sobre LD_PRELOAD, aquí hay una explicación muy buena: [Playing with LD_PRELOAD - BreakInSecurity](https://axcheron.github.io/playing-with-ld_preload/).
 
 
-## Camino intermedio: Validar la licencia manipulada
+## Camino intermedio: Obtener los hashs válidos
 
 ¿Ha sido demasiado sencillo engañar al *servidor ninja*? En lugar de eso, intentemos obtener los valores correctos para hacer que nuestra licencia falsa se convierta en válida.
 
@@ -249,7 +249,7 @@ $ ./ninja_server
 Ya tenemos nuestra licencia validada sin haber entrado ni a mirar el ejecutable.
 
 
-## Camino chungo: Llamada a QCryptographicHash
+## Camino chungo: Aprender a generar los hashs
 
 ¿Pero qué tendrán esas tres líneas? ¿No tienes curiosidad? La traza de *ltrace* hacía referencia a `QCryptographicHash`. No cabe duda que se trata de alguna operación criptográfica.
 
@@ -630,7 +630,7 @@ Si pasas el resultado a mayúsculas ya puedes hacerte un **generador de licencia
 
 *Ninja Soft* **no** es una empresa de software. Se dedica a... digamos... las *patatas fritas* ¿ok?.
 
-El *servidor ninja* es para que te puedas comer sus *patatas fritas*. Licenciará su software por motivos administrativos o legales. Tal vez le suponga unos ingresos extra, es posible, pero su negocio son las *patatas fritas*. No le merece la pena invertir mucho dinero en un gestor de licencias sofisticado para su software.
+El *servidor ninja* es para que te puedas comer sus *patatas fritas*. Licenciará su software por motivos administrativos o legales. Tal vez se gane unos ingresos extra con licencias corporativas, es posible, pero para particulares es gratuito. Su negocio son las *patatas fritas*. No le merece la pena invertir mucho dinero en un gestor de licencias sofisticado para su software.
 
 Claro que, en vez de **tres hashes sencillos** calculados a base de encadenar distintos algoritmos sobre el **mismo texto**, una firma asimétrica o un HMAC habrían sido igual de efectivos y -diría- más elegantes.
 
