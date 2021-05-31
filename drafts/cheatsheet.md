@@ -4,7 +4,6 @@ layout: post
 assets: /assets/drafts/cheatsheet
 image: /assets/yyyy/mm/slugified-title/img/featured.jpg
 featured: false
-public: false
 tags:
   - Binario
   - Circuitos
@@ -23,7 +22,7 @@ tags:
   - Sonido
 ---
 
-Esta página no aparece en el menú de navegación porque tiene definida la variable `public: false`.
+Esta página no aparece en el menú de navegación porque no tiene definida la variable `public: true`.
 Tampoco aparece en el *sitemap* porque `/drafts/**` está excluido en la configuración. 
 Para llegar a ella utiliza este enlace: `/drafts/cheatsheet.html`.
 
