@@ -1,9 +1,10 @@
 ---
-no-title: Los borradores no deben tener definida la variable título
+title: Cheatsheet
 layout: post
 assets: /assets/drafts/cheatsheet
 image: /assets/yyyy/mm/slugified-title/img/featured.jpg
 featured: false
+public: false
 tags:
   - Binario
   - Circuitos
@@ -22,13 +23,9 @@ tags:
   - Sonido
 ---
 
-No pongas un título de sección al principio con # o ## porque lo toma como título y la muestra en el menú.
-
-Esta página no aparece en el menú de navegación porque no tiene título. 
+Esta página no aparece en el menú de navegación porque tiene definida la variable `public: false`.
 Tampoco aparece en el *sitemap* porque `/drafts/**` está excluido en la configuración. 
 Para llegar a ella utiliza este enlace: `/drafts/cheatsheet.html`.
-
-Tampodo puede tener un apartado que empiece por #, ya que se consideraría título y aparecería en el menú,
 
 ## Formato
 
@@ -164,12 +161,16 @@ Formato de código: https://www.redmine.org/projects/redmine/wiki/RedmineCodeHig
 
 ## Publicación
 
+Durante el borrador:
+
+- Crear el borrador en /drafts/yyyy-mm-dd-titulo-del-post.md.
+- Copiar los assets a /assets/yyyy/mm/titulo-del-post
+- Cambiar en el post las variables assets e image.
+- Previsualizar
+
 Pasos para publicar un draft:
 
-- Mover los assets de /assets/drafts/titulo-del-post a /assets/yyyy/mm/titulo-del-post
-- Cambiar en el post las variables assets e image.
-- Cambiar la variable no-title por title.
-- Mover el post de /drafts/titulo-del-post.md a /_posts/yyyy-mm-dd-titulo-del-post.md
+- Mover el post de /drafts/ a /_posts/
 - git add, commit, push
 
 ## En caso de fallo
@@ -186,6 +187,8 @@ El servidor se lanza con:
 
 See `tools/post_links.sh`.
 
+- [Electrónica y Ciencia - Pirateando licencias del servidor Ninja]({{site.baseurl}}{% post_url 2021-05-25-pirateando-servidor-ninja %})
+- [Electrónica y Ciencia - Registrador de ruido ambiental]({{site.baseurl}}{% post_url 2021-05-03-registrador-ruido-ambiental %})
 - [Electrónica y Ciencia - Descifrando la configuración del Sagemcom F@ST 5657]({{site.baseurl}}{% post_url 2021-02-14-descifrar-configuracion-sagemcom-fast5657 %})
 - [Electrónica y Ciencia - Avisador personal de autobús con ESP8266]({{site.baseurl}}{% post_url 2021-01-09-avisador-personal-autobus-con-esp8266 %})
 - [Electrónica y Ciencia - Migrar de Blogger a Jekyll]({{site.baseurl}}{% post_url 2020-12-28-migrar-blogger-a-jekyll %})

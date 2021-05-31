@@ -2,6 +2,7 @@
 layout: page
 title: Projects
 permalink: /petprojects/
+public: true
 ---
 
 Some other projects I do on GitHub (english).

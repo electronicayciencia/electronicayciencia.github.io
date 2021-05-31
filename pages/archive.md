@@ -3,6 +3,7 @@ layout: page
 title: "Archivo"
 description: "Electrónica y ciencia - Archivo"
 permalink: /archive/
+public: true
 ---
 
 {% assign postsByYear = site.posts | group_by_exp:"post", "post.date | date: '%Y'" %}

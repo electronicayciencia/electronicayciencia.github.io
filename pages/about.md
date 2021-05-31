@@ -2,6 +2,7 @@
 layout: page
 title: El blog
 permalink: /about/
+public: true
 ---
 
 *Electrónica y Ciencia* es un blog sobre **electrónica aplicada** en español.
@@ -12,10 +13,8 @@ El aspecto está basado el tema *Minima* de Jekyll con cierta personalización. 
 
 El blog original en Blogspot [electronicayciencia.blogspot.com](http://electronicayciencia.blogspot.com) ya no se actualiza. La nueva versión está alojada en GitHub Pages [electronicayciencia.github.io/](https://electronicayciencia.github.io/).
 
+Espero que lo encuentres tan interesante como yo. Gracias.
+
 Soy [Reinoso Guzmán](https://www.linkedin.com/in/reinosoguzman/), aficionado a la electrónica y autor de *Electrónica y Ciencia* desde 2010.
-
-Espero que lo encuentres tan interesante como yo.
-
-
 
 
