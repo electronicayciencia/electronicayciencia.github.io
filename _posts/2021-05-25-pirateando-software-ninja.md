@@ -1,5 +1,5 @@
 ﻿---
-title: Pirateando software Ninja
+title: Pirateando licencias de software
 layout: post
 assets: /assets/2021/05/pirateando-software-ninja/
 image: /assets/2021/05/pirateando-software-ninja/img/featured.jpg
@@ -9,11 +9,11 @@ tags:
   - Informática
 ---
 
-¡Vamos a piratear Software! No, es broma. Vamos a aprender de informática... a bajo nivel... mientras **depuramos** software.
-
-{% include image.html file="featured.jpg" caption="Ninja, Pirate, Awesome. [PixelBunny - Devianart](https://www.deviantart.com/pixelbunny/art/Ninja-Pirate-Awesome-132809508)" %}
+¡Vamos a piratear Software! No, es broma. Vamos a aprender de informática, a bajo nivel, mientras averiguamos por qué no funciona un programa. Es decir mientras **depuramos** software.
 
 Supón que encuentras por ahí un programa. No importa cómo se llama. Es un software muy específico y aburrido. Llamémosle el [**Servidor Ninja**](https://www.urbandictionary.com/define.php?term=Ninja%20Report). ¿Vale?
+
+{% include image.html file="featured.jpg" caption="Ninja, Pirate, Awesome. [PixelBunny - Devianart](https://www.deviantart.com/pixelbunny/art/Ninja-Pirate-Awesome-132809508)" %}
 
 Como decía, te descargas el *Servidor Ninja*, que funciona en **Linux**. Y viene con una licencia de ejemplo:
 
@@ -628,9 +628,9 @@ Si pasas el resultado a mayúsculas ya puedes hacerte un **generador de licencia
 
 ## Conclusión
 
-*Ninja Soft* **no** es una empresa de software. Se dedica a... digamos... las *patatas fritas* ¿ok?.
+Este artículo tiene un fin educativo. No deberías usar un programa sin la autorización de su propietario.
 
-El *servidor ninja* es para que te puedas comer sus *patatas fritas*. Licenciará su software por motivos administrativos o legales. Tal vez se gane unos ingresos extra con licencias corporativas, es posible, pero para particulares es gratuito. Su negocio son las *patatas fritas*. No le merece la pena invertir mucho dinero en un gestor de licencias sofisticado para su software.
+*Ninja Soft* **no** es una empresa de software. Licenciará el programa por motivos administrativos o legales. Tal vez se gane unos ingresos extra con licencias corporativas, es posible, porque para particulares es gratuito. Su negocio es otro. No le merece la pena invertir mucho dinero en un gestor de licencias sofisticado para su software.
 
 Claro que, en vez de **tres hashes sencillos** calculados a base de encadenar distintos algoritmos sobre el **mismo texto**, una firma asimétrica o un HMAC habrían sido igual de efectivos y -diría- más elegantes.
 
