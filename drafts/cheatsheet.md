@@ -4,6 +4,7 @@ layout: post
 assets: /assets/drafts/cheatsheet
 image: /assets/yyyy/mm/slugified-title/img/featured.jpg
 featured: false
+description: Plantilla para los posts
 tags:
   - Binario
   - Circuitos

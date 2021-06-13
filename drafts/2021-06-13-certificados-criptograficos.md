@@ -438,7 +438,7 @@ Lo que más nos importaba era el **tamaño**, que no podía variar. El original 
 
 Ahora verificamos el módulo. Si todo ha salido bien debe empezar por `00:b7:d1:d8` (como el de la clave que habíamos guardado en `rsa_2048.pem`).
 
-```
+```console
 $ openssl x509 -inform pem -in TrialCA_nueva.cer  -text
 ...
 Public Key Algorithm: rsaEncryption
@@ -452,7 +452,7 @@ Public Key Algorithm: rsaEncryption
 
 Por último, validamos la *autofirma*. Esta tiene truco porque `openssl`, por defecto **no comprueba** la firma de los certificados autofirmados. Hay que pedírselo explícitamente con el parámetro `-check_ss_sig`.
 
-```
+```console
 $ openssl verify \
 >  -check_ss_sig \
 >  -CAfile TrialCA_nueva.cer \
@@ -593,7 +593,7 @@ subject=O = NA, CN = 550001GJ7J
 Getting CA Private Key
 ```
 
-Espera... ¿días de validez 99999? Se supone que una CA no te deja firmar un certificado con fecha de expiración posterior a su certificado raíz. Esta caducaba en el 2037. No te va a funcionar...
+Espera... ¿días de validez 99999? Se supone que una CA **no te deja** firmar un certificado con fecha de expiración posterior a su certificado raíz. Esta caducaba en el 2037. No te va a funcionar...
 
 {% include image.html file="trialdays.png" caption="Me quedan más de 30 días de prueba. EyC." %}
 
