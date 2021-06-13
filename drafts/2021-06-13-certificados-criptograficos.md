@@ -605,7 +605,7 @@ Cuando hablamos de **criptografía** nos vienen a la cabeza fórmulas, matemáti
 
 Una CA no te deja firmar un certificado más allá de su fecha de validez sólo porque alguien se molestó en programar un *if* que lo comprueba. Al algoritmo que calcula el SHA256 le da exactamente igual cuándo caduque. Un navegador no te acepta un certificado manipulado porque, en alguna parte de una inescrutable librería, hay un *goto fail* tras la comparación.
 
-Openssl es una herramienta muy versátil y compleja. Puedes pasarte años usando algo, pero es **salirte del terreno marcado** lo que te lleva realmente a investigar y aprender cómo funciona por dentro.
+OpenSSL es una herramienta muy versátil y compleja. Puedes pasar años usando algo, pero es **salirte del terreno marcado** lo que te lleva realmente a investigar y aprender cómo funciona por dentro.
 
 
 ## Enlaces
@@ -613,8 +613,7 @@ Openssl es una herramienta muy versátil y compleja. Puedes pasarte años usando
 Algunos fallos de OpenSSL con repercusión masiva:
 
 - [Anatomy of a “goto fail” – Apple’s SSL bug explained, plus an unofficial patch for OS X! - sophos.com](https://nakedsecurity.sophos.com/2014/02/24/anatomy-of-a-goto-fail-apples-ssl-bug-explained-plus-an-unofficial-patch/)
-- [Apple y "goto fail", un fallo de seguridad en SSL/TLS - ]
-https://www.genbeta.com/seguridad/apple-y-goto-fail-un-fallo-de-seguridad-en-ssl-tls-y-su-posible-relacion-con-la-nsa
+- [Apple y "goto fail", un fallo de seguridad en SSL/TLS - genbeta.com](https://www.genbeta.com/seguridad/apple-y-goto-fail-un-fallo-de-seguridad-en-ssl-tls-y-su-posible-relacion-con-la-nsa)
 - [The Heartbleed Bug - heartbleed.com](https://heartbleed.com/)
 - [openssl predictable random number generator - Debian Security Advisory](https://www.debian.org/security/2008/dsa-1571)
 - [Alternative chains certificate forgery (CVE-2015-1793) - OpenSSL Security Advisory (2015)](https://www.openssl.org/news/secadv/20150709.txt)
