@@ -97,7 +97,7 @@ Fíjate cómo el **Issuer** y el **Subject** son iguales. Debe ser así en todos
 
 Luego viene la validez. Y a continuación los parámetros RSA. Importante, **toda la información** contenida en un certificado **es pública**, siempre.
 
-```console
+```
 Subject Public Key Info:
     Public Key Algorithm: rsaEncryption
         RSA Public-Key: (2048 bit)
@@ -114,7 +114,7 @@ No tengo sus parámetros privados. No conozco sus **factores primos**. Ese módu
 
 Ahora vienen algunos parámetros más y se cierra con el bloque de firma.
 
-```console
+```
     X509v3 extensions:
         X509v3 Authority Key Identifier: 
             keyid:08:5E:14:5B:38:DD:D8:12
@@ -369,11 +369,11 @@ sed -i "s/$hash_viejo/$hash_nuevo/i" signblock.hex
 
 ```console
 $ cat TrialCA.hex \
->  | xxd -r -p \
->  | tail -c+5 \
->  | head -c+503 \
->  | openssl dgst -sha1 -sign rsa_2048.pem \
->  | hd
+  | xxd -r -p \
+  | tail -c+5 \
+  | head -c+503 \
+  | openssl dgst -sha1 -sign rsa_2048.pem \
+  | hd
 00000000  b6 1c 50 5c 9c 02 ee 32  a2 87 c7 ca 08 f6 f0 d4  |..P\...2........|
 ...
 000000f0  13 7b 96 b2 52 15 c3 bd  d6 d4 31 2a f0 f7 be 1a  |.{..R.....1*....|
@@ -391,9 +391,9 @@ Como es un certificado raíz, debe estar **autofirmado**. Procedemos a cifrar el
 
 ```console
 $ cat signblock.hex \
->   | xxd -r -p \
->   | openssl rsautl -sign -inkey rsa_2048.pem -raw \
->   | hd
+   | xxd -r -p \
+   | openssl rsautl -sign -inkey rsa_2048.pem -raw \
+   | hd
 00000000  b6 1c 50 5c 9c 02 ee 32  a2 87 c7 ca 08 f6 f0 d4  |..P\...2........|
 ...
 000000f0  13 7b 96 b2 52 15 c3 bd  d6 d4 31 2a f0 f7 be 1a  |.{..R.....1*....|
