@@ -593,7 +593,7 @@ subject=O = NA, CN = 550001GJ7J
 Getting CA Private Key
 ```
 
-Espera... ¿días de validez 99999? Se supone que una CA **no te deja** firmar un certificado con fecha de expiración posterior a su certificado raíz. Esta caducaba en el 2037. No te va a funcionar...
+Espera... ¿días de validez **99999**? Se supone que una CA **no te deja** firmar un certificado con fecha de expiración posterior a su certificado raíz. Esta caducaba en el 2037. No puede funcionar...
 
 {% include image.html file="trialdays.png" caption="Me quedan más de 30 días de prueba. EyC." %}
 
@@ -602,7 +602,7 @@ Espera... ¿días de validez 99999? Se supone que una CA **no te deja** firmar u
 
 ¿No seguirás pensando que este artículo va sobre piratear software, verdad?
 
-Cuando hablamos de **criptografía** nos vienen a la cabeza fórmulas, matemáticas discretas, álgebra... Pero esa es la criptografía *de libro*. En la práctica lo realmente importante es **su implementación**. Suele estar en unas librerías -OpenSSL, LibreSSL, boringssl, GSKit- que programan y mantienen grupos de trabajo. Los detalles los conocen cuatro frikis, varios investigadores y algunos becarios de doctorado.
+Cuando hablamos de **criptografía** nos vienen a la cabeza fórmulas, matemáticas discretas, álgebra... Pero esa es la criptografía *de libro*. En la práctica lo realmente importante y lo que debes conocer es **su implementación**. Suele estar en unas librerías -OpenSSL, LibreSSL, boringssl, GSKit- que programan y mantienen grupos de trabajo. Los detalles los conocen cuatro frikis, varios investigadores y algunos becarios de doctorado.
 
 Una CA no te deja firmar un certificado más allá de su fecha de validez sólo porque alguien se molestó en programar un *if* que lo comprueba. Al algoritmo que calcula el SHA256 le da exactamente igual cuándo caduque. Un navegador no te acepta un certificado manipulado porque, en alguna parte de una inescrutable librería, hay un *goto fail* tras la comparación.
 
