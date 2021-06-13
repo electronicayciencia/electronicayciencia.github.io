@@ -4,12 +4,14 @@ layout: post
 assets: /assets/2021/06/certificados-criptograficos
 image: /assets/2021/06/certificados-criptograficos/img/trialdays.png
 featured: false
-description: Descomponemos el formato x.509 de un certificado criptográfico para manipularlo de forma no estándar.
+description: Descomponemos el formato de un certificado criptográfico x.509 para manipularlo de forma no estándar.
 tags:
   - Binario
   - Informática
   - Matemáticas
 ---
+
+Descomponemos el formato de un certificado criptográfico x.509 para manipularlo de forma no estándar.
 
 Hay un software cuya licencia de prueba consiste en un certificado x.509 dado por el fabricante. Cuando este expira, lo hace la licencia.
 
