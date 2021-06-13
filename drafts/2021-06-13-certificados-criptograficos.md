@@ -1,5 +1,5 @@
 ---
-title: Certificados criptográficos. Hecho a mano.
+title: Certificados criptográficos hechos a mano
 layout: post
 assets: /assets/2021/06/certificados-criptograficos
 image: /assets/2021/06/certificados-criptograficos/img/trialdays.png
