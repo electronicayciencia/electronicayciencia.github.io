@@ -4,6 +4,7 @@ layout: post
 assets: /assets/2021/06/certificados-criptograficos
 image: /assets/2021/06/certificados-criptograficos/img/trialdays.png
 featured: false
+description: Descomponemos el formato x.509 de un certificado criptográfico para manipularlo de forma no estándar.
 tags:
   - Binario
   - Informática
