@@ -2,7 +2,7 @@
 title: Certificados criptográficos. Hecho a mano.
 layout: post
 assets: /assets/2021/06/certificados-criptograficos
-image: /assets/2021/06/certificados-criptograficos/img/trialdays_30.png
+image: /assets/2021/06/certificados-criptograficos/img/trialdays.png
 featured: false
 tags:
   - Binario
@@ -142,7 +142,7 @@ Lo primero que haremos será aprender a validar la firma a mano.
 
 ## Validar la firma a mano
 
-¿Qué es una firma electrónica? Una firma es un **hash cifrado** con una clave privada. Sólo eso. Claro que el hash no va desnudo sino dentro de una estructura ASN.1 indicando de qué tipo es. Y la estructura tampoco se cifra sola sino acompañada de un padding. Ahora lo veremos.
+¿Qué es una firma electrónica? Una firma es un **hash, cifrado** con una clave privada. Sólo eso. Claro que el hash no va desnudo sino dentro de una estructura ASN.1 indicando de qué tipo es. Y la estructura tampoco se cifra sola sino acompañada de un padding. Ahora lo veremos.
 
 Convertimos el certificado de Base64 (PEM) a binario (DER) para trabajar más fácilmente.
 
@@ -211,7 +211,7 @@ Se cifra una estructura ASN.1 que se interpreta así:
 
 30 21     <- secuencia con logitud 0x21 bytes
   30 09   <- primer campo: secuencia de 9 bytes
-    06 05 <- primer campo: identificador IOD, 5 bytes
+    06 05 <- primer campo: identificador OID, 5 bytes
       2b 0e 03 02 1a  <- OID de SHA1
     05 00 <- segundo campo: null de tamaño 0
   04 14   <- segundo campo: cadena de octetos, 20 bytes
@@ -610,7 +610,7 @@ OpenSSL es una herramienta muy versátil y compleja. Puedes pasar años usando a
 
 ## Enlaces
 
-Algunos fallos de OpenSSL con repercusión masiva:
+Algunos fallos de OpenSSL con repercusión masiva en su día:
 
 - [Anatomy of a “goto fail” – Apple’s SSL bug explained, plus an unofficial patch for OS X! - sophos.com](https://nakedsecurity.sophos.com/2014/02/24/anatomy-of-a-goto-fail-apples-ssl-bug-explained-plus-an-unofficial-patch/)
 - [Apple y "goto fail", un fallo de seguridad en SSL/TLS - genbeta.com](https://www.genbeta.com/seguridad/apple-y-goto-fail-un-fallo-de-seguridad-en-ssl-tls-y-su-posible-relacion-con-la-nsa)
@@ -618,16 +618,18 @@ Algunos fallos de OpenSSL con repercusión masiva:
 - [openssl predictable random number generator - Debian Security Advisory](https://www.debian.org/security/2008/dsa-1571)
 - [Alternative chains certificate forgery (CVE-2015-1793) - OpenSSL Security Advisory (2015)](https://www.openssl.org/news/secadv/20150709.txt)
 
-Para saber más:
+Para ampliar información:
 
 - [Internet Privacy Enhanced Mail - Stephen T. Kent](https://web2.utc.edu/~djy471/CPSC4670/17-privacy-email.pdf)
 - [Privacy-Enhanced Mail - Wikipedia](https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail)
 - [Teorema chino del resto - Wikipedia](https://es.wikipedia.org/wiki/Teorema_chino_del_resto)
+- [PKCS #1: RSA Encryption Version 1.5 - IETF 1998](https://datatracker.ietf.org/doc/html/rfc2313)
+- [ASN.1 JavaScript decoder](https://lapo.it/asn1js/)
+- [X.509 - Wikipedia](https://es.wikipedia.org/wiki/X.509)
 
 Otros artículos del blog relacionados:
 
 - [Electrónica y Ciencia - Prácticas con TPM virtual]({{site.baseurl}}{% post_url 2020-09-02-practicas-tpm-virtual %})
 - [Electrónica y Ciencia - Pirateando software Ninja]({{site.baseurl}}{% post_url 2021-05-25-pirateando-software-ninja %})
-
 
 
