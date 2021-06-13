@@ -4,14 +4,14 @@ layout: post
 assets: /assets/2021/06/certificados-criptograficos
 image: /assets/2021/06/certificados-criptograficos/img/trialdays.png
 featured: false
-description: Descomponemos el formato de un certificado criptográfico x.509 para manipularlo de forma no estándar.
+description: Descomponemos al detalle un certificado x.509 para manipularlo de forma no estándar.
 tags:
   - Binario
   - Informática
   - Matemáticas
 ---
 
-Descomponemos el formato de un certificado criptográfico x.509 para manipularlo de forma no estándar.
+Descomponemos al detalle un certificado x.509 para manipularlo de forma no estándar.
 
 Hay un software cuya licencia de prueba consiste en un certificado x.509 dado por el fabricante. Cuando este expira, lo hace la licencia.
 
@@ -42,7 +42,7 @@ Aunque pueda parecerlo, los certificados **no van cifrados**, son públicos. Ent
 
 Porque va codificado en base64. Cuando oyes hablar de *certificados* piensas en servidores HTTPS, errores de privacidad y avisos en el navegador. Pero no se inventaron para eso.
 
-Al comienzo de internet todas las comunicaciones se hacían en claro. Bastante milagro era comunicar dos ordenadores como para preocuparse de que alguien estuviese mirando. Si bien las redes de comunicaciones se pensaron para difundir información y hacerla pública, pronto surgieron servicios donde la **privacidad** resultaba importante. Como el correo electrónico.
+Al comienzo de Internet todas las comunicaciones se hacían en claro. Bastante milagro era comunicar dos ordenadores como para preocuparse de que alguien estuviese mirando. Si bien las redes de comunicaciones se pensaron para difundir información y hacerla pública, pronto surgieron servicios donde la **privacidad** resultaba importante. Como el correo electrónico.
 
 En 1985, aprovechando los recientes avances en criptografía asimétrica, se trabajó en una primera propuesta que dotaba al protocolo SMTP con la capacidad de firmar y cifrar **emails**.
 
