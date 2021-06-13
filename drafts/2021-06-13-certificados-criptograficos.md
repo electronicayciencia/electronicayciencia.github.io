@@ -14,7 +14,7 @@ Hay un software cuya licencia de prueba consiste en un certificado x.509 dado po
 
 {% include image.html file="trialdays_30.png" caption="Me quedan 30 días de prueba. EyC." %}
 
-El certificado, llamémosle *trial_cert* viene firmado por una Autoridad certificadora llamada *Trial CA*. En el software estará el certificado raíz de *Trial CA* que sirve para validar las licencias ante manipulaciones.
+El certificado, llamémosle *trial_cert* viene firmado por una Autoridad certificadora llamada *Trial CA*. En el software estará el certificado raíz de *Trial CA* que sirve para blindar las licencias ante manipulaciones.
 
 Me gustaría cambiar la fecha de expiración de *trial_cert*. Pero no puedo porque no poseo la clave privada de *Trial CA*. La firma de mi certificado modificado nunca sería válida.
 
@@ -24,9 +24,9 @@ Pero hay un problema.
 
 No me vale cualquiera. Ambos certificados deben tener exactamente la **misma longitud**. De lo contrario va a fallar. Si cambia el número de serie por otro más largo o más corto, falla. Si cambian las extensiones x509, falla. Si cambian los keyIdentifier... falla. No puede variar ni un sólo bit más de lo imprescindible.
 
-¿Es posible tomar la CA original y cambiarle **únicamente la clave** dejando todo lo demás igual? A priori no. Cualquier **herramienta**, programada para generar certificados estándar, siempre **modificará otras cosas**.
+¿Es posible tomar la CA original y cambiarle **únicamente la clave** dejando todo lo demás igual? A priori no. Cualquier **herramienta**, programada para generar certificados estándar, siempre **modificará otros campos**.
 
-Por suerte el formato x509 está bien documentado. Si queremos uno *no compliant* tendremos que hacerlo **a mano**.
+Por suerte el formato x509 está bien documentado. Si queremos algo *no compliant* tendremos que hacerlo **a mano**.
 
 
 ## x509 por dentro
@@ -35,31 +35,29 @@ Por suerte el formato x509 está bien documentado. Si queremos uno *no compliant
 
 {% include image.html file="certificate_example.png" caption="1024 RSA cert PEM Format. [fm4dd.com](https://fm4dd.com/openssl/certexamples.shtm)." %}
 
-Aunque pueda parecerlo, los certificados no van cifrados. Entonces, ¿por qué tiene ese aspecto?
+Aunque pueda parecerlo, los certificados **no van cifrados**, son públicos. Entonces, ¿por qué tiene ese aspecto?
 
 Porque va codificado en base64. Cuando oyes hablar de *certificados* piensas en servidores HTTPS, errores de privacidad y avisos en el navegador. Pero no se inventaron para eso.
 
-Al comienzo de internet todas las comunicaciones se hacían en claro. Bastante milagro era comunicar dos ordenadores como para preocuparse de que alguien estuviese mirando. 
-
-Si bien las redes de comunicaciones se pensaron para difundir información y hacerla pública, pronto surgieron servicios donde la privacidad resultaba importante. Como el correo electrónico.
+Al comienzo de internet todas las comunicaciones se hacían en claro. Bastante milagro era comunicar dos ordenadores como para preocuparse de que alguien estuviese mirando. Si bien las redes de comunicaciones se pensaron para difundir información y hacerla pública, pronto surgieron servicios donde la **privacidad** resultaba importante. Como el correo electrónico.
 
 En 1985, aprovechando los recientes avances en criptografía asimétrica, se trabajó en una primera propuesta que dotaba al protocolo SMTP con la capacidad de firmar y cifrar **emails**.
 
 {% include image.html file="pem_example.png" caption="PEM example. [Fuente](https://web2.utc.edu/~djy471/CPSC4670/17-privacy-email.pdf)." %}
 
-Como los protocolos están pensados para mandar texto, era complicado enviar datos binarios. En realidad estaban pensados para caracteres ASCII de 7 bit ¡Hasta era complicado mandar **carácteres acentuados**, imagínate! 
+Como los protocolos y los clientes de correo estaban pensados para texto, era complicado enviar datos binarios. En realidad sólo iban bien con caracteres ASCII de 7 bit ¡Hasta era complicado mandar **carácteres con tilde**, imagínate!
 
-La propuesta introdujo un formato llamado **Privacy-Enhanced Mail** (PEM). Consistía en tomar las claves, firmas y otros elementos binarios y codificarlos en Base64. Muy usado ya entonces para transferir adjuntos vía eMail o News. Luego se le añadía una cabecera `-----BEGIN ...` y un pie `-----END ...` para separarlos del resto del mensaje.
+La propuesta introdujo un formato llamado **Privacy-Enhanced Mail** (PEM). Consistía en tomar las claves, firmas y otros elementos binarios y codificarlos dentro del mensaje en **Base64**. Muy usado ya entonces para transferir adjuntos vía eMail o News (NNTP). Luego se le añadía una cabecera `-----BEGIN ...` y un pie `-----END ...` para separarlos del resto del mensaje.
 
 La propuesta no tuvo una adopción masiva. La Red se usaba poco y la seguridad no era una prioridad entonces.
 
-Alrededor de 1994 Taher Elgamal propuso securizar otros protocolos, no sólo el SMTP. Y lanzó un estándar para cifrar, no los datos, sino el propio canal de transmisión, la **conexión**. Fue SSL 1.0. Nadie lo usó.
+Alrededor de 1994 *Taher Elgamal* propuso securizar otros protocolos, no sólo el SMTP. Y lanzó un estándar para cifrar, no los datos, sino el propio canal de transmisión, la **conexión**. Fue SSL 1.0. Nadie lo usó.
 
 En 1995, salió SSL 2.0. Tímidamente algunos servicios empezaron a habilitar un puerto cifrado alternativo al habitual. La alternativa a **irc** se llamó **ircs**; **ftp** pasó a ser **ftps** (sftp es otra cosa distinta); estaban **ldap** y **ldaps**; y, por supuesto, **http** ofrecía **https**. Más como curiosidad que por seguridad real.
 
 No fue hasta el año 2000, con la llegada de TLS (el sucesor de SSL 3.0), cuando el cifrado HTTP empezó a popularizarse y cobrar fuerza. De hecho hasta hace muy poco era lo normal seguir usando el puerto HTTP no cifrado para servicios autenticados o críticos.
 
-El caso es que la adopción de PEM para el correo fue minoritaria. Muy pocos cifran su correspondencia electrónica, y quienes lo hacen usan S/MIME. Y sin embargo el formato PEM -inventado hace casi 40 años- es hoy el **estándar** para los certificados HTTPS.
+El caso es que la adopción de PEM para el correo fue minoritaria. Muy pocos cifran su correspondencia electrónica, y quienes lo hacen hoy usan S/MIME. Y sin embargo el formato PEM -inventado hace casi 40 años- se ha convertido en el **estándar** *de-facto* para los certificados HTTPS.
 
 Por esta razón te puedes encontrar los certificados x509 en **dos formatos**:
 
