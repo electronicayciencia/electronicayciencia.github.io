@@ -58,7 +58,7 @@ Alrededor de 1994 *Taher Elgamal* propuso securizar otros protocolos, no sólo e
 
 En 1995, salió SSL 2.0. Tímidamente algunos servicios empezaron a habilitar un puerto cifrado alternativo al habitual. La alternativa a **irc** se llamó **ircs**; **ftp** pasó a ser **ftps** (sftp es otra cosa distinta); estaban **ldap** y **ldaps**; y, por supuesto, **http** ofrecía **https**. Más como curiosidad que por seguridad real.
 
-No fue hasta el año 2000, con la llegada de TLS (el sucesor de SSL 3.0), cuando el cifrado HTTP empezó a popularizarse y cobrar fuerza. De hecho hasta hace muy poco era lo normal seguir usando el puerto HTTP no cifrado para servicios autenticados o críticos.
+No fue hasta el año 2000, con la llegada de TLS (el sucesor de SSL 3.0), cuando el HTTP cifrado empezó a popularizarse y cobrar fuerza. De hecho hasta hace muy poco era lo normal seguir usando el puerto HTTP en claro para servicios autenticados o críticos.
 
 El caso es que la adopción de PEM para el correo fue minoritaria. Muy pocos cifran su correspondencia electrónica, y quienes lo hacen hoy usan S/MIME. Y sin embargo el formato PEM -inventado hace casi 40 años- se ha convertido en el **estándar** *de-facto* para los certificados HTTPS.
 
@@ -269,7 +269,7 @@ Generating RSA private key, 2048 bit long modulus (2 primes)
 e is 65537 (0x010001)
 ```
 
-La clave privada tiene todos los parámetros de RSA y algunos otros
+La clave privada tiene todos los parámetros de RSA y algunos más:
 
 ```console
 $ openssl rsa -text -in rsa_2048.pem
