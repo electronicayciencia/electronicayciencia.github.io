@@ -158,7 +158,6 @@ $ tail -c256 TrialCA.bin | hd
 00000000  82 53 c4 a0 52 53 01 4b  b5 26 57 fe a4 c6 37 9e  |.S..RS.K.&W...7.|
 00000010  a6 2c 47 10 ca 04 4f 33  7a d8 d6 f2 60 ee e2 36  |.,G...O3z...`..6|
 ...
-000000e0  1c 59 43 af 02 52 b4 f3  3e f3 1b a6 ea 1d 61 ad  |.YC..R..>.....a.|
 000000f0  6b 59 35 25 98 a5 7b 84  60 7f 15 f1 9e af 58 ec  |kY5%..{.`.....X.|
 ```
 
@@ -171,7 +170,7 @@ Las firmas, en cambio, se **cifran con la clave privada** del firmante. Y todo e
 Descifraremos el bloque usando la clave pública contenida en el propio certificado. Para lo cual primero la extraemos a un fichero aparte:
 
 ```console
-openssl x509 -in TrialCA.cer -pubkey -noout -out TrialCA.pubkey
+$ openssl x509 -in TrialCA.cer -pubkey -noout -out TrialCA.pubkey
 ```
 
 Y ahora desciframos:
@@ -186,7 +185,7 @@ $ tail -c256 TrialCA.bin \
 00000023
 ```
 
-No, no. Todo. El padding también. Con `-raw`:
+El padding también. Con `-raw`:
 
 ```console
 $ tail -c256 TrialCA.bin \
@@ -201,7 +200,7 @@ $ tail -c256 TrialCA.bin \
 00000100
 ```
 
-Eso es. El primer byte es `00`, por razones prácticas. El siguiente `01` indica **padding con caracteres `FF`**. Si fuera `02` sería *padding con caracteres aleatorios no nulos*. El texto cifrado real comienza después del primer carácter `00`. Este tipo de padding se llama *PKCS#1 v1.5*.
+Eso es. El primer byte es `00`, por razones prácticas. El siguiente `01` indica **padding con caracteres `FF`**. Si fuera `02` sería *padding con caracteres aleatorios no nulos*. El texto cifrado real comienza después del siguiente carácter `00`. Este tipo de padding se llama *PKCS#1 v1.5*.
 
 El padding tipo **01** es determinista y se usa en la **firma**. Donde no supone un problema saber que dos firmas son iguales antes de descifrarlas. El tipo **02** -aleatorio- en el **cifrado**. Como cada vez da un resultado distinto, es imposible saber a priori si dos criptogramas provienen del mismo texto en claro.
 
@@ -602,19 +601,19 @@ Espera... ¿días de validez **99999**? Se supone que una CA **no te deja** firm
 
 ¿No seguirás pensando que este artículo va sobre piratear software, verdad?
 
-Cuando hablamos de **criptografía** nos vienen a la cabeza fórmulas, matemáticas discretas, álgebra... Pero esa es la criptografía *de libro*. En la práctica lo realmente importante y lo que debes conocer es **su implementación**. Suele estar en unas librerías -OpenSSL, LibreSSL, boringssl, GSKit- que programan y mantienen grupos de trabajo. Los detalles los conocen cuatro frikis, varios investigadores y algunos becarios de doctorado.
+Cuando hablamos de **criptografía** nos vienen a la cabeza fórmulas, matemáticas discretas, álgebra... Pero esa es la criptografía *de libro*. En la práctica lo realmente importante y lo que debes conocer es **su implementación**. Suele estar en unas librerías -OpenSSL, LibreSSL, boringssl, GnuTLS, GSKit- que programan y mantienen grupos de trabajo. Los detalles los conocen el que la ha hecho, cuatro frikis, varios investigadores y algunos becarios de doctorado.
 
 Una CA no te deja firmar un certificado más allá de su fecha de validez sólo porque alguien se molestó en programar un *if* que lo comprueba. Al algoritmo que calcula el SHA256 le da exactamente igual cuándo caduque. Un navegador no te acepta un certificado manipulado porque, en alguna parte de una inescrutable librería, hay un *goto fail* tras la comparación.
 
-OpenSSL es una herramienta muy versátil y compleja. Puedes pasar años usando algo, pero es **salirte del terreno marcado** lo que te lleva realmente a investigar y aprender cómo funciona por dentro.
+Puedes pasar años usando algo, pero es **salirte del terreno marcado** lo que te lleva realmente a investigar y aprender cómo funciona por dentro.
 
 
 ## Enlaces
 
-Algunos fallos de OpenSSL con repercusión masiva en su día:
+Algunos fallos de SSL con repercusión masiva en su día:
 
 - [Anatomy of a “goto fail” – Apple’s SSL bug explained, plus an unofficial patch for OS X! - sophos.com](https://nakedsecurity.sophos.com/2014/02/24/anatomy-of-a-goto-fail-apples-ssl-bug-explained-plus-an-unofficial-patch/)
-- [Apple y "goto fail", un fallo de seguridad en SSL/TLS - genbeta.com](https://www.genbeta.com/seguridad/apple-y-goto-fail-un-fallo-de-seguridad-en-ssl-tls-y-su-posible-relacion-con-la-nsa)
+- [Understanding the Apple ‘goto fail;’ vulnerability - synopsys](https://www.synopsys.com/blogs/software-security/understanding-apple-goto-fail-vulnerability-2/)
 - [The Heartbleed Bug - heartbleed.com](https://heartbleed.com/)
 - [openssl predictable random number generator - Debian Security Advisory](https://www.debian.org/security/2008/dsa-1571)
 - [Alternative chains certificate forgery (CVE-2015-1793) - OpenSSL Security Advisory (2015)](https://www.openssl.org/news/secadv/20150709.txt)
