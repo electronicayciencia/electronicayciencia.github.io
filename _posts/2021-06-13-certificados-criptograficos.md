@@ -2,7 +2,7 @@
 title: Certificados criptográficos hechos a mano
 layout: post
 assets: /assets/2021/06/certificados-criptograficos
-image: /assets/2021/06/certificados-criptograficos/img/trialdays.png
+image: /assets/2021/06/certificados-criptograficos/img/depositphotos_3522610-stock-photo-hieroglyphics.jpg
 featured: false
 description: Descomponemos al detalle un certificado x.509 para manipularlo de forma no estándar.
 tags:
