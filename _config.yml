@@ -48,7 +48,7 @@ minima:
     github: electronicayciencia
     linkedin: reinosoguzman
 
-paginate: 6
+paginate: 10
 
 feed:
   posts_limit: 30
