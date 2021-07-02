@@ -11,7 +11,7 @@ tags:
   - Matemáticas
 ---
 
-Descomponemos al detalle un certificado x.509 para manipularlo de forma no estándar. ¿Conoces openssl? Hoy te propongo usarlo de una forma *diferente*. Casi **artesenal**. 
+Descomponemos al detalle un certificado x.509 para manipularlo de forma no estándar. ¿Conoces openssl? Hoy te propongo usarlo de una forma *diferente*. Casi **artesanal**. 
 
 Hay un software cuya licencia de prueba consiste en un certificado x.509 dado por el fabricante. Cuando este expira, lo hace la licencia.
 
