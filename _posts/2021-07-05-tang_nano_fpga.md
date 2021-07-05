@@ -23,7 +23,7 @@ Las FPGA son los chips más **inútiles** que vas a encontrar. No *sirven* para 
 
 Sin embargo, son también unos chips tremendamente **versátiles**. Con ellos puedes implementar **cualquier circuito digital**. Como por ejemplo... una UART, un bus I2C. Todos los temporizadores que necesites. Incluso una CPU entera... o varias, si te caben. 
 
-A diferencia de otros chips, las FGPA no tienen un propósito. Son como una protoboard. De hecho, su nicho principal está en prototipado (ASIC), actividades de alta velocidad (aceleración por hardware) y proyectos con muchas entradas y salidas (procesamiento paralelo). 
+A diferencia de otros chips, las FPGA no tienen un propósito. Son como una protoboard. De hecho, su nicho principal está en prototipado (ASIC), actividades de alta velocidad (aceleración por hardware) y proyectos con muchas entradas y salidas (procesamiento paralelo). 
 
 Pocas son las ventajas que ofrece una FPGA -para un aficionado- frente a un microcontrolador. No obstante, son muy interesantes si te gusta el diseño digital.
 
