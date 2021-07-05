@@ -2,9 +2,9 @@
 title: Primeras experiencias con Sipeed Tang Nano
 layout: post
 assets: /assets/2021/07/tang_nano_fpga/
-image: /assets/2021/07/tang_nano_fpga/img/featured.jpg
+image: /assets/2021/07/tang_nano_fpga/img/featured.png
 featured: false
-description: Revisamos la placa de desarrollo FPGA Tang Nano con GW1N-1. Primeros pasos en Verilog y errores comunes. 
+description: Revisamos la placa de desarrollo FPGA Tang Nano con GW1N-1. Primeros circuitos en Verilog y errores de principiante.
 tags:
   - Binario
   - Circuitos
@@ -120,7 +120,7 @@ Lo primero es describir la interacción entre los componentes. Se usan Lenguajes
 
 Escribes la lógica, dónde va a haber datos (*register*) y las conexiones que mueven esos datos (*register transfer*). Un compilador interpreta lo que quieres decir y deduce las puertas, flip-flops, etc. necesarios para implementar tu lógica (*gate level*).
 
-La traducción del *register transfer lavel* a *gate level* se llama **síntesis**.
+La traducción del *register transfer level* a *gate level* se llama **síntesis**.
 
 Después le dices por qué patilla **física** del chip entra cada señal o sale. También puedes ubicar **físicamente** los bloques dentro del chip. Por ejemplo si los quieres contiguos para alguna operación crítica en tiempos. Eso son las *physical constraints*. 
 
@@ -551,7 +551,7 @@ always @(posedge i_clk or posedge reset) begin
 
 Cuando no sabes qué significa un error, la mejor forma de aprender los patrones comunes es usando ejemplos ya hechos y modificándolos.
 
-Lo que querías hacer probablemente habría sido más sencillo escrito así:
+Lo que querías hacer probablemente habría sido más fácil escrito así:
 
 ```verilog 
 wire reset_signal = reset & something;
@@ -567,7 +567,7 @@ La placa cuenta con un conector de 40 pines para LCD estándar. Le puedes conect
 
 {% include image.html file="Tang_Nano_7seg.jpg" caption="Tang Nano en una protoboard con un display LED de 7 segmentos. EyC" %}
 
-A estas alturas posiblemente necesites un simulador/depurador. El más famoso es **Modelsim**. El IDE de Gowin no lo incluye, pero puedes usar otra versión. En el IDE viene una librería con los componenetes del chip y los módulos IP (propietarios) de Gowin, basta compilarla e importarla en el simulador.
+A estas alturas posiblemente necesites un simulador/depurador. El más famoso es **Modelsim**. El IDE de Gowin no lo incluye, pero puedes usar otra versión. En el IDE viene una librería con los componentes del chip y los módulos IP (propietarios) de Gowin, basta compilarla e importarla en el simulador.
 
 Pronto descubrirás los **glitches** de las LUT. No voy a entrar en ello. De momento evita hacer pasar la señal de reloj por puertas lógicas.
 
