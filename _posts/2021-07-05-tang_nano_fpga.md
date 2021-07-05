@@ -11,7 +11,7 @@ tags:
   - Informática
 ---
 
-¿Sabes cómo diseñan, prueban y depuran esos modernos chips con **millones de transistores**? En realidad se programan. ¿Te suena *infraestructura como código*? Pues en los 80 ya se habían inventado los lenguajes de descripción de hardware (*transistores como código*). En este artículo te quiero contar mis primeras experiencias con la placa de desarrollo **FPGA** más **sencilla** a la venta: **Tang Nano**.
+Déjame contarte mis primeras experiencias con una **FGPA**. Revisamos la placa de desarrollo **Tang Nano**. Con ejemplos básicos en Verilog y explicaciones -más allá de los primeros pasos- que me hubieran venido muy bien el primer día.
 
 Tenía ganas de probar una FPGA. Sí, tal vez para ti representan un amargo recuerdo de oscuras prácticas en alguna asignatura ya superada; con la que **aún sueñas** a veces. Pero yo sólo las conocía de oídas. 
 
