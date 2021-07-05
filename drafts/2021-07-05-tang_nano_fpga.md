@@ -191,7 +191,7 @@ endmodule
 
 Sin embargo, no funciona. Por lo que hemos explicado antes: los pulsadores y el LED están invertidos. Hay que invertir los valores si queremos que funcione como una puerta XOR normal.
 
-Diferenciar entre entradas/salidas y variables de estado siempre **facilita la lectura**. Asignaremos el prefijo **i_** a las entradas y **o_** a las salidas. En este ejemplo el valor de **btn_a** (estado) es justamente el opuesto a **i_btn_a** (entrada).
+Diferenciar entre **entradas/salidas** y **variables** de estado siempre facilita la lectura. Asignaremos el prefijo **i_** a las entradas y **o_** a las salidas. En este ejemplo el valor de **btn_a** (estado) es justamente el opuesto a **i_btn_a** (entrada).
 
 ```verilog 
 module led (input i_btn_a, i_btn_b,
@@ -211,11 +211,11 @@ La síntesis habrá generado este esquema que ya sí funciona como esperamos.
 
 {% include image.html file="esq_led_xor.png" caption="Esquema del circuito anterior: LED XOR. EyC" %}
 
-Aunque ese esquema no es el de verdad. La síntesis hace ciertas optimizaciones. Aquí ha jugado con los inversores. Se los ha quitado y ha inferido directamente una puerta **XNOR**, que funcionalmente es lo mismo. Por eso a veces se dice que *los inversores son gratis* en una FPGA.
+Bueno, no es del todo cierto. Ese esquema no es el de verdad. La síntesis hace ciertas optimizaciones. Aquí ha jugado con los inversores. Se los ha quitado y ha inferido directamente una puerta **XNOR**, que funcionalmente es lo mismo. Por eso a veces se dice que *los inversores son gratis* en una FPGA.
 
-La síntesis *interpreta* el código en Verilog y deduce el esquema. Es común seguir ciertos patrones; de hecho, cuando te desvías mucho no sabe qué quieres decir y falla. Luego lo veremos.
+La síntesis *interpreta* el código en Verilog y deduce el esquema. Es común seguir ciertos patrones; de lo contrario fallará, o -peor aún- generará esquemas realmente enrevesados.
 
-En cuanto al orden de las asignaciones, da igual. Son cables. Habrá los mismos cables ya los pongas más arriba o más abajo en el código.
+En cuanto al **orden** de las asignaciones, **da igual**. Son cables. Habrá los mismos cables ya los pongas más arriba o más abajo en el código.
 
 Otra prueba, un poco menos simple:
 
@@ -263,11 +263,9 @@ Estaríamos construyendo dentro de la FPGA este circuito.
 Todos los `assign` del código se traducen en cables, se quedan ahí formando parte del circuito. De hecho eso nos lleva a uno de los **problemas** más habituales cuando empiezas.
 
 
-## Problema común: doble driver
+## Doble driver
 
-Un fallo inevitable al principio es pensar como programador. Creer que las instrucciones de Verilog se evalúan una detrás de otra en el orden que has puesto como si fuera otro lenguaje de programación.
-
-El típico ejemplo de hacer parpadear un LED, lo tienes interiorizado así:
+Cuando piensas en el típico ejemplo de hacer parpadear un LED, imaginas algo así:
 
 ```verilog
 wire out;       // defino un pin de salida
@@ -278,7 +276,7 @@ assign out = 1; // lo pongo a uno
 assign out = 0; // lo pongo a 0
 ```
 
-A continuación vas a mirar cómo se hace un `sleep`. No terminas de entender los bucles pero la síntesis ya **te falla** por varios sitios.
+Tu primer impulso es mirar cómo se hace un `sleep` y un bucle. Las respuestas te sorprenden un poco. Es igual, está todo mal.
 
 Cuando indicaste `out = 1` conectaste a **Vcc** el cable llamado **out**. Si luego asignas **out** a **0**, estás conectándolo  también a **Gnd**. ¿Quieres conectar una señal a **Vcc** y a **Gnd** a la vez?
 
@@ -286,14 +284,12 @@ Cuando indicaste `out = 1` conectaste a **Vcc** el cable llamado **out**. Si lue
 
 Los cables (*net*) llevan la señal de una salida (su *driver*) a una o varias entradas. No puedes conectar dos *drivers* al mismo cable porque si tienen valores distintos provocarías un cortocircuito interno.
 
-Tampoco es viable **cambiar** el *driver* sobre la marcha. Sería como recablear el circuito y para eso necesitas reconfigurar el dispositivo.
-
-Lo que sí puedes hacer es conectar **out** a un circuito lógico, multiplexor, flip-flip, etc, cuya salida cambie de estado cuando te interese.
+*Oye, esto es de perogrullo* -me dirás. Sin embargo más adelante estarás tentado de manejar la misma señal desde **dos bloques `always`**. Lo intentarás... y te fallará. Y caerás en la cuenta de que has intentado cortocircuitar las salidas de dos *flips-flops*.
 
 
 ## Un circuito secuencial
 
-Tu siguiente paso será un circuito secuencial. Uno básico. Un pulsador alterna el estado del LED. Lo pulsas y se enciende, lo vuelves a pulsar y se apaga.
+Tu siguiente paso será un circuito secuencial. Uno básico. Un pulsador que alterna el estado de un LED. Lo pulsas y se enciende, lo vuelves a pulsar y se apaga.
 
 No se puede hacer sólo con puertas y cables. Necesitas mantener un estado interno, una variable. En Verilog las variables se llaman **registros**, y se implementan por debajo con *flip-flops*.
 
@@ -326,7 +322,9 @@ Siguiendo con el ejemplo en el *floor planning* indicamos que **i_btn** es la pa
 
 Las FPGA tienen rutas especiales de **baja latencia** para las señales de reloj. La síntesis ha detectado que *i_btn* actúa como *clock* del flip-flop. Pero está conectada a una línea normal de I/O. Parte del aprendizaje es saber diferenciar los avisos que puedes ignorar en tu diseño de los que no.
 
-Lo programamos, probamos el circuito y... no. No va bien. Unas veces queda encendido y otras apagado. Parece aleatorio. ¿Es del código? ¿hay algo mal que no ves?
+Lo programamos, probamos el circuito y... no. **No funciona**.
+
+Unas veces queda encendido y otras apagado. Parece aleatorio. ¿Es del código? ¿hay algo mal que no ves?
 
 Y de pronto te acuerdas: el **rebote** del pulsador ¡Es eso!
 
@@ -339,11 +337,11 @@ Mira el esquema de la Tang Nano:
 ¿Ves **C30** y **C31**? Son *debouncers*. Cuando presionas, el pulsador cortocircuita su condensador y lo descarga inmediatamente. Cuando lo sueltas se carga lentamente a través de la resistencia.
 
 
-## Otro problema común: histéresis
+## Histéresis
 
-El *debouncer* con condensadores es eficaz pero tiene un efecto secundario. Convierte una señal en origen **digital** como es un pulsador, en una señal **continua**: la tensión en los extremos de un condensador. Las FPGA son chips muy rápidos. Le afecta mucho el **ruido**.
+El *debouncer* con condensadores es eficaz pero tiene un efecto secundario. Convierte una señal en origen **digital** como es un pulsador, en una señal **continua**: la tensión en los extremos de un condensador. Las FPGA son chips muy rápidos. Les afecta mucho el **ruido**.
 
-Al soltar el pulsador, la tensión en el pin de entrada va subiendo poco a poco. Cuando la tensión llega justo a umbral de disparo, el ruido la hace subir y bajar muy rápidamente. Cada vez que el flip-flop detecta un flanco negativo activa o desactiva el LED. Al mismo tiempo, el consumo del LED hace caer ligeramente la tensión. **C20** y **C21** no reaccionan suficientemente rápido y las perturbaciones se propagan por **R19** y **R20** hasta la entrada de la FPGA.
+Al soltar el pulsador, la tensión en el pin de entrada va subiendo poco a poco. Cuando llega justo a umbral de disparo, el ruido la hace subir y bajar muy rápidamente. Cada vez que el flip-flop detecta un flanco negativo activa o desactiva el LED. Al mismo tiempo, el propio consumo del LED hace caer ligeramente la tensión. **C20** y **C21** no reaccionan suficientemente rápido y las perturbaciones se propagan por **R19** y **R20** hasta la entrada de la FPGA.
 
 {% include image.html file="switch_led_feedback.png" caption="Forma de onda en el pin 15 de la FPGA (CH1) y estado de la salida (CH2). EyC" %}
 
@@ -370,7 +368,6 @@ Este ejemplo tan básico es un patrón que vas a ver en multitud de situaciones.
 module blink (input i_clk, output o_led);
 
     reg [31:0] counter = 0;      // always initialize registers
-    
     assign o_led = counter[24];  // output is bit 24
 
     always @(posedge i_clk)
@@ -389,11 +386,11 @@ La salida **o_led** es un cable que podemos conectar al bit que queramos. Conect
 
 Ya tenemos nuestro LED que parpadea a una frecuencia visible.
 
-Sí, pero... ¿y contar una vez por segundo?
+Sí, pero... ¿una vez por segundo?
 
-Es parecido. Sólo que esta vez en vez de conectar la salida a un bit concreto, usamos el contador para contar. Vamos mirando el valor en cada ciclo y cuando alcance un número precalculado invertimos la salida y lo reiniciamos a cero.
+Es parecido. Sólo que esta vez en vez usamos el contador para contar. En lugar de conectar el LED en un bit concreto, vamos evaluando el valor en cada ciclo y cuando alcance un número precalculado invertimos la salida. Y lo reiniciamos a cero.
 
-Si el reloj va a 24MHz, habrán pasado 0.5s cuando la cuenta alcance 11.999.999 (pongamos 12e6 para redondear). En ese momento cambiamos la salida y reiniciamos el contador.
+Si el reloj va a 24MHz, cuando la cuenta alcance 11.999.999 habrán pasado 0.5s (pongamos 12e6 para redondear). En ese momento cambiamos la salida y reiniciamos el contador.
 
 ```verilog 
 module blink (
@@ -407,7 +404,7 @@ module blink (
         counter <= counter + 1'b1;
 
         if (counter == 12e6) begin
-            o_led <= ~o_led;  // toogle output
+            o_led <= ~o_led;  // toggle output
             counter <= 0;     // reset to zero
         end 
     end
@@ -419,9 +416,9 @@ Nos habrá generado un circuito un poco más complejo:
 
 {% include image.html file="esq_led_blink_1s.png" caption="Esquema del circuito anterior: LED intermitente a intervalos de 1 segundo. EyC" %}
 
-Hay un flip-flop que se llama **o_led** (porque es una salida de tipo register). Hay otro *flip-flop ancho* de 32 bit llamado **counter**. Tanto *o_led* como *counter* reaccionan a la misma señal de reloj **i_clk**.
+Hay dos flip-flop. Uno que se llama **o_led** (porque es una salida de tipo register). Y otro *flip-flop ancho* de 32 bit llamado **counter**. Ambos reaccionan a la misma señal de reloj. En el flanco de subida de **i_clk** tomarán el valor existente en su entrada.
 
-El valor siguiente de cada registro se decide en función del estado actual usando unos multiplexores previos. Para **counter** puede ser el valor actual de *counter* incrementado en 1 unidad, o puede ser 0. Y para **o_led** puede ser el valor actual o su inverso.
+El valor de cada registro se decide en función del estado actual usando unos multiplexores. Para **counter** puede ser el valor actual de *counter* incrementado en 1 unidad, o puede ser 0. Y para **o_led** puede ser el valor actual o su inverso.
 
 Los multiplexores están controlados por el comparador. Así, cuando se detecte el valor esperado en **counter**, se activará su salida y en el siguiente ciclo de reloj **counter** se reiniciará y **o_led** cambiará de estado.
 
@@ -441,7 +438,7 @@ always @(posedge i_clk)
 
 El resultado es idéntico. Pero ahora le hemos puesto nombre al cable que conecta la salida del comparador con los multiplexores: se llama **got_max_count**.
 
-## Tercer problema común: dual edge
+## Dual edge
 
 Un código Verilog sirve para dos cosas: **simulación** o **síntesis**. Si es sólo para simularlo puedes programar lo que te dé la gana: retardos, bucles, etc. Por ejemplo en un *testbench*.
 
@@ -467,11 +464,13 @@ No da error, cierto. ¿Pero sabes lo que va a pasar? Que la síntesis te lo va a
 
 ¿Entonces no se puede? Claro que se puede. Pero sabiendo el circuito apropiado.
 
-Necesitas dos contadores (uno sensible a cada flanco) compartiendo entrada. Y la salida en función del valor del reloj.
-
 {% include image.html file="esq_dual_edge_counter.png" caption="Contador sensible a ambos flancos de la señal. EyC" %}
 
-Con este código:
+Aquí tenemos dos contadores, uno sensible al flanco de subida y otro al de bajada (ese inversor en realidad no existe, está por claridad). La entrada de ambos es común y consiste en el valor de salida más uno. La salida va en función del valor del reloj.
+
+En el flanco de subida se activa el contador de arriba, y se actualiza al valor de la salida incrementado. También se activa el *mux* y presenta a la salida el valor de dicho contador. En el flanco de bajada se actualizará el inferior y ese es el valor que se presentará en la salida.
+
+Se consigue con este código:
 
 ```verilog 
 module dual_edge_counter (
@@ -492,14 +491,14 @@ module dual_edge_counter (
 endmodule
 ``` 
 
-La moraleja es *imagínate el circuito* mientras lo programas. Si no puedes imaginártelo, es muy posible que el sintetizador tampoco.
+**Imagínate el circuito** antes de programarlo. Si ni tú mismo sabes qué quieres obtener, es muy posible que el sintetizador tampoco.
 
 
 ## Patrones habituales
 
 Cuidado con lo que pones en la *sensitivity list*.
 
-Con esto, por ejemplo, tendremos un flip-flop cuya señal de reloj es **i_clk** y cuyo reset síncrono es **i_reset**.
+Por ejemplo, así tendremos un flip-flop cuya señal de reloj es **i_clk** y cuyo reset síncrono es **i_reset**.
 
 ```verilog
 always @(posedge i_clk or posedge i_reset) begin
@@ -510,7 +509,7 @@ always @(posedge i_clk or posedge i_reset) begin
 end
 ```
 
-El bloque se activa en cada flanco de subida de **i_clk** o de **i_reset**. Miramos el valor de **i_reset**. Si está a true es porque habrá llegado un pulso de esa línea y volvemos a cero. Si **i_reset** estaba a cero, lo que hemos recibido es un pulso de reloj e incrementamos el contador.
+El bloque se activa en cada flanco de subida de **i_clk** o de **i_reset**. Miramos el valor de **i_reset**. Si está a true es porque habrá llegado un pulso de esa línea y volvemos a cero. Si **i_reset** estaba a cero, lo que habrá activado el bloque habrá sido un pulso de reloj, por tanto incrementamos el contador.
 
 Ahora hacemos un ligero cambio. En vez de comparar **i_reset**, comparamos **i_clk**. Siguiendo el mismo razonamiento. Si **i_clk** es positivo ha sido un pulso de reloj, y si no lo que ha habido es un reset.
 
@@ -523,13 +522,15 @@ always @(posedge i_clk or posedge i_reset) begin
 end
 ```
 
-Pese a que en programación debería dar lo mismo se sintetizará algo bastante más enrevesado y difícil de entender. 
+Este segundo código sintetizará algo bastante más enrevesado y difícil de entender. 
 
-Aunque se comportará igual -porque el código es válido- cuando algo te falle será mucho más difícil encontrar el problema.
+Y tú dirás ¡es lo mismo! Pero no, en el primer caso, el contador volverá a cero en cuanto se active **i_reset**. En el segundo sólo lo hará si **i_clk** está abajo cuando se active **i_reset**.
 
-La síntesis espera ciertos **patrones**. Cosas que como programador piensas que deberían dar igual, cambian o incluso fallan al sintetizar.
+Los casos límite que en programación son indiferentes aquí generan cosas muy distintas.
 
-Por ejemplo, esto funciona. Dentro de la condición de reset, otro condicional:
+Por otro lado, la síntesis espera ciertos **patrones**. Cosas que como programador piensas que deberían dar igual, cambian o incluso fallan al sintetizar.
+
+Por ejemplo un condicional dentro de la condición de reset. Esto funciona, aunque el circuito resultante es complicado:
 
 ```verilog 
 always @(posedge i_clk or posedge reset) begin
@@ -538,7 +539,7 @@ always @(posedge i_clk or posedge reset) begin
           ...
 ```
 
-Pero si juntas las dos condiciones en una línea, no sintetiza:
+Si juntas las dos condiciones en una sola línea, ya no sintetiza:
 
 ```verilog 
 always @(posedge i_clk or posedge reset) begin
@@ -546,13 +547,23 @@ always @(posedge i_clk or posedge reset) begin
        ...
 ```
 
-La mejor forma de aprender los patrones comunes es usando ejemplos ya hechos y modificándolos.
+> ERROR (EX3833) : If-condition does not match any sensitivity list edge
+
+Cuando no sabes qué significa un error, la mejor forma de aprender los patrones comunes es usando ejemplos ya hechos y modificándolos.
+
+Lo que querías hacer probablemente habría sido más sencillo escrito así:
+
+```verilog 
+wire reset_signal = reset & something;
+
+always @(posedge i_clk or posedge reset_signal) begin
+    if (reset_signal) begin
+       ...
+```
 
 ## Siguientes pasos
 
-La placa cuenta con un conector de 40 pines para LCD estándar. Le puedes conectar cualquier pantalla y experimentar con las señales VGA.
-
-No obstante aún sin LCD se pueden hacer muchas prácticas sencillas añadiendo un poco de hardware. Como un display LED.
+La placa cuenta con un conector de 40 pines para LCD estándar. Le puedes conectar cualquier pantalla y experimentar con las señales VGA. Aún sin LCD se pueden hacer muchas prácticas sencillas añadiendo un poco de hardware. Como un display LED.
 
 {% include image.html file="Tang_Nano_7seg.jpg" caption="Tang Nano en una protoboard con un display LED de 7 segmentos. EyC" %}
 
@@ -570,7 +581,7 @@ Pues esa cadena puede ser fija y estar en memoria, en cuyo caso necesitarás una
 
 Pero también puede ser un string variable que venga de otro circuito en la FPGA, un contador, por ejemplo. Con lo cual te encontrarás una parte del circuito generando datos a una velocidad diferente del que los transmite. Empezarán los problemas de **clock domain crossing**, necesitarás instanciar un **buffer FIFO**. Al poco leerás sobre la **metaestabilidad** y los *constraints* de tiempo...
 
-La Tang Nano es una placa FPGA sencilla, pero perfectamente válida. Útil en proyectos pequeños o como complemento. Para profundizar imagino que habrá otras plataformas más adecuadas. Como primera toma de contacto, aprender los fundamentos o satisfacer tu curiosidad, a mí me ha convencido.
+La Tang Nano es una placa FPGA sencilla, pero perfectamente válida. Útil en proyectos pequeños o como complemento. Para profundizar imagino que habrá otras plataformas más adecuadas. Como primera toma de contacto con la que aprender los fundamentos o satisfacer tu curiosidad, a mí me ha convencido.
 
 
 ## Referencias y enlaces 
