@@ -11,7 +11,7 @@ tags:
   - Informática
 ---
 
-Déjame contarte mis primeras experiencias con una **FGPA**. Revisamos la placa de desarrollo **Tang Nano**. Con ejemplos básicos en Verilog y explicaciones -más allá de los primeros pasos- que me hubieran venido muy bien el primer día.
+Déjame contarte mis primeras experiencias con una **FPGA**. Revisamos la placa de desarrollo **Tang Nano**. Con ejemplos básicos en Verilog y explicaciones -más allá de los primeros pasos- que me hubieran venido muy bien el primer día.
 
 Tenía ganas de probar una FPGA. Sí, tal vez para ti representan un amargo recuerdo de oscuras prácticas en alguna asignatura ya superada; con la que **aún sueñas** a veces. Pero yo sólo las conocía de oídas. 
 
