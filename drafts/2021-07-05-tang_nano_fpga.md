@@ -1,5 +1,5 @@
 ---
-title: Primeras experiencias con una FPGA: Sipeed Tang Nano
+title: Primeras experiencias con Sipeed Tang Nano
 layout: post
 assets: /assets/2021/07/tang_nano_fpga/
 image: /assets/2021/07/tang_nano_fpga/img/featured.jpg
@@ -16,6 +16,8 @@ tags:
 Tenía ganas de probar una FPGA. Sí, tal vez para ti representan un amargo recuerdo de oscuras prácticas en alguna asignatura ya superada; con la que **aún sueñas** a veces. Pero yo sólo las conocía de oídas. 
 
 {% include image.html file="tang-nano.png" caption="Sipeed Tang Nano FPGA Board Powered by GW1N-1 FPGA. [seeedstudio.com](https://www.seeedstudio.com/Sipeed-Tang-Nano-FPGA-board-powered-by-GW1N-1-FPGA-p-4304.html)" %}
+
+## Introducción
 
 Las FPGA son los chips más **inútiles** que vas a encontrar. No *sirven* para nada. Un **microcontrolador** al menos interpreta instrucciones; y tiene cierto hardware, interactúa con otros componentes. Lo programas -digamos- para leer un sensor por I2C y enviar el resultado cada cinco segundos por puerto serie a una UART. Es sencillo. Una FPGA no *tiene* I2C, ni UART, ni temporizadores, ni mucho menos interpreta un programa.
 
@@ -63,11 +65,15 @@ For Synplify Pro: setx LM_LICENSE_FILE 27020@45.33.107.56
 
 ## Cómo funcionan
 
-Yo tenía entendido que las FPGA tenían montones de puertas lógicas OR y AND y tú las combinabas haciendo el circuito que quisieras. Pero no. Dichos dispositivos existían, efectivamente, pero se llamaban PLA: [Programmable logic array](https://en.wikipedia.org/wiki/Programmable_logic_array).
+Yo tenía entendido que las FPGA tenían montones de puertas lógicas OR y AND y tú las combinabas haciendo el circuito que quisieras. Resulta que no. Dichos dispositivos existían, efectivamente, pero se llamaban PLA: [Programmable logic array](https://en.wikipedia.org/wiki/Programmable_logic_array).
 
 {% include image.html file="pla.png" caption="Programmable logic array. Wikipedia." %}
 
-Las FPGA siguen otro esquema diferente. Intentaré simplificarlo. Digamos que tienen miles de celdas llamadas **CLB** (Configurable Logic Block) -Gowin las llama CFU (*Configurable Function Unit*)-. Dentro de cada una hay un **FlipFlop**, una puerta lógica universal (**LUT**), una pequeña **ALU** y un multiplexor (**mux**). Tú decides qué función le asignas en tu circuito.
+Las FPGA siguen otro esquema diferente. Se componen de bloques lógicos universales y bloques de enrutado universales.
+
+Un bloque lógico universal -**CLB** (Configurable Logic Block) o Gowin las llama CFU (*Configurable Function Unit*)- puede emular cualquier elemento digital. Dentro hay un **FlipFlop**, una puerta lógica universal (**LUT**), una pequeña **ALU** y un multiplexor (**mux**). Tú decides qué función le asignas en tu circuito.
+
+{% include image.html file="FPGA_cell_example.png" caption="Representación simplificada de un Bloque Lógico Universal. (LUT – Lookup table, FA – Full adder, DFF – D-type flip-flop). [Wikipedia](https://en.wikipedia.org/wiki/Field-programmable_gate_array)." %}
 
 - La **puerta lógica universal** te sirve para hacer circuitos **combinacionales**. Te permite emular puertas de hasta 4 entradas -ahora veremos cómo-.
 - El **Flip Flop** permite crear circuitos **secuenciales**. Lo puedes configurar asíncrono o síncrono. Con Set y Reset, con detección de flanco de subida o de bajada, etc.
@@ -422,15 +428,15 @@ Los multiplexores están controlados por el comparador. Así, cuando se detecte 
 Esta es una descripción alternativa del mismo circuito:
 
 ```verilog 
-    reg [31:0] counter = 0;
+reg [31:0] counter = 0;
 
-    assign got_max_count = (counter == 12e6);
+assign got_max_count = (counter == 12e6);
 
-    always @(posedge i_clk)
-        counter <= got_max_count ? 0 : counter + 1'b1;
+always @(posedge i_clk)
+    counter <= got_max_count ? 0 : counter + 1'b1;
 
-    always @(posedge i_clk)
-        o_led <= got_max_count ? ~o_led : o_led;
+always @(posedge i_clk)
+    o_led <= got_max_count ? ~o_led : o_led;
 ```
 
 El resultado es idéntico. Pero ahora le hemos puesto nombre al cable que conecta la salida del comparador con los multiplexores: se llama **got_max_count**.
@@ -564,7 +570,7 @@ Pues esa cadena puede ser fija y estar en memoria, en cuyo caso necesitarás una
 
 Pero también puede ser un string variable que venga de otro circuito en la FPGA, un contador, por ejemplo. Con lo cual te encontrarás una parte del circuito generando datos a una velocidad diferente del que los transmite. Empezarán los problemas de **clock domain crossing**, necesitarás instanciar un **buffer FIFO**. Al poco leerás sobre la **metaestabilidad** y los *constraints* de tiempo...
 
-La Tang Nano es una placa FPGA sencilla, pero perfectamente válida. Útil en proyectos pequeños o como complemento. Para profundizar imagino que habrá otras plataformas más adecuadas. Como primera toma de contacto, aprender los fundamentos o satisfacer tu curiosidad. En eso, a mí me ha convencido.
+La Tang Nano es una placa FPGA sencilla, pero perfectamente válida. Útil en proyectos pequeños o como complemento. Para profundizar imagino que habrá otras plataformas más adecuadas. Como primera toma de contacto, aprender los fundamentos o satisfacer tu curiosidad, a mí me ha convencido.
 
 
 ## Referencias y enlaces 
