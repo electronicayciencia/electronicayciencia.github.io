@@ -332,7 +332,7 @@ Pues no.
 
 Mira el esquema de la Tang Nano:
 
-{% include image.html file="debounce_buttons.png" caption="Detalle del esquema de Tang Nano donde se aprecia el *debouncer* de los pulsadores. EyC" %}
+{% include image.html file="debounce_buttons.png" caption="Detalle del esquema. Se aprecia el filtrado de alimentación así como el *debouncer* de los pulsadores A y B. EyC" %}
 
 ¿Ves **C30** y **C31**? Son *debouncers*. Cuando presionas, el pulsador cortocircuita su condensador y lo descarga inmediatamente. Cuando lo sueltas se carga lentamente a través de la resistencia.
 
