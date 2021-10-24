@@ -35,7 +35,7 @@ A propósito, no las dejes descargadas mucho tiempo ni las lleves por debajo del
 
 Volviendo a la tensión, mira esta gráfica de una 18650 de Panasonic. He resaltado en fondo verde el rango recomendado para el ESP8266.
 
-{% include image.html file="discharge_rate.png" caption="Discharge Rate Characteristics for NCR18650B [Panasonic-NCR18650 datasheet]" %}
+{% include image.html file="discharge_rate.png" caption="Discharge Rate Characteristics for NCR18650B. NCR18650 datasheet. Panasonic." %}
 
 Pasa bastante tiempo **por encima** de los 3.6V. Sobre todo con corrientes de descarga pequeñas.
 
@@ -102,7 +102,7 @@ Aunque ese consumo tan diminuto se consigue a costa de algunas limitaciones:
 
 El ESP8266 tiene picos de consumo superiores a los 250mA. ¿Supone un problema? **No, según el datasheet**:
 
-> 6.5 Pulsed Load Applications 
+> **6.5 Pulsed Load Applications**\
 > The 250 mA rating is a maximum average continuous rating. As long as the average current does not exceed 250 mA, pulsed higher load currents can be applied to the MCP1700. The typical current limit for the MCP1700 is 550 mA.
 
 Viene a decir que los 250mA máximos son **de continuo**. Mientras el pico no llegue a los 550mA, funcionará.
@@ -119,7 +119,7 @@ Según la calidad del ESP8266 que tengas, puede llevar bien esas variaciones. Pe
 
 Por suerte, es fácil evitarlo. Basta colocar a la salida un condensador de capacidad suficiente (330uF por ejemplo). Así suavizamos el pico y el regulador puede adaptarse a tiempo. Mira qué diferencia con lo anterior:
 
-{% include image.html file="mcp1700-600us-400mA-330uF" caption="Respuesta del MCP1700-3302 a un transitorio de carga escalón de 400mA con un condensador de 330uF en paralelo. EyC." %}
+{% include image.html file="mcp1700-600us-400mA-330uF.png" caption="Respuesta del MCP1700-3302 a un transitorio de carga escalón de 400mA con un condensador de 330uF en paralelo. EyC." %}
 
 También podríamos haber utilizado un **LDO más potente**, donde el transitorio se nota menos, o **reguladores conmutados**, que tienen mayor rendimiento.
 
@@ -237,8 +237,7 @@ Dentro del estándar hay unos paquetes de tipo *control*llamados **action frame*
 
 Dentro de los *action frame*, hay un tipo genérico llamado **vendor specific**. Dichos *vendor specific* incluyen un payload de hasta 255 bytes cuyo contenido es arbitrario.
 
-{% include image.html file="a-cat.png" caption="Un gato a tamaño natural, máximo 100% del ancho de la pantalla. Foto de Google." %}
-[foto: action_frame.png]
+{% include image.html file="action_frame.png" caption="Paquete *vendor specific action frame* capturado en modo monitor. EyC." %}
 
 Los paquetes ESPNOW, basados en estos, disponen de un campo libre de hasta 250 bytes para transportar el mensaje que quieras. Como no necesitas estar asociado a red, el envío es inmediato.
 
@@ -342,8 +341,7 @@ Ya que te he contado algo de electrónica ¿que tal si ahora te cuento algo de c
 
 Con mi termómetro a pilas y un bonito panel en Grafana te voy a contar lo que pasa cuando metes **una cerveza en el congelador**.
 
-{% include image.html file="a-cat.png" caption="Un gato a tamaño natural, máximo 100% del ancho de la pantalla. Foto de Google." %}
-[foto: cerveza_fria.jpg]
+{% include image.html file="cerveza_fria.jpg" class="small-width" caption="Esto es lo que pasa cuando metes una cerveza en el congelador en un mal día. EyC." %}
 
 He acoplado el sensor DS18B20 a una lata de cerveza de 33cl y después lo he cubierto con material aislante. 
 
