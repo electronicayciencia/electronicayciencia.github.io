@@ -1,7 +1,7 @@
 ---
 title: Proyectos a batería y cerveza fría
 layout: post
-assets: /assets/2021/10/bateria-cerveza-fria/
+assets: /assets/2021/10/bateria-cerveza-fria
 image: /assets/2021/10/bateria-cerveza-fria/img/esp-01s-sleep-mod.jpg
 featured: false
 description: Proyectos a baterías con el ESP8266. Veremos ideas para **reducir el consumo** y lograr la máxima autonomía.
@@ -35,7 +35,7 @@ A propósito, no las dejes descargadas mucho tiempo ni las lleves por debajo del
 
 Volviendo a la tensión, mira esta gráfica de una 18650 de Panasonic. He resaltado en fondo verde el rango recomendado para el ESP8266.
 
-{% include image.html file="discharge_rate.png" caption="Discharge Rate Characteristics for NCR18650B [Panasonic-NCR18650 datasheet] %}
+{% include image.html file="discharge_rate.png" caption="Discharge Rate Characteristics for NCR18650B [Panasonic-NCR18650 datasheet]" %}
 
 Pasa bastante tiempo **por encima** de los 3.6V. Sobre todo con corrientes de descarga pequeñas.
 
