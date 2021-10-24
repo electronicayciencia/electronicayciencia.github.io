@@ -102,7 +102,8 @@ Aunque ese consumo tan diminuto se consigue a costa de algunas limitaciones:
 
 El ESP8266 tiene picos de consumo superiores a los 250mA. ¿Supone un problema? **No, según el datasheet**:
 
-> **6.5 Pulsed Load Applications**\
+> **6.5 Pulsed Load Applications**
+>
 > The 250 mA rating is a maximum average continuous rating. As long as the average current does not exceed 250 mA, pulsed higher load currents can be applied to the MCP1700. The typical current limit for the MCP1700 is 550 mA.
 
 Viene a decir que los 250mA máximos son **de continuo**. Mientras el pico no llegue a los 550mA, funcionará.
