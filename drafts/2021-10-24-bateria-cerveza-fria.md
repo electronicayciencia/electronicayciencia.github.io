@@ -14,11 +14,11 @@ tags:
 
 Hacer un termómetro inalámbrico con un chip ESP8266 no es difícil. Que funcione a pilas y dure más de unos pocos días requiere más cabeza. Nos iniciamos en los **proyectos a baterías**. Veremos ideas para **reducir el consumo** y lograr la máxima autonomía. Bienvenido a un mundo donde cada miliamperio cuenta.
 
-Te va a sonar a perogrullo, pero lo primero que debes hacer **conocer cada componente** de tu circuito. Y tener bajo control su consumo. Por eso voy a usar un módulo ESP-01S. Porque conozco el esquema de cuando hice la entrada [Avisador personal de autobús con ESP8266][Electrónica y Ciencia - Avisador personal de autobús con ESP8266]. Podría haber usado un módulo ESP-12F. Pero cuidado con las **placas de desarrollo**, porque tienen muchos componentes adicionales cuyo consumo no conoces.
+Te va a sonar a perogrullo, pero lo fundamental es **conocer cada componente** de tu circuito. Y tener bajo control su consumo. Por eso voy a usar un módulo ESP-01S. Porque tengo el esquema de cuando hice la entrada [Avisador personal de autobús con ESP8266][Electrónica y Ciencia - Avisador personal de autobús con ESP8266]. Podría haber usado un módulo ESP-12F. Pero cuidado con las **placas de desarrollo**, porque tienen muchos componentes adicionales cuyo consumo no conoces.
 
-El software lo voy a hacer con el framework ESP-IDF y mi propia librería para DS1820. El código está en GitHub. Te dejo los enlaces al final.
+El software lo voy a hacer con el framework ESP-IDF y mi propia librería para DS1820. [Github Electronica Y Ciencia - ds18b20-espnow/]
 
-Sí, se puede hacer lo mismo más fácilmente con Arduino, Tasmota, Esphome, Node-red, Home Assistant y muchos otros frameworks. No hace falta complicarse tanto.
+Ya lo sé, es más fácil con Arduino, Tasmota, Esphome, Node-red, Home Assistant y muchos otros frameworks. No hace falta complicarse tanto.
 
 
 ## Tensión de alimentación
@@ -27,11 +27,11 @@ Según el [datasheet del ESP8266][ESP8266EX Datasheet - Espressif Systems], este
 
 Sin embargo, trabajando con baterías siempre debemos hilar fino. 
 
-Para empezar, las baterías no *son de 3.6V*. Igual que las pilas alcalinas no *son de 1.5V*. Existen pilas que recién compradas dan 1.55V y, al punto de agotarse, sólo 0.8V. Eso sí *durante la mayor parte de su vida útil* están entre 1.4 y 1.5V.
+Para empezar, las baterías **no son de 3.6V**. Igual que las pilas alcalinas *no son de 1.5V*. Existen pilas que recién compradas dan 1.55V y, al punto de agotarse, sólo 0.8V. *Durante la mayor parte de su vida útil*, eso sí, están entre 1.4 y 1.5V.
 
 Las baterías de litio de 3.6 o 3.7V, se cargan hasta los 4.2V. Y puedes usarlas mientras tienen 3 o 2.5V mínimo.
 
-A propósito, no las dejes descargadas mucho tiempo ni las lleves por debajo del mínimo. Porque empiezan a ocurrir reacciones químicas indeseadas. Lentamente uno de los electrodos se descompone y se disuelve en el electrolito. Como consecuencia, **se deterioran**, pierden capacidad, su resistencia interna aumenta sensiblemente y su auto-descarga también lo hace. 
+A propósito, **no las dejes descargadas** mucho tiempo ni las lleves por debajo del mínimo. Porque empiezan a ocurrir reacciones químicas indeseadas. Lentamente uno de los electrodos se descompone y se disuelve en el electrolito. Como consecuencia, **se deterioran**, pierden capacidad, su resistencia interna aumenta sensiblemente y su auto-descarga también lo hace. 
 
 Volviendo a la tensión, mira esta gráfica de una 18650 de Panasonic. He resaltado en fondo verde el rango recomendado para el ESP8266.
 
