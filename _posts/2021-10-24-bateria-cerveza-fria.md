@@ -327,7 +327,7 @@ He acoplado el sensor DS18B20 a una lata de cerveza de 33cl. Ahora meto la lata 
 
 La transferencia de calor es **proporcional a la diferencia de temperaturas**.
 
-Cuando la velocidad del cambio (segunda derivada) es proporcional a la magnitud que lo causa, el resultado es una exponencial. Esto lo formalizó Newton cuando inventó el cálculo. Por eso lo llamamos **enfriamiento Newtoniano**.
+Cuando la velocidad del cambio (segunda derivada) es proporcional a la magnitud que lo causa, el resultado es una exponencial. Esto lo dijo Newton -más o menos-. Por eso lo llamamos **enfriamiento Newtoniano**.
 
 ¿Cuanto tarda en enfriarse? **Varias horas** dependiendo de la temperatura exterior, potencia y condición del frigorífico, lo lleno que esté, tamaño y forma de la lata, dónde la pongas, cuántas veces abras la puerta y un montón de variables más.
 
@@ -369,9 +369,7 @@ Durante la transición de fase la temperatura varía muy poco. Aunque aquí sí 
 
 {% include image.html file="cambio_de_fase.svg" caption="Evolución del punto de congelación en un sistema cerrado (cerveza congelándose más). EyC." %}
 
-El hielo abulta más que el agua. A medida que se forma hielo, aumenta el volumen. Como la lata está cerrada y no es elástica, aumenta la presión. Pero al hielo le cuesta formarse bajo presión. Así que cada vez necesita más frío. Mientras el recipiente aguante, el punto de congelación va bajando más y más.
-
-Si abres la lata ahora o se rompe, la presión se pierde y todo el líquido se convierte de golpe en hielo.
+El agua sólida abulta más que el agua líquida, por eso existe la vida en la Tierra. El caso es que a medida que se forma hielo, aumenta el volumen. Como la lata está cerrada y no es elástica, aumenta la presión. Pero al hielo le cuesta formarse bajo presión. Así que cada vez necesita más frío. Mientras el recipiente aguante, el punto de congelación va bajando más y más. Si abres la lata ahora o se rompe, todo el líquido se convierte de golpe en hielo.
 
 Sólo una pequeña parte del CO<sub>2</sub> disuelto en el agua se difunde en la red cristalina de hielo. La mayoría escapa. Por esa razón una cerveza descongelada ya **no tiene gas**.
 
