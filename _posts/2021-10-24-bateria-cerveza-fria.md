@@ -4,7 +4,7 @@ layout: post
 assets: /assets/2021/10/bateria-cerveza-fria
 image: /assets/2021/10/bateria-cerveza-fria/img/esp-01s-sleep-mod.jpg
 featured: false
-description: Proyectos a baterías con el ESP8266. Veremos ideas para **reducir el consumo** y lograr la máxima autonomía.
+description: Proyectos a baterías con el ESP8266. Espnow, MQTT y varias ideas para reducir el consumo.
 tags:
   - Fisica
   - Informática
@@ -12,7 +12,7 @@ tags:
   - ESP8266
 ---
 
-Hacer un termómetro inalámbrico con un chip ESP8266 no es difícil. Que funcione a pilas y dure más de unos pocos días requiere más cabeza. Nos iniciamos en los **proyectos a baterías**. Veremos ideas para **reducir el consumo** y lograr la máxima autonomía. Bienvenido a un mundo donde cada miliamperio cuenta.
+Hacer un termómetro inalámbrico con un chip ESP8266 no es difícil. Que funcione a pilas y dure más de unos pocos días requiere más cabeza. Nos iniciamos en los **proyectos a baterías**. Hablaremos de **espnow** y MQTT. Veremos ideas para **reducir el consumo** y lograr la máxima autonomía. Bienvenido a un mundo donde cada miliamperio cuenta.
 
 Te va a sonar a perogrullo, pero lo fundamental es **conocer cada componente** de tu circuito. Y tener bajo control su consumo. Por eso voy a usar un módulo ESP-01S. Porque tengo el esquema de cuando hice la entrada [Avisador personal de autobús con ESP8266][Electrónica y Ciencia - Avisador personal de autobús con ESP8266]. Podría haber usado un módulo ESP-12F. Pero cuidado con las **placas de desarrollo**, porque tienen muchos componentes adicionales cuyo consumo no conoces.
 
