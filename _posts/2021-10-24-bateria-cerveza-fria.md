@@ -76,7 +76,7 @@ Una recomendación que he leído es sencillamente **un diodo en serie con la bat
 
 ¿Suena demasiado bien? Claro, porque es **mentira**. 
 
-La caída de tensión de un diodo **no es fija**, depende de la corriente que circule por él. Desde los 20uA en deep-sleep a los 400mA en transmisión, el rango es demasiado amplio como para decir que *"en un diodo caen 0.7V"*. No es cierto. También depende del tipo de diodo. Compara un 1N4148 (diodo de pequeña señal), 1N4007 (rectificador habitual) y un 1N5817 (Schottky).
+La caída de tensión de un diodo **no es fija**, depende de la corriente que circule por él. Desde los 20uA en deep-sleep a los 400mA en transmisión, el rango es demasiado amplio como para afirmar que *"en un diodo caen 0.7V"*. Depende del tipo de diodo. Compara un 1N4148 (diodo de pequeña señal), 1N4007 (rectificador habitual) y un 1N5817 (Schottky).
 
 {% include image.html file="caida_1N4148_20u_300m.png" caption="Caída de tensión en varios diodos entre 20uA y 400mA (simulación LTSpice). EyC." %}
 
@@ -138,6 +138,8 @@ Para aprovechar esto último, el ESP-01S necesita una **ligera modificación**. 
 {% include image.html file="esp-01s-sleep-mod.jpg" caption="Modificación necesaria en un ESP-01S para salir del modo deep-sleep mediante el RTC. EyC." %}
 
 Usa siempre una resistencia. Si lo haces directamente te dará problemas a la hora de programar el dispositivo. Ya que el programador no conseguiría reiniciar el chip si en la patilla 8 existiera un nivel lógico alto.
+
+Ya que estás con el soldador, aprovecha y quita el LED.
 
 Programamos el ESP-01S para leer el sensor de temperatura DS18B20 y enviar el dato (luego veremos dónde y cómo).
 
