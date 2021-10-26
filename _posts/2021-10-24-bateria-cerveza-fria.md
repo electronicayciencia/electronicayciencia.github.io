@@ -4,7 +4,7 @@ layout: post
 assets: /assets/2021/10/bateria-cerveza-fria
 image: /assets/2021/10/bateria-cerveza-fria/img/esp-01s-sleep-mod.jpg
 featured: false
-description: Proyectos a baterías con el ESP8266. Espnow, MQTT y varias ideas para reducir el consumo.
+description: ESP8266, espnow, MQTT, IoT, baterías y... cerveza.
 tags:
   - Fisica
   - Informática
@@ -137,7 +137,7 @@ Para aprovechar esto último, el ESP-01S necesita una **ligera modificación**. 
 
 {% include image.html file="esp-01s-sleep-mod.jpg" caption="Modificación necesaria en un ESP-01S para salir del modo deep-sleep mediante el RTC. EyC." %}
 
-Usa siempre una resistencia. Si lo haces directamente te dará problemas a la hora de programar el dispositivo. Ya que el programador no conseguiría reiniciar el chip si en la patilla 8 existiera un nivel lógico alto.
+Usa siempre una resistencia. De lo contrario tendrás problemas a la hora de programar el dispositivo. Ya que el programador no conseguiría reiniciar el chip cuando en la patilla 8 existiera un nivel lógico alto.
 
 Ya que estás con el soldador, aprovecha y **quita el LED**.
 
