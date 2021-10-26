@@ -43,9 +43,9 @@ En muchos foros vas a leer comentarios como:
 
 Y puede ser que sí, verás, depende de la **suerte** que tengas. Te lo explico.
 
-En el proceso de fabricación de un microchip intervienen muchos factores que afectan al resultado. La **calidad** de la oblea de silicio, la pureza de los materiales, el estado de las máquinas... Por pura estadística, en cada partida de semiconductores los hay mejores y peores.
+En el **proceso de fabricación** de un microchip intervienen muchos factores que afectan al resultado. La **calidad** de la oblea de silicio, la pureza de los materiales, el estado de las máquinas... Por pura estadística, en cada partida de semiconductores los hay mejores y peores.
 
-Durante el proceso de producción se toma una muestra del lote y se somete a unos tests para evaluar cuánto se ajusta a las especificaciones. Si sale **sobresaliente**, lo vendes más caro como grado especial (automotriz, médico, militar, aeroespacial, o lo que sea). Si sale **normal**, lo vendes a distribuidores y fabricantes; y entra a formar parte de sus productos de consumo. Y, si estadísticamente **no cumple** con las expectativas, lo vendes a mayoristas chinos para intentar sacarle el provecho que puedas.
+Durante la producción se toman muestras del lote y se someten a unos tests para evaluar cuánto se ajusta a las especificaciones. Si sale **sobresaliente**, lo vendes más caro como grado especial (automotriz, médico, militar, aeroespacial, o lo que sea). Si sale **normal**, lo vendes a distribuidores y fabricantes; entrando a formar parte de la cadena de suministro. Y, si estadísticamente **no cumple** con las expectativas, lo vendes a mayoristas chinos para intentar sacarle el provecho que puedas.
 
 En Aliexpress compras 100 transistores por $0.90. Y van *perfectos*. Algunos a lo mejor no aguantan hasta la intensidad máxima... en promedio tienen menor ganancia... quizá uno o dos no funcionan. Lo aceptamos, porque en general para tus proyectos de aficionado te sirven. Pero realmente pertenecían a un **lote defectuoso**. Eso no significa que no funcione ninguno. Significa que -en promedio- algún valor está fuera de las especificaciones de ese modelo. Ningún fabricante serio te lo va a admitir.
 
