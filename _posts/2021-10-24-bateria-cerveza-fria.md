@@ -53,8 +53,8 @@ Por eso, según la calidad del ESP8266 que te haya tocado, si le metes 4.2V pued
 
 - se funda
 - se dañe en algún aspecto sutil pero irreversible
-- se comporte de forma inestable o
-- no le pase nada de nada. 
+- se comporte de forma errática
+- no le pase nada de nada.
 
 También puede ver reducida a la mitad su vida útil y tú nunca llegues a saberlo, porque te habrás cansado de él mucho antes.
 
@@ -84,7 +84,7 @@ No es lo ideal, pero si dudas entre no poner nada o poner un diodo, **pon un dio
 
 Yo prefiero usar un **regulador serie**.
 
-Los **LDO** de *Low Dropout Regulator* son reguladores diseñados especialmente para funcionar con baterías. Se caracterizan por su **mínima caída de tensión** y **bajo consumo**. Propongo el **MCP1700 de Microchip** ([MCP1700 Low Quiescent Current LDO Data Sheet - Microchip]) que consume en reposo **sólo 1.8uA**.
+Los **LDO** (de *Low Dropout Regulator*) son reguladores diseñados especialmente para funcionar con baterías. Se caracterizan por su **mínima caída de tensión** y **bajo consumo**. Propongo el **MCP1700 de Microchip** ([MCP1700 Low Quiescent Current LDO - Microchip Technology Inc.]) que consume en reposo **sólo 1.8uA**.
 
 Espera. Antes de seguir. 1.8uA es **poco**, es **muy poco**. Pero piensa en cómo de poco es. Sin considerar las pérdidas por auto-descarga, una batería Li-Ion corriente de 1500mAh podría alimentar un MCP1700 durante **¡95 años!**.
 
@@ -139,7 +139,7 @@ Para aprovechar esto último, el ESP-01S necesita una **ligera modificación**. 
 
 Usa siempre una resistencia. Si lo haces directamente te dará problemas a la hora de programar el dispositivo. Ya que el programador no conseguiría reiniciar el chip si en la patilla 8 existiera un nivel lógico alto.
 
-Ya que estás con el soldador, aprovecha y quita el LED.
+Ya que estás con el soldador, aprovecha y **quita el LED**.
 
 Programamos el ESP-01S para leer el sensor de temperatura DS18B20 y enviar el dato (luego veremos dónde y cómo).
 
