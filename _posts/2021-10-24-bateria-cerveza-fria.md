@@ -137,7 +137,7 @@ Para aprovechar esto último, el ESP-01S necesita una **ligera modificación**. 
 
 {% include image.html file="esp-01s-sleep-mod.jpg" caption="Modificación necesaria en un ESP-01S para salir del modo deep-sleep mediante el RTC. EyC." %}
 
-Usa siempre una resistencia. De lo contrario tendrás problemas a la hora de programar el dispositivo. Ya que el programador no conseguiría reiniciar el chip cuando en la patilla 8 existiera un nivel lógico alto.
+Usa siempre una resistencia. De lo contrario tendrás problemas a la hora de programar el dispositivo. Pues el programador no conseguiría reiniciar el chip cuando en la patilla 8 existiera un nivel lógico alto.
 
 Ya que estás con el soldador, aprovecha y **quita el LED**.
 
@@ -411,6 +411,7 @@ WiFi y espnow
 
 Varios
 
+- [Ice Beer - cervezapedia]
 - [Cervezas frías, pero no tanto. La temperatura ideal de servicio para cada cerveza - cervezasfrias.es]
 - [Technology Connections - Reusable handwarmers that get hot by freezing - Youtube]
 - [Quality Grades On Nec Semiconductor Devices]
@@ -453,6 +454,6 @@ Varios
 [Quality Grades On Nec Semiconductor Devices]: https://www.renesas.com/us/en/document/oth/quality-grades-nec-semiconductor-devices-c11531ej4v1if00
 [ESP8266EX Datasheet - Espressif Systems]: https://www.espressif.com/sites/default/files/documentation/0a-esp8266ex_datasheet_en.pdf
 
-
+[Ice Beer - cervezapedia]: https://cervezapedia.com/estilos/ice-beer
 
 
