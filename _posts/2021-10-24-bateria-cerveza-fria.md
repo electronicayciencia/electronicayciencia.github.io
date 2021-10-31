@@ -18,9 +18,6 @@ Te va a sonar a perogrullo, pero lo fundamental es **conocer cada componente** d
 
 El software lo voy a hacer con el framework ESP-IDF y mi propia librería para DS1820. Os dejo enlaces al código al final.
 
-Ya lo sé, es más fácil con Arduino, Tasmota, Esphome, Node-red, Home Assistant y muchos otros frameworks. No hace falta complicarse tanto.
-
-
 ## Tensión de alimentación
 
 Según el [datasheet del ESP8266][ESP8266EX Datasheet - Espressif Systems], este chip necesita entre 2.5 y 3.6V. Una batería de litio de 3.6V parece lo más apropiado. Son recargables y fáciles de conseguir en varios tamaños.
@@ -377,6 +374,12 @@ Sólo una pequeña parte del CO<sub>2</sub> disuelto en el agua se difunde en la
 
 {% include image.html file="completo_desde_caliente_grad.png" caption="Proceso completo y gradiente de temperatura. EyC." %}
 
+Por cierto, primero se congela el agua y luego el alcohol (más o menos). Así que si retiras el hielo y te quedas sólo con el líquido, le estás quitando parte del agua y aumentando la concentración del resto de elementos. Cuando partes de una Lager eso se llama [Ice Beer][Ice Beer - cervezapedia].
+
+Pero hay una cerveza ya que hacía esto tradicionalmente: [Eisbock - La Cerveza Que Vino Del Hielo]
+
+>Eisbock es una cerveza especial tradicional del distrito de Kulmbach de Alemania que se elabora congelando parcialmente un doppelbock y eliminando el hielo de agua para concentrar el sabor y el contenido de alcohol, que oscila entre el 9% y el 13% en volumen. - Wikipedia
+
 
 ## Referencias y enlaces
 
@@ -409,10 +412,14 @@ WiFi y espnow
 - [ESP8266 Low Power Solutions]
 - [API Reference - Networking APIs - ESP-NOW]
 
+Cervezas
+
+- [Cervezas frías, pero no tanto. La temperatura ideal de servicio para cada cerveza - cervezasfrias.es]
+- [Ice Beer - cervezapedia]
+- [Eisbock - La Cerveza Que Vino Del Hielo]
+
 Varios
 
-- [Ice Beer - cervezapedia]
-- [Cervezas frías, pero no tanto. La temperatura ideal de servicio para cada cerveza - cervezasfrias.es]
 - [Technology Connections - Reusable handwarmers that get hot by freezing - Youtube]
 - [Quality Grades On Nec Semiconductor Devices]
 - [ESP8266EX Datasheet - Espressif Systems]
@@ -455,5 +462,4 @@ Varios
 [ESP8266EX Datasheet - Espressif Systems]: https://www.espressif.com/sites/default/files/documentation/0a-esp8266ex_datasheet_en.pdf
 
 [Ice Beer - cervezapedia]: https://cervezapedia.com/estilos/ice-beer
-
-
+[Eisbock - La Cerveza Que Vino Del Hielo]: https://www.delgranoalacopa.com/eisbock-la-cerveza-vino-del-hielo/
