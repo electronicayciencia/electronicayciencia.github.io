@@ -374,11 +374,11 @@ Sólo una pequeña parte del CO<sub>2</sub> disuelto en el agua se difunde en la
 
 {% include image.html file="completo_desde_caliente_grad.png" caption="Proceso completo y gradiente de temperatura. EyC." %}
 
-Por cierto, primero se congela el agua y luego el alcohol (más o menos). Así que si retiras el hielo y te quedas sólo con el líquido, le estás quitando parte del agua y aumentando la concentración del resto de elementos. Cuando partes de una Lager eso se llama [Ice Beer][Ice Beer - cervezapedia].
+Por cierto, primero se congela el agua y luego el alcohol (más o menos). Así que si retiras el hielo y te quedas sólo con el líquido, le estás quitando parte del agua y aumentando la concentración del resto de elementos. Cuando partes de una Lager eso se llama **[Ice Beer][Ice Beer - cervezapedia]**.
 
-Pero hay una cerveza ya que hacía esto tradicionalmente: [Eisbock - La Cerveza Que Vino Del Hielo]
+Aunque hay cervezas tradicionales que ya lo hacían: [Eisbock - La Cerveza Que Vino Del Hielo]
 
->Eisbock es una cerveza especial tradicional del distrito de Kulmbach de Alemania que se elabora congelando parcialmente un doppelbock y eliminando el hielo de agua para concentrar el sabor y el contenido de alcohol, que oscila entre el 9% y el 13% en volumen. - Wikipedia
+>Eisbock es una cerveza especial tradicional del distrito de Kulmbach de Alemania que se elabora congelando parcialmente un doppelbock y eliminando el hielo de agua para concentrar el sabor y el contenido de alcohol, que oscila entre el 9% y el 13% en volumen. - *Wikipedia*
 
 
 ## Referencias y enlaces

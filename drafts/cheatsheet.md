@@ -21,6 +21,7 @@ tags:
   - Reciclaje
   - Sensores
   - Sonido
+  - ESP8266
 ---
 
 Esta página no aparece en el menú de navegación porque no tiene definida la variable `public: true`.
@@ -187,6 +188,9 @@ El servidor se lanza con:
 
 See `tools/post_links.sh`.
 
+- [Electrónica y Ciencia - Proyectos a batería y cerveza fría]({{site.baseurl}}{% post_url 2021-10-24-bateria-cerveza-fria %})
+- [Electrónica y Ciencia - Primeras experiencias con Sipeed Tang Nano]({{site.baseurl}}{% post_url 2021-07-05-tang_nano_fpga %})
+- [Electrónica y Ciencia - Certificados criptográficos hechos a mano]({{site.baseurl}}{% post_url 2021-06-13-certificados-criptograficos %})
 - [Electrónica y Ciencia - Pirateando software Ninja]({{site.baseurl}}{% post_url 2021-05-25-pirateando-software-ninja %})
 - [Electrónica y Ciencia - Registrador de ruido ambiental]({{site.baseurl}}{% post_url 2021-05-03-registrador-ruido-ambiental %})
 - [Electrónica y Ciencia - Descifrando la configuración del Sagemcom F@ST 5657]({{site.baseurl}}{% post_url 2021-02-14-descifrar-configuracion-sagemcom-fast5657 %})
