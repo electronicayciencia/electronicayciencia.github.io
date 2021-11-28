@@ -11,7 +11,7 @@ tags:
   - FPGA
 ---
 
-¿Sabes cómo enviar imágenes a una pantalla? Este es el primero de varios artículos en los que vamos a explorar cómo gobernar un display LCD TFT a bajo nivel. Veremos cómo son las señales de control. Diseñaremos la lógica para generarlas en una FPGA [Tang Nano][Electrónica y Ciencia - Primeras experiencias con Sipeed Tang Nano] y mostraremos algunos patrones preconfigurados.
+¿Sabes cómo enviar imágenes a una pantalla? En este artículo vamos a explorar cómo gobernar un display LCD TFT a bajo nivel. Veremos cómo son las señales de control. Diseñaremos la lógica para generarlas en una FPGA [Tang Nano][Electrónica y Ciencia - Primeras experiencias con Sipeed Tang Nano] y mostraremos algunos patrones preconfigurados.
 
 ¿Conoces los vídeos de [Ben Eater - The world’s worst video card?] Yo quería probarlo pero no tengo paciencia para comprar los chips, preparar los cables, montar el circuito y todo eso. En su lugar usaré la Tang Nano. Una placa de desarrollo FPGA minimalista, muy sencilla y programable por USB. Precisamente viene preparada con un conector para LCD VGA estándar de 40 pines. Ya hablé de ella en [Electrónica y Ciencia - Primeras experiencias con Sipeed Tang Nano].
 
