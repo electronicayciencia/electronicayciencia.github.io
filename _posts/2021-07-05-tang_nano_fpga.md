@@ -9,6 +9,7 @@ tags:
   - Binario
   - Circuitos
   - Informática
+  - FPGA
 ---
 
 Déjame contarte mis primeras experiencias con una **FPGA**. Revisamos la placa de desarrollo **Tang Nano**. Con ejemplos básicos en Verilog y explicaciones -más allá de los primeros pasos- que me hubieran venido muy bien el primer día.

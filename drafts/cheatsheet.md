@@ -22,6 +22,7 @@ tags:
   - Sensores
   - Sonido
   - ESP8266
+  - FPGA
 ---
 
 Esta página no aparece en el menú de navegación porque no tiene definida la variable `public: true`.
@@ -119,6 +120,8 @@ Las imágenes no se amplian, o bien se reducen o se muestran a tamaño natural.
 En las etiquetas de las imágenes se puede usar markdown pero no se pueden usar variables, por tanto si hay que enlazar a un asset se debe poner la ruta entera.
 
 {% include image.html class="medium-width" file="a-cat.png" caption="Un gato. [Asset del post](/assets/drafts/cheatsheet/file1.txt) en el pie de foto." %}
+
+Search `\[foto:\s*(.*?)\s*\|\s*(.*?)\s*\]`, replace `{% include image.html file="\1" caption="\2" %}`.
 
 ### Vídeos
 
