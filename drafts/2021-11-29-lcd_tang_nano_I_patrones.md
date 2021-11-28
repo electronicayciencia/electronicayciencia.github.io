@@ -2,7 +2,7 @@
 title: Pantalla LCD con Tang Nano I. Patrones
 layout: post
 assets: /assets/2021/11/lcd_tang_nano_I_patrones/
-image: /assets/2021/11/lcd_tang_nano_I_patrones/img/pat_checkboard.jpg
+image: /assets/2021/11/lcd_tang_nano_I_patrones/img/pat_gradient.jpg
 featured: false
 description: Cómo gobernar una pantalla LCD con una FPGA Tang Nano. Generar la señales de tiempo y mostrar algún patrón en la pantalla.
 tags:
