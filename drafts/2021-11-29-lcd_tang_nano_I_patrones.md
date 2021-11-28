@@ -13,7 +13,7 @@ tags:
 
 ¿Sabes cómo enviar imágenes a una pantalla? Este es el primero de varios artículos en los que vamos a explorar cómo gobernar un display LCD TFT a bajo nivel. Veremos cómo son las señales de control. Diseñaremos la lógica para generarlas en una FPGA [Tang Nano][Electrónica y Ciencia - Primeras experiencias con Sipeed Tang Nano] y mostraremos algunos patrones preconfigurados.
 
-¿Has visto los vídeos de [Ben Eater - The world’s worst video card?] Yo quería probarlo pero no tengo paciencia para comprar los chips, preparar los cables, montar el circuito y todo eso. En su lugar usaré la Tang Nano. Una placa de desarrollo FPGA minimalista, muy sencilla y programable por USB. Precisamente viene preparada con un conector para LCD VGA estándar de 40 pines. Ya hablé de ella en [Electrónica y Ciencia - Primeras experiencias con Sipeed Tang Nano].
+¿Conoces los vídeos de [Ben Eater - The world’s worst video card?] Yo quería probarlo pero no tengo paciencia para comprar los chips, preparar los cables, montar el circuito y todo eso. En su lugar usaré la Tang Nano. Una placa de desarrollo FPGA minimalista, muy sencilla y programable por USB. Precisamente viene preparada con un conector para LCD VGA estándar de 40 pines. Ya hablé de ella en [Electrónica y Ciencia - Primeras experiencias con Sipeed Tang Nano].
 
 {% include image.html file="tang_nano.png" caption="Placa de desarrollo FPGA Tang Nano. Se aprecia el conector VGA de 40 patillas. Sipeed Studio." %}
 
@@ -34,13 +34,13 @@ De esos 40, sólo los siguientes van a ser importantes para nosotros y los que v
 - Las señales de sincronismo vertical y horizontal **VSYNC** y **HSYNC**.
 - La señal de *Data Enable* **DE**.
 
-En los de los colores fíjate que algunos están unidos entre sí. La pantalla soporta 8 bits por cada color. Lo cual daría una profundidad de 24 bits. *Color Verdadero* o "16M de colores".
+Fíjate que los colores tienen los bits menos significativos unidos entre sí. En principio la pantalla soportaría 8 bits por cada color. Es decir una profundidad de 24 bits. *Color Verdadero* o "16 millones de colores".
 
-Pero esta FPGA viene en un encapsulado QFN-48, o sea que tiene 48 patillas. Si destinas 24 para los colores ya has utilizado la mitad. Por esta razón han decidido **unir varios** entre sí y dejarlo en `5 + 6 + 5 = 16` bits de color.
+Pero esta FPGA viene en un encapsulado QFN48, o sea que sólo tiene 48 patillas. No merece la pena dedicar la mitad de ellas a los colores. Por esta razón han decidido **unir varios** entre sí y dejarlo en `5 + 6 + 5 = 16` bits de color.
 
-Lo de `5+6+5` no es arbitrario, es la manera estándar de expresar una profundidad de color de 16 bits. *Color de Alta Densidad*. Permite 65k colores distintos. Si bien unir los valores menos significativos entre sí es lo más sencillo, no es la forma correcta de hacerlo. Aunque eso no es lo importante ahora mismo.
+Lo de `5+6+5` no es arbitrario, es la manera estándar de expresar una profundidad de **color de 16 bits**. *Color de Alta Densidad*, lo llaman. Permitiría 65k colores distintos.
 
-Por ejemplo GIMP soporta exportar a 16 bit:
+Muchos programas de edición soportan el modo de color de 16 bit con esta misma representación. Por ejemplo GIMP.
 
 {% include image.html file="gimp_565.png" caption="Diálogo de exportación a BMP en GIMP. Soporta la codificación RGB565. EyC." %}
 
@@ -66,19 +66,17 @@ Horizontal back porch     | 2   | 2   | 41  | CLK
 
 Como ves, quitando el periodo horizontal (que coincide con el número de píxeles), el resto de tiempos no son críticos. Lo mismo da 2 que 40. A diferencia de los monitores CRT, que requerían unos parámetros exactos, las pantallas LCD son mucho más flexibles.
 
-El datasheet también indicará la polaridad del pulso. En mi caso es un pulso negativo. Es decir que la señal HSYNC será normalmente positiva, salvo en modo sincronización que tomará valor cero. 
-
-Una cosa así:
+El datasheet también indicará la polaridad del pulso. En mi caso es un pulso negativo. Es decir que la señal HSYNC será normalmente positiva, salvo durante el pulso que tomará valor cero. 
 
 {% include image.html file="hsync_ena.svg" caption="Diagrama de las señales HSYNC y DE. El LCD responde al flanco de bajada del reloj. EyC." %} 
 
-Cada línea incluye 2 pulsos de *front porch*, 41 de sincronía, otros 2 de *back porch* más los 480 para los 480 píxeles horizontales. En total son **525 pulsos de reloj**.
+Cada línea incluye un de *front porch* que dura 2 tics de reloj, 41 de sincronía, otros 2 de *back porch* más los 480 para los 480 píxeles horizontales. En total son **525 pulsos de reloj**.
 
-La señal **Data Enable** (DE) sirve para indicar cuándo ha terminado el margen y comenzamos a mandar datos de la imagen.
+La señal **Data Enable** (DE) sirve para indicar cuándo damos por terminado el *porch* y comenzamos a mandar datos útiles.
 
-El **refresco vertical** tiene la misma forma que el horizontal. Con la diferencia de que el tiempo ya no se mide en pixeles de reloj sino en líneas horizontales (H).
+El **refresco vertical** tiene la misma forma que el horizontal. Con la diferencia de que el tiempo ya no se mide en tics de reloj sino en líneas horizontales (H).
 
-Así, el datasheet indica los márgenes y la duración recomendada del pulso:
+El datasheet indica los márgenes y la duración recomendada de la señal de refresco:
 
 Description             | Min | Typ | Max | Unit
 -----------------------:|----:|----:|----:|----:
@@ -87,7 +85,7 @@ Vertical front porch    |   1 |   2 | 227 | H
 Vertical pulse width    |   1 |  10 |  11 | H
 Vertical back porch     |   1 |   2 |  11 | H
 
-La señal **VSYNC** tiene esta forma:
+Tendrá esta forma:
 
 {% include image.html file="vsync_logic.svg" caption="Señales de sincronismo vistas en el analizador lógico. EyC." %}
 
@@ -104,7 +102,7 @@ LCD clock cycle         | -   |   9 |  15 | MHz
 
 La frecuencia máxima de refresco sería de unos 100Hz. En teoría no hay frecuencia mínima. Aunque en la práctica sí.
 
-Al contrario de -por ejemplo- el papel electrónico, el TFT es una tecnología de **matriz activa**. Eso quiere decir que la polarización necesita un refresco periódico. Sin él va perdiendo fuerza y se desactiva. En esta tecnología los píxeles en reposo son transparentes. Por eso un píxel *muerto* no es un pixel que no luce, sino uno que no se apaga.
+Al contrario de -por ejemplo- el papel electrónico, el TFT es una tecnología de **matriz activa**. Eso quiere decir que la polarización necesita un refresco periódico. Sin él va perdiendo fuerza y se desactiva. En esta tecnología los píxeles en reposo son transparentes. Por eso un píxel *muerto* no es aquel que no luce, sino uno que no se apaga.
 
 
 ## Esquema general
@@ -113,17 +111,17 @@ Este es el esquema que vamos a seguir para generar las señales de control:
 
 {% include image.html file="h-v-modules.svg" caption="Esquema para generar las señales de control. EyC." %}
 
-Todo el diseño va a ser síncrono. Usaremos el cuarzo de 24MHz integrado en la placa y con el PLL generaremos la frecuencia necesaria.
+Usaremos el cuarzo de 24MHz integrado en la placa. Generaremos la frecuencia necesaria con ayuda del PLL que integra la FPGA.
 
-En esencia tenemos **dos contadores**, uno horizontal y otro vertical. El horizontal contará impulsos del reloj de la LCD. Mientras que el vertical contará impulsos del horizontal (líneas).
+El resto son **dos contadores**, uno horizontal y otro vertical. El horizontal cuenta pulsos de reloj de la LCD. 
 
-Atención, porque eso es una **mala práctica**. 
+El vertical contará líneas horizontales. Y, atención, porque eso es una **mala práctica** que va a traer consecuencias.
 
-*Primero* porque las líneas de reloj en las FPGA están optimizadas para minimizar los retardos de propagación. Aquí forzamos al chip a usar una línea normal como reloj de ese contador, en lugar de una línea optimizada de baja latencia. Pero como la frecuencia es muy baja no nos afecta.
+***Primero*** porque las líneas de reloj en las FPGA están optimizadas para minimizar los retardos de propagación. Aquí forzamos al chip a usar una línea normal como reloj de ese contador, en lugar de una línea optimizada de baja latencia. Pero como la frecuencia es muy baja no nos afecta.
 
-*Segundo* porque no va en fase con el reloj principal, mayor o menor siempre habrá un retardo (*clock skew*). No nos afecta tampoco.
+***Segundo*** porque no va en fase con el reloj principal, mayor o menor siempre habrá un retardo (*clock skew*). No nos afecta tampoco.
 
-Y *tercero*, y este sí que nos afecta, porque la salida de HSYNC podría no ser limpia. Como veremos a continuación.
+Y ***tercero*** -y este sí que nos afecta-, porque la salida de HSYNC podría no ser limpia. Como veremos a continuación.
 
 
 ## Refresco horizontal
