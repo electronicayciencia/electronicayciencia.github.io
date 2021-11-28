@@ -21,7 +21,7 @@ tags:
 
 Esta es mi pantalla:
 
-{% include image.html file="lcd_tft_4.3_480x272.jpg" caption="Pantalla LCD TFT 4.3 480x272. Aliexpress." %}
+{% include image.html class="medium-width" file="lcd_tft_4.3_480x272.jpg" caption="Pantalla LCD TFT 4.3 480x272. Aliexpress." %}
 
 Tiene 4.3", una resolución de 480x272 píxeles y un conector estándar VGA de 40 pines que encaja con el de la placa.
 
@@ -96,7 +96,7 @@ Para conseguir un refresco de **60Hz** (60 *frames* por segundo), nuestra señal
 Y, de hecho, eso es precisamente lo que recomienda el *datasheet*:
 
 Description             | Min | Typ | Max | Unit
-------------------------|-----|-----|-----|-----
+-----------------------:|----:|----:|----:|----:
 LCD clock cycle         | -   |   9 |  15 | MHz
 
 
