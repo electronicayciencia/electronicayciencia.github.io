@@ -1,5 +1,5 @@
 ---
-title: Pantalla LCD con Tang Nano parte I: Patrones
+title: Pantalla LCD con Tang Nano I. Patrones
 layout: post
 assets: /assets/2021/11/lcd_tang_nano_I_patrones/
 image: /assets/2021/11/lcd_tang_nano_I_patrones/img/pat_checkboard.jpg
@@ -15,15 +15,13 @@ tags:
 
 ¿Has visto los vídeos de [Ben Eater - The world’s worst video card?] Yo quería probarlo pero no tengo paciencia para comprar los chips, preparar los cables, montar el circuito y todo eso. En su lugar usaré la Tang Nano. Una placa de desarrollo FPGA minimalista, muy sencilla y programable por USB. Precisamente viene preparada con un conector para LCD VGA estándar de 40 pines. Ya hablé de ella en [Electrónica y Ciencia - Primeras experiencias con Sipeed Tang Nano].
 
-{% include image.html file="1" caption="2" %}
-
 {% include image.html file="tang_nano.png" caption="Placa de desarrollo FPGA Tang Nano. Se aprecia el conector VGA de 40 patillas. Sipeed Studio." %}
 
 ## El conector de 40 patillas
 
 Esta es mi pantalla:
 
-{% include image.html file="lcd_tft_4.3_480x272.jpg" caption="Pantalla LCD TFT 4.3" 480x272. Aliexpress." %}
+{% include image.html file="lcd_tft_4.3_480x272.jpg" caption="Pantalla LCD TFT 4.3 480x272. Aliexpress." %}
 
 Tiene 4.3", una resolución de 480x272 píxeles y un conector estándar VGA de 40 pines que encaja con el de la placa.
 
