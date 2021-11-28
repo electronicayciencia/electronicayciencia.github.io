@@ -4,7 +4,7 @@ layout: post
 assets: /assets/2021/11/lcd_tang_nano_I_patrones/
 image: /assets/2021/11/lcd_tang_nano_I_patrones/img/pat_gradient.jpg
 featured: false
-description: Cómo gobernar una pantalla LCD con una FPGA Tang Nano. Generar la señales de tiempo y mostrar algún patrón en la pantalla.
+description: Cómo gobernar una pantalla LCD con una FPGA Tang Nano. Generar las señales de tiempo y mostrar patrones preconfigurados.
 tags:
   - Circuitos
   - Informática
@@ -459,7 +459,7 @@ assign B = x[8:4] & { 5 {y[5]} };
 
 Hemos visto las señales de control adecuadas para manejar un display LCD. Hemos propuesto una forma de generarlas. Hemos corregido los fallos más habituales. Hemos visto cómo instanciar un módulo IP para PLL. Lo hemos probado mostrando varios patrones previamente configurados en el hardware.
 
-En el próximo artículo veremos cómo hacer aparecer una imagen cargada en la memoria.
+En el próximo artículo veremos cómo hacer aparecer una imagen previamente cargada en la memoria.
 
 Os dejo el código del proyecto en [GitHub electronicayciencia/verilog-vga].
 
