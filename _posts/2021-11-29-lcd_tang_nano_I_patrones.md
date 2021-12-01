@@ -300,7 +300,7 @@ Usaremos un módulo IP de PLL. IP significa *Intellectual Property*. Son módulo
 
 Hay módulos *hardware* que sirven para hacer uso de hardware específico dentro del dispositivo. Como este del PLL, RAM, ROM, DSP, etc. Y los hay *software* que sirven para implementar un bloque a partir del hardware disponible. Como una UART, un puerto I2C, hasta una CPU completa.
 
-{% include image.html file="gowinip.png" caption="Colección de módulos IP proporcionados por el fabrifante. EyC." %}
+{% include image.html file="gowinip.png" caption="Colección de módulos IP proporcionados por el fabricante. EyC." %}
 
 
 Si quieres saber cómo actúa un PLL para generar una frecuencia partiendo de otra, lo tienes en [Electrónica y Ciencia - Sintetizador de frecuencias digital con PLL].
