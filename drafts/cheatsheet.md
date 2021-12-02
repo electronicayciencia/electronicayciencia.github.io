@@ -191,6 +191,7 @@ El servidor se lanza con:
 
 See `tools/post_links.sh`.
 
+- [Electrónica y Ciencia - Pantalla LCD con Tang Nano I. Patrones]({{site.baseurl}}{% post_url 2021-11-29-lcd_tang_nano_I_patrones %})
 - [Electrónica y Ciencia - Proyectos a batería y cerveza fría]({{site.baseurl}}{% post_url 2021-10-24-bateria-cerveza-fria %})
 - [Electrónica y Ciencia - Primeras experiencias con Sipeed Tang Nano]({{site.baseurl}}{% post_url 2021-07-05-tang_nano_fpga %})
 - [Electrónica y Ciencia - Certificados criptográficos hechos a mano]({{site.baseurl}}{% post_url 2021-06-13-certificados-criptograficos %})
