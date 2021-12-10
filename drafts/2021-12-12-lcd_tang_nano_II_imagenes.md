@@ -365,25 +365,25 @@ El resultado es ruido blanco, *estática*, o nieve:
 
 ## Cuatro colores, CGA
 
-Pasemos del modo monocromático al color.
+Modo monocromático superado.
 
-Vamos a reducir la resolución vertical, al igual que hicimos con la horizontal. En vez de 256 la dejaremos en 128. Ya sólo necesitaremos 7 bits para direccionarla.
-
-Lo cual nos dará un bit más para el color.
+Vamos a ganar un bit para el color robándoselo a la resolución. Antes habíamos reducido la horizontal, ahora reeduzcamos la vertical. En vez de 256 la dejaremos en 128. Ya sólo necesitaremos 7 bits para direccionarla y con el bit extra elegiremos el color.
 
 [foto: mem15lines-4c.svg]
 
-Tener 2 bit de color significa que podemos mostrar 4 colores distintos. Antes sólo había dos posibilidades: pixel encendido o píxel apagado. Pero ahora un píxel puede tomar 4 valores.
+Con 2 bits de color podemos elegir entre **cuatro colores** distintos.
 
-Necesitamos un bloque para traducir los valores 0, 1, 2 y 3 a colores (valores en RGB565). Ese bloque irá conectado entre la salida de la ROM y la entrada de la pantalla.
+Antes sólo había dos posibilidades: pixel encendido o píxel apagado. Por eso conectábamos la salida de la ROM directamente al LCD. Pero ahora un píxel puede tomar 4 valores.
 
-[foto: h-v-rom-cga.svg]
+Necesitamos un bloque conectado entre la salida de la ROM y la entrada de la pantalla que traduzca los valores 0, 1, 2 y 3 a colores (valores en RGB565).
 
-Vamos a imitar la paleta de colores CGA. CGA fue la primera tarjeta gráfica a color que salió para el mercado de ordenadores domésticos, en 1981. 
+[foto: h-v-rom-cga.svg | Diagrama de bloques para cuatro colores, con dos paletas alternativas. EyC. ]
 
-Tenía dos paletas principales:
+La tarjeta gráfica CGA salió al mercado en 1981 y fue la primera a color que se hizo popular en el mercado de ordenadores domésticos.
 
-En la primera decidieron **eliminar el color azul**. Dejando sólo dos colores básicos (rojo y verde) es fácil mapearlo a las 4 opciones binarias.
+En algunos modos gráficos sólo contaba con 4 colores, como nosotros. Tenía dos paletas principales:
+
+En la primera decidieron **eliminar el azul**. Si dejas sólo colores básicos (rojo y verde) es fácil hacer la traducción a las 4 opciones binarias.
 
 Num  |                                     Color      | Rojo | Verde | Azul 
 ----:|------------------------------------------------|:----:|:-----:|:----:
@@ -393,11 +393,19 @@ Num  |                                     Color      | Rojo | Verde | Azul
  3   | <span style="color:#ffff00;">█</span> Amarillo |   X  |   X   |      
 
 
-Implementamos la lógica. Componemos una imagen de prueba y este es el resultado: 
+Implementamos la lógica. 
 
-[foto: 4c_palette0.jpg]
+```verilog
+assign r = color[0];
+assign g = color[1];
+assign b = 0;
+```
 
-La paleta alternativa de CGA es igual pero **añadiendo azul**.
+Componemos una imagen de prueba y este es el resultado: 
+
+[foto: 4c_palette0.jpg | Imagen de prueba a 4 colores. Paleta 1. EyC.]
+
+La paleta alternativa de CGA era igual pero **añadiendo azul**.
 
 Num  |                                     Color      | Rojo | Verde | Azul 
 ----:|------------------------------------------------|:----:|:-----:|:----:
@@ -406,45 +414,68 @@ Num  |                                     Color      | Rojo | Verde | Azul
  2   | <span style="color:#ff00ff;">█</span> Magenta  |   X  |       |  X   
  3   | <span style="color:#ffffff;">█</span> Blanco   |   X  |   X   |  X   
 
+En nuestro módulo hemos previsto una entrada con uno de los pulsadores para seleccionar la paleta alternativa. 
 
-En el módulo hemos previsto una entrada con uno de los pulsadores para seleccionar la paleta alternativa. Si lo presionamos, la imagen cambia a:
+```verilog
+assign r = color[0];
+assign g = color[1];
+assign b = |color;
+```
 
-[foto: 4c_palette1.jpg]
+Si lo presionamos, la imagen cambia a:
+
+[foto: 4c_palette1.jpg | Imagen de prueba a 4 colores. Paleta 2. EyC.]
 
 
 ## Color de 16 bits
 
-Se llama **framebuffer** al espacio de memoria que contiene una copia de la imagen, la cual se mapea tal cual bit a bit en la pantalla.
+Si quisiéramos hacer en 16 bits de color lo mismo que hemos hecho para 1 y 2 bits, con la memoria que tenemos habría que **rebajar la resolución** hasta los **60x64 píxeles**.
 
-Si quisiéramos hacer en 16 bits de color lo mismo que hemos hecho para 1 bit y 2 bits, tendríamos que rebajar la resolución hasta los 60x64 píxeles.
+En lugar de eso vamos a cambiar de táctica. 
 
-Afortunadamente, hay medios de componer una imagen alternativos al *framebuffer*: texturas y sprites. De hecho, es lo que se usaba hasta que la memoria RAM se volvió asequible.
+Se llama **framebuffer** al espacio de memoria que contiene una copia de la imagen, la cual se mapea tal cual bit a bit en la pantalla. Para hacerlo ya hemos visto que se requiere gran cantidad de RAM.
 
-Como ejemplo en este apartado vamos a hacer un **contador LED virtual**. Este es el resultado:
+Hace tiempo que la RAM es muy asequible, pero no siempre fue así. Los juegos antiguos se las apañaban para mostrar imágenes teniendo una memoria muy inferior a la necesaria.
 
-[foto: led_counter.gif]
+Claro esta, usaban métodos alternativos al *framebuffer*, principalmente **texturas** y **sprites**.
 
-Veamos cómo hacerlo.
+En este contexto, llamamos *textura* a una **imagen de pequeño tamaño** (8x8, 16x16 o 32x32 píxeles). Es posible rellenar toda la pantalla a base de repetir varias de estas imágenes.
 
-Nuestra FPGA tiene 64k distribuidos en 4 bloques de 16k cada uno. Lo cual significa que podemos guardar 4 imágenes distintas de 32x32 a 16 bit de color. `32 x 32 = 1024` y `1024 x 16 = 16k`.
+Un **sprite** es otra imagen también de pequeño tamaño pero que es móvil y se superpone a la textura que sería el fondo.
 
-Las dos primeras imágenes serán de un led encendido y apagado:
+Mira esta imagen de **Final Fantasy**. He delimitado las texturas con una línea para distinguirlas más claramente.
 
-[foto: leds.png | small]
+[foto: ff_tile.png | Imagen de Final Fantasy mostrando las texturas. EyC.]
 
-Cuando quiera que el LED aparezca encendido, utilizaré la ROM donde tengo la imagen con el LED encendido. Si quiero que salga apagado, usaré la otra.
+En la imagen hay 16 texturas diferentes y dos *sprites*. Cada textura tiene 16x16 píxeles y 16 colores (4 bits). O sea que la imagen completa puede rellenarse con 1Kb de memoria.
 
-Para las dos imágenes restantes he buscado **texturas enlosables** que sirvan de decoración de fondo. Enlosable, repetible o *tileable* significa que puedes repetirla una al lado de otra y no se nota el corte.
+La técnica se puede **extender** de varias formas por ejemplo girando o volteando las texturas para aparentar más de las que realmente son.
+
+En este apartado vamos implementar un **contador LED virtual**. Para ello usaremos **4 texturas** de 32x32 píxeles con una profundidad de color de 16 bits (65536 colores).
+
+Guardaremos cada textura en un banco de memoria. Teníamos 4 bancos, 4 texturas.
+
+Las dos primeras imágenes serán de un led encendido y apagado (reducidas hasta medir 32x32, por supuesto):
+
+[foto: leds.png | Dos de las texturas serán un LED encendido y apagado. EyC.]
+
+Para las otras dos imágenes he buscado **texturas enlosables** que sirvan de decoración de fondo. Enlosable, repetible o *tileable* significa que puedes repetirla una al lado de otra sin que se note el corte.
 
 Voy a escoger un par de texturas de, por ejemplo, **Minecraft**. Digamos *Stone Brick* y *Mossy Cobblestone*.
 
-Ahora sólo es cuestión de rellenar la pantalla a base de cuadrados de 32x32.
+[foto: minecraft_texture.png | Texturas de relleno. A la izquierda *Stone Brick* y a la derecha *Mossy Cobblestone*. Minecraft Resource Pack.]
 
-Lo siguiente es un paso crucial, sobre todo para el artículo siguiente, cuando hablemos del **texto**.
+Lo siguiente es un paso crucial, y será muy importante para el próximo artículo, cuando hablemos del **texto**.
 
-A cada cuadrado de 32x32 le llamaremos una **celda**. Dividiremos las coordenadas X e Y en dos partes. Los 5 bits menos significativos `x[4:0]` o `y[4:0]` señalan posiciones dentro de la celda. Mientras los otros bits `x[8:5]` e `y[8:5]` señalan líneas o columnas completas.
+A cada cuadrado de 32x32 le llamaremos una **celda**.
 
-Con la posición **intra-celda** barremos la imagen de 32x32 dentro de memoria ROM. Y con la posición **extra-celda** sabremos cuál de las imágenes corresponde.
+La pantalla ahora no tiene -para nosotros- 480x272 píxeles. Como la vamos a rellenar con **celdas** cuadradas de 32x32 es más cómodo pensar en términos de celdas: 30 de ancho por 8.5 de alto.
+
+Dividiremos las coordenadas X e Y en **dos partes**. Los 5 bits menos significativos `x[4:0]` o `y[4:0]` (valores del 0 al 31) señalan posiciones **dentro de la celda**. Mientras los otros bits `x[8:5]` e `y[8:5]` (múltiplos de 32) señalan **líneas o columnas** completas.
+
+Con la posición **intra-celda** barremos la imagen de 32x32 dentro de memoria ROM.
+
+Y con la posición **extra-celda** sabremos cuál de las ROMs tenemos que enviar a la pantalla.
 
 ```verilog
 // work with 32x32 blocks (cells)
@@ -454,7 +485,17 @@ wire [3:0] y = i_y[8:5];
 wire [9:0] rom_addr = {i_y[4:0], i_x[4:0]}; // 32x32=1024
 ```
 
-Después sólo es cuestión de elegir qué bloque pintamos en función de si es el fondo, fondo alternativo, un led encendido o un led apagado.
+Cargamos los **cuatro módulos IP BRAM** para los cuatro bancos de memoria. Cada uno de los cuales lo inicializamos con una de las texturas.
+
+[foto: minecraft_leds.png | Esquema de la pantalla rellena con texturas. EyC. ]
+
+Quiero construir la siguiente pantalla:
+
+- De fondo, la textura *Mossy Coblestone*. 
+- Salvo las filas 2, 3 y 4 donde pondré *Stone Brick*. 
+- En la fila 3 pondré LEDs, menos en la primera y última columnas.
+
+Es cuestión de escoger la textura precisa según las coordenadas extra-celda. Cuando quiera que el **LED aparezca encendido**, tomaré la salida de la ROM donde tengo la imagen con el LED encendido (`rom_on_out`). Si quiero que salga apagado, usaré la otra (`rom_off_out`).
 
 ```verilog
 always @(*) begin
@@ -474,35 +515,32 @@ always @(*) begin
 end
 ```
 
+Variando el registro `status` se selecciona una textura u otra para cada LED.
 
-Esta técnica se puede extender de varias formas:
-
-- girando o volteando las texturas aparenta más de las que realmente son.
-- Si reducimos a 16x16, podemos almacenar cuatro veces más, 16 texturas a 16 bits de color.
-- Si aún no hay bastante memoria se puede reducir el número de colores a 8 bit (256 colores) o incluso a 4 bits (16 colores). El **texto**, de hecho, no es más que cuadrados de 8x8 con la imagen monocromática de un símbolo.
-
-La siguiente imagen de Final Fantasy está compuesta por 16 texturas y dos *sprites*. Las texturas son de 16x16 a 16 colores (1024 bits).
-
-[foto: ff_tile.png]
+[foto: led_counter.gif | Contador LED virtual. EyC. ]
 
 
 ## Conclusión
 
-En este artículo hemos visto como proyectar imágenes en una pantalla LCD. 
+En este artículo hemos visto como **proyectar imágenes** en una pantalla LCD.
 
-Teniendo en cuenta las limitaciones de memoria hemos determinado los modos gráficos disponibles.
+Primero, hemos determinado los **modos gráficos** disponibles habida cuenta de las limitaciones de memoria.
 
-Hemos aprendido a usar un bloque IP BRAM en modo ROM, lo hemos inicializado con una imagen de prueba monocromática y la hemos mostrado por pantalla. Hemos corregido los defectos reduciendo la resolución, retrasando otras señales y ocultando partes de la imagen.
+Hemos aprendido a usar un **bloque IP** BRAM en modo **ROM**, lo hemos inicializado con una imagen de prueba monocromática y la hemos mostrado por pantalla. Hemos corregido los defectos reduciendo la resolución, **retrasando** otras señales y ocultando partes de la imagen.
 
-Después hemos aprendido a usar un módulo IP BRAM en modo *Semi Dual Port*. Hemos rellenado la memoria con bits aleatorios para proyectar ruido blanco.
+Después hemos aprendido a usar un módulo IP BRAM en modo ***Semi Dual Port***. Hemos rellenado la memoria con bits aleatorios para proyectar **ruido blanco**.
 
-Hemos imitado una tarjeta gráfica CGA mostrando una imagen en 4 colores, con dos paletas gráficas.
+Hemos imitado una tarjeta gráfica CGA mostrando una imagen en **4 colores**, con dos paletas gráficas.
 
-Para componer una imagen a color de 16 bits hemos rellenado la pantalla usando 4 texturas de 32x32. Aplicándolo a un contador LED virtual.
-
-En el próximo artículo, veremos técnicas para mostrar texto.
+Hemos combinado 4 **texturas** de 32x32 para componer una imagen a color de 16 bits reduciendo el uso de memoria.
 
 ## Enlaces para profundizar
+
+
+- [Electrónica y Ciencia - Pantalla LCD con Tang Nano I. Patrones]({{site.baseurl}}{% post_url 2021-11-29-lcd_tang_nano_I_patrones %})
+- [GitHub electronicayciencia/verilog-vga/2-image]: https://github.com/electronicayciencia/verilog-vga/tree/master/2-image
+
+- [The 8-Bit Guy - CGA Graphics - Not as bad as you thought!]: https://www.youtube.com/watch?v=niKblgZupOc
 
 
 
@@ -511,10 +549,9 @@ En el próximo artículo, veremos técnicas para mostrar texto.
 
 
 [Electrónica y Ciencia - Pantalla LCD con Tang Nano I. Patrones]({{site.baseurl}}{% post_url 2021-11-29-lcd_tang_nano_I_patrones %})
-[The 8-Bit Guy - CGA Graphics - Not as bad as you thought!]: https://www.youtube.com/watch?v=niKblgZupOc
-
 [GitHub electronicayciencia/verilog-vga]: https://github.com/electronicayciencia/verilog-vga
 [GitHub electronicayciencia/verilog-vga/2-image]: https://github.com/electronicayciencia/verilog-vga/tree/master/2-image
 
+[The 8-Bit Guy - CGA Graphics - Not as bad as you thought!]: https://www.youtube.com/watch?v=niKblgZupOc
 
 
