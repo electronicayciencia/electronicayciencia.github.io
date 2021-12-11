@@ -1,10 +1,10 @@
 ---
-title: Pantalla LCD con Tang Nano parte II. Imágenes
+title: Gráficos VGA con FPGA Tang Nano parte II. Imágenes
 layout: post
 assets: /assets/2021/12/lcd_tang_nano_II_imagenes/
 image: /assets/2021/12/lcd_tang_nano_II_imagenes/img/static.gif
 featured: false
-description: Ejemplo de controlador VGA para FPGA. Mostrar imágenes monocromáticas, ruido blanco, color CGA, texturas y sprites.
+description: Ejemplo de controlador VGA para FPGA. Mostrar imágenes monocromáticas, ruido blanco, color CGA, o texturas.
 tags:
   - Informática
   - FPGA
