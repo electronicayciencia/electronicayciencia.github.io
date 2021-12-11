@@ -4,30 +4,13 @@ layout: post
 assets: /assets/2021/12/lcd_tang_nano_II_imagenes/
 image: /assets/2021/12/lcd_tang_nano_II_imagenes/img/static.gif
 featured: false
-description: Ejemplo de controlador VGA para FPGA GW1N con Tang Nano. Mostrar imágenes desde la memoria.
+description: Ejemplo de controlador VGA para FPGA. Mostrar imágenes monocromáticas, ruido blanco, color CGA, texturas y sprites.
 tags:
   - Informática
   - FPGA
 ---
 
-
-En el artículo anterior [Pantalla LCD con Tang Nano I. Patrones][Electrónica y Ciencia - Pantalla LCD con Tang Nano I. Patrones]) vimos las señales básicas para controlar una pantalla LCD TFT y cómo mostrar algunos patrones. En este artículo vamos a ver cómo proyectar en la pantalla una imagen contenida en la memoria principal.
-
-La pantalla es de 4.3" con una resolución de 480x272 píxeles.
-
-Partimos del esquema anterior.
-
-[foto: h-v-pattern.svg | Diagrama de bloques capaz de mostrar patrones en la pantalla. EyC. ]
-
-Resumido rápidamente. Tenemos un **oscilador externo** de 24MHz. Lo hacemos pasar por el **PLL** que integra el chip. Con esta frecuencia *movemos* el **contador H**, con el cual generamos los pulsos de **sincronismo horizontal** y también la coordenada X.
-
-Usamos los pulsos de sincronismo horizontal para mover el segundo **contador V**. Con él generaremos la **señal vertical** y la coordenada Y.
-
-Por último teníamos un circuito lógico (llamado **color** en el diagrama) que asignaba el valor de cada color en función de las coordenadas X e Y. Sin embargo, este último bloque es rígido. Con él podemos mostrar sólo lo que viene programado. 
-
-Nuestra intención es reemplazarlo por una memoria, en este caso una **memoria ROM**.
-
-De esta forma haremos el circuito más flexible. Pues podremos mostrar imágenes diferentes con el mismo hardware, simplemente variando el contenido de la memoria.
+Este artículo es continuación de [Pantalla LCD con Tang Nano parte I. Patrones][Electrónica y Ciencia - Pantalla LCD con Tang Nano I. Patrones]. En él construimos un sencillo controlador VGA capaz de mostrar patrones básicos en una pantalla LCD. En esta segunda parte vamos a centrarnos en dibujar imágenes. Monocromáticas, ruido blanco, a color CGA, o con texturas y sprites.
 
 El código lo tenéis en [GitHub electronicayciencia/verilog-vga/2-image]. Se divide en 4 proyectos que iremos viendo a los largo del artículo.
 
@@ -36,22 +19,40 @@ El código lo tenéis en [GitHub electronicayciencia/verilog-vga/2-image]. Se di
 - **Image 4c**: Ampliamos a 2 bits de color e imitamos la paleta gráfica de una antigua tarjeta de video CGA.
 - **Led counter**: Generamos una imagen de 16 bits de color utilizando texturas. Haremos un contador LED virtual.
 
+## Resumen del artículo anterior
+
+Tenemos una pantalla es de 4.3" con una resolución de 480x272 píxeles.
+
+En [Pantalla LCD con Tang Nano parte I. Patrones][Electrónica y Ciencia - Pantalla LCD con Tang Nano I. Patrones] habíamos llegado a este esquema:
+
+{% include image.html file="h-v-pattern.svg" caption="Diagrama de bloques capaz de mostrar patrones en la pantalla. EyC." %}
+
+Resumido rápidamente. Tenemos un **oscilador externo** de 24MHz. Lo hacemos pasar por el **PLL** que integra el chip. Con esta frecuencia *movemos* el **contador H**, con el cual generamos los pulsos de **sincronismo horizontal** y también la coordenada X.
+
+Usamos los pulsos de sincronismo horizontal para mover el segundo **contador V**. Con él generaremos la **señal vertical** y la coordenada Y.
+
+Por último, teníamos un circuito lógico (llamado **color** en el diagrama) que asignaba el valor de cada color en función de las coordenadas X e Y. 
+
+No obstante, este bloque es rígido. Con él podemos mostrar sólo lo que viene programado. Nuestra intención es reemplazarlo por una memoria, en este caso una **memoria ROM**.
+
+De esta forma haremos el circuito más flexible. Pues podremos mostrar imágenes diferentes con el mismo hardware, simplemente variando el contenido de la memoria.
+
 
 ## Memoria y modos gráficos
 
-Como hemos anticipado, vamos a usar la **memoria RAM** interna de la propia FPGA. Primero configurada en modo **solo lectura** por facilidad.
+Tal como hemos dicho antes, vamos a usar la **memoria RAM** interna de la propia FPGA. Primero configurada en modo **solo lectura** por facilidad.
 
 Imagínate la memoria como un contenedor con casillas de información. Pueden ser casillas de 1 bit, de 2 bits, de 32 bits, 64 bits, etc. Eso se llama *data width*, (ancho de datos).
 
 Una memoria ROM paralela es simple de usar: tiene un **bus de direcciones** y un **bus de datos**. En el bus de direcciones se pone dónde está el dato que queremos traer, y este aparece por el bus de datos. Ya está.
 
-[foto: mem16lines.svg]
+{% include image.html file="mem16lines.svg" caption="Representación de una memoria con 16 bits de dirección y 1 bit de datos. EyC." %}
 
 En la GW1N sólo hay 72kb (kilo**bits**) de memoria RAM/ROM. Se queda **muy corta** a la hora de mostrar imágenes en una pantalla de 4.3" -como veremos luego-.
 
 Además existen otras restricciones:
 
-- Puedes acceder a 65536 de esas casillas. Porque el ancho del bus de direcciones (*address depth*) es 16 bits.
+- Puedes acceder, como mucho, a 65536 de esas casillas. Porque el ancho del bus de direcciones (*address depth*) es 16 bits.
 - El ancho máximo de datos es 144 bits. No nos importa porque en este artículo vamos a usar 1, 2 y 16 bits.
 - El número máximo de bits (*address depth* por *data width* por no puede ser mayor que 73728).
 
@@ -59,7 +60,7 @@ Para abreviar, de esos 72kb tenemos **64k útiles**.
 
 Hemos dicho que hay 16 líneas de dirección. Así que asignaremos 8 líneas para las filas y otras 8 para las columnas. La idea es poner la coordenada Y en los 8 bits más significativos de la dirección y la coordenada X en los otros 8. Por el bus de salida tendremos un bit, 1 o 0 en función de si el píxel está encendido o apagado.
 
-[foto: mem16lines-lines-cols.svg]
+{% include image.html file="mem16lines-lines-cols.svg" caption="Destinar 8 bits a las filas y otros 8 a las columnas permite una resolución de 256x256 con 1 bit de color. EyC." %}
 
 La pantalla es de 480x272 pero con 8 bits sólo podemos manejar hasta 256x256. 
 
@@ -69,7 +70,7 @@ Si queremos tener algún color debemos agrupar las casillas y que ya no sean de 
 
 Con la mitad de casillas ya no disponemos de 16 bits en la dirección sino de 15. Luego ya no nos sirve lo de asociar 8 y 8 como antes.
 
-[foto: mem15lines-4c.svg]
+{% include image.html file="mem15lines-4c.svg" caption="A costa de reducir la resolución liberamos un bit más para el color. EyC." %}
 
 Dicho de otra forma, aumentar el número de colores supone reducir alguna de las dimensiones, o sacrificar la resolución. En este modo tendríamos una resolución de 256x128. Pero una salida de 2 bits. O sea **4 colores** distintos.
 
@@ -93,7 +94,7 @@ Empezamos por el modo 1. Monocromático y con la dimensión horizontal reducida.
 
 El diagrama de bloques sería así. Sustituyendo el bloque que controla los colores por la ROM:
 
-[foto: h-v-rom-mono.svg | Diagrama de bloques monocromático (defectuoso). EyC.]
+{% include image.html file="h-v-rom-mono.svg" caption="Diagrama de bloques monocromático (defectuoso). EyC." %}
 
 Tal como habíamos adelantado, los 8 bits menos significativos del bus de direcciones de la ROM corresponden a los 8 bits menos significativos de la coordenada X. Y los siguientes 8 bits hasta completar los 16, corresponden a la Y.
 
@@ -127,13 +128,13 @@ assign LCD_B = {5{rom_out}};
 
 Lo probaremos con una imagen de pruebas monocromática de 240x256. no es nada más que un texto con un marco alrededor. Tal como dijimos en el artículo anterior con los patrones, el **marco** es importante para comprobar el **timing**.
 
-[foto: test_240x256x1.png | Imagen de prueba monocromática de 240x256 píxeles. EyC.]
+{% include image.html file="test_240x256x1.png" caption="Imagen de prueba monocromática de 240x256 píxeles. EyC." %}
 
 He generado un fichero de inicialización para cargar la ROM con un programa Python que también os dejo en GitHub.
 
 Sintetizamos, lo cargamos en la FPGA y el resultado es este:
 
-[foto: mono_doble_bottom_time.jpg | Imagen monocromática defectuosa. EyC.]
+{% include image.html file="mono_doble_bottom_time.jpg" caption="Imagen monocromática defectuosa. EyC." %}
 
 No esta mal, se ve la imagen pero tiene **tres defectos**:
 
@@ -146,7 +147,7 @@ No esta mal, se ve la imagen pero tiene **tres defectos**:
 
 Empecemos por el descuadre. Afecta a todo el lateral izquierdo. Es como si la imagen estuviera desplazada hacia la derecha.
 
-[foto: mono_time_detalle.jpg | La imagen aparece desplazada hacia la derecha. Detalle del margen izquierdo. EyC.]
+{% include image.html file="mono_time_detalle.jpg" caption="La imagen aparece desplazada hacia la derecha. Detalle del margen izquierdo. EyC." %}
 
 Se debe a que la memoria ROM es **síncrona**. 
 
@@ -156,7 +157,7 @@ Pero nuestra ROM no funciona así. La dirección sólo surte efecto en el **flan
 
 Una vez entra la dirección, el dato sí está disponible instantes después (este es el modo *bypass*, hay otro modo en el que el dato necesita un segundo pulso de reloj para presentarse en la salida, pero no lo vamos a usar).
 
-[foto: gowin_prom_timing_bypass.png | Diagrama de tiempos para el acceso a la ROM en modo Bypass. GoWin Semiconductor.]
+{% include image.html file="gowin_prom_timing_bypass.png" caption="Diagrama de tiempos para el acceso a la ROM en modo Bypass. GoWin Semiconductor." %}
 
 Aún usando el modo *bypass* llevamos **un ciclo de reloj de retraso**. Cuando en la pantalla enviamos la coordenada `fila=0, columna=1` el dato que tenemos disponible no es ese, sino el anterior: `fila=0, columna=0`.
 
@@ -219,7 +220,7 @@ assign LCD_DEN   = enable_delayed;
 
 Con esto habremos corregido el retardo, y la imagen comenzará en la columna 0. Como debe ser:
 
-[foto: mono_doble_bottom.jpg | Imagen monocromática de pruebas con timing correcto. EyC.]
+{% include image.html file="mono_doble_bottom.jpg" caption="Imagen monocromática de pruebas con timing correcto. EyC." %}
 
 
 ## Ajustar la imagen
@@ -241,7 +242,7 @@ assign rom_addr = {y[7:0], x[8:1]};
 
 Con eso cada columna es el doble de ancha y la imagen ocupa toda la pantalla.
 
-[foto: mono_bottom.jpg | Imagen monocromática de pruebas con la relación de aspecto corregida. EyC.]
+{% include image.html file="mono_bottom.jpg" caption="Imagen monocromática de pruebas con la relación de aspecto corregida. EyC." %}
 
 El otro defecto que queda se debe a que tenemos 8 bits para las coordenadas. 8 bits es suficiente para la coordenada X, porque hay 240 columnas. Pero al haber 272 filas, cuando llega a la fila 256 se **da la vuelta** y empieza a pintar de nuevo la 0.
 
@@ -260,11 +261,11 @@ assign LCD_B = {5{rom_out & ~blackout}};
 
 Eso corrige u oculta el defecto.
 
-[foto: mono.jpg | Imagen monocromática de pruebas correcta. EyC.]
+{% include image.html file="mono.jpg" caption="Imagen monocromática de pruebas correcta. EyC." %}
 
 Con todos los cambios, nuestro diagrama se ha complicado un poquito. Quedando de esta manera:
 
-[foto: h-v-rom-mono-right.svg | Diagrama de bloques monocromático corregido. EyC.]
+{% include image.html file="h-v-rom-mono-right.svg" caption="Diagrama de bloques monocromático corregido. EyC." %}
 
 
 
@@ -359,7 +360,9 @@ rand_mem rand_mem(
 
 El resultado es ruido blanco, *estática*, o nieve:
 
-[foto: static.webp | La nieve es la representación visual del ruido blanco. EyC.]
+{% include image.html file="static.webp" caption="La nieve es la representación visual del ruido blanco. EyC." %}
+
+Por cierto, también hay varios modos de escritura pero para escribir datos *random* nos da igual.
 
 
 
@@ -368,8 +371,6 @@ El resultado es ruido blanco, *estática*, o nieve:
 Modo monocromático superado.
 
 Vamos a ganar un bit para el color robándoselo a la resolución. Antes habíamos reducido la horizontal, ahora reduzcamos la vertical. En vez de 256 la dejaremos en 128. Ya sólo necesitaremos 7 bits para direccionarla y con el bit extra elegiremos el color.
-
-[foto: mem15lines-4c.svg]
 
 ```verilog
 // Double x and y pixels 
@@ -382,7 +383,7 @@ Antes sólo había dos posibilidades: pixel encendido o píxel apagado. Por eso 
 
 Necesitamos **un módulo** conectado entre la salida de la ROM y la entrada de la pantalla que traduzca los valores 0, 1, 2 y 3 a colores (valores en RGB565).
 
-[foto: h-v-rom-cga.svg | Diagrama de bloques para cuatro colores, con dos paletas alternativas. EyC. ]
+{% include image.html file="h-v-rom-cga.svg" caption="Diagrama de bloques para cuatro colores, con dos paletas alternativas. EyC." %}
 
 La tarjeta gráfica CGA salió al mercado en 1981 y fue la primera a color que se hizo popular en el mercado de ordenadores domésticos. Contaba con 16kBytes de RAM (el doble que nosotros). El modo gráfico principal tenía uina resolución de 300x200 y... 4 colores.
 
@@ -408,7 +409,7 @@ assign b = 0;
 
 Componemos una imagen de prueba y este es el resultado: 
 
-[foto: 4c_palette0.jpg | Imagen de prueba a 4 colores. Paleta 1. EyC.]
+{% include image.html file="4c_palette0.jpg" caption="Imagen de prueba a 4 colores. Paleta 1. EyC." %}
 
 La paleta alternativa de CGA era igual pero **añadiendo azul**.
 
@@ -429,7 +430,7 @@ assign b = |color;
 
 Si lo presionamos, la imagen cambia a:
 
-[foto: 4c_palette1.jpg | Imagen de prueba a 4 colores. Paleta 2. EyC.]
+{% include image.html file="4c_palette1.jpg" caption="Imagen de prueba a 4 colores. Paleta 2. EyC." %}
 
 
 ## Color de 16 bits
@@ -450,7 +451,7 @@ Un **sprite** es otra imagen también de pequeño tamaño pero móvil y se super
 
 Mira esta imagen de **Final Fantasy**. He delimitado las texturas con una línea para distinguirlas más claramente.
 
-[foto: ff_tile.png | Imagen de Final Fantasy mostrando las texturas. EyC.]
+{% include image.html file="ff_tile.png" caption="Imagen de Final Fantasy mostrando las texturas. EyC." %}
 
 En la imagen hay 16 texturas distintas y dos *sprites*. Cada textura tiene 16x16 píxeles y 16 colores (4 bits). O sea que la imagen completa cabría en 1Kb de memoria.
 
@@ -464,13 +465,13 @@ Lo más lógico habría sido usar texturas de 16x16. Así nos cabrían 16 difere
 
 Las dos primeras imágenes serán de un led encendido y apagado (reducidas hasta medir 32x32, por supuesto):
 
-[foto: leds.png | Dos de las texturas serán un LED encendido y apagado. EyC.]
+{% include image.html file="leds.png" caption="Dos de las texturas serán un LED encendido y apagado. EyC." %}
 
 Para las otras dos imágenes he buscado **texturas enlosables** que sirvan de decoración de fondo. Enlosable, repetible o *tileable* significa que puedes repetirla una al lado de otra sin que se note el corte.
 
 Voy a escoger un par de texturas de, por ejemplo, **Minecraft**. Digamos *Stone Brick* y *Mossy Cobblestone*.
 
-[foto: minecraft_texture.png | Texturas de relleno. A la izquierda *Stone Brick* y a la derecha *Mossy Cobblestone*. Minecraft Resource Pack.]
+{% include image.html file="minecraft_texture.png" caption="Texturas de relleno. A la izquierda *Stone Brick* y a la derecha *Mossy Cobblestone*. Minecraft Resource Pack." %}
 
 Lo siguiente es un paso crucial, y será muy importante para el próximo artículo, cuando hablemos del **texto**.
 
@@ -501,7 +502,7 @@ Quiero construir la siguiente pantalla:
 - En la fila 3 pondré LEDs, menos en la primera y última columnas.
 
 
-[foto: minecraft_leds.png | Esquema de la pantalla rellena con texturas. EyC. ]
+{% include image.html file="minecraft_leds.png" caption="Esquema de la pantalla rellena con texturas. EyC." %}
 
 
 Es cuestión de escoger la textura precisa según las coordenadas extra-celda. Cuando quiera que el **LED aparezca encendido**, tomaré la salida de la ROM donde tengo la imagen con el LED encendido (`rom_on_out`). Si quiero que salga apagado, usaré la otra (`rom_off_out`).
@@ -526,7 +527,7 @@ end
 
 Variando el registro `status` cambia la imagen con la que dibujamos cada uno de los LEDs.
 
-[foto: led_counter.gif | Contador LED virtual. EyC. ]
+{% include image.html file="led_counter.gif" caption="Contador LED virtual. EyC." %}
 
 
 ## Conclusión
@@ -545,13 +546,14 @@ En el último apartado, hemos combinado 4 **texturas** para componer una imagen 
 
 ## Enlaces para profundizar
 
+- Artículo anterior: [Electrónica y Ciencia - Pantalla LCD con Tang Nano I. Patrones]
+- Repositorio del proyecto: [GitHub electronicayciencia/verilog-vga/2-image]
 
-- [Electrónica y Ciencia - Pantalla LCD con Tang Nano I. Patrones]
-- [GitHub electronicayciencia/verilog-vga/2-image]
+- [Gowin - Memory User Guide(EN)]
 
 - [The 8-Bit Guy - CGA Graphics - Not as bad as you thought!]
 - [Nerdly Pleasures - IBM's CGA Hardware Explained]
-
+- [Wikipedia - Video display controller]
 
 
 
@@ -563,5 +565,8 @@ En el último apartado, hemos combinado 4 **texturas** para componer una imagen 
 
 [The 8-Bit Guy - CGA Graphics - Not as bad as you thought!]: https://www.youtube.com/watch?v=niKblgZupOc
 
-
 [Nerdly Pleasures - IBM's CGA Hardware Explained]:  http://nerdlypleasures.blogspot.com/2016/05/ibms-cga-hardware-explained.html
+
+[Wikipedia - Video display controller]: https://en.wikipedia.org/wiki/Video_display_controller
+
+[Gowin - Memory User Guide(EN)]: http://cdn.gowinsemi.com.cn/UG285E.pdf
