@@ -523,9 +523,7 @@ always @(*) begin
 end
 ```
 
-La imagen con la que se dibuja cada LED se decide en función de los bits de `status`. En este caso el registro es un contador conetado al pulso de refresco vertical.
-
-Aquí un ejemplo con otras dos texturas:
+La imagen asociada a cada LED la deciden los bits del registro `status`. En este caso un contador conectado al pulso de refresco vertical.
 
 {% include image.html file="led_counter.gif" caption="Contador LED virtual. EyC." %}
 
