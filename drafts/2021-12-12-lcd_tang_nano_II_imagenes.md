@@ -368,9 +368,7 @@ Por cierto, también hay varios modos de escritura pero para escribir datos *ran
 
 ## Cuatro colores, CGA
 
-Modo monocromático superado.
-
-Vamos a ganar un bit para el color robándoselo a la resolución. Antes habíamos reducido la horizontal, ahora reduzcamos la vertical. En vez de 256 la dejaremos en 128. Ya sólo necesitaremos 7 bits para direccionarla y con el bit extra elegiremos el color.
+Vamos a ganar un bit para el color robándoselo a la resolución. Antes habíamos reducido la horizontal, ahora reduzcamos la vertical. En vez de 256 la dejaremos en 128. Ya sólo necesitaremos **7 bits** para direccionarla y el bit extra será para el color.
 
 ```verilog
 // Double x and y pixels 
