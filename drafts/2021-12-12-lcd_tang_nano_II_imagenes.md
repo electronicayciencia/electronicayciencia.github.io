@@ -17,22 +17,22 @@ La pantalla es de 4.3" con una resolución de 480x272 píxeles.
 
 Partimos del esquema anterior.
 
-[foto: h-v-pattern.svg]
+[foto: h-v-pattern.svg | Diagrama de bloques capaz de mostrar patrones en la pantalla. EyC. ]
 
-Resumido rápidamente. Tenemos un oscilador externo de 24MHz. Lo hacemos pasar por el **PLL** que integra el chip. Con esta frecuencia *movemos* el contador **H**, con el cual generamos los pulsos de **sincronismo horizontal** y también la coordenada X.
+Resumido rápidamente. Tenemos un **oscilador externo** de 24MHz. Lo hacemos pasar por el **PLL** que integra el chip. Con esta frecuencia *movemos* el **contador H**, con el cual generamos los pulsos de **sincronismo horizontal** y también la coordenada X.
 
-Usamos los pulsos de sincronismo horizontal para mover el segundo contador **V**. Con él generaremos la **señal vertical** y la coordenada Y.
+Usamos los pulsos de sincronismo horizontal para mover el segundo **contador V**. Con él generaremos la **señal vertical** y la coordenada Y.
 
-Por último teníamos un circuito lógico que asignaba el valor de cada color en función de las coordenadas X e Y.
+Por último teníamos un circuito lógico (llamado **color** en el diagrama) que asignaba el valor de cada color en función de las coordenadas X e Y. Sin embargo, este último bloque es rígido. Con él podemos mostrar sólo lo que viene programado. 
 
-Sin embargo, ese último bloque (que en el diagrama se llama *color*) es rígido. Con él no podemos mostrar nada más que lo que está programado. Lo que queremos hacer es sustituirlo por una memoria, en este caso una **memoria ROM**.
+Nuestra intención es reemplazarlo por una memoria, en este caso una **memoria ROM**.
 
 De esta forma haremos el circuito más flexible. Pues podremos mostrar imágenes diferentes con el mismo hardware, simplemente variando el contenido de la memoria.
 
 El código lo tenéis en [GitHub electronicayciencia/verilog-vga/2-image]. Se divide en 4 proyectos que iremos viendo a los largo del artículo.
 
-- **Image mono**: Mostrar imágenes de 1 bit (monocromática). Servirá para aprender los conceptos básicos como es el uso de la ROM o reducir la resolución.
-- **Mono static**: Mostrar ruido en la pantalla. Cambiamos la ROM por memoria RAM y escribimos bytes aleatorios en el *framebuffer*.
+- **Image mono**: Mostrar imágenes de 1 bit (monocromática). Servirá para aprender los conceptos básicos como es el uso de la ROM.
+- **Mono static**: Mostrar ruido en la pantalla. Cambiamos la ROM por memoria RAM y escribimos en ella bits aleatorios.
 - **Image 4c**: Ampliamos a 2 bits de color e imitamos la paleta gráfica de una antigua tarjeta de video CGA.
 - **Led counter**: Generamos una imagen de 16 bits de color utilizando texturas. Haremos un contador LED virtual.
 
@@ -115,7 +115,7 @@ Gowin_pROM ROM(
 );
 ```
 
-Puedes encontrar chip ROM síncronas y asíncronas. Pero las memorias de la FPGA son casi todas **síncronas** y por tanto necesitan una señal de reloj. La conectaremos al reloj principal. Aunque eso traerá **consecuencias** más adelante.
+Puedes encontrar chip ROM síncronos y asíncronos. Pero las memorias de la FPGA son casi todas **síncronas** y por tanto necesitan una señal de reloj. La conectaremos al reloj principal. Aunque eso traerá **consecuencias** más adelante.
 
 Como la ROM sólo tiene un bit de salida, tendremos que conectar a él todos los colores de la pantalla. Cuando este bit valga 1 el pixel aparecerá blanco brillante, u cuando valga 0 estará apagado.
 
@@ -324,7 +324,7 @@ El diseño es el mismo que en el apartado anterior, pero ahora podemos modificar
 
 Voy a crear un módulo llamado `rand_mem` que tiene dos partes. 
 
-- La primera es un **LFSR de 32 bits**. LFSR significa *Linear Beedback Shift Register* y viene a ser un registro de desplazamiento realimentado. Sirve para generar **valores aleatorios**. 
+- La primera es un **LFSR de 32 bits**. LFSR significa *Linear Feedback Shift Register* y viene a ser un registro de desplazamiento realimentado. Sirve para generar **valores aleatorios**. 
 - La otra es un **contador incremental** que barre, de una en una, todas las 65536 posibles posiciones de memoria RAM.
 
 ```verilog
@@ -367,23 +367,28 @@ El resultado es ruido blanco, *estática*, o nieve:
 
 Modo monocromático superado.
 
-Vamos a ganar un bit para el color robándoselo a la resolución. Antes habíamos reducido la horizontal, ahora reeduzcamos la vertical. En vez de 256 la dejaremos en 128. Ya sólo necesitaremos 7 bits para direccionarla y con el bit extra elegiremos el color.
+Vamos a ganar un bit para el color robándoselo a la resolución. Antes habíamos reducido la horizontal, ahora reduzcamos la vertical. En vez de 256 la dejaremos en 128. Ya sólo necesitaremos 7 bits para direccionarla y con el bit extra elegiremos el color.
 
 [foto: mem15lines-4c.svg]
+
+```verilog
+// Double x and y pixels 
+assign rom_addr = {y[7:1], x[8:1]};
+```
 
 Con 2 bits de color podemos elegir entre **cuatro colores** distintos.
 
 Antes sólo había dos posibilidades: pixel encendido o píxel apagado. Por eso conectábamos la salida de la ROM directamente al LCD. Pero ahora un píxel puede tomar 4 valores.
 
-Necesitamos un bloque conectado entre la salida de la ROM y la entrada de la pantalla que traduzca los valores 0, 1, 2 y 3 a colores (valores en RGB565).
+Necesitamos **un módulo** conectado entre la salida de la ROM y la entrada de la pantalla que traduzca los valores 0, 1, 2 y 3 a colores (valores en RGB565).
 
 [foto: h-v-rom-cga.svg | Diagrama de bloques para cuatro colores, con dos paletas alternativas. EyC. ]
 
-La tarjeta gráfica CGA salió al mercado en 1981 y fue la primera a color que se hizo popular en el mercado de ordenadores domésticos.
+La tarjeta gráfica CGA salió al mercado en 1981 y fue la primera a color que se hizo popular en el mercado de ordenadores domésticos. Contaba con 16kBytes de RAM (el doble que nosotros). El modo gráfico principal tenía uina resolución de 300x200 y... 4 colores.
 
-En algunos modos gráficos sólo contaba con 4 colores, como nosotros. Tenía dos paletas principales:
+Tenía dos paletas principalmente. En ambas el color de fondo era **negro**, aunque eso podía cambiarse.
 
-En la primera decidieron **eliminar el azul**. Si dejas sólo colores básicos (rojo y verde) es fácil hacer la traducción a las 4 opciones binarias.
+En la primera decidieron **eliminar el azul**. Dejando cómo colores básicos el **rojo** y el **verde** es fácil hacer la traducción a las 4 opciones binarias.
 
 Num  |                                     Color      | Rojo | Verde | Azul 
 ----:|------------------------------------------------|:----:|:-----:|:----:
@@ -414,7 +419,7 @@ Num  |                                     Color      | Rojo | Verde | Azul
  2   | <span style="color:#ff00ff;">█</span> Magenta  |   X  |       |  X   
  3   | <span style="color:#ffffff;">█</span> Blanco   |   X  |   X   |  X   
 
-En nuestro módulo hemos previsto una entrada con uno de los pulsadores para seleccionar la paleta alternativa. 
+Hemos previsto una entrada conectada con los pulsadores de la placa de desarrollo para seleccionar la paleta alternativa.
 
 ```verilog
 assign r = color[0];
@@ -441,19 +446,21 @@ Claro esta, usaban métodos alternativos al *framebuffer*, principalmente **text
 
 En este contexto, llamamos *textura* a una **imagen de pequeño tamaño** (8x8, 16x16 o 32x32 píxeles). Es posible rellenar toda la pantalla a base de repetir varias de estas imágenes.
 
-Un **sprite** es otra imagen también de pequeño tamaño pero que es móvil y se superpone a la textura que sería el fondo.
+Un **sprite** es otra imagen también de pequeño tamaño pero móvil y se superpone se manera independiente del fondo.
 
 Mira esta imagen de **Final Fantasy**. He delimitado las texturas con una línea para distinguirlas más claramente.
 
 [foto: ff_tile.png | Imagen de Final Fantasy mostrando las texturas. EyC.]
 
-En la imagen hay 16 texturas diferentes y dos *sprites*. Cada textura tiene 16x16 píxeles y 16 colores (4 bits). O sea que la imagen completa puede rellenarse con 1Kb de memoria.
+En la imagen hay 16 texturas distintas y dos *sprites*. Cada textura tiene 16x16 píxeles y 16 colores (4 bits). O sea que la imagen completa cabría en 1Kb de memoria.
 
-La técnica se puede **extender** de varias formas por ejemplo girando o volteando las texturas para aparentar más de las que realmente son.
+La técnica se puede *extender* por ejemplo girando o volteando las texturas para aparentar más de las que realmente son.
 
 En este apartado vamos implementar un **contador LED virtual**. Para ello usaremos **4 texturas** de 32x32 píxeles con una profundidad de color de 16 bits (65536 colores).
 
 Guardaremos cada textura en un banco de memoria. Teníamos 4 bancos, 4 texturas.
+
+Lo más lógico habría sido usar texturas de 16x16. Así nos cabrían 16 diferentes y el resultado sería más vistoso. Pero, por simplificar, lo dejaremos en 4.
 
 Las dos primeras imágenes serán de un led encendido y apagado (reducidas hasta medir 32x32, por supuesto):
 
@@ -487,13 +494,15 @@ wire [9:0] rom_addr = {i_y[4:0], i_x[4:0]}; // 32x32=1024
 
 Cargamos los **cuatro módulos IP BRAM** para los cuatro bancos de memoria. Cada uno de los cuales lo inicializamos con una de las texturas.
 
-[foto: minecraft_leds.png | Esquema de la pantalla rellena con texturas. EyC. ]
-
 Quiero construir la siguiente pantalla:
 
 - De fondo, la textura *Mossy Coblestone*. 
 - Salvo las filas 2, 3 y 4 donde pondré *Stone Brick*. 
 - En la fila 3 pondré LEDs, menos en la primera y última columnas.
+
+
+[foto: minecraft_leds.png | Esquema de la pantalla rellena con texturas. EyC. ]
+
 
 Es cuestión de escoger la textura precisa según las coordenadas extra-celda. Cuando quiera que el **LED aparezca encendido**, tomaré la salida de la ROM donde tengo la imagen con el LED encendido (`rom_on_out`). Si quiero que salga apagado, usaré la otra (`rom_off_out`).
 
@@ -515,33 +524,33 @@ always @(*) begin
 end
 ```
 
-Variando el registro `status` se selecciona una textura u otra para cada LED.
+Variando el registro `status` cambia la imagen con la que dibujamos cada uno de los LEDs.
 
 [foto: led_counter.gif | Contador LED virtual. EyC. ]
 
 
 ## Conclusión
 
-En este artículo hemos visto como **proyectar imágenes** en una pantalla LCD.
+En este artículo hemos visto como **proyectar imágenes** en una pantalla LCD usando una FPGA muy sencilla.
 
 Primero, hemos determinado los **modos gráficos** disponibles habida cuenta de las limitaciones de memoria.
 
 Hemos aprendido a usar un **bloque IP** BRAM en modo **ROM**, lo hemos inicializado con una imagen de prueba monocromática y la hemos mostrado por pantalla. Hemos corregido los defectos reduciendo la resolución, **retrasando** otras señales y ocultando partes de la imagen.
 
-Después hemos aprendido a usar un módulo IP BRAM en modo ***Semi Dual Port***. Hemos rellenado la memoria con bits aleatorios para proyectar **ruido blanco**.
+Tras sustituir la ROM por un módulo IP BRAM en modo ***Semi Dual Port***, hemos rellenado la memoria con bits aleatorios para proyectar **ruido blanco**.
 
-Hemos imitado una tarjeta gráfica CGA mostrando una imagen en **4 colores**, con dos paletas gráficas.
+Hemos imitado una tarjeta gráfica CGA mostrando una imagen en **4 colores**, con dos paletas distintas.
 
-Hemos combinado 4 **texturas** de 32x32 para componer una imagen a color de 16 bits reduciendo el uso de memoria.
+En el último apartado, hemos combinado 4 **texturas** para componer una imagen a color de 16 bits reduciendo el uso de memoria.
 
 ## Enlaces para profundizar
 
 
-- [Electrónica y Ciencia - Pantalla LCD con Tang Nano I. Patrones]({{site.baseurl}}{% post_url 2021-11-29-lcd_tang_nano_I_patrones %})
-- [GitHub electronicayciencia/verilog-vga/2-image]: https://github.com/electronicayciencia/verilog-vga/tree/master/2-image
+- [Electrónica y Ciencia - Pantalla LCD con Tang Nano I. Patrones]
+- [GitHub electronicayciencia/verilog-vga/2-image]
 
-- [The 8-Bit Guy - CGA Graphics - Not as bad as you thought!]: https://www.youtube.com/watch?v=niKblgZupOc
-
+- [The 8-Bit Guy - CGA Graphics - Not as bad as you thought!]
+- [Nerdly Pleasures - IBM's CGA Hardware Explained]
 
 
 
@@ -555,3 +564,4 @@ Hemos combinado 4 **texturas** de 32x32 para componer una imagen a color de 16 b
 [The 8-Bit Guy - CGA Graphics - Not as bad as you thought!]: https://www.youtube.com/watch?v=niKblgZupOc
 
 
+[Nerdly Pleasures - IBM's CGA Hardware Explained]:  http://nerdlypleasures.blogspot.com/2016/05/ibms-cga-hardware-explained.html
