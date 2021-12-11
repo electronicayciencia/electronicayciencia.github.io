@@ -467,9 +467,9 @@ Las dos primeras imágenes serán de un led encendido y apagado (reducidas hasta
 
 Para las otras dos imágenes he buscado **texturas enlosables** que sirvan de decoración de fondo. Enlosable, repetible o *tileable* significa que puedes repetirla una al lado de otra sin que se note el corte.
 
-Voy a escoger un par de texturas de, por ejemplo, **Minecraft**. Digamos *Nether Brick* y *Black Wool*.
+Voy a escoger un par de texturas de, por ejemplo, **Minecraft**. Digamos *Stone Brick* y *Mossy Cobblestone*.
 
-{% include image.html file="minecraft_texture.png" caption="Texturas de relleno. A la izquierda *Nether Brick* y a la derecha *Black Wool*. Minecraft Resource Pack." %}
+{% include image.html file="minecraft_texture.png" caption="Texturas de relleno. A la izquierda *Mossy Cobblestone* y a la derecha *Stone Brick*. Minecraft Resource Pack." %}
 
 Lo siguiente es un paso crucial, y será muy importante para el próximo artículo, cuando hablemos del **texto**.
 
@@ -495,8 +495,8 @@ Cargamos los **cuatro módulos IP BRAM** para los cuatro bancos de memoria. Cada
 
 Quiero construir la siguiente pantalla:
 
-- De fondo, la textura *Nether Brick*. 
-- Salvo las filas 2, 3 y 4 donde pondré *Black Wool*. 
+- De fondo, la textura *Mossy Cobblestone*. 
+- Salvo las filas 2, 3 y 4 donde pondré *Stone Brick*. 
 - En la fila 3 pondré LEDs, menos en la primera y última columnas.
 
 
@@ -527,7 +527,7 @@ La imagen con la que se dibuja cada LED se decide en función de los bits de `st
 
 Aquí un ejemplo con otras dos texturas:
 
-{% include image.html file="led_counter.gif" caption="Contador LED virtual. Con otras dos texturas. EyC." %}
+{% include image.html file="led_counter.gif" caption="Contador LED virtual. EyC." %}
 
 
 ## Conclusión
