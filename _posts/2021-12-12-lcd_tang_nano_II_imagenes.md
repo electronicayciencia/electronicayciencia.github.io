@@ -10,7 +10,7 @@ tags:
   - FPGA
 ---
 
-Este artículo es continuación de [Pantalla LCD con Tang Nano parte I. Patrones][Electrónica y Ciencia - Pantalla LCD con Tang Nano I. Patrones]. En él construimos un sencillo controlador VGA capaz de mostrar patrones básicos en una pantalla LCD. En esta segunda parte vamos a centrarnos en dibujar imágenes. Monocromáticas, ruido blanco, a color CGA, o con texturas y sprites.
+Este artículo es continuación de [Pantalla LCD con Tang Nano parte I. Patrones][Electrónica y Ciencia - Pantalla LCD con Tang Nano I. Patrones]. En él diseñamos un sencillo **controlador VGA** en Verilog capaz de mostrar patrones básicos en una pantalla. En esta segunda parte vamos a centrarnos en **dibujar imágenes**. Monocromáticas primero, ruido blanco, a color CGA y, finalmente con texturas.
 
 El código lo tenéis en [GitHub electronicayciencia/verilog-vga/2-image]. Se divide en 4 proyectos que iremos viendo a los largo del artículo.
 
