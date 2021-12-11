@@ -461,6 +461,8 @@ En el próximo artículo veremos cómo hacer aparecer una imagen previamente car
 
 Os dejo el código del proyecto en [GitHub electronicayciencia/verilog-vga].
 
+Continúa en: [Pantalla LCD con Tang Nano parte II. Imágenes][Electrónica y Ciencia - Pantalla LCD con Tang Nano parte II. Imágenes]
+
 
 ## Enlaces para profundizar
 
@@ -470,7 +472,7 @@ Os dejo el código del proyecto en [GitHub electronicayciencia/verilog-vga].
 - [Gisselquist Technology - Building a video controller: it's just a pair of counters]
 - [Electrónica y Ciencia - Primeras experiencias con Sipeed Tang Nano]
 - [Electrónica y Ciencia - Sintetizador de frecuencias digital con PLL]
-
+- [Electrónica y Ciencia - Pantalla LCD con Tang Nano parte II. Imágenes]
 
 
 
@@ -481,5 +483,5 @@ Os dejo el código del proyecto en [GitHub electronicayciencia/verilog-vga].
 [Gisselquist Technology - Building a video controller: it's just a pair of counters]:  https://zipcpu.com/blog/2018/11/29/llvga.html
 [Electrónica y Ciencia - Primeras experiencias con Sipeed Tang Nano]: {{site.baseurl}}{% post_url 2021-07-05-tang_nano_fpga %}
 [Electrónica y Ciencia - Sintetizador de frecuencias digital con PLL]: {{site.baseurl}}{% post_url 2020-09-15-sintetizador-de-frecuencias-digital-con %}
-
+[Electrónica y Ciencia - Pantalla LCD con Tang Nano parte II. Imágenes]({{site.baseurl}}{% post_url 2021-12-12-lcd_tang_nano_II_imagenes %})
 

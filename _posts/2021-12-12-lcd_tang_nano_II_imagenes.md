@@ -1,5 +1,5 @@
 ---
-title: Pantalla LCD con Tang Nano parte II. Imágenes.
+title: Pantalla LCD con Tang Nano parte II. Imágenes
 layout: post
 assets: /assets/2021/12/lcd_tang_nano_II_imagenes/
 image: /assets/2021/12/lcd_tang_nano_II_imagenes/img/static.gif
@@ -360,7 +360,7 @@ rand_mem rand_mem(
 
 El resultado es ruido blanco, *estática*, o nieve:
 
-{% include image.html file="static.webp" caption="La nieve es la representación visual del ruido blanco. EyC." %}
+{% include image.html file="static.gif" caption="La nieve es la representación visual del ruido blanco. EyC." %}
 
 Por cierto, también hay varios modos de escritura pero para escribir datos *random* nos da igual.
 
@@ -508,7 +508,7 @@ Es cuestión de escoger la textura precisa según las coordenadas extra-celda. C
 ```verilog
 always @(*) begin
 
-    // leds are in line 3
+    // leds are in line 3, but not in columns 0 nor 14.
     if (y == 3 & x >= 1 & x <= 13)
         rgb <= status[13-x] ? rom_on_out : rom_off_out;
 
@@ -523,9 +523,11 @@ always @(*) begin
 end
 ```
 
-Variando el registro `status` cambia la imagen con la que dibujamos cada uno de los LEDs.
+La imagen con la que se dibuja cada LED se decide en función de los bits de `status`. En este caso el registro es un contador conetado al pulso de refresco vertical.
 
-{% include image.html file="led_counter.gif" caption="Contador LED virtual. EyC." %}
+Aquí un ejemplo con otras dos texturas:
+
+{% include image.html file="led_counter.gif" caption="Contador LED virtual. Con otras dos texturas. EyC." %}
 
 
 ## Conclusión
