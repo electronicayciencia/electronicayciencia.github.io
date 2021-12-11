@@ -559,7 +559,7 @@ En el último apartado, hemos combinado 4 **texturas** para componer una imagen 
 
 
 
-[Electrónica y Ciencia - Pantalla LCD con Tang Nano I. Patrones]({{site.baseurl}}{% post_url 2021-11-29-lcd_tang_nano_I_patrones %})
+[Electrónica y Ciencia - Pantalla LCD con Tang Nano I. Patrones]: ({{site.baseurl}}{% post_url 2021-11-29-lcd_tang_nano_I_patrones %})
 [GitHub electronicayciencia/verilog-vga]: https://github.com/electronicayciencia/verilog-vga
 [GitHub electronicayciencia/verilog-vga/2-image]: https://github.com/electronicayciencia/verilog-vga/tree/master/2-image
 
