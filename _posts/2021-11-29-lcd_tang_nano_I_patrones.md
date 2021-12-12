@@ -471,8 +471,8 @@ Continúa en: [Pantalla LCD con Tang Nano parte II. Imágenes][Electrónica y Ci
 - [Ben Eater - The world’s worst video card?]
 - [Gisselquist Technology - Building a video controller: it's just a pair of counters]
 - [Electrónica y Ciencia - Primeras experiencias con Sipeed Tang Nano]
-- [Electrónica y Ciencia - Sintetizador de frecuencias digital con PLL]
 - [Electrónica y Ciencia - Pantalla LCD con Tang Nano parte II. Imágenes]
+- [Electrónica y Ciencia - Sintetizador de frecuencias digital con PLL]
 
 
 

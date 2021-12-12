@@ -615,6 +615,8 @@ Para profundizar:
 
 Otros artículos relacionados:
 
+- [Electrónica y Ciencia - Pantalla LCD con Tang Nano parte II. Imágenes]({{site.baseurl}}{% post_url 2021-12-12-lcd_tang_nano_II_imagenes %})
+- [Electrónica y Ciencia - Pantalla LCD con Tang Nano parte I. Patrones]({{site.baseurl}}{% post_url 2021-11-29-lcd_tang_nano_I_patrones %})
 - [Electrónica y Ciencia - Transmisor y receptor digital de ultrasonidos]({{site.baseurl}}{% post_url 2018-03-30-transmisor-y-receptor-digital-de %})
 - [Electrónica y Ciencia - Avisador personal de autobús con ESP8266]({{site.baseurl}}{% post_url 2021-01-09-avisador-personal-autobus-con-esp8266 %})
 - [Electrónica y Ciencia - Tu primer proyecto con DSP]({{site.baseurl}}{% post_url 2020-06-21-tu-primer-proyecto-con-dsp %})
