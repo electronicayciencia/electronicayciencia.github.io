@@ -1,9 +1,10 @@
 ﻿---
-title: Licencias de software con GDB y ltrace
+title: Licencias de software. Criptografía con GDB y ltrace
 layout: post
 assets: /assets/2021/05/pirateando-software-ninja/
 image: /assets/2021/05/pirateando-software-ninja/img/featured.jpg
 featured: false
+description: Utilizar ltrace y gdb para inspeccionar cómo funciona el validador de licencias en un software sencillo.
 tags:
   - Binario
   - Informática
