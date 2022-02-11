@@ -1,5 +1,5 @@
 ﻿---
-title: Pirateando licencias de software
+title: Licencias de software con GDB y ltrace
 layout: post
 assets: /assets/2021/05/pirateando-software-ninja/
 image: /assets/2021/05/pirateando-software-ninja/img/featured.jpg
