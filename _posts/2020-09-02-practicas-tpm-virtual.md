@@ -208,7 +208,7 @@ Volvemos a hacer la inicialización por *BIOS*. El log del TPM virtual debe indi
 
     TPM_State_Trace: disable 0 p_deactive 0 v_deactive 0 owned 0 state 2
 
-Podríamos listar las PCRs con el comando `./list_pcrs` ([list_pcrs.c](pruebas/list_pcrs.c)):
+Podríamos listar las PCRs con el comando `./list_pcrs` ([list_pcrs.c]({{page.assets | relative_url}}/list_pcrs.c)):
 
     $ ./list_pcrs
     PCR List
@@ -303,7 +303,7 @@ No le podemos decir que guarde un valor concreto. Ni que olvide el valor antiguo
 
 Este programa extiende la PCR con un digest de 20 bytes a cero y devuelve el nuevo valor. Es algo que haría el sistema durante el arranque, o el software.
 
-Ejecutar el programa [extend_pcr](pruebas/extend_pcr.c) indicando el número de la PCR. 
+Ejecutar el programa [extend_pcr]({{page.assets | relative_url}}/extend_pcr.c) indicando el número de la PCR. 
 
 
     $ ./extend_pcr 0
@@ -603,7 +603,7 @@ Cargamos en el TPM la clave privada guardada en `blob` asignándole el identific
 
 Si listamos las claves, ahora aparece la SRK y otra más:
 
-    $ ../pruebas/list_keys
+    $ ./list_keys
     Registered key 0:
     Version: 1.1.0.0
     UUID: 183e4e36 97d8 4f42 84 0d 84becb57a4f9
@@ -626,7 +626,7 @@ La AIK con identificador `183e4e36 97d8 4f42 84 0d 84becb57a4f9` desciende de `0
 
 Solicitaremos un informe firmado de las PCRs 0 y 7, cuyo contenido es el siguiente:
 
-    $ pruebas/list_pcrs 
+    $ ./list_pcrs 
     
     PCR List
     PCR00: 850659b18eb6fb4ccdcb113ca4266eb945449466
