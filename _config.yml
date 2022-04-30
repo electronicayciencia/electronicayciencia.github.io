@@ -30,7 +30,8 @@ theme: minima
 disqus:
     shortname: electronicayciencia
 
-google_analytics: UA-15570327-7
+google_analytics: G-2S78TWGS1Z
+#google_analytics: UA-15570327-7
 
 plugins:
   - jekyll-feed
