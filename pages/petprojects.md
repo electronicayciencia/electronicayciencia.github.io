@@ -7,6 +7,13 @@ public: true
 
 Some other projects I do on GitHub (english).
 
+## [Easy MCP2221](https://github.com/electronicayciencia/EasyMCP2221)
+
+Simple and complete Python library for Microchip MCP2221. Full documentation here: [easymcp2221.readthedocs.io](https://easymcp2221.readthedocs.io/).
+
+(Updated Jul 2022)
+
+
 ## [Web Padlock](https://electronicayciencia.github.io/webpadlock/)
 
 This project can be used to deny access to a system from unknown devices. Includes [open demo page](https://webpadlock.herokuapp.com/).
