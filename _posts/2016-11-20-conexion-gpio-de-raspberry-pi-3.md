@@ -319,7 +319,7 @@ No voy contaros en detalle cómo funciona el protocolo I2C aunque si os interesa
 
 Para la práctica usaremos las herramientas del paquete i2c-tools, está en la paquetería de Raspbian.
 
-El hardware I2C de la Raspberry requiere de un driver del kernel que tendremos que cargar previamente. Generalmente está habilitado por defecto, pero por si acaso verificadlo siguiendo las instrucciones de este enlace: [Configuring I2C | Adafruit's Raspberry Pi Lesson 4. GPIO Setup](https://learn.adafruit.com/adafruits-raspberry-pi-lesson-4-gpio-setup/configuring-i2c).
+El hardware I2C de la Raspberry requiere de un driver del kernel que tendremos que cargar previamente. Generalmente está habilitado por defecto, pero por si acaso verificadlo siguiendo las instrucciones de este enlace: [Configuring I2C Adafruit's Raspberry Pi Lesson 4. GPIO Setup](https://learn.adafruit.com/adafruits-raspberry-pi-lesson-4-gpio-setup/configuring-i2c).
 
 Ahora ejecutaremos la utilidad i2cdetect para comprobar que efectivamente tenemos un bus I2C habilitado:
 
