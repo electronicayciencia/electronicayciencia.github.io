@@ -1,5 +1,5 @@
 /* Images and video */
-.postvideo {
+.ytvideo {
     height: 0;
     overflow: hidden;
     padding-bottom: 56.25%;
@@ -8,7 +8,7 @@
     margin-bottom: 1.5rem;
 }
 
-.postvideo iframe, .postvideo object, .postvideo embed {
+.ytvideo iframe, .ytvideo object, .ytvideo embed {
     height: 100%;
     left: 0;
     position: absolute;

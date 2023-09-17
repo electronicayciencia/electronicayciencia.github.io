@@ -1,0 +1,16 @@
+<div class="postimage">
+<figure>
+  <video 
+    class="fullwidth {{include.class | default: "original-width"}}"
+    {{include.attrs | default: "autoplay loop muted"}} >
+
+    <source 
+        src="{{page.assets | relative_url}}/video/{{include.file}}" 
+        type="{{include.type | default: "video/mp4"}}" />
+
+    Your browser does not support the video tag.
+
+  </video>
+  <figcaption>{{ include.caption | markdownify }}</figcaption>
+</figure>
+</div>

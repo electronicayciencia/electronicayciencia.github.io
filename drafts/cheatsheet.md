@@ -121,11 +121,29 @@ En las etiquetas de las imágenes se puede usar markdown pero no se pueden usar 
 
 {% include image.html class="medium-width" file="a-cat.png" caption="Un gato. [Asset del post](/assets/drafts/cheatsheet/file1.txt) en el pie de foto." %}
 
+Se pueden incluir gifs, tanto en la imagen de presentación como dentro del artículo:
+
+{% include image.html class="small-width" file="led_blink_brd.gif" caption="Un gif pequeño." %}
+
+
 Search `\[foto:\s*(.*?)\s*\|\s*(.*?)\s*\]`, replace `{% include image.html file="\1" caption="\2" %}`.
+
 
 ### Vídeos
 
+De **youtube**:
+
 {% include youtube.html id="dQw4w9WgXcQ" %}
+
+**Nativos**:
+
+Los tamaños siguen los mismos tamaños que las imágenes.
+
+{% include video.html class="small-width" file="led_kitt.mp4" caption="Un video pequeño." %}
+
+{% include video.html class="medium-width" file="led_kitt.mp4" attrs="controls" caption="Un video mediano, sin bucle y con controles." %}
+
+
 
 
 ## Preformato
@@ -186,6 +204,10 @@ Ir a linux. `git pull`.
 El servidor se lanza con:
 
     bundle exec jekyll serve
+
+Para instalar las versiones correctas, en el directorio hacer:
+
+    bundle install
 
 ## Referencias a artículos anteriores
 
