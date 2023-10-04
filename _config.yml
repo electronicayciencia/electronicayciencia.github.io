@@ -10,6 +10,7 @@ description: >- # this means to ignore newlines until "baseurl:"
 #baseurl: "/pruebas-blog" # the subpath of your site, e.g. /blog
 url: "https://www.electronicayciencia.com" # the base hostname & protocol for your site, e.g. http://example.com
 permalink: /:year/:month/:title:output_ext
+author: Reinoso Guzmán
 
 lang: es
 
