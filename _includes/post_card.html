@@ -19,6 +19,12 @@
       </a>
    </h3>
 
+   {%- if post.description -%}
+   <div class="post-description">
+      <p>{{ post.description | escape }}</p>
+   </div>
+   {%- endif -%}
+
    {%- if post.image -%}
    <a href="{{ post.url | relative_url }}">
       <div class="teaser-image-frame">
