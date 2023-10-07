@@ -300,10 +300,10 @@ $img-x-large-width: 100%;
 }
 
 .post-list hr {
-  border-top-width: 1px;
-  border-top-style: solid;
-  border-top-color: rgb(187, 187, 187);
   margin-top: 1rem;
   margin-bottom: 1rem;
+  border: none;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: lightgray;
 }
-
