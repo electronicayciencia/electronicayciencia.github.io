@@ -4,6 +4,7 @@ layout: post
 assets: /assets/2020/12/migrar-blogger-jekyll
 image: /assets/2020/12/migrar-blogger-jekyll/img/post_html_feo.png
 featured: false
+description: Proceso para convertir a Markdown un blog HTML de Blogspot y servirlo en GitHub Pages.
 tags:
   - Informática
 ---

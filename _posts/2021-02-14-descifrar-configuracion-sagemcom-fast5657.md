@@ -3,6 +3,7 @@ title: Descifrando la configuración del Sagemcom F@ST 5657
 layout: post
 assets: /assets/2021/02/descifrar-configuracion-sagemcom-fast5657
 image: /assets/2021/02/descifrar-configuracion-sagemcom-fast5657/img/aead_10.png
+description: Extraer el algoritmo y la clave de cifrado del fichero de backup de un router usando tan solo GDB.
 featured: true
 tags:
   - Binario

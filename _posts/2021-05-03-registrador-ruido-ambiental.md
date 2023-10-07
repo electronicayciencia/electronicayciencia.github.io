@@ -4,6 +4,7 @@ layout: post
 assets: /assets/2021/05/registrador-ruido-ambiental/
 image: /assets/2021/05/registrador-ruido-ambiental/img/featured.png
 featured: false
+description: Procesar sonidos en tiempo real para enviarlos a una InfluxDB Cloud y visualizarlos con Grafana.
 tags:
   - DSP
   - Informática

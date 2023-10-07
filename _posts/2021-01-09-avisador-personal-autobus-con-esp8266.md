@@ -4,6 +4,7 @@ layout: post
 assets: /assets/2021/01/avisador-personal-autobus-con-esp8266
 image: /assets/2021/01/avisador-personal-autobus-con-esp8266/img/esp01s-module-cropped.jpg
 featured: false
+description: Descripción del módulo ESP-01 y sus entornos de desarrollo. Veremos cómo leer de un API rest y actualizar una LCD.
 tags:
   - Circuitos
   - Informática
