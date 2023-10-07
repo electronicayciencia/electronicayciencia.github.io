@@ -2,6 +2,7 @@
 assets: /assets/2020/02/clonar-un-rfid-con-tu-propio-hardware
 image: /assets/2020/02/clonar-un-rfid-con-tu-propio-hardware/img/yellow_fob.jpg
 layout: post
+description: Grabador de chips RFID tipo EM4305, con hardware básico y microcontrolador PIC.
 tags:
 - Binario
 - Circuitos
@@ -9,15 +10,15 @@ tags:
 title: Clonar un RFID con tu propio hardware
 ---
 
-En el [artículo anterior]({{site.baseurl}}{% post_url 2019-12-15-leer-tarjetas-de-acceso-rfid-sin-arduino %}) tratamos sobre leer tarjetas de proximidad. Y acabamos diciendo lo fácil que es copiar las más básicas.
-
 En este artículo vamos a **experimentar** con RFID de **baja frecuencia** (125kHz). Haremos nuestro propio lector/grabador usando un microcontrolador y algunos componentes discretos. Diseñaremos la electrónica, el firmware y el software para hablar con un chip regrabable.
 
 {% include image.html class="large-width" file="yellow_fob.jpg" caption="El llavero de la derecha no tiene número, puede hacerse pasar por los otros dos chips." %}
 
-Una cosa más: este es un blog técnico. Si tu única intención es copiar tarjetas, un [clonador chino](https://www.ebay.com/sch/i.html?_nkw=RFID+125KHz+Copier) vale $7.45 y sólo tiene dos botones. No necesitas seguir leyendo, sabrás usarlo.
-
 <!--more-->
+
+En el [artículo anterior]({{site.baseurl}}{% post_url 2019-12-15-leer-tarjetas-de-acceso-rfid-sin-arduino %}) tratamos sobre leer tarjetas de proximidad. Y acabamos diciendo lo fácil que es copiar las más básicas.
+
+Una cosa más: este es un blog técnico. Si tu única intención es copiar tarjetas, un [clonador chino](https://www.ebay.com/sch/i.html?_nkw=RFID+125KHz+Copier) vale $7.45 y sólo tiene dos botones. No necesitas seguir leyendo, sabrás usarlo.
 
 El proceso de clonar un identificador tiene cuatro pasos:
 
