@@ -196,6 +196,12 @@ $img-x-large-width: 100%;
   cursor: pointer;
 }
 
+.post-card .post-description {
+  overflow: hidden;
+  color: grey;
+  font-style: italic;
+}
+
 @media screen and (max-width: 450px) {
   .teaser-image-frame { 
     float: none;
@@ -282,5 +288,22 @@ $img-x-large-width: 100%;
 
 .post-content li {
     margin-bottom: 0.3rem;
+}
+
+/* Override theme's bottom margin in post list */
+.post-list li {
+  margin-bottom: 0
+}
+
+.post-list h3 {
+  margin-bottom: 0.5rem
+}
+
+.post-list hr {
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: rgb(187, 187, 187);
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
