@@ -290,20 +290,15 @@ $img-x-large-width: 100%;
     margin-bottom: 0.3rem;
 }
 
-/* Override theme's bottom margin in post list */
 .post-list li {
-  margin-bottom: 0
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom-style: solid;
+    border-bottom-color: lightgray;
+    border-bottom-width: 1px;
 }
 
 .post-list h3 {
   margin-bottom: 0.5rem
 }
 
-.post-list hr {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  border: none;
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  border-bottom-color: lightgray;
-}
