@@ -141,9 +141,8 @@ $img-x-large-width: 100%;
 /* Tags page */
 .tag-posts-header {
   @include relative-font-size(1.25);
-  border-bottom: solid;
-  border-width: thin;
-  border-color: gray;
+  background-color: lightblue;
+  padding: 0.5rem;
 }
 
 .post-list {
@@ -301,4 +300,3 @@ $img-x-large-width: 100%;
 .post-list h3 {
   margin-bottom: 0.5rem
 }
-
