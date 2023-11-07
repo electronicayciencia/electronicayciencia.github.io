@@ -4,7 +4,7 @@ layout: post
 assets: /assets/2023/11/lcd_tang_nano_III_texto
 image: /assets/2023/11/lcd_tang_nano_III_texto/img/crash_screen.gif
 featured: true
-description: Revivimos la historia de los primeros controladores gráficos mientras programamos uno que muestre texto en una FPGA.
+description: Revivimos la historia de los primeros controladores gráficos mientras programamos una FPGA para mostrar texto por pantalla.
 tags:
   - Informática
   - FPGA
@@ -378,16 +378,24 @@ Lo que este bit hacía en realidad era aumentar el voltaje en todos los cañones
 
 Más o menos así:
 
-Num  | i | R | G | B |              Color                             | Hex RGB    | Num | i | R | G | B |              Color                             | Hex RGB
-----:|:-:|:-:|:-:|:-:|------------------------------------------------|:-----------|----:|:-:|:-:|:-:|:-:|------------------------------------------------|:---------
-  0  |   |   |   |   | <span style="color:#000000;">█</span> Negro    | `00 00 00` |  8  | X |   |   |   | <span style="color:#555555;">█</span> Gris     | `55 55 55`
-  1  |   |   |   | X | <span style="color:#0000aa;">█</span> Azul     | `00 00 aa` |  9  | X |   |   | X | <span style="color:#5555ff;">█</span> Azul     | `55 55 ff`
-  2  |   |   | X |   | <span style="color:#00aa00;">█</span> Verde    | `00 aa 00` | 10  | X |   | X |   | <span style="color:#55ff55;">█</span> Verde    | `55 ff 55`
-  3  |   |   | X | X | <span style="color:#00aaaa;">█</span> Cian     | `00 aa aa` | 11  | X |   | X | X | <span style="color:#55ffff;">█</span> Cian     | `55 ff ff`
-  4  |   | X |   |   | <span style="color:#aa0000;">█</span> Rojo     | `aa 00 00` | 12  | X | X |   |   | <span style="color:#ff5555;">█</span> Rojo     | `ff 55 55`
-  5  |   | X |   | X | <span style="color:#aa00aa;">█</span> Magenta  | `aa 00 aa` | 13  | X | X |   | X | <span style="color:#ff55ff;">█</span> Magenta  | `ff 55 ff`
-  6  |   | X | X |   | <span style="color:#aaaa00;">█</span> Amarillo | `aa aa 00` | 14  | X | X | X |   | <span style="color:#ffff55;">█</span> Amarillo | `ff ff 55`
-  7  |   | X | X | X | <span style="color:#aaaaaa;">█</span> Blanco   | `aa aa aa` | 15  | X | X | X | X | <span style="color:#ffffff;">█</span> Blanco   | `ff ff ff`
+Num  | i | R | G | B |              Color                             | Hex RGB
+----:|:-:|:-:|:-:|:-:|------------------------------------------------|:---------:
+  0  |   |   |   |   | <span style="color:#000000;">█</span> Negro    | `00 00 00`
+  1  |   |   |   | X | <span style="color:#0000aa;">█</span> Azul     | `00 00 aa`
+  2  |   |   | X |   | <span style="color:#00aa00;">█</span> Verde    | `00 aa 00`
+  3  |   |   | X | X | <span style="color:#00aaaa;">█</span> Cian     | `00 aa aa`
+  4  |   | X |   |   | <span style="color:#aa0000;">█</span> Rojo     | `aa 00 00`
+  5  |   | X |   | X | <span style="color:#aa00aa;">█</span> Magenta  | `aa 00 aa`
+  6  |   | X | X |   | <span style="color:#aaaa00;">█</span> Amarillo | `aa aa 00`
+  7  |   | X | X | X | <span style="color:#aaaaaa;">█</span> Blanco   | `aa aa aa`
+  8  | X |   |   |   | <span style="color:#555555;">█</span> Gris     | `55 55 55`
+  9  | X |   |   | X | <span style="color:#5555ff;">█</span> Azul     | `55 55 ff`
+ 10  | X |   | X |   | <span style="color:#55ff55;">█</span> Verde    | `55 ff 55`
+ 11  | X |   | X | X | <span style="color:#55ffff;">█</span> Cian     | `55 ff ff`
+ 12  | X | X |   |   | <span style="color:#ff5555;">█</span> Rojo     | `ff 55 55`
+ 13  | X | X |   | X | <span style="color:#ff55ff;">█</span> Magenta  | `ff 55 ff`
+ 14  | X | X | X |   | <span style="color:#ffff55;">█</span> Amarillo | `ff ff 55`
+ 15  | X | X | X | X | <span style="color:#ffffff;">█</span> Blanco   | `ff ff ff`
 
 
 El bit del *verde* no enciende el verde al 100% (`ff`) sino sólo a **dos tercios** (`aa`). Lo mismo para el rojo y el azul. El bit *i* añade un tercio a **todos** los colores. Suma `55` a todos. Los iluminados se pondrán al 100% y los apagados se pondrán al 33%.
@@ -476,7 +484,7 @@ assign o_green = {i,r,g,b} != 4'b0110 ? { g, i, g, i, g, i } : 5'b010101;
 
 ## Texto parpadeante
 
-*Sabes que estás en el Infierno del diseño cuando ves texto parpadeante*, decía hace muchos años Eric S. Raymond en [El infierno HTML](https://www.ibiblio.org/pub/Linux/docs/LuCaS/Otros/html-hell-es.html) ([The HTML Hell Page](http://www.catb.org/~esr/html-hell.html)). Es de los años 90, cuando la gente se hacía sus páginas web a mano (o usaba editores *WYSIWYG* como Netscape Composer o Frontpage). Páginas con mucha personalidad pero con muy poco estilo. GIFs animados, colores estridentes y, por supuesto, texto parpadeante.
+*Sabes que estás en el Infierno del diseño cuando ves texto parpadeante*, decía hace muchos años Eric S. Raymond en [El infierno HTML](https://www.ibiblio.org/pub/Linux/docs/LuCaS/Otros/html-hell-es.html) ([The HTML Hell Page](http://www.catb.org/~esr/html-hell.html)). Es de los **años 90**, cuando la gente se hacía sus páginas web a mano (o usaba editores *WYSIWYG* como Netscape Composer o Frontpage). Páginas con mucha personalidad pero con muy poco estilo. GIFs animados, colores estridentes y, por supuesto, texto parpadeante.
 
 Pero el texto parpadeante no era algo nuevo...
 
@@ -490,11 +498,9 @@ Añadimos una opción de **blink enable** para seleccionar si queremos el parpad
 
 Añadimos también la **blinking line**. Un bit que se pondrá a 0 y 1 periódicamente. Esta línea viene de un sencillo divisor, que divide por 16 la frecuencia *vsync*.
 
-El esquema queda así:
-
 {% include image.html file="text_8x16_colorblink.svg" caption="Diagrama de bloques del generador de texto 8x16 a color y parpadeante. EyC." %}
 
-El resultado final es este:
+Y el resultado final es este:
 
 {% include video.html file="crash_screen.mp4" caption="Si no recuerdas ver así tu pantalla alguna vez, es porque no cacharreaste lo suficiente. EyC." %}
 
