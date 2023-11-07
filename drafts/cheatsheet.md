@@ -127,6 +127,7 @@ Se pueden incluir gifs, tanto en la imagen de presentación como dentro del art�
 
 
 Search `\[foto:\s*(.*?)\s*\|\s*(.*?)\s*\]`, replace `{% include image.html file="\1" caption="\2" %}`.
+Nota: Se rompe si la imagen tiene enlaces.
 
 
 ### Vídeos

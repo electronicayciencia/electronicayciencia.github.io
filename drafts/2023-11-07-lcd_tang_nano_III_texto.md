@@ -83,7 +83,7 @@ Necesitas los números de 0 al 9, las letras del inglés de la A a la Z (26 letr
 
 En total **57 símbolos básicos**. Hasta los 64 sólo te quedan 7. No hay espacio para meter otras 26 letras más.
 
-{% include image.html file="BCD_1401.png" caption="Juego de caracteres BCD de 6 bits. IBM 1401. [Wikipedia" %}(https://en.wikipedia.org/wiki/BCD_(character_encoding)).]
+{% include image.html file="BCD_1401.png" caption="Juego de caracteres BCD de 6 bits. IBM 1401. [Wikipedia](https://en.wikipedia.org/wiki/BCD_(character_encoding))." %}
 
 Por supuesto tampoco caben letras acentuadas, caracteres extranjeros, etc.
 
@@ -189,9 +189,9 @@ La memoria de vídeo requerirá por tanto de `64*64*8 = 32kb`. Eso es 2 bancos d
 
 Los buses de *X* e *Y* eran de 9 bits. Habíamos usado los 3 bits menos significativos para posicionar el **pixel** dentro del carácter. Ahora usaremos los 6 restantes para seleccionar en qué **celda** estamos.
 
-Incorporamos el nuevo módulo al esquema. Lo alimentamos con las salidas de los bloques *X* e *Y* y su salida irá al generador de caracteres.
-
 {% include image.html file="text_8x8_nodelay.svg" caption="Diagrama de bloques del generador de texto 8x8 a partir de una ROM. EyC." %}
+
+Incorporamos el nuevo módulo al esquema. Lo alimentamos con las salidas de los bloques *X* e *Y* y su salida irá al generador de caracteres.
 
 ```verilog
 wire [7:0]  charnum;
@@ -466,19 +466,19 @@ Fíjate en el color 6, ese **amarillo oscuro** verduzco. ¿Es feo, verdad? A nad
 
 Ya desde los primeros monitores CGA, había un circuito especialmente dedicado a cambiar ese color. Esto es parte del esquema de un monitor IBM. He coloreado las líneas IRGB para que las puedas seguir más fácilmente.
 
-{% include image.html file="yellow2brown_sch.png" caption="Sección del esquema de un monitor IBM modelo 5153. [wiki.console5.com" %}(https://wiki.console5.com/tw/images/e/ea/IBM-Color-Display-%285153%29-Composite-Schematic.png).]
+{% include image.html file="yellow2brown_sch.png" caption="Sección del esquema de un monitor IBM modelo 5153. [wiki.console5.com](https://wiki.console5.com/tw/images/e/ea/IBM-Color-Display-%285153%29-Composite-Schematic.png)." %}
 
 Fíjate en el transistor **Q206**. Cuando conduce, conecta a masa la señal del **verde** por medio de la resistencia **R252**, reduciéndola.
 
 Aquí tienes un esquema simplificado: ():
 
-{% include image.html file="yellow2brown.png" caption="Esquema simplificado. [www.worldphaco.com" %}(https://www.worldphaco.com/uploads/FITTING_AN_EGA_CARD_TO_AN_IBM_5155.pdf).]
+{% include image.html file="yellow2brown.png" caption="Esquema simplificado. [www.worldphaco.com](https://www.worldphaco.com/uploads/FITTING_AN_EGA_CARD_TO_AN_IBM_5155.pdf)." %}
 
 Observa cómo los inversores alimentan la base de **Q206**. El transistor sólo conducirá si todos ellos están en nivel alto. Y esto sólo ocurrirá para la entrada `IRGB = 0110`, o sea el **color 6**.
 
 Reduciendo la potencia de la señal verde, ese amarillo verdoso se torna más como naranja oscuro o marrón. De este modo obtenemos la paleta canónica VGA.
 
-{% include image.html file="vga_canonica.png" caption="Paleta VGA canónica. [int10h.org" %}(https://int10h.org/blog/2022/06/ibm-5153-color-true-cga-palette/).]
+{% include image.html file="vga_canonica.png" caption="Paleta VGA canónica. [int10h.org](https://int10h.org/blog/2022/06/ibm-5153-color-true-cga-palette/)." %}
 
 Modificaremos nuestro módulo color para tener en cuenta esta excepción. Cuando el color sea 6, reduciremos el verde de `0xAA` a `0x55`.
 
@@ -539,28 +539,28 @@ Proyecto en Github:
 
 Sobre FPGA
 
-[Electrónica y Ciencia - Primeras experiencias con Sipeed Tang Nano]({{site.baseurl}}{% post_url 2021-07-05-tang_nano_fpga %})
-[Electrónica y Ciencia - Pantalla LCD con Tang Nano I. Patrones]({{site.baseurl}}{% post_url 2021-11-29-lcd_tang_nano_I_patrones %})
-[Electrónica y Ciencia - Pantalla LCD con Tang Nano parte II. Imágenes]({{site.baseurl}}{% post_url 2021-12-12-lcd_tang_nano_II_imagenes %})
+-[Electrónica y Ciencia - Primeras experiencias con Sipeed Tang Nano]({{site.baseurl}}{% post_url 2021-07-05-tang_nano_fpga %})
+-[Electrónica y Ciencia - Pantalla LCD con Tang Nano I. Patrones]({{site.baseurl}}{% post_url 2021-11-29-lcd_tang_nano_I_patrones %})
+-[Electrónica y Ciencia - Pantalla LCD con Tang Nano parte II. Imágenes]({{site.baseurl}}{% post_url 2021-12-12-lcd_tang_nano_II_imagenes %})
 
-[Project F - FPGA Development: Graphics](https://projectf.io/tags/graphics/)
-[The Why and How of Pipelining in FPGAs](https://www.allaboutcircuits.com/technical-articles/why-how-pipelining-in-fpga/)
-[Strategies for pipelining logic](https://zipcpu.com/blog/2017/08/14/strategies-for-pipelining.html)
+-[Project F - FPGA Development: Graphics](https://projectf.io/tags/graphics/)
+-[The Why and How of Pipelining in FPGAs](https://www.allaboutcircuits.com/technical-articles/why-how-pipelining-in-fpga/)
+-[Strategies for pipelining logic](https://zipcpu.com/blog/2017/08/14/strategies-for-pipelining.html)
 
 Caracteres y tipografías:
 
-[BCD (character encoding)](https://en.wikipedia.org/wiki/BCD_(character_encoding))
-[The Oldschool PC Font Resource]: https://int10h.org/oldschool-pc-fonts/fontlist/?1#top
-[vga text mode fonts](https://github.com/viler-int10h/vga-text-mode-fonts)
+-[BCD (character encoding)](https://en.wikipedia.org/wiki/BCD_(character_encoding))
+-[The Oldschool PC Font Resource](https://int10h.org/oldschool-pc-fonts/fontlist/?1#top)
+-[vga text mode fonts](https://github.com/viler-int10h/vga-text-mode-fonts)
 
 Colores
 
-[List of 8-bit computer hardware graphics](https://en.wikipedia.org/wiki/List_of_8-bit_computer_hardware_graphics).
-[The IBM 5153's True CGA Palette and Color Output](https://int10h.org/blog/2022/06/ibm-5153-color-true-cga-palette/)
-[FITTING AN EGA CARD TO AN IBM 5155](https://www.worldphaco.com/uploads/FITTING_AN_EGA_CARD_TO_AN_IBM_5155.pdf)
-[Screen Attributes](http://www.techhelpmanual.com/87-screen_attributes.html)
-[Brown color is weird](https://www.youtube.com/watch?v=wh4aWZRtTwU)
+-[List of 8-bit computer hardware graphics](https://en.wikipedia.org/wiki/List_of_8-bit_computer_hardware_graphics).
+-[The IBM 5153's True CGA Palette and Color Output](https://int10h.org/blog/2022/06/ibm-5153-color-true-cga-palette/)
+-[FITTING AN EGA CARD TO AN IBM 5155](https://www.worldphaco.com/uploads/FITTING_AN_EGA_CARD_TO_AN_IBM_5155.pdf)
+-[Screen Attributes](http://www.techhelpmanual.com/87-screen_attributes.html)
+-[Brown color is weird](https://www.youtube.com/watch?v=wh4aWZRtTwU)
 
 Varios
 
-[The TTY demystified](https://www.linusakesson.net/programming/tty/)
+-[The TTY demystified](https://www.linusakesson.net/programming/tty/)
