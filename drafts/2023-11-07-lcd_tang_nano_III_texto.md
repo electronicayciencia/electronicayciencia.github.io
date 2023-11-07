@@ -1,7 +1,7 @@
 ---
 title: Gráficos VGA con FPGA Tang Nano parte III. Texto.
 layout: post
-assets: /assets/2023/11/lcd_tang_nano_III_texto/
+assets: /assets/2023/11/lcd_tang_nano_III_texto
 image: /assets/2023/11/lcd_tang_nano_III_texto/img/crash_screen.gif
 featured: true
 description: Revivimos la historia de los primeros controladores gráficos mientras programamos uno que muestre texto en una FPGA.
@@ -69,7 +69,7 @@ Empezaremos por un tamaño de 8x8, 64 bits cada uno.
 
 Elegir un tamaño de carácter **potencia de dos** tiene la ventaja de que podemos direccionarlo directamente usando los buses **X** e **Y**, como luego veremos.
 
-{% include image.html file="char8x8.svg" caption="Un carácter de 8x8 píxeles se verá cuadrado y pixelado, pero ocupará sólo 64 bits. EyC." %}
+{% include image.html class="small-width" file="char8x8.svg" caption="Un carácter de 8x8 píxeles se verá cuadrado y pixelado, pero ocupará sólo 64 bits. EyC." %}
 
 La pantalla mide 480x272. Cabrán, por tanto, 60x34 caracteres de 8x8.
 
@@ -79,11 +79,11 @@ Los primeros ordenadores y terminales antiguos, tal vez lo hayas oído alguna ve
 
 Con seis bits tienes disponibles 64 valores diferentes. Piensa en quién usaba los ordenadores y para qué: Los **laboratorios** para hacer cálculos en FORTRAN y las grandes empresas americanas, para contabilidad de proveedores y clientes.
 
-Necesitas los números de 0 al 9, las letras del inglés de la A a la Z (26 letras), el espacio en blanco. El ampersand **&** para los apellidos de las grandes consultoras y despachos de abogados. Signos ortográficos ingleses **'".,;:!?()**. Las 4 operaciones matemáticas básicas "+-/\*" y los operadores "\<\>=%" y el dólar **$**. Unos **20 símbolos**.
+Necesitas los números de `0-9`, las letras del inglés de la `A-Z` (26 letras), el espacio en blanco ` `. El ampersand `&` para los apellidos de las grandes consultoras y despachos de abogados. Signos ortográficos ingleses `'".,;:!?()`. Las operaciones `<>+-/*=%` y el dólar `$`.
 
 En total **57 símbolos básicos**. Hasta los 64 sólo te quedan 7. No hay espacio para meter otras 26 letras más.
 
-{% include image.html file="BCD_1401.png" caption="Juego de caracteres BCD de 6 bits. IBM 1401. [Wikipedia](https://en.wikipedia.org/wiki/BCD_(character_encoding))." %}
+{% include image.html class="medium-width" file="BCD_1401.png" caption="Juego de caracteres BCD de 6 bits. IBM 1401. [Wikipedia](https://en.wikipedia.org/wiki/BCD_(character_encoding))." %}
 
 Por supuesto tampoco caben letras acentuadas, caracteres extranjeros, etc.
 
@@ -106,7 +106,7 @@ Volviendo a nuestro generador. Vamos a empezar reutilizando los **256 caracteres
 
 {% include image.html file="ibm_8x8_grid.png" caption="Juego de caracteres OEM 8x8." %}
 
-Los caracteres de la primera mitad (los primeros 7 bits) son los 127 símbolos ASCII y son estándar, siempre los mismos. 
+Los caracteres de la **primera mitad** (los primeros 7 bits) son los 127 símbolos ASCII y son estándar, siempre los mismos. 
 
 Los de abajo varían según el *codepage*. Estos son [cp437](https://en.wikipedia.org/wiki/Code_page_437), estadounidense estándar, también llamado *OEM* o *ASCII extendido*. 
 
@@ -378,38 +378,21 @@ Lo que este bit hacía en realidad era aumentar el voltaje en todos los cañones
 
 Más o menos así:
 
+Num  | i | R | G | B |              Color                             | Hex RGB    | Num | i | R | G | B |              Color                             | Hex RGB
+----:|:-:|:-:|:-:|:-:|------------------------------------------------|:-----------|----:|:-:|:-:|:-:|:-:|------------------------------------------------|:---------
+  0  |   |   |   |   | <span style="color:#000000;">█</span> Negro    | `00 00 00` |  8  | X |   |   |   | <span style="color:#555555;">█</span> Gris     | `55 55 55`
+  1  |   |   |   | X | <span style="color:#0000aa;">█</span> Azul     | `00 00 aa` |  9  | X |   |   | X | <span style="color:#5555ff;">█</span> Azul     | `55 55 ff`
+  2  |   |   | X |   | <span style="color:#00aa00;">█</span> Verde    | `00 aa 00` | 10  | X |   | X |   | <span style="color:#55ff55;">█</span> Verde    | `55 ff 55`
+  3  |   |   | X | X | <span style="color:#00aaaa;">█</span> Cian     | `00 aa aa` | 11  | X |   | X | X | <span style="color:#55ffff;">█</span> Cian     | `55 ff ff`
+  4  |   | X |   |   | <span style="color:#aa0000;">█</span> Rojo     | `aa 00 00` | 12  | X | X |   |   | <span style="color:#ff5555;">█</span> Rojo     | `ff 55 55`
+  5  |   | X |   | X | <span style="color:#aa00aa;">█</span> Magenta  | `aa 00 aa` | 13  | X | X |   | X | <span style="color:#ff55ff;">█</span> Magenta  | `ff 55 ff`
+  6  |   | X | X |   | <span style="color:#aaaa00;">█</span> Amarillo | `aa aa 00` | 14  | X | X | X |   | <span style="color:#ffff55;">█</span> Amarillo | `ff ff 55`
+  7  |   | X | X | X | <span style="color:#aaaaaa;">█</span> Blanco   | `aa aa aa` | 15  | X | X | X | X | <span style="color:#ffffff;">█</span> Blanco   | `ff ff ff`
 
-Num  | i | R | G | B |              Color                             | Hex RGB
-----:|:-:|:-:|:-:|:-:|------------------------------------------------|:---------:
-  0  |   |   |   |   | <span style="color:#000000;">█</span> Negro    | `00 00 00`
-  1  |   |   |   | X | <span style="color:#0000aa;">█</span> Azul     | `00 00 aa`
-  2  |   |   | X |   | <span style="color:#00aa00;">█</span> Verde    | `00 aa 00`
-  3  |   |   | X | X | <span style="color:#00aaaa;">█</span> Cian     | `00 aa aa`
-  4  |   | X |   |   | <span style="color:#aa0000;">█</span> Rojo     | `aa 00 00`
-  5  |   | X |   | X | <span style="color:#aa00aa;">█</span> Magenta  | `aa 00 aa`
-  6  |   | X | X |   | <span style="color:#aaaa00;">█</span> Amarillo | `aa aa 00`
-  7  |   | X | X | X | <span style="color:#aaaaaa;">█</span> Blanco   | `aa aa aa`
-  8  | X |   |   |   | <span style="color:#555555;">█</span> Gris     | `55 55 55`
-  9  | X |   |   | X | <span style="color:#5555ff;">█</span> Azul     | `55 55 ff`
- 10  | X |   | X |   | <span style="color:#55ff55;">█</span> Verde    | `55 ff 55`
- 11  | X |   | X | X | <span style="color:#55ffff;">█</span> Cian     | `55 ff ff`
- 12  | X | X |   |   | <span style="color:#ff5555;">█</span> Rojo     | `ff 55 55`
- 13  | X | X |   | X | <span style="color:#ff55ff;">█</span> Magenta  | `ff 55 ff`
- 14  | X | X | X |   | <span style="color:#ffff55;">█</span> Amarillo | `ff ff 55`
- 15  | X | X | X | X | <span style="color:#ffffff;">█</span> Blanco   | `ff ff ff`
 
 El bit del *verde* no enciende el verde al 100% (`ff`) sino sólo a **dos tercios** (`aa`). Lo mismo para el rojo y el azul. El bit *i* añade un tercio a **todos** los colores. Suma `55` a todos. Los iluminados se pondrán al 100% y los apagados se pondrán al 33%.
 
 Lo de los dos tercios es una regla que trata de imitar con una paleta digital de colores la tonalidad de los monitores IRGB. Al final del artículo te dejo algunos enlaces.
-
-En binario sería: 
-
-Bit       |  Binario    |  Hex
-----------|-------------|------
-negro     | `0000 0000` | `00`
-color     | `1010 1010` | `AA`
-i         | `0101 0101` | `55`
-color + i | `1111 1111` | `FF`
 
 Para dotar de color a nuestro texto debemos a duplicar el tamaño del *framebuffer*. Ya que ahora, en lugar de guardar 8 bits guardaremos 16: 8 para el carácter y 8 para el color.
 
@@ -441,7 +424,7 @@ endmodule
 
 Hacemos una sencilla prueba para ver qué tal funciona:
 
-{% include image.html file="text_color_nodelay.jpg" caption="Muestra de texto con el color adelantado respecto al carácter. EyC." %}
+{% include image.html class="medium-width" file="text_color_nodelay.jpg" caption="Muestra de texto con el color adelantado respecto al carácter. EyC." %}
 
 Los caracteres parecen desplazados hacia la derecha. En realidad es el color de fondo quien está desplazado hacia la izquierda.
 
@@ -472,7 +455,7 @@ Fíjate en el transistor **Q206**. Cuando conduce, conecta a masa la señal del 
 
 Aquí tienes un esquema simplificado: ():
 
-{% include image.html file="yellow2brown.png" caption="Esquema simplificado. [www.worldphaco.com](https://www.worldphaco.com/uploads/FITTING_AN_EGA_CARD_TO_AN_IBM_5155.pdf)." %}
+{% include image.html class="large-width" file="yellow2brown.png" caption="Esquema simplificado. [www.worldphaco.com](https://www.worldphaco.com/uploads/FITTING_AN_EGA_CARD_TO_AN_IBM_5155.pdf)." %}
 
 Observa cómo los inversores alimentan la base de **Q206**. El transistor sólo conducirá si todos ellos están en nivel alto. Y esto sólo ocurrirá para la entrada `IRGB = 0110`, o sea el **color 6**.
 
@@ -520,7 +503,7 @@ El resultado final es este:
 
 A lo largo de estos tres artículos hemos explorado cómo manejar una pantalla con una FPGA muy sencilla. Y cómo sortear ciertas limitaciones. Limitaciones, por otra parte, sólo de memoria. Porque apenas hemos usado un 7% de los demás recursos.
 
-{% include image.html file="resource_usage.png" caption="Resumen de la síntesis. EyC." %}
+{% include image.html file="resource_usage.png" caption="Resumen de la síntesis. Quitando la memoria, toda la lógica sólo necesita un 7% de la FPGA. EyC." %}
 
 Hemos conseguido proyectar texto a color con toda la resolución que da la pantalla. Renunciando, eso sí, a manejar píxeles individuales. Tal vez ahora comprendas mejor porqué las tarjetas gráficas tenían varios **modos de texto** y **modos gráficos**.
 
@@ -535,7 +518,7 @@ Programar en RTL me deja la sensación de haber diseñado un complejo mecanismo 
 
 Proyecto en Github: 
 
-[GitHub electronicayciencia/verilog-vga](https://github.com/electronicayciencia/verilog-vga)
+- [GitHub electronicayciencia/verilog-vga](https://github.com/electronicayciencia/verilog-vga)
 
 Sobre FPGA
 
