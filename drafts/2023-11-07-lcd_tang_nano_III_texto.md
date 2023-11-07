@@ -539,28 +539,28 @@ Proyecto en Github:
 
 Sobre FPGA
 
--[Electrónica y Ciencia - Primeras experiencias con Sipeed Tang Nano]({{site.baseurl}}{% post_url 2021-07-05-tang_nano_fpga %})
--[Electrónica y Ciencia - Pantalla LCD con Tang Nano I. Patrones]({{site.baseurl}}{% post_url 2021-11-29-lcd_tang_nano_I_patrones %})
--[Electrónica y Ciencia - Pantalla LCD con Tang Nano parte II. Imágenes]({{site.baseurl}}{% post_url 2021-12-12-lcd_tang_nano_II_imagenes %})
+- [Electrónica y Ciencia - Primeras experiencias con Sipeed Tang Nano]({{site.baseurl}}{% post_url 2021-07-05-tang_nano_fpga %})
+- [Electrónica y Ciencia - Pantalla LCD con Tang Nano I. Patrones]({{site.baseurl}}{% post_url 2021-11-29-lcd_tang_nano_I_patrones %})
+- [Electrónica y Ciencia - Pantalla LCD con Tang Nano parte II. Imágenes]({{site.baseurl}}{% post_url 2021-12-12-lcd_tang_nano_II_imagenes %})
 
--[Project F - FPGA Development: Graphics](https://projectf.io/tags/graphics/)
--[The Why and How of Pipelining in FPGAs](https://www.allaboutcircuits.com/technical-articles/why-how-pipelining-in-fpga/)
--[Strategies for pipelining logic](https://zipcpu.com/blog/2017/08/14/strategies-for-pipelining.html)
+- [Project F - FPGA Development: Graphics](https://projectf.io/tags/graphics/)
+- [The Why and How of Pipelining in FPGAs](https://www.allaboutcircuits.com/technical-articles/why-how-pipelining-in-fpga/)
+- [Strategies for pipelining logic](https://zipcpu.com/blog/2017/08/14/strategies-for-pipelining.html)
 
 Caracteres y tipografías:
 
--[BCD (character encoding)](https://en.wikipedia.org/wiki/BCD_(character_encoding))
--[The Oldschool PC Font Resource](https://int10h.org/oldschool-pc-fonts/fontlist/?1#top)
--[vga text mode fonts](https://github.com/viler-int10h/vga-text-mode-fonts)
+- [BCD (character encoding)](https://en.wikipedia.org/wiki/BCD_(character_encoding))
+- [The Oldschool PC Font Resource](https://int10h.org/oldschool-pc-fonts/fontlist/?1#top)
+- [vga text mode fonts](https://github.com/viler-int10h/vga-text-mode-fonts)
 
 Colores
 
--[List of 8-bit computer hardware graphics](https://en.wikipedia.org/wiki/List_of_8-bit_computer_hardware_graphics).
--[The IBM 5153's True CGA Palette and Color Output](https://int10h.org/blog/2022/06/ibm-5153-color-true-cga-palette/)
--[FITTING AN EGA CARD TO AN IBM 5155](https://www.worldphaco.com/uploads/FITTING_AN_EGA_CARD_TO_AN_IBM_5155.pdf)
--[Screen Attributes](http://www.techhelpmanual.com/87-screen_attributes.html)
--[Brown color is weird](https://www.youtube.com/watch?v=wh4aWZRtTwU)
+- [List of 8-bit computer hardware graphics](https://en.wikipedia.org/wiki/List_of_8-bit_computer_hardware_graphics).
+- [The IBM 5153's True CGA Palette and Color Output](https://int10h.org/blog/2022/06/ibm-5153-color-true-cga-palette/)
+- [FITTING AN EGA CARD TO AN IBM 5155](https://www.worldphaco.com/uploads/FITTING_AN_EGA_CARD_TO_AN_IBM_5155.pdf)
+- [Screen Attributes](http://www.techhelpmanual.com/87-screen_attributes.html)
+- [Brown color is weird](https://www.youtube.com/watch?v=wh4aWZRtTwU)
 
 Varios
 
--[The TTY demystified](https://www.linusakesson.net/programming/tty/)
+- [The TTY demystified](https://www.linusakesson.net/programming/tty/)
