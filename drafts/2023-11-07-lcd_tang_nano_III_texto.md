@@ -54,7 +54,7 @@ Al final, la única forma de llenar la pantalla sin perder resolución fue **ren
 
 {% include image.html file="minecraft_leds_grid.png" caption="Imagen formada por sólo tres patrones repetidos. EyC." %}
 
-Ahora sí, usaremos la misma técnica, más elaborada, para proyectar texto.
+Usaremos la misma técnica, más elaborada, para proyectar texto.
 
 
 ## Generador de caracteres
@@ -65,7 +65,7 @@ Llamamos *generador de caracteres* al circuito que relaciona qué pixeles encend
 
 En su versión más sencilla, un generador de caracteres consiste en una memoria, habitualmente de sólo lectura (ROM), donde se guarda una imagen binaria de cada carácter. En función de cuántos caracteres distintos haya, y de su tamaño, el conjunto requerirá más o menos memoria.
 
-Empezaremos por un tamaño de 8x8, 64 bits cada uno.
+Empezaremos por un tamaño de 8x8.
 
 Elegir un tamaño de carácter **potencia de dos** tiene la ventaja de que podemos direccionarlo directamente usando los buses **X** e **Y**, como luego veremos.
 
@@ -73,27 +73,27 @@ Elegir un tamaño de carácter **potencia de dos** tiene la ventaja de que podem
 
 La pantalla mide 480x272. Cabrán, por tanto, 60x34 caracteres de 8x8.
 
-Ahora hay que decidir cuántos símbolos diferentes tendremos disponibles. Este número no sólo determina el tamaño de la memoria ROM. La ROM es barata, y hasta se puede sustituir por un circuito lógico. Lo más importante es el impacto que tiene en la **memoria de video**.
+Ahora hay que decidir cuántos símbolos diferentes tendremos disponibles. Cada símbolo cuenta.
 
 Los primeros ordenadores y terminales antiguos, tal vez lo hayas oído alguna vez, sólo trabajaban con **letras mayúsculas**. En el caso de los mainframes de IBM era porque su arquitectura interna tenía sólo **6 bits**. Eso significa que el bus de datos eran **seis cables**.
 
 Con seis bits tienes disponibles 64 valores diferentes. Piensa en quién usaba los ordenadores y para qué: Los **laboratorios** para hacer cálculos en FORTRAN y las grandes empresas americanas, para contabilidad de proveedores y clientes.
 
-Necesitas los números de `0-9`, las letras del inglés de la `A-Z` (26 letras), el espacio en blanco ` `. El ampersand `&` para los apellidos de las grandes consultoras y despachos de abogados. Signos ortográficos ingleses `'".,;:!?()`. Las operaciones `<>+-/*=%` y el dólar `$`.
-
-En total **57 símbolos básicos**. Hasta los 64 sólo te quedan 7. No hay espacio para meter otras 26 letras más.
+Como mínimo necesitas los números de `0-9`, las letras del inglés de la `A-Z` y el espacio (37 símbolos). Ahora elige entre:
+- 26 letras más minúsculas, o 
+- el ampersand `&`, signos ortográficos ingleses `'".,;:!?()`, operadores `<>+-/*=%` y el dólar `$`.
 
 {% include image.html class="medium-width" file="BCD_1401.png" caption="Juego de caracteres BCD de 6 bits. IBM 1401. [Wikipedia](https://en.wikipedia.org/wiki/BCD_(character_encoding))." %}
 
 Por supuesto tampoco caben letras acentuadas, caracteres extranjeros, etc.
 
-Usar 7 bits en vez de 6 habría permitido 128 símbolos. Pero significaba un cable más en todos los buses de datos. Un bit más en cada carácter escrito en cinta magnética, en cada transmisión serie, en cada dataset. Un incremento del 16% en memoria, tiempo y almacenamiento.
+Usar 7 bits en vez de 6 habría permitido **128 símbolos**. Pero significaba un cable más en todos los buses de datos. Un bit más en cada carácter escrito en cinta magnética, en cada transmisión serie, en cada dataset. Un incremento del 16% en memoria, tiempo y almacenamiento.
 
 ¿Y luego para imprimirlos? Ve tú a cambiarle el tambor a la impresora por uno que tenga la *ñ*. No hablemos ya de los teletipos...
 
 Por eso antes los terminales no soportaban minúsculas.
 
-Y por eso, durante muchos años, cuando Linux detectaba el **nombre de usuario** todo en mayúsculas asumía que tu terminal no soportaba minúsculas y se *adaptaba*.
+Y por eso, durante muchos años, cuando Linux detectaba un **nombre de usuario** en mayúsculas asumía que tu terminal no soportaba minúsculas y se *adaptaba*.
 
 {% include image.html file="debian_uppercase.png" caption="Debian 3 mostrando cómo el terminal se adaptaba a uno sin soporte de minúsculas. EyC." %}
 
@@ -166,9 +166,7 @@ assign LCD_B = {5{pxon}};
 
 Como la salida del generador va conectada directamente a todos los pines de color de la LCD, el pixel se verá blanco o negro.
 
-El resultado es la pantalla rellena con el carácter "a" en todas las posiciones.
-
-{% include image.html file="hardwired_text_scr.jpg" caption="Generador de caracteres con un valor fijo. EyC." %}
+{% include image.html file="hardwired_text_scr.jpg" caption="Pantalla rellena con el carácter "a" en todas las posiciones. EyC." %}
 
 Todos los caracteres se ven enteros y bien formados. Significa que vamos por buen camino.
 
@@ -214,9 +212,7 @@ Debemos inicializar la ROM con algún texto. Porque de lo contrario no se mostra
 
 Este es el resultado:
 
-{% include image.html file="text_8x8_nodelay.jpg" caption="Hay un problema de sincronización. EyC." %}
-
-Algo falla.
+{% include image.html file="text_8x8_nodelay.jpg" caption="Algo falla. Hay un problema de sincronización. EyC." %}
 
 Al igual que pasaba con las imágenes y pasa con el generador de caracteres, la ROM de la memoria de video es síncrona. Y, de nuevo, eso significa que tendremos la salida válida **al siguiente tic** de reloj.
 
@@ -270,9 +266,7 @@ wire [13:0] rom_addr = {charnum, y_char_delayed, x_char_delayed};
 
 Y esto es lo que obtenemos:
 
-{% include image.html file="text_8x8_semidelay.jpg" caption="Los símbolos se muestran correctamente salvo los primeros. EyC." %}
-
-Aún falla la primera columna.
+{% include image.html file="text_8x8_semidelay.jpg" caption="Aún falla la primera columna. EyC." %}
 
 Es porque ahora la señal del pixel que llega a la LDC lleva dos tics de retraso. Uno debido a la memoria de video y el otro al generador de caracteres. Por tanto es necesario retrasar también el resto de señales que le llegan no uno, sino **dos tics**. Quedando el diseño final de esta manera:
 
@@ -332,7 +326,7 @@ charbuf_mono_64x64 charbuf_mono_64x64(
 
 El texto se mostrará a medida que se va escribiendo.
 
-{% include video.html file="shinning8x8.mp4" caption="Escritura automática. EyC." %}
+{% include video.html file="shinning8x8.mp4" caption="Sin tele y sin cerveza Homer pierde la cabeza. EyC." %}
 
 
 ## Caracteres estilizados
@@ -378,29 +372,29 @@ Lo que este bit hacía en realidad era aumentar el voltaje en todos los cañones
 
 Más o menos así:
 
-Num  | i | R | G | B |              Color                             | Hex RGB
-----:|:-:|:-:|:-:|:-:|------------------------------------------------|:---------:
-  0  |   |   |   |   | <span style="color:#000000;">█</span> Negro    | `00 00 00`
-  1  |   |   |   | X | <span style="color:#0000aa;">█</span> Azul     | `00 00 aa`
-  2  |   |   | X |   | <span style="color:#00aa00;">█</span> Verde    | `00 aa 00`
-  3  |   |   | X | X | <span style="color:#00aaaa;">█</span> Cian     | `00 aa aa`
-  4  |   | X |   |   | <span style="color:#aa0000;">█</span> Rojo     | `aa 00 00`
-  5  |   | X |   | X | <span style="color:#aa00aa;">█</span> Magenta  | `aa 00 aa`
-  6  |   | X | X |   | <span style="color:#aaaa00;">█</span> Amarillo | `aa aa 00`
-  7  |   | X | X | X | <span style="color:#aaaaaa;">█</span> Blanco   | `aa aa aa`
-  8  | X |   |   |   | <span style="color:#555555;">█</span> Gris     | `55 55 55`
-  9  | X |   |   | X | <span style="color:#5555ff;">█</span> Azul     | `55 55 ff`
- 10  | X |   | X |   | <span style="color:#55ff55;">█</span> Verde    | `55 ff 55`
- 11  | X |   | X | X | <span style="color:#55ffff;">█</span> Cian     | `55 ff ff`
- 12  | X | X |   |   | <span style="color:#ff5555;">█</span> Rojo     | `ff 55 55`
- 13  | X | X |   | X | <span style="color:#ff55ff;">█</span> Magenta  | `ff 55 ff`
- 14  | X | X | X |   | <span style="color:#ffff55;">█</span> Amarillo | `ff ff 55`
- 15  | X | X | X | X | <span style="color:#ffffff;">█</span> Blanco   | `ff ff ff`
+Num  | i | R | G | B |              Color                     | Hex RGB
+----:|:-:|:-:|:-:|:-:|:--------------------------------------:|:--------:
+  0  |   |   |   |   | <span style="color:#000000;">███</span>| `000000`
+  1  |   |   |   | X | <span style="color:#0000aa;">███</span>| `0000aa`
+  2  |   |   | X |   | <span style="color:#00aa00;">███</span>| `00aa00`
+  3  |   |   | X | X | <span style="color:#00aaaa;">███</span>| `00aaaa`
+  4  |   | X |   |   | <span style="color:#aa0000;">███</span>| `aa0000`
+  5  |   | X |   | X | <span style="color:#aa00aa;">███</span>| `aa00aa`
+  6  |   | X | X |   | <span style="color:#aaaa00;">███</span>| `aaaa00`
+  7  |   | X | X | X | <span style="color:#aaaaaa;">███</span>| `aaaaaa`
+  8  | X |   |   |   | <span style="color:#555555;">███</span>| `555555`
+  9  | X |   |   | X | <span style="color:#5555ff;">███</span>| `5555ff`
+ 10  | X |   | X |   | <span style="color:#55ff55;">███</span>| `55ff55`
+ 11  | X |   | X | X | <span style="color:#55ffff;">███</span>| `55ffff`
+ 12  | X | X |   |   | <span style="color:#ff5555;">███</span>| `ff5555`
+ 13  | X | X |   | X | <span style="color:#ff55ff;">███</span>| `ff55ff`
+ 14  | X | X | X |   | <span style="color:#ffff55;">███</span>| `ffff55`
+ 15  | X | X | X | X | <span style="color:#ffffff;">███</span>| `ffffff`
 
 
 El bit del *verde* no enciende el verde al 100% (`ff`) sino sólo a **dos tercios** (`aa`). Lo mismo para el rojo y el azul. El bit *i* añade un tercio a **todos** los colores. Suma `55` a todos. Los iluminados se pondrán al 100% y los apagados se pondrán al 33%.
 
-Lo de los dos tercios es una regla que trata de imitar con una paleta digital de colores la tonalidad de los monitores IRGB. Al final del artículo te dejo algunos enlaces.
+Lo de los **dos tercios** es una regla que intenta imitar la tonalidad de los monitores IRGB. Se hace así por convenio ([The IBM 5153's True CGA Palette and Color Output](https://int10h.org/blog/2022/06/ibm-5153-color-true-cga-palette/)).
 
 Para dotar de color a nuestro texto debemos a duplicar el tamaño del *framebuffer*. Ya que ahora, en lugar de guardar 8 bits guardaremos 16: 8 para el carácter y 8 para el color.
 
@@ -502,22 +496,20 @@ Añadimos también la **blinking line**. Un bit que se pondrá a 0 y 1 periódic
 
 Y el resultado final es este:
 
-{% include video.html file="crash_screen.mp4" caption="Si no recuerdas ver así tu pantalla alguna vez, es porque no cacharreaste lo suficiente. EyC." %}
+{% include video.html file="crash_screen.mp4" caption="Si no recuerdas así tu pantalla, es porque no cacharreaste lo suficiente. EyC." %}
 
 
 ## Conclusión
 
-A lo largo de estos tres artículos hemos explorado cómo manejar una pantalla con una FPGA muy sencilla. Y cómo sortear ciertas limitaciones. Limitaciones, por otra parte, sólo de memoria. Porque apenas hemos usado un 7% de los demás recursos.
+A lo largo de estos tres artículos hemos explorado cómo manejar una pantalla con una FPGA muy sencilla. Y cómo surgen **varios modos** en función de las limitaciones. Limitaciones, por otra parte, sólo de memoria. Porque apenas hemos usado un 7% de los demás recursos.
 
-{% include image.html file="resource_usage.png" caption="Resumen de la síntesis. Quitando la memoria, toda la lógica sólo necesita un 7% de la FPGA. EyC." %}
+{% include image.html class="medium-width" file="resource_usage.png" caption="Resumen de la síntesis. Quitando la memoria, toda la lógica sólo necesita un 7% de la FPGA. EyC." %}
 
 Hemos conseguido proyectar texto a color con toda la resolución que da la pantalla. Renunciando, eso sí, a manejar píxeles individuales. Tal vez ahora comprendas mejor porqué las tarjetas gráficas tenían varios **modos de texto** y **modos gráficos**.
 
-Hoy en cualquier móvil o smartwatch tenemos infinidad de *fuentes*, de ancho fijo, variable, caligráficas, en negrita, cursiva, con todos los caracteres hasta en chino, a todo color y del tamaño que quieras. Imagínate la complejidad y las capas de abstracción que hacen falta hasta llegar ahí.
+Hoy, en cualquier móvil o smartwatch, tenemos infinidad de *fuentes*; de ancho fijo, variable, caligráficas, en negrita, cursiva, con todos los caracteres hasta en chino, a todo color y del tamaño que quieras. Imagínate la complejidad y las capas de abstracción que hacen falta hasta llegar ahí.
 
-Otra cosa. ¿Qué te ha parecido lo de ir poniendo retardos para que todas las señales lleguen a la vez? Al final *parece* como si todo ocurriera en un ciclo de reloj. Fijar las coordenadas, leer de la RAM de video, pasar por la ROM de caracteres, todo a la vez en un ciclo. Te prometo que es una técnica importantísima. Abajo te dejo algún enlace si tienes curiosidad.
-
-Programar en RTL me deja la sensación de haber diseñado un complejo mecanismo de relojería. La señal de reloj es como una manivela que hace girar las ruedas dentadas. Cada una coordinada con las demás y todas sincronizadas para generar las señales que buscamos.
+Lo de ir poniendo retardos para que todas las señales lleguen a la vez no lo voy a desarrollar, pero te prometo que es una técnica importantísima. Al final, para la LCD, *parece* como si todo ocurriera en un ciclo de reloj. Fijar las coordenadas, leer de la RAM de video, pasar por la ROM de caracteres, todo el mismo ciclo. Abajo te dejo algún enlace si tienes curiosidad.
 
 
 ## Enlaces para profundizar
@@ -536,7 +528,7 @@ Sobre FPGA
 - [The Why and How of Pipelining in FPGAs](https://www.allaboutcircuits.com/technical-articles/why-how-pipelining-in-fpga/)
 - [Strategies for pipelining logic](https://zipcpu.com/blog/2017/08/14/strategies-for-pipelining.html)
 
-Caracteres y tipografías:
+Caracteres y tipografías
 
 - [BCD (character encoding)](https://en.wikipedia.org/wiki/BCD_(character_encoding))
 - [The Oldschool PC Font Resource](https://int10h.org/oldschool-pc-fonts/fontlist/?1#top)
