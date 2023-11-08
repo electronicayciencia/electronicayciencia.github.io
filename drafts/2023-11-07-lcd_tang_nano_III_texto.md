@@ -268,7 +268,7 @@ Y esto es lo que obtenemos:
 
 {% include image.html file="text_8x8_semidelay.jpg" caption="Aún falla la primera columna. EyC." %}
 
-Es porque ahora la señal del pixel que llega a la LDC lleva dos tics de retraso. Uno debido a la memoria de video y el otro al generador de caracteres. Por tanto es necesario retrasar también el resto de señales que le llegan no uno, sino **dos tics**. Quedando el diseño final de esta manera:
+Es porque ahora la señal del pixel que llega a la LCD lleva dos tics de retraso. Uno debido a la memoria de video y el otro al generador de caracteres. Por tanto es necesario retrasar también el resto de señales que le llegan no uno, sino **dos tics**. Quedando el diseño final de esta manera:
 
 {% include image.html file="text_8x8_delay.svg" caption="Diagrama de bloques del generador de texto 8x8 a partir de una ROM, con el delay corregido. EyC." %}
 
@@ -370,8 +370,6 @@ De esos cuatro bits, tres controlarán cada uno de los tres colores básicos. Y 
 
 Lo que este bit hacía en realidad era aumentar el voltaje en todos los cañones del rojo, verde y azul. Así que tenemos los mismos 8 colores, dos veces. Unos más oscuros y otros más brillantes.
 
-Más o menos así:
-
 Num  |   iRGB    |              Color                      |  Hex RGB
 ----:|:---------:|:---------------------------------------:|:---------:
   0  | `0 0 0 0` | <span style="color:#000000;">███</span> | `00 00 00`
@@ -394,7 +392,7 @@ Num  |   iRGB    |              Color                      |  Hex RGB
 
 El bit del *verde* no enciende el verde al 100% (`ff`) sino sólo a **dos tercios** (`aa`). Lo mismo para el rojo y el azul. El bit *i* añade un tercio a **todos** los colores. Suma `55` a todos. Los iluminados se pondrán al 100% y los apagados se pondrán al 33%.
 
-Lo de los **dos tercios** es una regla que intenta imitar la tonalidad de los monitores IRGB. Se hace así por convenio ([The IBM 5153's True CGA Palette and Color Output](https://int10h.org/blog/2022/06/ibm-5153-color-true-cga-palette/)).
+Lo de los **dos tercios** es una regla que intenta imitar la tonalidad de los monitores IRGB. Se hace así por convenio ([The IBM 5153's True CGA Palette and Color Output](https://int10h.org/blog/2022/06/ibm-5153-color-true-cga-palette/)) aunque no sea del todo fiel.
 
 Para dotar de color a nuestro texto debemos a duplicar el tamaño del *framebuffer*. Ya que ahora, en lugar de guardar 8 bits guardaremos 16: 8 para el carácter y 8 para el color.
 
@@ -455,7 +453,7 @@ Ya desde los primeros monitores CGA, había un circuito especialmente dedicado a
 
 Fíjate en el transistor **Q206**. Cuando conduce, conecta a masa la señal del **verde** por medio de la resistencia **R252**, reduciéndola.
 
-Aquí tienes un esquema simplificado: ():
+Aquí tienes un esquema simplificado:
 
 {% include image.html class="large-width" file="yellow2brown.png" caption="Esquema simplificado. [www.worldphaco.com](https://www.worldphaco.com/uploads/FITTING_AN_EGA_CARD_TO_AN_IBM_5155.pdf)." %}
 
@@ -478,7 +476,7 @@ assign o_green = {i,r,g,b} != 4'b0110 ? { g, i, g, i, g, i } : 5'b010101;
 
 ## Texto parpadeante
 
-*Sabes que estás en el Infierno del diseño cuando ves texto parpadeante*, decía hace muchos años Eric S. Raymond en [El infierno HTML](https://www.ibiblio.org/pub/Linux/docs/LuCaS/Otros/html-hell-es.html) ([The HTML Hell Page](http://www.catb.org/~esr/html-hell.html)). Es de los **años 90**, cuando la gente se hacía sus páginas web a mano (o usaba editores *WYSIWYG* como Netscape Composer o Frontpage). Páginas con mucha personalidad pero con muy poco estilo. GIFs animados, colores estridentes y, por supuesto, texto parpadeante.
+*Sabes que estás en el Infierno del diseño cuando ves texto parpadeante*, decía hace tiempo Eric S. Raymond en [El infierno HTML](https://www.ibiblio.org/pub/Linux/docs/LuCaS/Otros/html-hell-es.html) ([The HTML Hell Page](http://www.catb.org/~esr/html-hell.html)). Es de los **años 90**, cuando la gente se hacía sus páginas web a mano (o con editores *WYSIWYG* como Netscape Composer o Frontpage). Páginas con mucha personalidad pero con muy poco estilo. GIFs animados, colores estridentes y, por supuesto, texto parpadeante.
 
 Pero el texto parpadeante no era algo nuevo...
 
