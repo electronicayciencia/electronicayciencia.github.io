@@ -166,7 +166,7 @@ assign LCD_B = {5{pxon}};
 
 Como la salida del generador va conectada directamente a todos los pines de color de la LCD, el pixel se verá blanco o negro.
 
-{% include image.html file="hardwired_text_scr.jpg" caption="Pantalla rellena con el carácter "a" en todas las posiciones. EyC." %}
+{% include image.html file="hardwired_text_scr.jpg" caption="Pantalla rellena con el carácter `a` en todas las posiciones. EyC." %}
 
 Todos los caracteres se ven enteros y bien formados. Significa que vamos por buen camino.
 
