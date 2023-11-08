@@ -22,8 +22,18 @@ layout: default
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-	{% include toc.html html=content sanitize=true class="inline_toc" id="my_toc" h_min=2 h_max=3 %}
-    {{ content }}
+    {% include toc.html html=content sanitize=true class="inline_toc" id="my_toc" h_min=2 h_max=3 %}
+
+    {% comment %}
+    Replace is used to wrap table inside DIV block in order to control the
+    scroll when the table is wider than the viewport. EyC. 2023/08/11.
+    Github does not support curtom plugins.
+    {% endcomment %}
+
+    {{ content | 
+        replace: '<table>', '<div class="table-wrap" markdown="block"><table>' |
+        replace: '</table>', '</table></div>' }}
+  
   </div>
 
   {% include prev_next.html prev_url=page.previous.url prev_text=page.previous.title next_url=page.next.url next_text=page.next.title %}

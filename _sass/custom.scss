@@ -300,3 +300,15 @@ $img-x-large-width: 100%;
 .post-list h3 {
   margin-bottom: 0.5rem
 }
+
+/* To allow horizontal scroll on wide tables 
+ all tables are wrapped in a DIV block. */
+.table-wrap {
+    overflow-x: auto;
+    margin-bottom: $spacing-unit;
+}
+
+table {
+    margin-bottom: 5px;
+}
+
