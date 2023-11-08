@@ -372,24 +372,24 @@ Lo que este bit hacía en realidad era aumentar el voltaje en todos los cañones
 
 Más o menos así:
 
-Num  |  iRGB  |              Color                     | Hex RGB
-----:|:------:|:--------------------------------------:|:--------:
-  0  | `0000` | <span style="color:#000000;">███</span>| `000000`
-  1  | `0001` | <span style="color:#0000aa;">███</span>| `0000aa`
-  2  | `0010` | <span style="color:#00aa00;">███</span>| `00aa00`
-  3  | `0011` | <span style="color:#00aaaa;">███</span>| `00aaaa`
-  4  | `0100` | <span style="color:#aa0000;">███</span>| `aa0000`
-  5  | `0101` | <span style="color:#aa00aa;">███</span>| `aa00aa`
-  6  | `0110` | <span style="color:#aaaa00;">███</span>| `aaaa00`
-  7  | `0111` | <span style="color:#aaaaaa;">███</span>| `aaaaaa`
-  8  | `1000` | <span style="color:#555555;">███</span>| `555555`
-  9  | `1001` | <span style="color:#5555ff;">███</span>| `5555ff`
- 10  | `1010` | <span style="color:#55ff55;">███</span>| `55ff55`
- 11  | `1011` | <span style="color:#55ffff;">███</span>| `55ffff`
- 12  | `1100` | <span style="color:#ff5555;">███</span>| `ff5555`
- 13  | `1101` | <span style="color:#ff55ff;">███</span>| `ff55ff`
- 14  | `1110` | <span style="color:#ffff55;">███</span>| `ffff55`
- 15  | `1111` | <span style="color:#ffffff;">███</span>| `ffffff`
+Num  |   iRGB    |              Color                      |  Hex RGB
+----:|:---------:|:---------------------------------------:|:---------:
+  0  | `0 0 0 0` | <span style="color:#000000;">███</span> | `00 00 00`
+  1  | `0 0 0 1` | <span style="color:#0000aa;">███</span> | `00 00 aa`
+  2  | `0 0 1 0` | <span style="color:#00aa00;">███</span> | `00 aa 00`
+  3  | `0 0 1 1` | <span style="color:#00aaaa;">███</span> | `00 aa aa`
+  4  | `0 1 0 0` | <span style="color:#aa0000;">███</span> | `aa 00 00`
+  5  | `0 1 0 1` | <span style="color:#aa00aa;">███</span> | `aa 00 aa`
+  6  | `0 1 1 0` | <span style="color:#aaaa00;">███</span> | `aa aa 00`
+  7  | `0 1 1 1` | <span style="color:#aaaaaa;">███</span> | `aa aa aa`
+  8  | `1 0 0 0` | <span style="color:#555555;">███</span> | `55 55 55`
+  9  | `1 0 0 1` | <span style="color:#5555ff;">███</span> | `55 55 ff`
+ 10  | `1 0 1 0` | <span style="color:#55ff55;">███</span> | `55 ff 55`
+ 11  | `1 0 1 1` | <span style="color:#55ffff;">███</span> | `55 ff ff`
+ 12  | `1 1 0 0` | <span style="color:#ff5555;">███</span> | `ff 55 55`
+ 13  | `1 1 0 1` | <span style="color:#ff55ff;">███</span> | `ff 55 ff`
+ 14  | `1 1 1 0` | <span style="color:#ffff55;">███</span> | `ff ff 55`
+ 15  | `1 1 1 1` | <span style="color:#ffffff;">███</span> | `ff ff ff`
 
 
 El bit del *verde* no enciende el verde al 100% (`ff`) sino sólo a **dos tercios** (`aa`). Lo mismo para el rojo y el azul. El bit *i* añade un tercio a **todos** los colores. Suma `55` a todos. Los iluminados se pondrán al 100% y los apagados se pondrán al 33%.
