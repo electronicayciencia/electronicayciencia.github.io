@@ -202,18 +202,27 @@ Si falla la build Github no muestra los errores. Hay que verlos en local.
 
 Ir a linux. `git pull`.
 
+Instalar Jekyll:
+
+    apt install ruby-bundler
+    apt install ruby-dev
+
+Para instalar las versiones correctas, en el directorio hacer:
+
+    bundle install --path ~/gems
+
 El servidor se lanza con:
 
     bundle exec jekyll serve
 
-Para instalar las versiones correctas, en el directorio hacer:
+Escucha en http://127.0.0.1:4000/
 
-    bundle install
 
 ## Referencias a artículos anteriores
 
 See `tools/post_links.sh`.
 
+- [Electrónica y Ciencia - El integrado MCP2221/A]({{site.baseurl}}{% post_url 2023-09-30-integrado-mcp2221 %})
 - [Electrónica y Ciencia - Pantalla LCD con Tang Nano parte II. Imágenes]({{site.baseurl}}{% post_url 2021-12-12-lcd_tang_nano_II_imagenes %})
 - [Electrónica y Ciencia - Pantalla LCD con Tang Nano parte I. Patrones]({{site.baseurl}}{% post_url 2021-11-29-lcd_tang_nano_I_patrones %})
 - [Electrónica y Ciencia - Proyectos a batería y cerveza fría]({{site.baseurl}}{% post_url 2021-10-24-bateria-cerveza-fria %})
