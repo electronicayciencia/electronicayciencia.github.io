@@ -36,7 +36,7 @@ Cada pulso de **hsync**, además, incrementa un segundo contador en el módulo  
 
 Cada patrón de la pantalla estaba configurado por hardware. Había una **operación lógica** que relacionaba X e Y con el color del pixel.
 
-{% include image.html file="pat_gradient.jpg" caption="El patrón es fijo y no se puede modificar sin reprogramar la FPGA. EyC." %}
+{% include image.html file="pat_gradient.jpg" caption="Esta figura está programada en el hardware y no se puede modificar. EyC." %}
 
 Para proyectar una imagen quitamos ese módulo y los sustituimos por una memoria ROM.
 
@@ -50,9 +50,9 @@ Tuvimos que compensar esta demora retrasando también las demás líneas que iba
 
 La memoria del chip es demasiado pequeña como para contener una imagen completa de la pantalla. Pues esta tiene `480x272 = 130560` píxeles y el chip sólo 65536 bits de memoria. Así que fue buscamos trucos, como hacer los píxeles más grandes para reducir la resolución. Hasta que pudimos meter 4 colores imitando las paletas clásicas de una CGA.
 
-Al final, la única forma de llenar la pantalla sin perder resolución fue **renunciar** a manejar píxeles individuales. En vez de eso compusimos una imagen a base de repetir **patrones** o texturas.
+Al final, la única forma de llenar la pantalla sin perder resolución fue componer una imagen a base de repetir **patrones** o texturas.
 
-{% include image.html file="minecraft_leds_grid.png" caption="Imagen formada por sólo tres patrones repetidos. EyC." %}
+{% include image.html file="led_counter.gif" caption="Imagen formada por los mismos cuatro patrones repetidos. EyC." %}
 
 Usaremos la misma técnica, más elaborada, para proyectar texto.
 
@@ -61,7 +61,7 @@ Usaremos la misma técnica, más elaborada, para proyectar texto.
 
 Llamamos *generador de caracteres* al circuito que relaciona qué pixeles encender o apagar para formar cada carácter. Cualquier dispositivo que muestra texto necesita este circuito.
 
-{% include image.html file="vfd.jpg" caption="Una pantalla VFD con caracteres de 5x8 pixeles. EyC." %}
+{% include image.html file="vfd.jpg" caption="Una pantalla VFD con caracteres de 5x8. EyC." %}
 
 En su versión más sencilla, un generador de caracteres consiste en una memoria, habitualmente de sólo lectura (ROM), donde se guarda una imagen binaria de cada carácter. En función de cuántos caracteres distintos haya, y de su tamaño, el conjunto requerirá más o menos memoria.
 
@@ -89,13 +89,13 @@ Por supuesto tampoco caben letras acentuadas, caracteres extranjeros, etc.
 
 Usar 7 bits en vez de 6 habría permitido **128 símbolos**. Pero significaba un cable más en todos los buses de datos. Un bit más en cada carácter escrito en cinta magnética, en cada transmisión serie, en cada dataset. Un incremento del 16% en memoria, tiempo y almacenamiento.
 
-¿Y luego para imprimirlos? Ve tú a cambiarle el tambor a la impresora por uno que tenga la *ñ*. No hablemos ya de los teletipos...
+¿Y luego para imprimirlos? Ve tú a cambiarle el tambor a la impresora por uno que tenga la *Ñ*. No hablemos ya de los teletipos...
 
 Por eso antes los terminales no soportaban minúsculas.
 
 Y por eso, durante muchos años, cuando Linux detectaba un **nombre de usuario** en mayúsculas asumía que tu terminal no soportaba minúsculas y se *adaptaba*.
 
-{% include image.html file="debian_uppercase.png" caption="Debian 3 mostrando cómo el terminal se adaptaba a uno sin soporte de minúsculas. EyC." %}
+{% include image.html file="debian_uppercase.png" caption="PANTALLA DE LOGIN EN UNA DEBIAN 3. EyC." %}
 
 Como curiosidad, desde 2011 esa característica viene desactivada por defecto. Fíjate en la opción `-U` de [agetty](https://linux.die.net/man/8/agetty):
 
@@ -104,7 +104,7 @@ Como curiosidad, desde 2011 esa característica viene desactivada por defecto. F
 
 Volviendo a nuestro generador. Vamos a empezar reutilizando los **256 caracteres** de 8x8 que venían en la PC-BIOS de IBM.
 
-{% include image.html file="ibm_8x8_grid.png" caption="Juego de caracteres OEM 8x8." %}
+{% include image.html file="ibm_8x8_grid.png" caption="Los 256 caracteres OEM 8x8." %}
 
 Los caracteres de la **primera mitad** (los primeros 7 bits) son los 127 símbolos ASCII y son estándar, siempre los mismos. 
 
@@ -134,7 +134,7 @@ Y como salida tendrá un bit que indicará si el pixel correspondiente debe esta
 
 En la FPGA lo implementaremos con una memoria ROM de `256 x 8 x 8` posiciones y 1 bit de datos. 16kb en total.
 
-Para las pruebas, asignaremos el selector de caracteres siempre el mismo valor: `0x61` **a**.
+Para las pruebas, asignaremos el selector de caracteres un **valor fijo** `0x61`, correspondiente al carácter `a`.
 
 {% include image.html file="hardwired_text.svg" caption="Diagrama de bloques del generador de texto 8x8 con un valor fijo. EyC." %}
 
@@ -166,9 +166,8 @@ assign LCD_B = {5{pxon}};
 
 Como la salida del generador va conectada directamente a todos los pines de color de la LCD, el pixel se verá blanco o negro.
 
-{% include image.html file="hardwired_text_scr.jpg" caption="Pantalla rellena con el carácter `a` en todas las posiciones. EyC." %}
+{% include image.html file="hardwired_text_scr.jpg" caption="Todos los caracteres se ven enteros y bien formados. Vamos por buen camino. EyC." %}
 
-Todos los caracteres se ven enteros y bien formados. Significa que vamos por buen camino.
 
 
 ## Celdas de texto
@@ -212,7 +211,7 @@ Debemos inicializar la ROM con algún texto. Porque de lo contrario no se mostra
 
 Este es el resultado:
 
-{% include image.html file="text_8x8_nodelay.jpg" caption="Algo falla. Hay un problema de sincronización. EyC." %}
+{% include image.html file="text_8x8_nodelay.jpg" caption="Hay un problema de sincronización. EyC." %}
 
 Al igual que pasaba con las imágenes y pasa con el generador de caracteres, la ROM de la memoria de video es síncrona. Y, de nuevo, eso significa que tendremos la salida válida **al siguiente tic** de reloj.
 
@@ -274,7 +273,7 @@ Es porque ahora la señal del pixel que llega a la LCD lleva dos tics de retraso
 
 Ahora el texto se ve correctamente.
 
-{% include image.html file="text_8x8_delay.jpg" caption="Texto de muestra a 8x8. EyC." %}
+{% include image.html file="text_8x8_delay.jpg" caption="Texto de muestra a 8x8. Monty Python and the Holy Grail." %}
 
 
 ## Memoria de video o framebuffer
@@ -337,7 +336,7 @@ Apenas cambia la electrónica al pasar de 8x8 a 8x16 porque sigue siendo potenci
 
 Utilizaremos la fuente clásica de VGA 8x16.
 
-{% include image.html file="vga8_8x16_grid.png" caption="Juego de caracteres OEM 8x16." %}
+{% include image.html file="vga8_8x16_grid.png" caption="Los caracteres de 8x16 son el doble de grandes, pero se leen mejor." %}
 
 Esta fuente, pero con las celdas separadas horizontalmente un pixel (haciendo ancho 9 en vez de 8), son los caracteres que asociamos a la época del MS-DOS y el ASCII art.
 
@@ -347,7 +346,7 @@ Así como la ROM de caracteres aumenta, la **memoria de video** disminuye. Porqu
 
 Los cambios son mínimos y el resultado es más agradable de leer.
 
-{% include image.html file="text_mono_8x16.jpg" caption="Texto de muestra a 8x16. EyC." %}
+{% include image.html file="text_mono_8x16.jpg" caption="Texto de muestra a 8x16. Miguel de Cervantes." %}
 
 Al haber reducido la memoria de video, pasando de 2 bancos de 16kb a sólo uno, nos quedan 16kb libres.
 
@@ -424,7 +423,7 @@ endmodule
 
 Hacemos una sencilla prueba para ver qué tal funciona:
 
-{% include image.html class="medium-width" file="text_color_nodelay.jpg" caption="Muestra de texto con el color adelantado respecto al carácter. EyC." %}
+{% include image.html class="medium-width" file="text_color_nodelay.jpg" caption="Nada sale nunca bien a la primera. EyC." %}
 
 Los caracteres parecen desplazados hacia la derecha. En realidad es el color de fondo quien está desplazado hacia la izquierda.
 
@@ -461,7 +460,7 @@ Observa cómo los inversores alimentan la base de **Q206**. El transistor sólo 
 
 Reduciendo la potencia de la señal verde, ese amarillo verdoso se torna más como naranja oscuro o marrón. De este modo obtenemos la paleta canónica VGA.
 
-{% include image.html file="vga_canonica.png" caption="Paleta VGA canónica. [int10h.org](https://int10h.org/blog/2022/06/ibm-5153-color-true-cga-palette/)." %}
+{% include image.html file="vga_canonica.png" caption="Paleta VGA con el marrón. [int10h.org](https://int10h.org/blog/2022/06/ibm-5153-color-true-cga-palette/)." %}
 
 Modificaremos nuestro módulo color para tener en cuenta esta excepción. Cuando el color sea 6, reduciremos el verde de `0xAA` a `0x55`.
 
@@ -501,7 +500,7 @@ Y el resultado final es este:
 
 A lo largo de estos tres artículos hemos explorado cómo manejar una pantalla con una FPGA muy sencilla. Y cómo surgen **varios modos** en función de las limitaciones. Limitaciones, por otra parte, sólo de memoria. Porque apenas hemos usado un 7% de los demás recursos.
 
-{% include image.html class="medium-width" file="resource_usage.png" caption="Resumen de la síntesis. Quitando la memoria, toda la lógica sólo necesita un 7% de la FPGA. EyC." %}
+{% include image.html class="medium-width" file="resource_usage.png" caption="Salvo la memoria, el resto de recursos están sin usar. EyC." %}
 
 Hemos conseguido proyectar texto a color con toda la resolución que da la pantalla. Renunciando, eso sí, a manejar píxeles individuales. Tal vez ahora comprendas mejor porqué las tarjetas gráficas tenían varios **modos de texto** y **modos gráficos**.
 
