@@ -4,3 +4,4 @@ _site
 notas
 .vscode
 *.swp
+.bundle

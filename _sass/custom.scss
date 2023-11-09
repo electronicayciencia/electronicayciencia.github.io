@@ -1,3 +1,33 @@
+$content-background: white;
+$sides-background: #e8e8e8;
+
+/* Dark side space */
+body {
+    background-color: $sides-background;
+}
+
+.site-header {
+    background-color: $content-background;
+}
+
+.wrapper {
+    background-color: $content-background;
+}
+
+.site-footer {
+    background-color: $content-background;
+}
+
+.post, .home {
+    padding-top: 20px;
+}
+
+.post-content h2 {
+    margin-top: 1em;
+}
+
+
+
 /* Images and video */
 .ytvideo {
     height: 0;
@@ -37,6 +67,12 @@
     text-align: center;
     margin-top: 0.5rem;
 }
+
+/* Remove the extra space between video and its caption */
+video {
+    display: block;
+}
+
 
 /* Blogger sizes 
 200px small
@@ -311,12 +347,3 @@ $img-x-large-width: 100%;
 table {
     margin-bottom: 5px;
 }
-
-
-/* Remove the extra space between video and its caption */
-video {
-    display: block;
-}
-
-
-
