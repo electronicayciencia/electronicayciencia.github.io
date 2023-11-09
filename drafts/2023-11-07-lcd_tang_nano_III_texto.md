@@ -93,11 +93,11 @@ Usar 7 bits en vez de 6 habría permitido **128 símbolos**. Pero significaba un
 
 Por eso antes los terminales no soportaban minúsculas.
 
-Y por eso, durante muchos años, cuando Linux detectaba un **nombre de usuario** en mayúsculas asumía que tu terminal no soportaba minúsculas y se *adaptaba*.
+Y por eso, durante muchos años, cuando Linux detectaba un **nombre de usuario** en mayúsculas asumía que tu terminal no soportaba minúsculas:
 
-{% include image.html file="debian_uppercase.png" caption="PANTALLA DE LOGIN EN UNA DEBIAN 3. EyC." %}
+{% include image.html file="debian_uppercase.png" caption="CONSOLA DE DEBIAN SARGE. EyC." %}
 
-Como curiosidad, desde 2011 esa característica viene desactivada por defecto. Fíjate en la opción `-U` de [agetty](https://linux.die.net/man/8/agetty):
+Como curiosidad, esa característica pasó a ser opcional en 2011 cuando añadieron la opción `-U` a [agetty](https://linux.die.net/man/8/agetty):
 
 > Turn on support for detecting an uppercase only terminal. This setting will detect a login name containing only capitals as indicating an uppercase only terminal and turn on some upper to lower case conversions. Note that this has no support for any unicode characters.
 
