@@ -4,7 +4,7 @@ layout: post
 assets: /assets/2023/11/lcd_tang_nano_III_texto
 image: /assets/2023/11/lcd_tang_nano_III_texto/img/crash_screen.gif
 featured: true
-description: Revivimos la historia de los primeros controladores gráficos mientras programamos una FPGA para mostrar texto por pantalla.
+description: Nos acercamos a la historia de la informática mientras diseñamos un controlador gráfico modo texto.
 tags:
   - Informática
   - FPGA
@@ -42,7 +42,7 @@ Para proyectar una imagen quitamos ese módulo y los sustituimos por una memoria
 
 Cada posición de **hsync** o **vsync** entonces corresponde a un bit dentro de la memoria. Si el bit es 1 el pixel se encenderá. Y, si es 0, permanecerá apagado. De esta forma, en la pantalla se proyectará la imagen que hayamos programado en la ROM.
 
-Aquí habíamos encontrado un **problema de sincronización**. Porque los pulsos de *vsync*, *hsync* y *de* van directos. Pero el valor del pixel tarda un tic de reloj en salir de la ROM.
+Aquí habíamos encontrado un **problema de sincronización**. Porque los pulsos *vsync*, *de* y *hsync* van directos. Pero el valor del pixel tarda un tic de reloj en salir de la ROM.
 
 Tuvimos que compensar esta demora retrasando también las demás líneas que iban a la pantalla. Así la LCD recibe todas las señales correctas al mismo tiempo.
 
@@ -80,16 +80,16 @@ Los primeros ordenadores y terminales antiguos, tal vez lo hayas oído alguna ve
 Con seis bits tienes disponibles 64 valores diferentes. Piensa en quién usaba los ordenadores y para qué: Los **laboratorios** para hacer cálculos en FORTRAN y las grandes empresas americanas, para contabilidad de proveedores y clientes.
 
 Como mínimo necesitas los números de `0-9`, las letras del inglés de la `A-Z` y el espacio (37 símbolos). Ahora elige entre:
-- 26 letras más minúsculas, o 
+- 26 letras más minúsculas, o
 - el ampersand `&`, signos ortográficos ingleses `'".,;:!?()`, operadores `<>+-/*=%` y el dólar `$`.
 
-{% include image.html class="medium-width" file="BCD_1401.png" caption="Juego de caracteres BCD de 6 bits. IBM 1401. [Wikipedia](https://en.wikipedia.org/wiki/BCD_(character_encoding))." %}
+{% include image.html class="medium-width" file="BCD_1401.png" caption="Juego de caracteres BCD de 6 bits IBM 1401. Los caracteres sombreados varían entre versiones. [Wikipedia](https://en.wikipedia.org/wiki/BCD_(character_encoding))." %}
 
 Por supuesto tampoco caben letras acentuadas, caracteres extranjeros, etc.
 
 Usar 7 bits en vez de 6 habría permitido **128 símbolos**. Pero significaba un cable más en todos los buses de datos. Un bit más en cada carácter escrito en cinta magnética, en cada transmisión serie, en cada dataset. Un incremento del 16% en memoria, tiempo y almacenamiento.
 
-¿Y luego para imprimirlos? Ve tú a cambiarle el tambor a la impresora por uno que tenga la *Ñ*. No hablemos ya de los teletipos...
+El problema era luego imprimirlos. No hablamos ya de los teletipos, es que las impresoras eran como máquinas de escribir. A tambor o a bola, margarita, etc.
 
 Por eso antes los terminales no soportaban minúsculas.
 
@@ -106,9 +106,9 @@ Volviendo a nuestro generador. Vamos a empezar reutilizando los **256 caracteres
 
 {% include image.html file="ibm_8x8_grid.png" caption="Los 256 caracteres OEM 8x8." %}
 
-Los caracteres de la **primera mitad** (los primeros 7 bits) son los 127 símbolos ASCII y son estándar, siempre los mismos. 
+Los caracteres de la **primera mitad** (los primeros 7 bits) son los 127 símbolos ASCII y son estándar, siempre los mismos.
 
-Los de abajo varían según el *codepage*. Estos son [cp437](https://en.wikipedia.org/wiki/Code_page_437), estadounidense estándar, también llamado *OEM* o *ASCII extendido*. 
+Los de abajo varían según el *codepage*. Estos son [cp437](https://en.wikipedia.org/wiki/Code_page_437), estadounidense estándar, también llamado *OEM* o *ASCII extendido*.
 
 Los españoles usábamos el [cp850](https://en.wikipedia.org/wiki/Code_page_850). Los siguientes comandos te pueden sonar o no, según la edad que tengas:
 
@@ -132,13 +132,13 @@ Y como salida tendrá un bit que indicará si el pixel correspondiente debe esta
 
 {% include image.html file="256_chars_8x8.svg" caption="Se necesita un bus de direcciones de 14 bits: 8 para indicar qué carácter y 6 para establecer la posición. EyC." %}
 
-En la FPGA lo implementaremos con una memoria ROM de `256 x 8 x 8` posiciones y 1 bit de datos. 16kb en total.
+Con lógica discreta se extraerían juntos los 8 bits de una fila. Pero en la FPGA lo implementaremos con una memoria ROM de `256 x 8 x 8` posiciones y 1 bit de datos. 16kb en total.
 
 Para las pruebas, asignaremos el selector de caracteres un **valor fijo** `0x61`, correspondiente al carácter `a`.
 
 {% include image.html file="hardwired_text.svg" caption="Diagrama de bloques del generador de texto 8x8 con un valor fijo. EyC." %}
 
-Esto sería un extracto del código en verilog. 
+Esto sería un extracto del código en verilog.
 
 ```verilog
 // Character generator, monochrome, 8x8 font
@@ -304,7 +304,7 @@ Conectaremos el canal de escritura **A** al módulo *demo*. Mientras por el puer
 ```verilog
 // Character buffer, mono, 64x64
 charbuf_mono_64x64 charbuf_mono_64x64(
-    // A port: write <- demo module 
+    // A port: write <- demo module
     .ada       (vram_addr),  //input [11:0] A address
     .din       (vram_data),  //input [7:0]  Data in
     .clka      (LCD_CLK),    //input clock for A port
@@ -363,7 +363,7 @@ Hay muchas posibilidades de asignar colores a 8 bits. En serio, muchas: [List of
 
 Imitaremos la paleta clásica de la CGA ([Color Graphics Adapter](https://en.wikipedia.org/wiki/Color_Graphics_Adapter)). Que por retrocompatibilidad se heredó hasta la VGA. Y con la que seguramente estemos más familiarizados.
 
-De los 8 bits, 4 son para el color de primer plano y 4 para el color de fondo.
+De los 8 bits, 4 son para el **color de primer plano** y 4 para el **color de fondo**.
 
 De esos cuatro bits, tres controlarán cada uno de los tres colores básicos. Y el cuarto será una señal extra que añade luminosidad (blanco) cuando se activa.
 
@@ -434,8 +434,8 @@ Pero el primero es **síncrono** (pasa por una memoria ROM) mientras que el segu
 Se puede solucionar de varias formas:
 
 - Registrando la salida del módulo *color*. Lo convertimos en **síncrono** y así tarda un tic de reloj, al igual que el generador de caracteres. Esta es la opción más robusta. Tener un módulo asíncrono cuando todo lo demás es síncrono suele dar problemas a la larga.
-- Usando en el *framebuffer* dos posiciones de 8 bits en lugar de una de 16. Así leemos primero el carácter y luego el color, en vez de ambos números al mismo tiempo. Esta opción es la más realista, porque en la implementación serían dos bytes separados y no 16 bits juntos.
-- Otra opción es, como las veces anteriores, colocar un retardo de un tic de reloj en el bus que alimenta el generador de color para que reciba el byte un tic más tarde. Esta es la que más me gusta.
+- Usando en el *framebuffer* **dos posiciones** de 8 bits en lugar de una de 16. Así leemos primero el carácter y luego el color, en vez de ambos números al mismo tiempo. Esta opción es la más realista, porque en la implementación serían dos bytes separados y no 16 bits juntos.
+- Otra opción es, como las veces anteriores, colocar **un retardo** de un tic de reloj en el bus que alimenta el generador de color para que reciba el byte un tic más tarde. Esta es la que más me gusta.
 
 Ahora sí:
 
@@ -475,7 +475,9 @@ assign o_green = {i,r,g,b} != 4'b0110 ? { g, i, g, i, g, i } : 5'b010101;
 
 ## Texto parpadeante
 
-*Sabes que estás en el Infierno del diseño cuando ves texto parpadeante*, decía hace tiempo Eric S. Raymond en [El infierno HTML](https://www.ibiblio.org/pub/Linux/docs/LuCaS/Otros/html-hell-es.html) ([The HTML Hell Page](http://www.catb.org/~esr/html-hell.html)). Es de los **años 90**, cuando la gente se hacía sus páginas web a mano (o con editores *WYSIWYG* como Netscape Composer o Frontpage). Páginas con mucha personalidad pero con muy poco estilo. GIFs animados, colores estridentes y, por supuesto, texto parpadeante.
+*Sabes que estás en el Infierno del diseño cuando ves texto parpadeante*, decía Eric S. Raymond en [El infierno HTML](https://www.ibiblio.org/pub/Linux/docs/LuCaS/Otros/html-hell-es.html) ([The HTML Hell Page](http://www.catb.org/~esr/html-hell.html)).
+
+Es de los **años 90**, cuando la gente se hacía sus páginas web a mano (o con editores *WYSIWYG* como Netscape Composer o Frontpage). Páginas con mucha personalidad pero con muy poco estilo. GIFs animados, colores estridentes y, por supuesto, texto parpadeante.
 
 Pero el texto parpadeante no era algo nuevo...
 
@@ -487,31 +489,31 @@ Con el objetivo de imitar ese comportamiento, introducimos dos nuevas entradas e
 
 Añadimos una opción de **blink enable** para seleccionar si queremos el parpadeo, o el fondo brillante. En las tarjetas CGA esto también se podía seleccionar modificando registros en el hardware.
 
-Añadimos también la **blinking line**. Un bit que se pondrá a 0 y 1 periódicamente. Esta línea viene de un sencillo divisor, que divide por 16 la frecuencia *vsync*.
+Añadimos también la **blinking line**. Un bit que se pondrá a 0 y 1 periódicamente. Esta línea viene de dividir por 16 la frecuencia de refresco vertical.
 
 {% include image.html file="text_8x16_colorblink.svg" caption="Diagrama de bloques del generador de texto 8x16 a color y parpadeante. EyC." %}
 
-Y el resultado final es este:
+Y nuestro resultado final es este:
 
 {% include video.html file="crash_screen.mp4" caption="Si no recuerdas así tu pantalla, es porque no cacharreaste lo suficiente. EyC." %}
 
 
 ## Conclusión
 
-A lo largo de estos tres artículos hemos explorado cómo manejar una pantalla con una FPGA muy sencilla. Y cómo surgen **varios modos** en función de las limitaciones. Limitaciones, por otra parte, sólo de memoria. Porque apenas hemos usado un 7% de los demás recursos.
+A lo largo de estos tres artículos hemos explorado cómo manejar una pantalla con una FPGA muy sencilla. Y cómo surgen varios modos en función de las **limitaciones**. Limitaciones, por otra parte, sólo de memoria. Porque apenas hemos usado un 7% de los demás recursos.
 
 {% include image.html class="medium-width" file="resource_usage.png" caption="Salvo la memoria, el resto de recursos están sin usar. EyC." %}
 
 Hemos conseguido proyectar texto a color con toda la resolución que da la pantalla. Renunciando, eso sí, a manejar píxeles individuales. Tal vez ahora comprendas mejor porqué las tarjetas gráficas tenían varios **modos de texto** y **modos gráficos**.
 
-Hoy, en cualquier móvil o smartwatch, tenemos infinidad de *fuentes*; de ancho fijo, variable, caligráficas, en negrita, cursiva, con todos los caracteres hasta en chino, a todo color y del tamaño que quieras. Imagínate la complejidad y las capas de abstracción que hacen falta hasta llegar ahí.
+Hoy, en cualquier móvil o smartwatch, tenemos infinidad de *fuentes*; de ancho fijo, variable, caligráficas, en negrita, cursiva, con todos los caracteres hasta en chino, a todo color y del tamaño que quieras. Imagínate la complejidad y las **capas de abstracción** que hacen falta hasta llegar ahí.
 
-Lo de ir poniendo retardos para que todas las señales lleguen a la vez no lo voy a desarrollar, pero te prometo que es una técnica importantísima. Al final, para la LCD, *parece* como si todo ocurriera en un ciclo de reloj. Fijar las coordenadas, leer de la RAM de video, pasar por la ROM de caracteres, todo el mismo ciclo. Abajo te dejo algún enlace si tienes curiosidad.
+Lo de ir poniendo **retardos** para que todas las señales lleguen a la vez no lo voy a desarrollar, pero te prometo que es una técnica importantísima. Al final, para la LCD, *parece* como si todo ocurriera en un ciclo de reloj. Fijar las coordenadas, leer de la RAM de video, pasar por la ROM de caracteres, todo el mismo ciclo. Abajo te dejo algún enlace si tienes curiosidad.
 
 
 ## Enlaces para profundizar
 
-Proyecto en Github: 
+Proyecto en Github:
 
 - [GitHub electronicayciencia/verilog-vga](https://github.com/electronicayciencia/verilog-vga)
 
