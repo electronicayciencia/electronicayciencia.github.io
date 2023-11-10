@@ -3,7 +3,7 @@ title: Gráficos VGA con FPGA Tang Nano parte III. Texto.
 layout: post
 assets: /assets/2023/11/lcd_tang_nano_III_texto
 image: /assets/2023/11/lcd_tang_nano_III_texto/img/crash_screen.gif
-featured: true
+featured: false
 description: Nos acercamos a la historia de la informática mientras diseñamos un controlador gráfico modo texto.
 tags:
   - Informática
