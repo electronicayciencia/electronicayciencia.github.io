@@ -11,7 +11,7 @@ tags:
   - Circuitos
 ---
 
-En este **tercer** artículo sobre cómo controlar una pantalla VGA con Verilog explicaremos la forma de mostrar letras y textos.
+En este **tercer** artículo sobre cómo controlar una pantalla VGA con Verilog explicaremos la forma de mostrar letras y textos. Al principio sólo blanco y negro y después en color 8 de bits.
 
 En el **primer artículo**, [Pantalla LCD con Tang Nano I. Patrones]({{site.baseurl}}{% post_url 2021-11-29-lcd_tang_nano_I_patrones %}), vimos cómo generar las señales de sincronismo, y mostrar algunos patrones simples.
 
