@@ -466,13 +466,18 @@ Continúa en: [Pantalla LCD con Tang Nano parte II. Imágenes][Electrónica y Ci
 
 ## Enlaces para profundizar
 
-- [GitHub electronicayciencia/verilog-vga]
+Repositorio del proyecto:
+
+- Repositorio del proyecto [GitHub electronicayciencia/verilog-vga]
+
+- [Electrónica y Ciencia - Primeras experiencias con Sipeed Tang Nano]
+- [Electrónica y Ciencia - Pantalla LCD con Tang Nano parte II. Imágenes]
+
+- [Electrónica y Ciencia - Sintetizador de frecuencias digital con PLL]
 - [RGB LCD example - Sipeed]
 - [Ben Eater - The world’s worst video card?]
 - [Gisselquist Technology - Building a video controller: it's just a pair of counters]
-- [Electrónica y Ciencia - Primeras experiencias con Sipeed Tang Nano]
-- [Electrónica y Ciencia - Pantalla LCD con Tang Nano parte II. Imágenes]
-- [Electrónica y Ciencia - Sintetizador de frecuencias digital con PLL]
+
 
 
 

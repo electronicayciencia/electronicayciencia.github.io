@@ -1,5 +1,5 @@
 ---
-title: Gráficos VGA con FPGA Tang Nano parte III. Texto.
+title: Gráficos VGA con FPGA Tang Nano parte III. Texto
 layout: post
 assets: /assets/2023/11/lcd_tang_nano_III_texto
 image: /assets/2023/11/lcd_tang_nano_III_texto/img/crash_screen.gif

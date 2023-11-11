@@ -542,10 +542,15 @@ Hemos imitado una tarjeta gráfica CGA mostrando una imagen en **4 colores**, co
 
 En el último apartado, hemos combinado 4 **texturas** para componer una imagen a color de 16 bits reduciendo el uso de memoria.
 
+Continúa en: [Gráficos VGA con FPGA Tang Nano parte III. Texto][Electrónica y Ciencia - Gráficos VGA con FPGA Tang Nano parte III. Texto]
+
+
 ## Enlaces para profundizar
 
-- Artículo anterior: [Electrónica y Ciencia - Pantalla LCD con Tang Nano I. Patrones]
 - Repositorio del proyecto: [GitHub electronicayciencia/verilog-vga/2-image]
+
+- [Electrónica y Ciencia - Pantalla LCD con Tang Nano I. Patrones]
+- [Electrónica y Ciencia - Gráficos VGA con FPGA Tang Nano parte III. Texto]
 
 - [Electrónica y Ciencia - Primeras experiencias con Sipeed Tang Nano]
 - [Gowin - Memory User Guide(EN)]
@@ -555,7 +560,7 @@ En el último apartado, hemos combinado 4 **texturas** para componer una imagen 
 
 
 
-
+[Electrónica y Ciencia - Gráficos VGA con FPGA Tang Nano parte III. Texto]: {{site.baseurl}}{% post_url 2023-11-10-lcd_tang_nano_III_texto %}
 [Electrónica y Ciencia - Primeras experiencias con Sipeed Tang Nano]: {{site.baseurl}}{% post_url 2021-07-05-tang_nano_fpga %}
 [Electrónica y Ciencia - Pantalla LCD con Tang Nano I. Patrones]: {{site.baseurl}}{% post_url 2021-11-29-lcd_tang_nano_I_patrones %}
 [GitHub electronicayciencia/verilog-vga]: https://github.com/electronicayciencia/verilog-vga
