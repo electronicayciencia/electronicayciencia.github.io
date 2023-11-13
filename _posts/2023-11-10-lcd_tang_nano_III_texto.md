@@ -24,7 +24,7 @@ El proyecto completo lo tenéis en [verilog-vga part 3](https://github.com/elect
 
 Antes de meternos de lleno en el artículo, hagamos un *punto de situación*.
 
-Como hardware estamos usando la placa de desarrollo [Tang Nano 1k]({{site.baseurl}}{% post_url 2021-07-05-tang_nano_fpga %}) y una pantalla de 4.3" cuya resolución es de 480x272 píxeles.
+Como hardware estamos usando la placa de desarrollo [Tang Nano]({{site.baseurl}}{% post_url 2021-07-05-tang_nano_fpga %}) y una pantalla de 4.3" cuya resolución es de 480x272 píxeles.
 
 La señal de reloj, externa, de 24MHz, la rebajamos hasta 9MHz. Y con ella alimentamos el **contador hsync**. Este lleva la cuenta de los 480 píxeles en cada fila. Cuando se completa una fila, genera un pulso para volver a la izquierda y empezar la siguiente.
 
