@@ -257,6 +257,7 @@ $img-x-large-width: 100%;
   color: steelblue;
 }
 
+/*
 @media (min-width: 1599px) {
   .teaser-image-frame { 
     width: 200px;
@@ -270,20 +271,7 @@ $img-x-large-width: 100%;
     font-size: 1.2em;
   }
 }
-
-@media (min-width: 2000px) {
-  .teaser-image-frame { 
-    width: 300px;
-    height: 225px;
-  }
-  .wrapper {
-    max-width: -webkit-calc(#{$content-width}*1.5 - (#{$spacing-unit} * 2));
-    max-width:         calc(#{$content-width}*1.5 - (#{$spacing-unit} * 2));
-  }
-  html {
-    font-size: 1.5em;
-  }
-}
+*/
 
 /* Site icon next to Title */
 

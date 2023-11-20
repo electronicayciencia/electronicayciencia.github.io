@@ -48,7 +48,7 @@ Tuvimos que compensar esta demora retrasando también las demás líneas que iba
 
 {% include image.html file="h-v-rom-mono-delay-simplified.svg" caption="Esquema necesario para mostrar una imagen. EyC." %}
 
-La memoria del chip es demasiado pequeña como para contener una imagen completa de la pantalla. Pues esta tiene `480x272 = 130560` píxeles y el chip sólo 65536 bits de memoria. Así que fue buscamos trucos, como hacer los píxeles más grandes para reducir la resolución. Hasta que pudimos meter 4 colores imitando las paletas clásicas de una CGA.
+La memoria del chip es demasiado pequeña como para contener una imagen completa de la pantalla. Pues esta tiene `480x272 = 130560` píxeles y el chip sólo 65536 bits de memoria. Así que buscamos algunos trucos, como hacer los píxeles más grandes para reducir la resolución. Hasta que pudimos meter 4 colores imitando las paletas clásicas de una CGA.
 
 Al final, la única forma de llenar la pantalla sin perder resolución fue componer una imagen a base de repetir **patrones** o texturas.
 
