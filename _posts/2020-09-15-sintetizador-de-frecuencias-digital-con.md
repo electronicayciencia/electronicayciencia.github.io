@@ -36,7 +36,7 @@ Yo sabía muy poco de integrados. Todo mi conocimiento acerca del **CD4046** (de
 {% include image.html class="x-large-width" file="lx537.jpg" caption="El primer circuito que hice y funcionó.  
 Economico Oscillatore di BF (N.E. 086-7)" %}
 
-El CD4046, explican en el artículo, pertenece al grupo de los PLL y contiene en su interior un VCO muy fácil de usar. Sólo necesita una **resistencia** en la patilla 11 y un **condensador** entre las patillas 5 y 6. En función de los valores de estos componentes, el VCO oscilará entre unas frecuencias máxima y mínima dependiendo de la tensión aplicada en la patilla 9. Con el diagrama anterior, el circuito oscila desde 10 Hz hasta 1 MHz en cinco bandas cambiando el condensador.
+El CD4046, explican en el artículo, pertenece al grupo de los PLL y contiene en su interior un VCO muy fácil de usar. Sólo necesita una **resistencia** en la patilla 11 y un **condensador** entre las patillas 6 y 7. En función de los valores de estos componentes, el VCO oscilará entre unas frecuencias máxima y mínima dependiendo de la tensión aplicada en la patilla 9. Con el diagrama anterior, el circuito oscila desde 10 Hz hasta 1 MHz en cinco bandas cambiando el condensador.
 
 La resistencia es la que veis en el esquema nombrada como **R5**. Para el condensador usan **C5** a **C10**. Uno para cada banda. A menor capacidad, oscilaciones más rápidas. Con el potenciómetro **R2** se varía la tensión aplicada en la patilla 9. Los demás componentes son accesorios, dotan de estabilidad al circuito, control de volumen, etc.
 
