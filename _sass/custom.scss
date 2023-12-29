@@ -73,8 +73,10 @@ body {
 }
 
 /* Remove the extra space between video and its caption */
+/* Margin: auto is needed for center */
 video {
     display: block;
+    margin: auto;
 }
 
 
