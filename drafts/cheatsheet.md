@@ -126,8 +126,8 @@ Se pueden incluir gifs, tanto en la imagen de presentación como dentro del art�
 {% include image.html class="small-width" file="led_blink_brd.gif" caption="Un gif pequeño." %}
 
 
-Search `\[foto:\s*(.*?)\s*\|\s*(.*?)\s*\]`, replace `{% include image.html file="\1" caption="\2" %}`.
-Nota: Se rompe si la imagen tiene enlaces.
+Search `^\[foto:\s*(.*?)\s*\|\s*(.*?)\s*\]\s*$`, replace `{% include image.html file="\1" caption="\2" %}`.
+
 
 
 ### Vídeos
@@ -144,6 +144,7 @@ Los tamaños siguen los mismos tamaños que las imágenes.
 
 {% include video.html class="medium-width" file="led_kitt.mp4" attrs="controls" caption="Un video mediano, sin bucle y con controles." %}
 
+Search `^\[video:\s*(.*?)\s*\|\s*(.*?)\s*\] *$`, replace `{% include video.html file="\1" caption="\2" %}`.
 
 
 
