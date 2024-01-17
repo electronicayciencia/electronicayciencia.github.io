@@ -3,8 +3,8 @@ title: Mi propia consola serie y el terminal de Unix
 layout: post
 assets: /assets/2024/01/consola-serie
 image: /assets/2024/01/consola-serie/img/screen_mc.jpg
-featured: true
-description: Hablaremos de la interfaz de terminal de Unix usando mi propia consola serie. Sistemas, historia y seguridad.
+featured: false
+description: Hablamos del terminal de Unix usando mi propia consola serie. Sistemas, historia y seguridad.
 tags:
   - Informática
   - FPGA
