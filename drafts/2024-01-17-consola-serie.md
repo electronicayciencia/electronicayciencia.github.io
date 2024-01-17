@@ -211,7 +211,7 @@ En concreto estos dos son:
 
 Se llama *carro* a la plataforma móvil donde se carga el papel. Es una pieza que se desplaza hacia la izquierda a medida que escribes y, cuando llega al margen derecho, toca una campanita. Entonces empujas una palanca y sube el papel y, si empujas más, devuelves el carro a la derecha del todo.
 
-{% include video.html file="typewriter.mp4" caption="¿Ves? Son don pasos. Primero sube el papel y luego vuelve el carro. [Fuente]( https://gifs.com/gif/how-to-use-a-typewriter-3lmJOp)." %}
+{% include video.html file="typewriter_360p.mp4" caption="¿Ves? Son don pasos. Primero sube el papel y luego vuelve el carro. [Fuente]( https://gifs.com/gif/how-to-use-a-typewriter-3lmJOp)." %}
 
 Linux te envía el carácter *CR* seguido de *LF* para ir al comienzo de la línea siguiente.
 
@@ -450,7 +450,7 @@ Fíjate en el escenario anterior al pulsar *SAK*.
 
 {% include video.html file="pseudologin_sak.mp4" caption="SAK matará cualquier proceso corriendo en esa terminal. EyC." %}
 
-¿Alguna vez has tenido que presionar *Ctrl+Alt+Supr* antes de poner usuario y contraseña en un Windows corporativo? Tiene la misma función. Ningún programa de usuario puede capturar esa secuencia, así te aseguras de que quien te pide credenciales es realmente el sistema operativo.
+¿Alguna vez has tenido que presionar *Ctrl+Alt+Supr* antes de poner usuario y contraseña en un **Windows** corporativo? Tiene la misma función. Ningún programa de usuario puede capturar esa secuencia, así te aseguras de que quien te pide credenciales es realmente el sistema operativo.
 
 {% include image.html file="windows_sak.jpg" caption="*Secure Access Key* en Windows. Porque algunos compañeros tienen muy mala idea. EyC." %}
 
