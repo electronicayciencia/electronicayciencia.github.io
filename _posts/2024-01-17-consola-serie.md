@@ -4,7 +4,7 @@ layout: post
 assets: /assets/2024/01/consola-serie
 image: /assets/2024/01/consola-serie/img/screen_mc.jpg
 featured: false
-description: Hablamos del terminal de Unix usando mi propia consola serie. Sistemas, historia y seguridad.
+description: Hoy sistemas, historia y seguridad. Hablamos del terminal de Unix usando mi propia consola serie.
 tags:
   - Informática
   - FPGA
