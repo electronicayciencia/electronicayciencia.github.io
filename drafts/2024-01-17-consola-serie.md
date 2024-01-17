@@ -211,7 +211,7 @@ En concreto estos dos son:
 
 Se llama *carro* a la plataforma móvil donde se carga el papel. Es una pieza que se desplaza hacia la izquierda a medida que escribes y, cuando llega al margen derecho, toca una campanita. Entonces empujas una palanca y sube el papel y, si empujas más, devuelves el carro a la derecha del todo.
 
-{% include image.html file="typewriter.gif" caption="¿Ves? Son don pasos. Primero sube el papel y luego vuelve el carro. [Fuente]( https://gifs.com/gif/how-to-use-a-typewriter-3lmJOp)." %}
+{% include video.html file="typewriter.mp4" caption="¿Ves? Son don pasos. Primero sube el papel y luego vuelve el carro. [Fuente]( https://gifs.com/gif/how-to-use-a-typewriter-3lmJOp)." %}
 
 Linux te envía el carácter *CR* seguido de *LF* para ir al comienzo de la línea siguiente.
 
@@ -219,16 +219,18 @@ Interpretemos esos caracteres tal como se espera:
 
 {% include image.html file="init_lines.jpg" caption="Mensajes de inicio del sistema operativo interpretando los caracteres *CR* y *LF*. EyC." %}
 
-Vale... pero antes hemos dicho que cada tecla del teclado manda un carácter ASCII al ordenador. ¿Que pasa cuando pulso la **tecla return**? El terminal necesita ambos, *CR* y *LF* para escribir bien las líneas. ¿Cual de los dos se debe mandar? Se suele mandar sólo *CR*.
+Vale... pero antes hemos dicho que cada tecla del teclado manda un carácter ASCII al ordenador. ¿Que pasa cuando pulso la **tecla return**? El terminal necesita ambos, *CR* y *LF* para escribir bien las líneas. 
+
+¿Cual de los dos se debe mandar?
 
 {% include image.html file="git_lftocrlf.png" caption="El mundo está lleno de software deseando cambiarte un LF por un CRLF y al revés. EyC." %}
 
 
 ## La disciplina de línea
 
-Cuando el terminal envía un carácter por el puerto serie, llega al al ordenador y lo recoge la UART. Esta se lo envía al *driver de terminal*. El driver es **parte del kernel** y está muy en contacto con el hardware de la UART. Dentro del driver de terminal (recuerda que seguimos en el kernel) hay un código que se llama **disciplina de línea**. Procesa los caracteres que van llegando ([n_tty.c](https://github.com/torvalds/linux/blob/master/drivers/tty/n_tty.c)).
+Cuando la consola serie envía un carácter llega al al ordenador y lo recoge la UART. Esta se lo envía al *driver de terminal*. El driver es **parte del kernel** y está muy en contacto con el hardware de la UART. Dentro del driver de terminal (recuerda que seguimos en el kernel) hay un código que se llama **disciplina de línea**. Procesa los caracteres que van llegando ([n_tty.c](https://github.com/torvalds/linux/blob/master/drivers/tty/n_tty.c)).
 
-Se encarga, entre otras, de cosas como:
+Se encarga de cosas como:
 
 - Guardar en un **buffer** temporal la entrada donde puedes corregirla antes de enviarla al programa receptor.
 - A la llegada, convertir el carácter **CR** (`^M`) en **LF** (`^J`) que es el que Linux necesita para procesar la orden.
@@ -241,25 +243,27 @@ El terminal y la disciplina de línea se configuran con el comando [`stty`](http
 
 Como te decía antes, cuando pulsas *return*, tu teclado normalmente mandará *CR*. Pero el carácter de fin de línea en Unix no es *CR*, sino *LF*. Esta capa se encarga de cambiarlo al vuelo.
 
-Puedes desactivarlo con `stty -icrnl`. Pero entonces Linux no va a reconocer tu tecla return como fin del comando:
+Puedes desactivarlo con `stty -icrnl`. Pero entonces Linux **no va a reconocer** tu tecla return como fin del comando:
 
 {% include image.html file="stty_icrnl.jpg" caption="Linux no reconoce *CR* (`^M`) como fin del comando. Pero eso es lo que tu teclado envía. EyC." %}
 
-Por cierto, cuando te pase eso utiliza `Ctrl+J` que es el fin de línea apropiado.
+Por cierto, cuando te pase eso utiliza `Ctrl+J` que es el **fin de línea** *de verdad*.
 
 El **eco** de caracteres también se hace aquí. Todos los caracteres recibidos se retransmiten de vuelta. Así el usuario puede ver lo que ha llegado.
 
-Se puede desactivar con `stty -echo`. Se hace cuando un programa te pide tu contraseña sin que aparezca en la pantalla.
+Se puede desactivar con `stty -echo`. Se hace cuando un programa te pide la **contraseña** sin que aparezca en la pantalla.
 
-Todo esto lo puedes ver en el [manual de `termios`]((https://man7.org/linux/man-pages/man3/termios.3.html).
+Todo esto lo puedes ver en el [manual de `termios`](https://man7.org/linux/man-pages/man3/termios.3.html).
 
-El *modo canónico* del terminal establece que al programa receptor no le llegan caracteres individuales, sino la línea completa. Para ello se guardan todos los caracteres en ul buffer temporal hasta que llega el fin de linea.
+El **modo canónico** del terminal significa que al programa final no le llegan caracteres individuales, sino la línea completa. Esta capa se guarda todos los caracteres en un buffer temporal hasta que llega el fin de linea. Entonces lo envía todo juntos a `bash`, `cat` o el proceso que sea.
 
-Lo puedes ver fácilmente con el comando `cat`. Escribes algo, borras un par de letras y pulsas *enter*. A `cat` sólo le va a llegar lo que ha quedado en el buffer, pero no lo que has borrado. A eso se llama *cooked mode*. Por supuesto también se puede desactivar. Pero es más para hackers.
+Lo puedes ver fácilmente con el comando `cat`. Escribes algo, **borras** un par de letras y pulsas *enter*. A `cat` sólo le va a llegar lo que ha quedado en el buffer, pero no lo que has borrado. A eso se llama *cooked mode*. Por supuesto también se puede desactivar. Pero es más para hackers.
 
 De todas formas, como editor es muy simple. Únicamente puedes borrar caracteres o palabras para corregirlos. Pero nada más. No te puedes mover por la línea, ni recuperar comandos anteriores, ni autocompletar. Todo eso lo hace *readline*, ya lo veremos.
 
 Con el carácter de **borrado** tenemos un caso parecido al del retorno de carro. ¿Te acuerdas cuando te he contado que antes se escribía el mensaje en una cinta de papel perforada?
+
+{% include image.html file="stty_borrar.jpg" caption="Secuencia de borrado *backspace-space-backspace*. EyC." %}
 
 ¿Cómo corriges un carácter ya **troquelado**? Una vez perforado no se puede borrar. Así que se **tachaba**. Se troquelaban todos los demás agujeros dejándolo en cinco unos: `11111`. Se determinó que eso indicaría un carácter no válido. Cuando el ASCII de 7 bit sustituyó al código *Baudot* acordamos que `1111111` (`7f`) fuese también el equivalente a *borrar*.
 
@@ -270,8 +274,6 @@ Por eso el carácter ASCII 127 (`7f`) se llama *DELETE*.
 Pero en los terminales de pantalla ya no es necesario tachar un carácter equivocado, basta sustituirlo por un **espacio** en blanco. Para ello le tienes que decir al terminal que retroceda el cursor una posición hasta donde está la letra equivocada, escriba un espacio en blanco en su lugar, y vuelva a retroceder una posición para quedarse donde estaba.
 
 Eso se logra mandando un carácter de control que se llama **retroceso** (*backspace*). Es el carácter `08` y tiene el símbolo `◘`.
-
-{% include image.html file="stty_borrar.jpg" caption="Secuencia de borrado *backspace-space-backspace*. EyC." %}
 
 Ahora ya sabes por qué hay dos caracteres que sirven para lo mismo: *backspace* (`^H`) y *delete* (`^?`).
 
@@ -332,7 +334,9 @@ Código | Nombre | Acción
 `0x0a` | LF     | *Line Feed*: Baja el cursor y hace scroll si es preciso
 `0x0d` | CR     | *Carriage Return*: mueve el cursor a la primera columna
 
-Claro que en este terminal sólo funcionan los programas simples en modo texto. Cualquier programa algo más sofisticado nos va a requerir algo más:
+Claro que en este terminal sólo funcionan los programas simples en modo texto.
+
+Cualquier programa a pantalla completa nos va a requerir más cosas:
 
 ```console
 pi@raspberrypi:~$ vim
@@ -340,7 +344,9 @@ E437: Terminal capability "cm" required
 -- More --
 ```
 
-Tampoco se echaba de menos. Debes tener en cuenta lo **lento** que iba todo. Los terminales se hicieron más sofisticados a medida que las comunicaciones mejoraban.
+Pero, te voy a decir, tampoco se echaba de menos.
+
+Ten en cuenta lo **lento** que iba todo. Los terminales se hicieron más sofisticados a medida que las comunicaciones mejoraban.
 
 ¿Has visto *Wargames*, la película? ¿Te acuerdas de estos adaptadores telefónicos?
 
@@ -355,7 +361,9 @@ Durante mucho tiempo, el único editor usable fue `ed`, [el editor de texto est�
 
 > When I log into my Xenix system with my 110 baud teletype, both vi and Emacs are just too damn slow.
 
-No exagera. Así es `vim` a 1200 baudios (10 veces más rápido). 1200 baudios era una velocidad respetable a principios de los 90, en España.
+No exagera.
+
+Así es `vim` a 1200 baudios (10 veces más rápido). 1200 baudios era una velocidad respetable a principios de los 90, en España.
 
 {% include video.html file="vi_1200.mp4" caption="Vi a 1200 baudios. EyC." %}
 
@@ -363,9 +371,9 @@ Pues imagínatelo a 110, 10 veces más lento. No te quedaba otra que editar con 
 
 {% include video.html file="ed_150.mp4" caption="Duplicando la velocidad del terminal con ed a 150 baudios. EyC." %}
 
-*Ed* evolucionó a *ex*. Más tarde *ex* incorporó un modo más visual a pantalla completa al que llamó *vi*. Finalmente *vi* se convirtió en *vim* y ya nadie se acuerda de *ex* ni de *ed*.
+**Ed** evolucionó a **ex**. Más tarde **ex** incorporó un modo más visual a pantalla completa al que llamó **vi**. Finalmente **vi** se convirtió en **vim** y ya nadie se acuerda de **ex** ni de **ed**.
 
-Salvo que trabajes mucho en línea de comandos o hagas scripts. En cuyo caso habrás usado *sed*. *Sed* es la versión *streaming* de *ed*.
+Salvo que trabajes mucho en línea de comandos o hagas scripts. En cuyo caso habrás usado **sed**. **Sed** es la versión *streaming* de **ed**.
 
 ¿Ves por qué los comandos básicos de Unix tienen muy poquitas letras? cd, cp, ls, mv, id, rm, cat...
 
@@ -440,7 +448,7 @@ La sesión finaliza. **Init** volverá a lanzar el proceso `getty`. Mostrándote
 
 Fíjate en el escenario anterior al pulsar *SAK*.
 
-{% include image.html file="pseudologin_sak.jpg" caption="SAK te asegura que es el sistema quien te pide credenciales. EyC." %}
+{% include video.html file="pseudologin_sak.mp4" caption="SAK matará cualquier proceso corriendo en esa terminal. EyC." %}
 
 ¿Alguna vez has tenido que presionar *Ctrl+Alt+Supr* antes de poner usuario y contraseña en un Windows corporativo? Tiene la misma función. Ningún programa de usuario puede capturar esa secuencia, así te aseguras de que quien te pide credenciales es realmente el sistema operativo.
 
@@ -470,7 +478,7 @@ Me voy a conectar desde una Ubuntu usando *Netcat* y ejecutaré algunos comandos
 
 {% include image.html file="h_notatty.gif" caption="Bash no está en modo interactivo. EyC." %}
 
-En esa captura quiero que veas varias cosas:
+En esa captura quiero que **observes** lo siguiente:
 - No te muestra *prompt*. Los comandos que escribo yo se ven igual que las respuestas.
 - No te autocompleta con tab (*hostn* está incompleto).
 - No te muestra los mensajes de error (fíjate en el comando `hostn`, que no existe).
@@ -493,13 +501,13 @@ Basta usar `script /dev/null` para que no escriba ningún fichero. Iniciará `/b
 
 {% include image.html file="h_script.gif" caption="*Script* crea un pseudoterminal. EyC." %}
 
-De esa captura tienes que fijarte en que se han arreglado algunas cosas:
+De esa captura tienes que fijarte en que **hemos arreglado** algunas cosas:
 
 - Tras lanzar el comando `script` nos aparece el *prompt* de root `#`.
 - Ya sí muestra que estamos en una terminal (/dev/pts/1).
 - El error de comando incorrecto ahora sí aparece.
 
-Pero aún hay algunos fallos:
+Pero otras **siguen fallando**:
 
 - Los comandos salen repetidos. La primera vez sobre la línea de comandos y la segunda vez justo debajo.
 - El tabulador no autocompleta el comando `hostn`.
@@ -507,11 +515,11 @@ Pero aún hay algunos fallos:
 
 Cuando iniciamos *script*, crea un terminal para nosotros donde lanza un *sh*. Este terminal tiene su propia disciplina de línea. Así que ahora tenemos **dos terminales**, el de nuestra máquina local y el remoto.
 
-El primer fallo se debe a los dos ***echo***. Según tecleamos vemos aparecer la letras porque nuestro terminal nos las devuelve, pero no las enviará al otro extremo hasta que pulsemos *enter* (debido al **modo canónico**). Y cuando llegan al terminal remoto, que también tiene el echo activado, las envía de vuelta. Por eso cada comando se ve doble. Debemos desactivar el echo en nuestro terminal con `stty -echo`.
+El **primer fallo** se debe a los dos ***echo***. Según tecleamos vemos aparecer la letras porque nuestro terminal nos las devuelve, pero no las enviará al otro extremo hasta que pulsemos *enter* (debido al **modo canónico**). Y cuando llegan al terminal remoto, que también tiene el echo activado, las envía de vuelta. Por eso cada comando se ve doble. Debemos desactivar el echo en nuestro terminal con `stty -echo`.
 
-Por el mismo motivo no funciona el completar con tabulador: tu terminal no envía nada a tu *netcat* hasta que pulsas enter. ¿Por qué en mi terminal local sí funciona el autocompletado? Pues porque *tu* bash desactiva el modo canónico de *tu* terminal. El bash remoto lo desactiva en su terminal remoto, pero no puede hacer nada con tu terminal local. Debes desactivarlo a mano con `stty raw`.
+Por el mismo motivo no funciona el completar con tabulador. Debido al **modo canónico** tu terminal no le envía ningunas entrada a *netcat* hasta que pulsas **enter**. ¿Por qué en mi terminal local sí funciona el autocompletado? Pues porque **tu** bash desactiva el modo canónico de **tu** terminal. El bash remoto lo desactiva en **su** terminal remoto, pero no puede hacer nada con **tu** terminal local. Debes desactivarlo tú a mano con `stty raw`.
 
-El *Ctrl+C* lo está interpretando **tu terminal** local. Por eso interrumpe tu *netcat*. Si quieres terminar procesos remotos, debes pedirle que no lo interprete y lo transmita. Esto se hace con `stty -isig`. Pero, cuidado, una vez lo desactives `Ctrl+C` o `Ctrl+Z` dejarán de funcionar localmente. Y tendrás que matar *netcat* de otra manera.
+El *Ctrl+C* lo está interpretando **tu terminal** local. Por eso interrumpe tu *netcat*. Si quieres terminar procesos remotos, debes pedirle que no lo interprete y lo transmita. Esto se hace con `stty -isig`. Pero, cuidado, una vez lo desactives `Ctrl+C` o `Ctrl+Z` **dejarán de funcionar** localmente. Y tendrás que matar *netcat* de otra manera.
 
 Estas opciones es mejor ponerlas cuando ya tenemos bash corriendo en un terminal en el otro extremo. Se puede hacer con `stty -F` desde otra consola local. Pero yo lo haría dejando el proceso en suspenso:
 
@@ -519,26 +527,26 @@ Con el *netcat* parado, lanzamos en local el comando `stty -isig -echo raw`. Des
 
 {% include image.html file="h_raw.gif" caption="Una shell *netcat* que no tiene nada que envidiar a *telnet* o *ssh*. EyC." %}
 
-Ahora ya sí funciona el `Ctrl+C`, el autocompletado, las flechas y todo. Te lo demuestro lanzando `vim` o `Midnight Commander`.
+Ahora ya **sí funciona** el `Ctrl+C`, el autocompletado, las flechas y todo. Te lo demuestro lanzando `vim` o `Midnight Commander`.
 
-Eso sí, debes decirle al terminal remoto tu tipo de terminal local y sus dimensiones. *Telnet* y *ssh* tienen un mecanismo para decírselo al otro extremo, pero *netcat* no; así que no tiene forma de saberlo si tú no se lo indicas.
+Eso sí, debes decirle al sistema remoto tu **tipo de terminal** local y sus dimensiones. *Telnet* y *ssh* tienen un mecanismo para decírselo pero *netcat* no; así que no puede saberlo si tú no se lo indicas.
 
 
 ## Terminfo
 
-Te decía antes que para experimentar con `stty` tenías que lanzar previamente bash con la opción `bash --noediting`.
+Te decía antes que para experimentar con `stty` tenías que lanzar bash con la opción `bash --noediting`.
 
-Esto es porque Bash, como casi todos los programas modernos, utiliza una librería que se llama **readline**. *Readline* modifica al vuelo ciertas opciones del terminal y sobrescribe lo que hubieras definido con `stty`.
+Porque Bash utiliza una librería que se llama **readline**.
 
-Es la librería que te permite editar la línea de comandos, moverte por ella, insertar caracteres en cualquier posición, recuperar comandos anteriores, autocompletar con tab y todo eso. La que mueve el cursor al principio con `Ctrl+a`, al comando anterior con `Ctrl+p`, un carácter a la izquierda con `Ctrl+b` y a la derecha con `Ctrl+f`, etc.
+*Readline* es la librería que te permite **editar la línea de comandos**, moverte por ella, insertar caracteres en cualquier posición, recuperar comandos anteriores, autocompletar con tab y todo eso. La que mueve el cursor al principio con `Ctrl+a`, al comando anterior con `Ctrl+p`, un carácter a la izquierda con `Ctrl+b` y a la derecha con `Ctrl+f`, etc.
 
-¿Y sabes qué de qué son esas teclas?
+Por cierto, ¿sabes de donde vienen esas teclas?
 
 De [**Emacs**](https://www.gnu.org/software/emacs/refcards/pdf/refcard.pdf). Sí, el *editor* emacs.
 
-Por eso si tu terminal envía `Ctrl+p` (ASCII `0x10`) al pulsar la **flecha izquierda** funcionan bien muchos programas (bash, dialog, mc, emacs...). Pero no `vi`.
+Por eso si tu terminal envía `Ctrl+p` (ASCII `0x10`) al pulsar la **flecha izquierda** funcionan bien muchos programas como *bash*, *dialog / whiptail*, *mc*, *emacs*. Pero `vi`, por ejemplo, no.
 
-A propósito, ya que hablamos de *readline*, se configura con el fichero `/etc/inputrc`.
+Ya que hablamos de *readline*, en el fichero de configuración (`/etc/inputrc`) **te recomiendo** descomentar las líneas *alternate mappings for "page up" and "page down" to search the history*.
 
 ```
 # /etc/inputrc - global inputrc for libreadline
@@ -548,23 +556,23 @@ A propósito, ya que hablamos de *readline*, se configura con el fichero `/etc/i
 # "\e[6~": history-search-forward
 ```
 
-Te recomiendo **descomentar** las líneas *alternate mappings for "page up" and "page down" to search the history*. En algunas distribuciones como RedHat o SuSE viene activo por defecto. Pero no en Debian y derivados.
+En algunas distribuciones como RedHat o SuSE viene activo por defecto. Pero no en Debian y derivados.
 
 Sirve para buscar en el histórico comandos que **empiezan** por lo que ya llevas escrito. De forma que si pones `cat` y vas pulsando `page up` te saldrán todos los ficheros de los que hayas hecho `cat`. A mí me parece más práctico que la búsqueda con `Ctrl+r`.
 
 Por debajo, *readline* se apoya en **terminfo**.
 
-A lo largo de los años, ha habido tantísimos terminales y con posibilidades tan dispares, que Unix tiene una **base de datos** sólo para saber cómo interactuar con cada uno. Bueno, en realidad no tiene una, tiene dos: *termcap* (obsoleta) y *terminfo*.
+A lo largo de los años, ha habido **tantísimos terminales** y con posibilidades tan dispares, que Unix tiene una **base de datos** sólo para saber cómo interactuar con cada uno. Bueno, en realidad no tiene una, tiene **dos**: *termcap* (obsoleta) y *terminfo*.
 
-Funcionan como **librerías**. Es decir, un programa puede decidir usar *termcap* (si es muy antiguo), usar *terminfo*, o no usar ninguna de las dos. Un programa a pantalla completa además usará **ncurses** que, por debajo, es un cliente de *terminfo*.
+Funcionan como **librerías**. Es decir, un programa puede decidir usar *termcap* (si es muy antiguo), usar *terminfo*, o no usar ninguna de las dos. Un programa a pantalla completa probablemente usará **ncurses** que, por debajo, es un cliente de *terminfo*.
 
-Le indican al programa qué puede hacer el terminal del usuario: *¿tiene colores? ¿tiene caracteres gráficos? ¿puede hacer scroll? ¿scroll hacia arriba y también hacia abajo? ¿línea a línea o varias a la vez? ¿y scroll horizontal? ¿puede limpiar la pantalla o no? ¿y posicionar el cursor?*
+Le indican al programa **qué puede hacer** el terminal del usuario: *¿tiene colores? ¿tiene caracteres gráficos? ¿puede hacer scroll? ¿scroll hacia arriba y también hacia abajo? ¿línea a línea o varias a la vez? ¿y scroll horizontal? ¿puede limpiar la pantalla o no? ¿y posicionar el cursor?*
 
-Las funciones se llaman **capacidades**. La lista de capacidades soportadas por *terminfo* viene en el manual y es **enorme**: [terminfo(5) - Linux manual page](https://man7.org/linux/man-pages/man5/terminfo.5.html). Cada modelo de terminal tiene su fichero de configuración donde se listan sus capacidades y cómo se invocan.
+Las funciones se llaman **capacidades**. La lista de capacidades soportadas por *terminfo* viene en el manual y es **enorme**: [terminfo(5) - Linux manual page](https://man7.org/linux/man-pages/man5/terminfo.5.html). Cada modelo de terminal tiene su fichero de configuración donde se listan todas sus capacidades y cómo se invocan.
 
-Supón que estás haciendo un programa y, en un momento dado, quieres **borrar la pantalla**.
+Supón que estás programando algo y, en un momento dado, necesitas **borrar la pantalla**.
 
-Algo normal hoy, pero no tan común antaño, cuando la "pantalla" podía ser perfectamente una máquina de escribir. Esa capacidad se llama **clear** y dada dispositivo tiene su forma de pedírselo. Así que *Terminfo*, basándose en la variable de entorno `TERM`, buscará su fichero de configuración y mira si viene la capacidad *clear*.
+Algo normal hoy, pero no tan común antaño, cuando la "pantalla" podía ser perfectamente una máquina de escribir. Esa capacidad se llama **clear** y cada dispositivo tiene su forma de pedírselo. Así que *Terminfo*, basándose en la variable de entorno `TERM`, buscará su fichero de configuración y mira si viene la capacidad *clear*.
 
 El comando `tput` sirve para generar manualmente la secuencia que corresponda a una capacidad.
 
@@ -575,23 +583,23 @@ $ TERM=sun tput clear | hd
 00000000  0c                                 |.|
 ```
 
-En cambio, los terminales que usamos hoy en día casi todos son compatibles con el estándar ANSI.
+En cambio, los terminales que usamos hoy en día casi todos son compatibles con el estándar ANSI y no utilizan caracteres sueltos sino **secuencias de escape**. 
 
 ```
 $ TERM=ansi tput clear | hd
 00000000  1b 5b 48 1b 5b 4a                  |.[H.[J|
 ```
 
-Esto es una **secuencia de escape** (dos seguidas). El carácter *Escape* (`1b` o también representado como `^[`) indica al terminal que lo que viene a continuación es una orden, no un texto. Las *secuencias de escape* empiezan por el carácter de control `1b`, seguido de `[`. Formando el llamado *Control Sequence Introducer* (`^[[`). [ANSI escape code](https://en.wikipedia.org/wiki/ANSI_escape_code).
+El carácter *Escape* (`1b` o `^[`) indica al terminal que lo que viene a continuación es una orden, no un texto. Las *secuencias de escape* empiezan por el carácter de control `1b`, seguido de `[`. Formando lo que se llama *Control Sequence Introducer* (`^[[`). ver [ANSI escape code](https://en.wikipedia.org/wiki/ANSI_escape_code).
 
-Si tu terminal fuese un teletipo, que no puede borrar la pantalla, *terminfo* no genera nada y en su lugar devuelve error.
+Si tu terminal fuese un teletipo, que **no puede** borrar la pantalla, *terminfo* no genera nada y en su lugar devuelve **error**.
 
 ```
 $ TERM=tty33 tput clear | hd
 $
 ```
 
-El terminal más básico que hay en la base de datos se conoce como **dumb**:
+El terminal más básico que hay en la base de datos es **dumb**:
 
 ```
 $ infocmp dumb
@@ -603,8 +611,8 @@ dumb|80-column dumb tty,
 
 Verás que es muy parecido a nuestro terminal ahora mismo:
 
-- **am**: (automargin) significa que cuando el texto llega al final de la pantalla continúa automáticamente en la siguiente línea.
-- **ind**: significa que, estando en la última fila, el terminal hace scroll cuando recibe un `\n`.
+- **am**: (automargin) cuando el texto llega al final de la pantalla, continúa automáticamente en la siguiente línea.
+- **ind**: estando en la última fila, el terminal hace scroll cuando recibe un `\n`.
 - **bel**: emite un pitido cuando recibe el carácter `0x07` o `^G`. Nosotros en vez de un pitido hacemos un parpadeo de la pantalla.
 - **cr**: el retorno de carro, situar el cursor al principio de la línea actual, se hace con `\r`.
 - **cud1**: cursor down, bajar el cursor una linea, se hace con `\n`.
@@ -661,11 +669,11 @@ Cambiamos la línea de `agetty` para indicar que el terminal serie es de tipo *e
 T0:23:respawn:/sbin/getty 38400 ttyAMA0 eyc
 ```
 
-**Tack** es una utilidad pensada específicamente para probar el terminal:
+**Tack** es la utilidad que se usaba para probar los terminales:
 
 {% include image.html file="screen_tack_cux1.jpg" caption="Probando las capacidades de mover cursor. EyC." %}
 
-Con estas capacidades ya estamos listos para ejecutar programas a pantalla completa.
+Con estas capacidades ya estamos listos para ejecutar programas a **pantalla completa**.
 
 Y podemos jugar a cosas que no sean sólo puro texto.
 
@@ -675,21 +683,23 @@ Aprovechando que tenemos caracteres de 8 bit, le hemos añadido también gráfic
 
 {% include image.html file="screen_tack_acs.jpg" caption="Prueba del juego alternativo de caracteres (gráficos). EyC." %}
 
-Y falta un último detalle: **destacar texto**. El **video inverso** sólo nos ocupará un bit más en la memoria y hará que los programas queden mucho más vistosos.
+Y falta un último detalle: **destacar texto**.
 
-{% include image.html file="screen_mc.jpg" caption="Nuestra consola ya es capaz de visualizar aplicaciones complejas. EyC." %}
+El **video inverso** sólo nos ocupará un bit más en la memoria y hará que los programas queden mucho más vistosos.
+
+{% include image.html file="screen_mc.jpg" caption="Mi consola ya es capaz de visualizar aplicaciones complejas. EyC." %}
 
 
 
 ## Conclusión
 
-Quedan muchas cosas por contar. Lo dejamos aquí.
+Quedan muchas cosas por contar pero lo dejamos aquí.
 
-El código fuente del proyecto lo tienes en Github: [verilog-vga/4-serterm](https://github.com/electronicayciencia/verilog-vga/tree/master/4-serterm). Nuestro terminal funciona correctamente a 38400 baudios. A 115200 también, pero necesita *padding* en el scroll.
+El **código fuente** del proyecto lo tienes en Github: [verilog-vga/4-serterm](https://github.com/electronicayciencia/verilog-vga/tree/master/4-serterm). Nuestro terminal funciona correctamente a 38400 baudios. A 115200 también, pero necesita *padding* en el scroll.
 
-Hemos visto cómo hacer una consola serie completamente nueva. Partiendo de sus capacidades básicas hasta algunas más sofisticadas. Hemos aprendido a configurarla desde cero en el sistema operativo. Y hemos explorado las capas que conforman la interfaz de terminal, algunas heredadas de los primeros Unix.
+Hemos visto cómo hacer una **consola serie** completamente nueva. Partiendo de sus **capacidades básicas** hasta algunas más sofisticadas. Hemos aprendido a configurarla desde cero en el sistema operativo. Y hemos explorado las **capas** que conforman la **interfaz de terminal**, algunas heredadas de los primeros Unix.
 
-Con esto termina el recorrido de primera mano por las entrañas de Linux. Confío en que algún día, mientras trabajas en la línea de comandos, te vendrá a la cabeza algo de lo que acabas de leer.
+Con esto termina el recorrido de primera mano por las entrañas de Linux. Seguro que cualquier día, mientras trabajas en la línea de comandos, te vendrá a la cabeza algo de lo que has leído aquí.
 
 
 
