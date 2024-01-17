@@ -450,7 +450,9 @@ Fíjate en el escenario anterior al pulsar *SAK*.
 
 {% include video.html file="pseudologin_sak.mp4" caption="SAK matará cualquier proceso corriendo en esa terminal. EyC." %}
 
-¿Alguna vez has tenido que presionar *Ctrl+Alt+Supr* antes de poner usuario y contraseña en un **Windows** corporativo? Tiene la misma función. Ningún programa de usuario puede capturar esa secuencia, así te aseguras de que quien te pide credenciales es realmente el sistema operativo.
+¿Alguna vez has tenido que presionar **Ctrl+Alt+Supr** antes de poner usuario y contraseña en un **Windows** corporativo?
+
+Tiene la misma función. Ningún programa de usuario puede **capturar** esa secuencia, así te aseguras de que quien te pide credenciales es realmente el sistema operativo.
 
 {% include image.html file="windows_sak.jpg" caption="*Secure Access Key* en Windows. Porque algunos compañeros tienen muy mala idea. EyC." %}
 
