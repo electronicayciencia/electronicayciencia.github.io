@@ -4,7 +4,7 @@ layout: post
 assets: /assets/2024/01/consola-serie
 image: /assets/2024/01/consola-serie/img/screen_mc.jpg
 featured: false
-description: En este artículo veremos desde cómo hacerse un terminal serie a cómo hackear con stty. Pasando por la historia del teletipo, la disciplina de línea o terminfo.
+description: Desde cómo hacerse un terminal serie a hackear con stty. Pasando por la historia del teletipo, la disciplina de línea o terminfo.
 tags:
   - Informática
   - FPGA
