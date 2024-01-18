@@ -468,9 +468,11 @@ Hay una técnica que se llama **remote code execution**. Va de aprovechar un fal
 
 Pero el programa original normalmente es un *demonio*, es decir desconectado del terminal. Así que esa shell empieza pero **no tiene terminal**.
 
-Es limitante porque, aparte de que hay muchos programas que requieren TTY (como su, vim, o cualquier programa a pantalla completa), tampoco ves el *prompt*, ni los mensajes de error; si algo se queda pillado no puedes usar Ctrl+C, no funciona el autocompletado y el histórico de comandos, ni puedes editar, etc.
+Es limitante porque, aparte de que hay muchos programas que requieren TTY (como su, vim, o cualquier programa a pantalla completa), tampoco ves el *prompt*, ni los mensajes de error; si algo se queda pillado no puedes usar Ctrl+C, no funciona el autocompletado ni el histórico de comandos, no puedes editar el comando, etc.
 
-Verás. Te lo voy a enseñar. Levanto en la **Raspberry** una shell directamente desde el proceso `init`, escuchando en el puerto 1234:
+Verás. Te lo voy a enseñar. 
+
+Levanto en la **Raspberry** una shell directamente desde el proceso `init`, escuchando en el puerto 1234:
 
 ```
 N0:23:respawn:/usr/bin/nc.traditional -lvp 1234 -e /bin/sh
@@ -519,7 +521,7 @@ Cuando iniciamos *script*, crea un terminal para nosotros donde lanza un *sh*. E
 
 El **primer fallo** se debe a los dos ***echo***. Según tecleamos vemos aparecer la letras porque nuestro terminal nos las devuelve, pero no las enviará al otro extremo hasta que pulsemos *enter* (debido al **modo canónico**). Y cuando llegan al terminal remoto, que también tiene el echo activado, las envía de vuelta. Por eso cada comando se ve doble. Debemos desactivar el echo en nuestro terminal con `stty -echo`.
 
-Por el mismo motivo no funciona el completar con tabulador. Debido al **modo canónico** tu terminal no le envía ningunas entrada a *netcat* hasta que pulsas **enter**. ¿Por qué en mi terminal local sí funciona el autocompletado? Pues porque **tu** bash desactiva el modo canónico de **tu** terminal. El bash remoto lo desactiva en **su** terminal remoto, pero no puede hacer nada con **tu** terminal local. Debes desactivarlo tú a mano con `stty raw`.
+Por el mismo motivo no funciona el completar con tabulador. Debido al **modo canónico** tu terminal no le envía ninguna entrada a *netcat* hasta que pulsas **enter**. ¿Por qué en mi terminal local sí funciona el autocompletado? Pues porque **tu** bash desactiva el modo canónico de **tu** terminal. El bash remoto lo desactiva en **su** terminal remoto, pero no puede hacer nada con **tu** terminal local. Debes desactivarlo tú a mano con `stty raw`.
 
 El *Ctrl+C* lo está interpretando **tu terminal** local. Por eso interrumpe tu *netcat*. Si quieres terminar procesos remotos, debes pedirle que no lo interprete y lo transmita. Esto se hace con `stty -isig`. Pero, cuidado, una vez lo desactives `Ctrl+C` o `Ctrl+Z` **dejarán de funcionar** localmente. Y tendrás que matar *netcat* de otra manera.
 
