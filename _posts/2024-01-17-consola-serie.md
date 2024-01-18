@@ -4,7 +4,7 @@ layout: post
 assets: /assets/2024/01/consola-serie
 image: /assets/2024/01/consola-serie/img/screen_mc.jpg
 featured: false
-description: Desde hacer un terminal serie a hackear con stty. Pasando por la historia del teletipo, la disciplina de línea o terminfo.
+description: Desde hacer un terminal serie a hackear con STTY. Pasando por la historia del teletipo, la disciplina de línea o Terminfo.
 tags:
   - Informática
   - FPGA
@@ -255,7 +255,7 @@ Se puede desactivar con `stty -echo`. Se hace cuando un programa te pide la **co
 
 Todo esto lo puedes ver en el [manual de `termios`](https://man7.org/linux/man-pages/man3/termios.3.html).
 
-El **modo canónico** del terminal significa que al programa final no le llegan caracteres individuales, sino la línea completa. Esta capa se guarda todos los caracteres en un buffer temporal hasta que llega el fin de linea. Entonces lo envía todo juntos a `bash`, `cat` o el proceso que sea.
+El **modo canónico** del terminal significa que al programa final no le llegan caracteres individuales, sino la línea completa. Esta capa se guarda todos los caracteres en un buffer temporal hasta que llega el fin de linea. Entonces los envía todos a `bash`, `cat` o el proceso que sea.
 
 Lo puedes ver fácilmente con el comando `cat`. Escribes algo, **borras** un par de letras y pulsas *enter*. A `cat` sólo le va a llegar lo que ha quedado en el buffer, pero no lo que has borrado. A eso se llama *cooked mode*. Por supuesto también se puede desactivar. Pero es más para hackers.
 
@@ -458,7 +458,7 @@ Tiene la misma función. Ningún programa de usuario puede **capturar** esa secu
 
 
 
-## Stty para hackers
+## STTY para Hackers
 
 Siguiendo con la **seguridad**, hay un escenario donde conocer `stty` resulta especialmente práctico: *hacking*.
 
