@@ -152,20 +152,20 @@ El telégrafo de Morse y su código supusieron una revolución para la época. T
 
 Algunos inventores se centraron en poder usar la misma línea para transmitir más de un mensaje simultáneamente. Se inventó lo que se conoce como *Telegrafía Armónica*: un método de **multiplexación por frecuencia** en el que cada mensaje iba codificado en una portadora de distinta frecuencia. Esta tecnología evolucionó para convertirse en el **Teléfono**.
 
-Otros, la mayoría, dedicaron sus esfuerzos automatizar el telégrafo. Querían **quitarse al telegrafista** para aumentar la velocidad de transmisión. Pero el código morse tiene un problema de base: sus símbolos son de **diferente duración**.
+Otros, la mayoría, dedicaron sus esfuerzos a **automatizar** el telégrafo. Querían **quitarse al telegrafista** para aumentar la velocidad de transmisión. Pero el código morse tiene un problema de base: sus símbolos son de **diferente duración**.
 
 Morse diseñó su código pensando en que los caracteres más frecuentes (como la *e* o la *i*) fuesen más breves, y por tanto más rápidos de transmitir, que los menos frecuentes. Eso supone una ventaja para un ser humano, pero es muy complicado de automatizar con una máquina electromecánica de la época.
 
-En 1874 Baudot propuso utilizar un código alternativo que también pudiera transmitirse por una línea telegráfica de la época. Cada carácter estaría formado por 5 símbolos de igual duración. El símbolo sería 1 o 0 según hubiera paso de corriente por la línea o no. Patentó una máquina que transmitiría secuencialmente el estado de 5 pulsadores y otra los recibía formando el carácter.
+En 1874 Baudot propuso utilizar un código alternativo que también pudiera transmitirse por una línea telegráfica. Cada carácter estaría formado por 5 símbolos de igual duración. El símbolo sería 1 o 0 según hubiera paso de corriente por la línea o no. Patentó una máquina que transmitiría secuencialmente el estado de 5 pulsadores y otra los recibía formando el carácter.
 
-Lo llamó *telégrafo multiplexado*. Esa fue la **primera** transmisión serie de 5 bits. Y estamos a finales del siglo XIX.
+Lo llamó *telégrafo multiplexado*. Esa fue la **primera** transmisión serie: con 5 bits y a finales del siglo XIX.
 
 Por eso al número de símbolos por segundo en una comunicación lo llamamos *baudio*.
 
 {% include image.html file="Clavier_Baudot.jpg" caption="Telégrafo multiplexado (piano de Baudot). El precursor de las comunicaciones serie. [Fuente](https://en.wikipedia.org/wiki/Baudot_code#/media/File:Clavier_Baudot.jpg)." %}
 
 
-Con los años el *piano de Baudot* se convirtió en una máquina de escribir automática. Una virguería electromecánica. Usaban una versión modificada del código Baudot para enviar y recibir mensajes por un hilo telegráfico mucho más rápido de lo que lo haría un humano. Y no hacía falta telegrafista, podía usarlas cualquiera que supera mecanografiar.
+Con los años el *piano de Baudot* se dio paso a una máquina de escribir **automática**. Una virguería electromecánica a base de mecanismos y solenoides. Usaban una versión modificada del código Baudot para enviar y recibir mensajes por un hilo telegráfico mucho más rápido de lo que lo haría un humano. Y no hacía falta telegrafista, podía usarlas cualquiera que supera mecanografiar.
 
 {% include image.html file="International_Telegraph_Alphabet_2_brightened.jpg" caption="Código de 5 bits de Baudot. [Fuente](https://en.wikipedia.org/wiki/File:International_Telegraph_Alphabet_2_brightened.jpg)." %}
 
@@ -398,13 +398,13 @@ Si está habilitado, mediante la condición *break* invocamos a [**magic SysRq**
 
 *Magic SysRq* es un mecanismo que actúa a nivel de **kernel** y sirve para recuperar parte del control cuando el sistema no responde. Podemos hacer cosas como aumentar el nivel de log del kernel, sincronizar el disco, volcar los registros de la CPU o reiniciar.
 
-Se puede llamar desde una **consola local** con la combinación de teclas `ALT-SysRq-<command key>`. Pero para eso tienes que tener acceso físico al servidor. En cuyo caso también podrías haberle dado al reset sin más.
+Se puede llamar desde una **consola local** con la combinación de teclas `ALT-SysRq-<command key>`. Pero para eso tienes que tener acceso físico al servidor. En cuyo caso también podrías haberle dado al botón de reset.
 
 O desde una **conexión remota**. Entras por SSH y haces
 ```
 echo b > /proc/sysrq-trigger
 ```
-y se reinicia sin más.
+y se **reinicia** sin más.
 
 ¡Pero para eso tienes que ser **root**!
 
