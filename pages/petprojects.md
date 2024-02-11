@@ -7,6 +7,25 @@ public: true
 
 Some other projects I do on GitHub (english).
 
+## [Verilog VGA](https://electronicayciencia.github.io/verilog-vga/)
+
+A project to learn how to work with a Gowin FPGA (Sipeed Tang Nano) and a LCD display.
+
+Increasing degree of difficulty:
+- Patterns
+- Images
+- Text
+- Serial terminal
+
+Each repository have a readme file listing key points and examples, as well as an extensive blog post with a detailed explanation (in spanish).
+
+[Verilog VGA](https://electronicayciencia.github.io/verilog-vga/)
+
+[Source repository](https://github.com/electronicayciencia/verilog-vga)
+
+(Updated Jan 2024)
+
+
 ## [Easy MCP2221](https://github.com/electronicayciencia/EasyMCP2221)
 
 Complete Python library for Microchip devices MCP2221 and MCP2221A. Full documentation here: [easymcp2221.readthedocs.io](https://easymcp2221.readthedocs.io/).

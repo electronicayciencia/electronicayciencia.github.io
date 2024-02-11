@@ -171,7 +171,7 @@ Con los años el *piano de Baudot* se dio paso a una máquina de escribir **auto
 
 Además, ni siquiera era necesario ya el mecanógrafo. Porque el mensaje primero se troquelaba en una **cinta perforada** de papel. Y cuando se tenían listos varios mensajes, el rollo de cinta se transmitía a toda velocidad hacia el otro extremo.
 
-{% include image.html file="Baudot_Tape.jpg" caption="Cinta perforada con el cóodigo Baudot. [Fuente](https://en.wikipedia.org/wiki/Baudot_code#/media/File:Baudot_Tape.JPG)." %}
+{% include image.html file="Baudot_Tape.jpg" caption="Cinta perforada con el código Baudot. [Fuente](https://en.wikipedia.org/wiki/Baudot_code#/media/File:Baudot_Tape.JPG)." %}
 
 Cuando los ordenadores salieron del laboratorio para convertirse en una herramienta de uso empresarial, el teletipo **ya estaba allí**. Y desde entonces ha sido la principal vía de **comunicación interactiva** entre el operador humano y la máquina.
 
