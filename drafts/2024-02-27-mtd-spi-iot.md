@@ -1,5 +1,5 @@
 ---
-title: Memorias Flash: el almacenamiento del IoT
+title: "Memorias Flash: el almacenamiento del IoT"
 layout: post
 assets: /assets/2024/02/mtd-spi-iot
 image: /assets/2024/02/mtd-spi-iot/img/Mikrotik_RB711.jpg
@@ -24,7 +24,7 @@ Pero de lo que vamos a hablar es de las memorias tal como se usan en sistemas em
 En la siguiente foto puedes ver una arquitectura típica. Los cuatro chips son:
 
 - **Microprocesador** o SoC. En el centro.
-- Memoria **RAM**. A la izquierda. Fíjate en los meandros de las pistas. Son para que todas midan lo mismo (eléctricamente hablando). Cuando se trabaja con relojes muy rápidos es importantísimo que todos los bits lleguen a la vez.
+- Memoria **RAM**. A la izquierda. Fíjate en los *meandros* de las pistas. Son para que todas midan lo mismo (eléctricamente hablando). Cuando se trabaja con relojes muy rápidos es importantísimo que todos los bits lleguen a la vez.
 - Almacenamiento **Flash NAND**. A la derecha, arriba. Se utiliza para guardar el firmware, la configuración y el sistema de ficheros.
 - Almacenamiento **Flash NOR**. A la derecha, abajo. Tiene mucha menos capacidad que la NAND. En esta placa se utiliza para guardar dos versiones del cargador de arranque (*bootloader*); una actualizable por el usuario y la otra, de rescate, fija.
 

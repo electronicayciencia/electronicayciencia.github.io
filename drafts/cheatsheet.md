@@ -29,6 +29,8 @@ Esta página no aparece en el menú de navegación porque no tiene definida la v
 Tampoco aparece en el *sitemap* porque `/drafts/**` está excluido en la configuración. 
 Para llegar a ella utiliza este enlace: `/drafts/cheatsheet.html`.
 
+Si el título contiene dos puntos (`:`) hay que ponerlo entre comillas.
+
 ## Formato
 
 Texto normal. El primer párrafo será lo que se use como resúmen en la portada.
