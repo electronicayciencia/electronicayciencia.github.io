@@ -13,15 +13,15 @@ tags:
 
 En este recorrido sobre las memorias Flash te llevaré de la **electrónica** aplicada a la **informática** más abstracta. De las señales digitales, a la estructura de datos de un sistema de ficheros, pasando por el árbol de dispositivos (*device-tree*) de los **sistemas Linux embebidos**.
 
-Aunque llamemos *memorias Flash* a los *pendrives*, SSD o tarjetas eMMC, no es de lo que vamos a hablar hoy. Aunque sí, les llamamos Flash porque internamente llevan una memoria Flash. Normalmente NAND Flash. Sin embargo, no exponen la memoria directamente.
+Aunque llamemos *memorias Flash* a los *pendrives*, SSD o tarjetas eMMC, no es de lo que vamos a hablar hoy. Aunque sí, les llamamos Flash porque internamente llevan una memoria Flash. Normalmente NAND Flash. Sin embargo, ninguno de estos dispositivos expone la memoria directamente.
 
 {% include image.html file="SM3281.jpg" caption="Un *pendrive* solo con el chip de interfaz, para que tú le pongas la Flash que tú quieras. Aliexpress." %}
 
-Llevan un **chip** que actúa como *Flash Translation Layer*. Por un lado habla el mismo protocolo USB que hablaría un disco duro y por debajo se comunica con el chip NAND.
+Los pendrives llevan un **chip** que actúa como *Flash Translation Layer*. Por un lado habla el mismo protocolo USB que hablaría un disco duro y por el otro se comunica con el chip NAND.
 
-Pero de lo que vamos a hablar es de las memorias tal como se usan en sistemas embebidos.
+De lo que vamos a hablar es de las memorias tal como se usan en los sistemas embebidos.
 
-En la siguiente foto puedes ver una arquitectura típica. Los cuatro chips son:
+En la siguiente foto puedes ver una **arquitectura típica**. Los cuatro chips son:
 
 - **Microprocesador** o SoC. En el centro.
 - Memoria **RAM**. A la izquierda. Fíjate en los *meandros* de las pistas. Son para que todas midan lo mismo (eléctricamente hablando). Cuando se trabaja con relojes muy rápidos es importantísimo que todos los bits lleguen a la vez.
@@ -30,7 +30,7 @@ En la siguiente foto puedes ver una arquitectura típica. Los cuatro chips son:
 
 {% include image.html file="Mikrotik_RB711.jpg" caption="Detalle de la placa RB711 de Mikrotik. [mikrotik.com](https://mikrotik.com/)" %}
 
-No siempre están presentes ambos tipos de Flash, generalmente se usan una o la otra. Hoy hablaremos de la memoria NOR.
+No siempre están presentes ambos tipos de Flash, generalmente se usan una o la otra. Hoy hablaremos de las memorias NOR.
 
 
 ## La tecnología Flash
@@ -41,32 +41,30 @@ Las **NAND** tienen muchísima **capacidad**, son rápidas para leer y muy rápi
 
 Las **NOR** no tienen tanta capacidad, son muy **rápidas al leer** pero muy lentas de escribir. Por eso se usan para guardar cosas que pueden cambiar, aunque no frecuentemente: Como **firmware**, BIOS o configuraciones de usuario.
 
-{% include image.html file="Comparison_NOR_NAND.png" caption="Comparación entre memorias Flash de tipo NAND y NOR. [researchgate.net](https://www.researchgate.net/publication/265727614_Overview_of_Emerging_Non-volatile_Memory_Technologies)" %}
-
-Nosotros nos centraremos en las **NOR**, que son más fáciles de manejar. Concretamente en las SPI-NOR.
+{% include image.html class="medium-width" file="Comparison_NOR_NAND.png" caption="Comparación entre memorias Flash de tipo NAND y NOR. [researchgate.net](https://www.researchgate.net/publication/265727614_Overview_of_Emerging_Non-volatile_Memory_Technologies)" %}
 
 Para alcanzar capacidades mayores es preciso **empaquetar** las celdas ocupando el menor espacio posible de la oblea (aumentar su **densidad**). Lo cual exige dos **sacrificios**:
 
 - Celdas más pequeñas. Tienen una capa de óxido más delgada, que se va **deteriorando** poco a poco con el uso.
 - *Cableado interno* más simple. Significa que en una Flash no podemos hacer cosas que sí podemos con otras EEPROM.
 
-{% include image.html file="microcelda.png" caption="Dentro de una Flash de 8 MBytes caben más de 67 millones de transistores como este. [theses.fr](https://www.theses.fr/2017GREAT029.pdf)" %}
+{% include image.html file="microcelda.png" caption="Parecen dientes, pero dentro de una Flash hay **millones** de transistores como este. [theses.fr](https://www.theses.fr/2017GREAT029.pdf)" %}
 
 De ahí las tres **reglas básicas** que debes conocer para trabajar con Flash:
 
-- No puedes **modificar** una celda: puedes escribirla, pero para cambiar el valor primero tienes que borrarla.
-- No puedes **borrar** sólo una celda: tienes que borrar bloques enteros.
-- Cada ciclo de escritura/borrado **desgasta** lentamente las celdas: el número de veces que puedes hacerlo es limitado.
+1. No puedes **modificar** una celda: puedes escribirla, pero para cambiar el valor primero tienes que borrarla.
+1. No puedes **borrar** sólo una celda: tienes que borrar bloques enteros.
+1. Cada ciclo de escritura/borrado **degrada** lentamente las celdas: el número de veces que puedes hacerlo es limitado.
 
 A ver, *limitado*, del orden de *cien mil ciclos*. Puede parecer mucho pero para según qué cosas es muy poco.
 
 Piensa en un disco duro, por ejemplo. La mayoría de ficheros apenas cambian. Pero otras partes cambian todo el tiempo: logs que se escriben continuamente, ficheros que cambian de tamaño, la fecha de último acceso...
 
-Al cambiar siempre los datos de una misma zona, esas celdas se agotarán rápidamente. En **días** o semanas.
+Al cambiar siempre los datos de una **misma zona**, esas celdas se agotarán rápidamente. En **días** o semanas.
 
-Cuando alguna celda falla, ese bloque ya no se puede utilizar. Quedarán menos bloques disponibles, lo que a su vez implica un mayor desgaste de los restantes. Aumentando la probabilidad de que fallen otros. Este proceso realimentado lleva a la muerte prematura del chip.
+Cuando alguna celda falle, ese bloque ya no se puede utilizar. Quedarán menos bloques disponibles, lo que a su vez implica un mayor desgaste de los restantes. Aumentando la probabilidad de que otro falle. Este proceso realimentado lleva a la muerte prematura del chip.
 
-La solución es evitar que unos bloques se utilicen por encima del resto. Eso se conoce por **wear leveling** (*nivelar el desgaste*).
+La solución es evitar que unos bloques se utilicen por encima del resto. Eso es lo que se conoce por **wear leveling** (*nivelar el desgaste*).
 
 
 ## Protocolo SPI: JEDEC Id
@@ -82,9 +80,9 @@ El bus SPI se parece al I2C en que ambos son protocolos **serie síncronos** y u
 Pero hay dos diferencias importantes entre ellos:
 
 - El SPI **no usa direcciones**. En SPI cada esclavo tiene una línea llamada *chip select*. Y sólo atiende al bus cuando este cable está a nivel bajo. Así que en vez de usar direcciones, el *master* baja la línea **CS** del chip a quien va dirigido el comando. Es más simple pero requiere un cable extra por cada esclavo. Tampoco hay señales de inicio, parada, *ack*, ni nada de eso.
-- El SPI es **full duplex** es decir, el controlador y el esclavo pueden hablarse el uno al otro simultáneamente. Por eso no hablaremos de *leer* o *escribir* en el bus, sino de **intercambiar** o transferir datos.
+- El SPI es **full duplex** es decir, el controlador y el esclavo pueden hablarse el uno al otro simultáneamente. Por eso no hablaremos de *leer* o *escribir* en el bus, sino de **intercambiar** o **transferir** datos.
 
-{% include image.html file="esquema.png" caption="Esquema básico de conexión. EyC." %}
+{% include image.html class="medium-width" file="esquema.png" caption="Esquema básico de conexión. EyC." %}
 
 Además de alimentación y masa, el protocolo SPI utiliza **4 cables**:
 
@@ -93,9 +91,9 @@ Además de alimentación y masa, el protocolo SPI utiliza **4 cables**:
 - **MISO** (*Master In Slave Out*): Aquí sólo escribe el *slave* y lee el *master*.
 - **SCLK** (*Serial Clock*): El reloj. Las datos se pueden fijar en el flanco de subida o bajada del reloj. Según el modo.
 
-Conectaremos la memoria a una *Raspberry* Pi 3. Tenemos un puerto SPI en el conector GPIO con dos líneas de *select*:
+Conectaremos la memoria a una *Raspberry* Pi 3. Tenemos un puerto SPI en el conector GPIO con dos líneas de *chip select*:
 
-{% include image.html file="spi-gpio-conector.png" caption="En estas patillas hemos conectado la Flash de arriba. EyC." %}
+{% include image.html file="spi-gpio-conector.png" caption="En estas patillas hemos conectado la Flash de arriba. [pinout.xyz](https://pinout.xyz/)" %}
 
 Ahora debemos **activar** el puerto SPI añadiendo lo siguiente en `/boot/config.txt` (según tu versión, `/boot/` puede llamarse de otra manera):
 
@@ -170,7 +168,7 @@ Sent: 9f 00 00 00
 Recv: 00 ef 40 17
 ```
 
-El *JEDEC ID* es `ef4017`. Este dato va a volverse importante muy pronto.
+El *JEDEC ID* es `0xef4017`. Este dato va a volverse importante muy pronto.
 
 
 ## Leer, escribir y borrar con SPI
@@ -224,7 +222,7 @@ Y no se pueden borrar sólo unas cuantas celdas, hay que borrar **el bloque ente
 
 Cuando usamos la Flash para guardar **firmware** (en un ESP32, por ejemplo), el micro habla con ella así directamente en SPI. Pero si guardamos **configuración**, será más práctico hacerlo en forma de **ficheros**.
 
-{% include image.html file="mtd_5657.png" caption="Particiones de una Flash en un router doméstico. EyC." %}
+{% include image.html class="medium-width" file="mtd_5657.png" caption="Particiones de una Flash en un router doméstico. EyC." %}
 
 Basta poner lo siguiente en el fichero `config.txt` para conseguir que la reconozca el **kernel**; así nos aparecerá como un dispositivo más del sistema:
 
@@ -248,7 +246,7 @@ El manual del comando `lshw` (en Linux) lista los mecanismos de enumeración má
 
 En un **dispositivo embebido** sus buses son más sencillos y **no soportan enumeración**. Por un lado, porque la memoria y CPU son recursos escasos y se prima la eficiencia por encima de todo. Pero principalmente porque el hardware **no suele cambiar** (es el que viene de fábrica).
 
-Si los datos referentes al hardware estuvieran fijos en el kernel, habría que compilarlo para cada SoC específico. Es más habría que recompilarlo cada vez que quisieras añadir hardware nuevo o, simplemente, activar o desactivar el que viene.
+Si los datos referentes al hardware estuvieran fijos en el kernel, habría que compilarlo para cada SoC específico. Peor aún, habría que recompilarlo cada vez que quisieras añadir hardware nuevo o, simplemente, activar o desactivar el que viene.
 
 Por eso se inventó el *device-tree*: una **estructura** de datos **en memoria** que le dice al kernel qué periféricos tiene y dónde están. Mucho más flexible.
 
@@ -266,13 +264,13 @@ Este incluye el fichero [bcm283x.dtsi](https://github.com/raspberrypi/linux/blob
 
 ```c
 spi: spi@7e204000 {
-	compatible = "brcm,bcm2835-spi";
-	reg = <0x7e204000 0x200>;
-	interrupts = <2 22>;
-	clocks = <&clocks BCM2835_CLOCK_VPU>;
-	#address-cells = <1>;
-	#size-cells = <0>;
-	status = "disabled";
+    compatible = "brcm,bcm2835-spi";
+    reg = <0x7e204000 0x200>;
+    interrupts = <2 22>;
+    clocks = <&clocks BCM2835_CLOCK_VPU>;
+    #address-cells = <1>;
+    #size-cells = <0>;
+    status = "disabled";
 };
 ```
 
@@ -304,13 +302,6 @@ El *device-tree* es una herramienta muy potente. En la Raspberry te sirve, entre
 - hasta puedes [añadir líneas de *chip select*](https://gist.github.com/mcbridejc/d060602e892f6879e7bc8b93aa3f85be) para tener más de dos dispositivos SPI.
 
 
-
-
-
-
-
-
-
 ## Nuestro propio overlay
 
 La línea `dtoverlay=jedec-spi-nor,flash-spi0-0` hace que durante el arranque se cargue el fichero [jedec-spi-nor.dts](https://github.com/raspberrypi/linux/blob/stable/arch/arm/boot/dts/overlays/jedec-spi-nor-overlay.dts) (que está compilado en `/boot/overlays/jedec-spi-nor.dtbo`). Se puede decompilar con `dtc` o puedes irte directamente al código fuente.
@@ -331,19 +322,19 @@ Si todo va bien, veremos en *dmesg* algo parecido esto:
 
 El driver *spi-nor* tiene un catálogo de IDs y espera que el JEDEC coincida con algún modelo conocido:
 
-{% include image.html file="jedec-ids.png" caption="La *s25fl064k* de Spansion tiene el mismo ID que la *w25q64* de Winbond. [spi-nor/spansion.c](https://github.com/raspberrypi/linux/blob/stable/drivers/mtd/spi-nor/spansion.c)" %}
+{% include image.html class="large-width" file="jedec-ids.png" caption="La *s25fl064k* de Spansion tiene el mismo ID que la *w25q64* de Winbond. [spi-nor/spansion.c](https://github.com/raspberrypi/linux/blob/stable/drivers/mtd/spi-nor/spansion.c)" %}
 
-Pero si el JEDEC ID no está entre los conocidos, el driver dará error:
+Pero si el JEDEC ID no está entre los conocidos, el driver dará **error**:
 
 ```
 [   10.577911] spi-nor spi0.0: unrecognized JEDEC id bytes: 5e 60 14
 ```
 
-Esto me ha pasado con una [*ZB25VQ80*](https://datasheet.lcsc.com/lcsc/2003141212_Zbit-ZB25VQ80ATIG_C495747.pdf) reutilizada de la placa ESP-01S que salió en [Proyectos a batería y cerveza fría]({{site.baseurl}}{% post_url 2021-10-24-bateria-cerveza-fria %}). Se puede solucionar.
+Esto me ha pasado con una [*ZB25VQ80*](https://datasheet.lcsc.com/lcsc/2003141212_Zbit-ZB25VQ80ATIG_C495747.pdf) reutilizada de una placa ESP-01S (la de [Proyectos a batería y cerveza fría]({{site.baseurl}}{% post_url 2021-10-24-bateria-cerveza-fria %}).
 
 {% include image.html file="ZB25VQ80_raspberry.jpg" caption="Memoria ZB25VQ80 reutilizada de un ESP-01. No la reconocía. EyC." %}
 
-Como el overlay que viene es difícil de seguir, vamos a escribir uno similar pero más simple. Sin parámetros.
+Como el overlay que viene es difícil de seguir, vamos a escribir uno similar pero más simple. Sin los parámetros.
 
 El fichero completo está en [GitHub - eyc-spi-nor.dts](https://github.com/electronicayciencia/flash-spi-mtd/blob/master/devicetree/eyc-spi-nor.dts). Veamos lo principal.
 
@@ -351,7 +342,7 @@ Los overlays están compuestos por uno o varios *fragmentos*:
 
 - Un **primer fragmento** destinado a desactivar `spidev0`. Puesto que esa línea va a estar usándola el driver de SPI-NOR, este `spidev` dará error. Así que ponemos su estado a `disabled`:
 
-   ```
+   ```c
    fragment@0 {
        target = <&spidev0>;
 
@@ -363,7 +354,7 @@ Los overlays están compuestos por uno o varios *fragmentos*:
 
 - Y un **segundo fragmento**, que por un lado activa `spi0` (poniendo `status` a `okay`) y por otro lado inserta el *subnodo* [jedec,spi-nor](https://www.kernel.org/doc/Documentation/devicetree/bindings/mtd/jedec%2Cspi-nor.txt):
 
-   ```
+   ```c
    fragment@1 {
        target = <&spi0>;
 
@@ -407,14 +398,14 @@ mtd0: 00800000 00001000 "spi0.0"
 
 Los dispositivos de almacenamiento *clásicos*, como discos duros, memorias USB, eMMC, etc. son **dispositivos de bloques**.
 
-La clave está en que:
+Pero la clave está en que:
 
 - los bloques son pequeños, de 512 bytes por ejemplo.
 - un bloque sobrescribe al anterior sin necesidad de borrarlo antes.
 
 En las Flash los bloques son grandes (de 4 kbytes como **mínimo**) y **no se pueden sobrescribir**.
 
-Por eso el kernel lo reconoce como dispositivos de tipo MTD (Memory Technology Device).
+Por eso el kernel reconoce las Flash como un tipo dispositivo peculiar, que se llama MTD (Memory Technology Device).
 
 ```
 $ ls -l /dev/mtd*
@@ -422,7 +413,7 @@ crw------- 1 root root 90, 0 Feb 16 20:39 /dev/mtd0
 crw------- 1 root root 90, 1 Feb 16 20:39 /dev/mtd0ro
 ```
 
-Se puede usar `dd` para leer y escribir igual que en cualquier fichero.
+Aunque no podemos montar un sistema ext2 o vfat (con *mtdblock*, pero no se debe) sí se puede usar `dd` para leer y escribir como en cualquier fichero.
 
 Mira, leemos de `mtd0`. Está borrado así que son todo unos:
 
