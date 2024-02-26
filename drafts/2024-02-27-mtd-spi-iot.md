@@ -15,7 +15,7 @@ En este recorrido sobre las memorias Flash te llevaré de la **electrónica** ap
 
 Aunque llamemos *memorias Flash* a los *pendrives*, SSD o tarjetas eMMC, no es de lo que vamos a hablar hoy. Aunque sí, les llamamos Flash porque internamente llevan una memoria Flash. Normalmente NAND Flash. Sin embargo, ninguno de estos dispositivos expone la memoria directamente.
 
-{% include image.html file="SM3281.jpg" caption="Un *pendrive* solo con el chip de interfaz, para que tú le pongas la Flash que tú quieras. Aliexpress." %}
+{% include image.html class="medium-width" file="SM3281.jpg" caption="Un *pendrive* solo con el chip de interfaz, para que le pongas la Flash que tú quieras. Aliexpress." %}
 
 Los pendrives llevan un **chip** que actúa como *Flash Translation Layer*. Por un lado habla el mismo protocolo USB que hablaría un disco duro y por el otro se comunica con el chip NAND.
 
@@ -109,9 +109,7 @@ crw-rw---- 1 root spi 153, 0 Jan  1  1970 /dev/spidev0.0
 crw-rw---- 1 root spi 153, 1 Jan  1  1970 /dev/spidev0.1
 ```
 
-Para saber si responde, vamos a probar a mandarle un comando que se llama ***Read Identification (RDID)***.
-
-Dice el datasheet:
+Para saber si responde, vamos a probar a mandarle un comando que devuelve la marca y modelo. Dice el datasheet:
 
 > **11.2.28 Read JEDEC ID (9Fh)**
 >
@@ -330,7 +328,7 @@ Pero si el JEDEC ID no está entre los conocidos, el driver dará **error**:
 [   10.577911] spi-nor spi0.0: unrecognized JEDEC id bytes: 5e 60 14
 ```
 
-Esto me ha pasado con una [*ZB25VQ80*](https://datasheet.lcsc.com/lcsc/2003141212_Zbit-ZB25VQ80ATIG_C495747.pdf) reutilizada de una placa ESP-01S (la de [Proyectos a batería y cerveza fría]({{site.baseurl}}{% post_url 2021-10-24-bateria-cerveza-fria %}).
+Esto me ha pasado con una [*ZB25VQ80*](https://datasheet.lcsc.com/lcsc/2003141212_Zbit-ZB25VQ80ATIG_C495747.pdf) reutilizada de una placa ESP-01S (la de [Proyectos a batería y cerveza fría]({{site.baseurl}}{% post_url 2021-10-24-bateria-cerveza-fria %})).
 
 {% include image.html file="ZB25VQ80_raspberry.jpg" caption="Memoria ZB25VQ80 reutilizada de un ESP-01. No la reconocía. EyC." %}
 
@@ -605,7 +603,7 @@ Podemos deducir que:
 
 - Este es el *inodo* `3` (el cual vimos antes que tenía por nombre *password*).
 - Es la **cuarta** versión de este *inodo*.
-- Se trata de un **fichero** normal con permisos `0644` (*-rw-r--r--*).
+- Se trata de un **fichero** normal con permisos `0644` (`-rw-r--r--`).
 - Su **propietario** es *root* (owner id 0). 
 - Fue **modificado** a las 20:45:32.
 - Tiene de 27 bytes de **longitud**.
