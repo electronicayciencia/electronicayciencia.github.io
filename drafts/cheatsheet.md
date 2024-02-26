@@ -126,7 +126,7 @@ Se pueden incluir gifs, tanto en la imagen de presentación como dentro del art�
 {% include image.html class="small-width" file="led_blink_brd.gif" caption="Un gif pequeño." %}
 
 
-Search `^\[foto:\s*(.*?)\s*\|\s*(.*?)\s*\]\s*$`, replace `{% include image.html file="\1" caption="\2" %}`.
+Search `^\[foto:\s*(.*?)\s*\|\s*(.*?)\s*\]\s*$`, replace `{% include image.html file="\1" caption="\2" %}\n`.
 
 
 
