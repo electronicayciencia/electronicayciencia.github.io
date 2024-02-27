@@ -26,16 +26,16 @@ En la siguiente foto puedes ver una **arquitectura típica**. Los cuatro chips s
 - **Microprocesador** o SoC. En el centro.
 - Memoria **RAM**. A la izquierda. Fíjate en los *meandros* de las pistas. Son para que todas midan lo mismo (eléctricamente hablando). Cuando se trabaja con relojes muy rápidos es importantísimo que todos los bits lleguen a la vez.
 - Almacenamiento **Flash NAND**. A la derecha, arriba. Se utiliza para guardar el firmware, la configuración y el sistema de ficheros.
-- Almacenamiento **Flash NOR**. A la derecha, abajo. Tiene mucha menos capacidad que la NAND. En esta placa se utiliza para guardar dos versiones del cargador de arranque (*bootloader*); una actualizable por el usuario y la otra, de rescate, fija.
+- Almacenamiento **Flash NOR**. A la derecha, abajo (8 patillas). Tiene mucha menos capacidad que la NAND. En esta placa se utiliza para guardar dos versiones del cargador de arranque (*bootloader*); una actualizable por el usuario y la otra, de rescate, fija.
 
 {% include image.html file="Mikrotik_RB711.jpg" caption="Detalle de la placa RB711 de Mikrotik. [mikrotik.com](https://mikrotik.com/)" %}
 
-No siempre están presentes ambos tipos de Flash, generalmente se usan una o la otra. Hoy hablaremos de las memorias NOR.
+No siempre están presentes ambos tipos de Flash, generalmente se usa una o la otra.
 
 
 ## La tecnología Flash
 
-Las memorias Flash son un tipo especial de EEPROM. Se caracterizan por tener **mayor capacidad**. Las hay de dos clases: **NAND y NOR**.
+Las Flash son un tipo especial de EEPROM. Se caracterizan por tener **mayor capacidad**. Las hay de dos clases: **NAND y NOR**.
 
 Las **NAND** tienen muchísima **capacidad**, son rápidas para leer y muy rápidas para escribir. Es el tipo de memoria que llevan por dentro los pendrives y los discos duros de estado sólido (SSD). Son un poco más difíciles de usar que las NOR.
 
@@ -109,28 +109,14 @@ crw-rw---- 1 root spi 153, 0 Jan  1  1970 /dev/spidev0.0
 crw-rw---- 1 root spi 153, 1 Jan  1  1970 /dev/spidev0.1
 ```
 
-Para saber si responde, vamos a probar a mandarle un comando que devuelve la marca y modelo. Dice el datasheet:
-
-> **11.2.28 Read JEDEC ID (9Fh)**
->
-> For compatibility reasons, the W25Q64BV provides several instructions to electronically determine the
-> identity of the device. The Read JEDEC ID instruction is compatible with the JEDEC standard for SPI
-> compatible serial memories that was adopted in 2003.
-
-A continuación nos explica cómo se manda:
-
-> The instruction is initiated by driving the */CS* pin
-> low and shifting the instruction code `9Fh`. The JEDEC assigned Manufacturer ID byte for **Winbond** (`EFh`)
-> and two Device ID bytes, Memory Type (ID15-ID8) and Capacity (ID7-ID0) are then shifted out on the
-> falling edge of CLK with most significant bit (MSB) first.
-
+Para saber si responde, vamos a probar a mandarle un comando que se llama JEDEC ID y tiene el código `9F`.
 
 {% include image.html file="zb_cmd_rdid.svg" caption="Diagrama de secuencia del comando Read ID. [Datasheet de ZB25VQ80ATIG](https://datasheet.lcsc.com/lcsc/2003141212_Zbit-ZB25VQ80ATIG_C495747.pdf)" %}
 
-Significa que debemos *transferir* **4 bytes**. 
+Debemos *transferir* **4 bytes**. 
 
 - Hacia el chip enviaremos `9F xx xx xx`; los `xx` da igual, pueden ser ceros. 
-- Y del chip recibiremos `00 ID1 ID2 ID3`. Siendo el primer byte recibido (ID1) `EF`.
+- Y del chip recibiremos `00 ID1 ID2 ID3`. Siendo el primer byte recibido (ID1) `EF` propio del fabricante.
 
 Lo haremos en python:
 
@@ -166,13 +152,10 @@ Sent: 9f 00 00 00
 Recv: 00 ef 40 17
 ```
 
-El *JEDEC ID* es `0xef4017`. Este dato va a volverse importante muy pronto.
+El *JEDEC ID* es `0xef4017`. Este dato va a ser importante cuando hablemos del *dtoverlay*.
 
 
 ## Leer, escribir y borrar con SPI
-
-
-Llamamos *comando* al primer byte que transmitimos tras bajar *chip select*. La interacción con el chip se hace a base de *comandos*, por ejemplo `9F` en el apartado anterior.
 
 El **comando `03`** sirve para **leer** datos. Debemos enviar `03` y a continuación 3 bytes más para indicar en qué posición de la memoria queremos empezar a leer.
 
@@ -250,8 +233,8 @@ Por eso se inventó el *device-tree*: una **estructura** de datos **en memoria**
 
 La estructura completa se expone en `/proc/device-tree`. Es binaria, pero se puede pasar a texto plano con el comando `dtc`.
 
-```
-dtc -I fs -O dts /proc/device-tree
+```console
+$ dtc -I fs -O dts /proc/device-tree
 ```
 
 Aunque siempre es más legible ir a la fuente original. 
@@ -300,13 +283,13 @@ El *device-tree* es una herramienta muy potente. En la Raspberry te sirve, entre
 - hasta puedes [añadir líneas de *chip select*](https://gist.github.com/mcbridejc/d060602e892f6879e7bc8b93aa3f85be) para tener más de dos dispositivos SPI.
 
 
-## Nuestro propio overlay
+## Nuestro propio dtoverlay
 
 La línea `dtoverlay=jedec-spi-nor,flash-spi0-0` hace que durante el arranque se cargue el fichero `/boot/overlays/jedec-spi-nor.dtbo`.
 
 Se puede decompilar con `dtc` o irte directamente al código fuente: [jedec-spi-nor.dts](https://github.com/raspberrypi/linux/blob/stable/arch/arm/boot/dts/overlays/jedec-spi-nor-overlay.dts)
 
-Sin embargo, como tiene varios parámetros y es difícil de seguir, vamos a escribir nosotros uno **más simple**: [GitHub - eyc-spi-nor.dts](https://github.com/electronicayciencia/flash-spi-mtd/blob/master/devicetree/eyc-spi-nor.dts).
+Sin embargo, como tiene varios parámetros y es difícil de seguir, vamos a escribir nosotros uno **más simple**: [eyc-spi-nor.dts](https://github.com/electronicayciencia/flash-spi-mtd/blob/master/devicetree/eyc-spi-nor.dts).
 
 Este fichero se divide en dos fragmentos, y tiene una **triple misión**:
 
@@ -341,9 +324,9 @@ Este fichero se divide en dos fragmentos, y tiene una **triple misión**:
    };
    ```
 
-Ahí, en el subnodo [jedec,spi-nor](https://www.kernel.org/doc/Documentation/devicetree/bindings/mtd/jedec%2Cspi-nor.txt), es donde podemos decirle qué *chip select* queremos usar (línea `reg`), la velocidad (`spi-max-frequency`) e incluso forzar un modelo de Flash compatible si no funciona con el JEDEC ID.
+Ahí, en el subnodo [jedec,spi-nor](https://www.kernel.org/doc/Documentation/devicetree/bindings/mtd/jedec%2Cspi-nor.txt), es donde podemos decirle qué *chip select* queremos usar (línea `reg`), la velocidad (`spi-max-frequency`) e incluso forzar un modelo de Flash compatible si no funciona el JEDEC ID.
 
-Porque el kernel, a detectar el nodo *jedec,spi-nor* llamará al driver [/drivers/mtd/spi-nor](https://github.com/raspberrypi/linux/tree/stable/drivers/mtd/spi-nor). Y este lo primero que hace es lanzar por SPI el comando `9F`. ¿Recuerdas? El JEDEC ID.
+Porque el kernel, al detectar el nodo *jedec,spi-nor* llamará al driver [/drivers/mtd/spi-nor](https://github.com/raspberrypi/linux/tree/stable/drivers/mtd/spi-nor). Y este lo primero que hace es lanzar por SPI el comando `9F`. ¿Recuerdas? El JEDEC ID.
 
 De hecho, el driver *spi-nor* tiene un **catálogo** de IDs:
 
@@ -367,13 +350,13 @@ Una vez escrito el overlay, lo compilamos y lo guardamos junto al resto:
 
 No hace falta reiniciar para cargarlo:
 
-```
-dtoverlay eyc-spi-nor
+```console
+# dtoverlay eyc-spi-nor
 ```
 
 Si todo ha ido bien nos debe decir algo así:
 
-```console
+```
 spi-nor spi0.0: s25fl064k (8192 Kbytes)
 ```
 
@@ -663,9 +646,3 @@ JFFS2 y UBI:
 - [JFFS: The Journalling Flash File System](https://sourceware.org/jffs2/jffs2.pdf)
 - [UBI File System](https://www.kernel.org/doc/html/v6.1/filesystems/ubifs.html)
 - [Security features for UBIFS](https://elinux.org/images/f/f6/Slides_24-ubifs.pdf)
-
-
-
-
-
-
