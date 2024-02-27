@@ -1,5 +1,5 @@
 ---
-title: "Memorias Flash: el almacenamiento del IoT"
+title: "Memorias Flash: almacenamiento en IoT"
 layout: post
 assets: /assets/2024/02/mtd-spi-iot
 image: /assets/2024/02/mtd-spi-iot/img/Mikrotik_RB711.jpg
@@ -93,7 +93,7 @@ Además de alimentación y masa, el protocolo SPI utiliza **4 cables**:
 
 Conectaremos la memoria a una *Raspberry* Pi 3. Tenemos un puerto SPI en el conector GPIO con dos líneas de *chip select*:
 
-{% include image.html file="spi-gpio-conector.png" caption="En estas patillas hemos conectado la Flash de arriba. [pinout.xyz](https://pinout.xyz/)" %}
+{% include image.html class="medium-width" file="spi-gpio-conector.png" caption="En estas patillas hemos conectado la Flash de arriba. [pinout.xyz](https://pinout.xyz/)" %}
 
 Ahora debemos **activar** el puerto SPI añadiendo lo siguiente en `/boot/config.txt` (según tu versión, `/boot/` puede llamarse de otra manera):
 
@@ -236,13 +236,13 @@ Los PCs están pensados para ser modulares y soportar hardware de todo tipo. Cue
 
 {% include image.html file="win_devicetree.png" caption="Árbol de dispositivos ACPI en Windows. EyC." %}
 
-El manual del comando `lshw` (en Linux) lista los mecanismos de enumeración más habituales:
+Te pego un párrafo del manual del comando `lshw` (en Linux) donde lista los **mecanismos de enumeración** más habituales:
 
-> It  currently  supports  DMI  (x86 and IA-64 only), OpenFirmware device
+> It [lshw] currently  supports  DMI  (x86 and IA-64 only), OpenFirmware device
 > tree (PowerPC only), PCI/AGP, CPUID (x86), IDE/ATA/ATAPI, PCMCIA  (only
 > tested on x86), SCSI and USB.
 
-En un **dispositivo embebido** sus buses son más sencillos y **no soportan enumeración**. Por un lado, porque la memoria y CPU son recursos escasos y se prima la eficiencia por encima de todo. Pero principalmente porque el hardware **no suele cambiar** (es el que viene de fábrica).
+En un **dispositivo embebido** sus buses son más sencillos y **no soportan enumeración**. Por un lado, porque la memoria y CPU son recursos escasos y se prima la eficiencia por encima de todo. Pero principalmente porque el hardware **no suele cambiar** (es el que viene de fábrica en la placa y listo).
 
 Si los datos referentes al hardware estuvieran fijos en el kernel, habría que compilarlo para cada SoC específico. Peor aún, habría que recompilarlo cada vez que quisieras añadir hardware nuevo o, simplemente, activar o desactivar el que viene.
 
@@ -302,41 +302,13 @@ El *device-tree* es una herramienta muy potente. En la Raspberry te sirve, entre
 
 ## Nuestro propio overlay
 
-La línea `dtoverlay=jedec-spi-nor,flash-spi0-0` hace que durante el arranque se cargue el fichero [jedec-spi-nor.dts](https://github.com/raspberrypi/linux/blob/stable/arch/arm/boot/dts/overlays/jedec-spi-nor-overlay.dts) (que está compilado en `/boot/overlays/jedec-spi-nor.dtbo`). Se puede decompilar con `dtc` o puedes irte directamente al código fuente.
+La línea `dtoverlay=jedec-spi-nor,flash-spi0-0` hace que durante el arranque se cargue el fichero `/boot/overlays/jedec-spi-nor.dtbo`.
 
-Es un poco complicado de seguir porque tiene varios parámetros, pero hace **tres cosas**:
+Se puede decompilar con `dtc` o irte directamente al código fuente: [jedec-spi-nor.dts](https://github.com/raspberrypi/linux/blob/stable/arch/arm/boot/dts/overlays/jedec-spi-nor-overlay.dts)
 
-- **Activa** el SPI, por si estuviera desactivado.
-- **Desactiva** el nodo `spidev` que corresponda.
-- Y lo principal: **añade** un nodo de tipo [jedec,spi-nor](https://www.kernel.org/doc/Documentation/devicetree/bindings/mtd/jedec%2Cspi-nor.txt).
+Sin embargo, como tiene varios parámetros y es difícil de seguir, vamos a escribir nosotros uno **más simple**: [GitHub - eyc-spi-nor.dts](https://github.com/electronicayciencia/flash-spi-mtd/blob/master/devicetree/eyc-spi-nor.dts).
 
-El kernel, a detectar el nodo *jedec,spi-nor* llama al driver [/drivers/mtd/spi-nor](https://github.com/raspberrypi/linux/tree/stable/drivers/mtd/spi-nor). Y este lo primero que hace es lanzar por SPI el comando `9F`. ¿Recuerdas? El JEDEC ID.
-
-Si todo va bien, veremos en *dmesg* algo parecido esto:
-
-```
-[   10.526051] spi-nor spi0.0: s25fl064k (8192 Kbytes)
-```
-
-El driver *spi-nor* tiene un catálogo de IDs y espera que el JEDEC coincida con algún modelo conocido:
-
-{% include image.html class="large-width" file="jedec-ids.png" caption="La *s25fl064k* de Spansion tiene el mismo ID que la *w25q64* de Winbond. [spi-nor/spansion.c](https://github.com/raspberrypi/linux/blob/stable/drivers/mtd/spi-nor/spansion.c)" %}
-
-Pero si el JEDEC ID no está entre los conocidos, el driver dará **error**:
-
-```
-[   10.577911] spi-nor spi0.0: unrecognized JEDEC id bytes: 5e 60 14
-```
-
-Esto me ha pasado con una [*ZB25VQ80*](https://datasheet.lcsc.com/lcsc/2003141212_Zbit-ZB25VQ80ATIG_C495747.pdf) reutilizada de una placa ESP-01S (la de [Proyectos a batería y cerveza fría]({{site.baseurl}}{% post_url 2021-10-24-bateria-cerveza-fria %})).
-
-{% include image.html file="ZB25VQ80_raspberry.jpg" caption="Memoria ZB25VQ80 reutilizada de un ESP-01. No la reconocía. EyC." %}
-
-Como el overlay que viene es difícil de seguir, vamos a escribir uno similar pero más simple. Sin los parámetros.
-
-El fichero completo está en [GitHub - eyc-spi-nor.dts](https://github.com/electronicayciencia/flash-spi-mtd/blob/master/devicetree/eyc-spi-nor.dts). Veamos lo principal.
-
-Los overlays están compuestos por uno o varios *fragmentos*:
+Este fichero se divide en dos fragmentos, y tiene una **triple misión**:
 
 - Un **primer fragmento** destinado a desactivar `spidev0`. Puesto que esa línea va a estar usándola el driver de SPI-NOR, este `spidev` dará error. Así que ponemos su estado a `disabled`:
 
@@ -369,12 +341,28 @@ Los overlays están compuestos por uno o varios *fragmentos*:
    };
    ```
 
-En la línea `reg` le decimos que use el *chip-select* 0. Pondremos velocidad de 1 MHz, para probar.
+Ahí, en el subnodo [jedec,spi-nor](https://www.kernel.org/doc/Documentation/devicetree/bindings/mtd/jedec%2Cspi-nor.txt), es donde podemos decirle qué *chip select* queremos usar (línea `reg`), la velocidad (`spi-max-frequency`) e incluso forzar un modelo de Flash compatible si no funciona con el JEDEC ID.
 
-Lo compilamos y lo guardamos junto al resto de *overlays*:
+Porque el kernel, a detectar el nodo *jedec,spi-nor* llamará al driver [/drivers/mtd/spi-nor](https://github.com/raspberrypi/linux/tree/stable/drivers/mtd/spi-nor). Y este lo primero que hace es lanzar por SPI el comando `9F`. ¿Recuerdas? El JEDEC ID.
 
+De hecho, el driver *spi-nor* tiene un **catálogo** de IDs:
+
+{% include image.html class="large-width" file="jedec-ids.png" caption="La *s25fl064k* de Spansion tiene el mismo ID que la *w25q64* de Winbond. [spi-nor/spansion.c](https://github.com/raspberrypi/linux/blob/stable/drivers/mtd/spi-nor/spansion.c)" %}
+
+Puede ocurrir que la tuya no la reconozca, y entonces te dirá:
+
+```console
+spi-nor spi0.0: unrecognized JEDEC id bytes: 5e 60 14
 ```
-dtc -I dts -O dtb -o /boot/overlays/eyc-spi-nor.dtbo eyc-spi-nor.dts
+
+A mí me ha pasado con la primera Flash que probé. Una [*ZB25VQ80*](https://datasheet.lcsc.com/lcsc/2003141212_Zbit-ZB25VQ80ATIG_C495747.pdf) reutilizada de una placa ESP-01S (la misma placa de de [Proyectos a batería y cerveza fría]({{site.baseurl}}{% post_url 2021-10-24-bateria-cerveza-fria %}).
+
+{% include image.html file="ZB25VQ80_raspberry.jpg" caption="Memoria ZB25VQ80 reutilizada de un ESP-01. No la reconocía. EyC." %}
+
+Una vez escrito el overlay, lo compilamos y lo guardamos junto al resto:
+
+```console
+# dtc -I dts -O dtb -o /boot/overlays/eyc-spi-nor.dtbo eyc-spi-nor.dts
 ```
 
 No hace falta reiniciar para cargarlo:
@@ -383,7 +371,13 @@ No hace falta reiniciar para cargarlo:
 dtoverlay eyc-spi-nor
 ```
 
-Si todo ha ido bien tendremos en `/proc/mtd` una Flash con 8 Mbytes que se puede borrar por sectores de 4 kbytes:
+Si todo ha ido bien nos debe decir algo así:
+
+```console
+spi-nor spi0.0: s25fl064k (8192 Kbytes)
+```
+
+Y tendremos en `/proc/mtd` una Flash con 8 Mbytes que se puede borrar por sectores de 4 kbytes:
 
 ```console
 pi@raspberrypi:~$ cat /proc/mtd
@@ -396,24 +390,24 @@ mtd0: 00800000 00001000 "spi0.0"
 
 Los dispositivos de almacenamiento *clásicos*, como discos duros, memorias USB, eMMC, etc. son **dispositivos de bloques**.
 
-Pero la clave está en que:
+La clave está en que:
 
 - los bloques son pequeños, de 512 bytes por ejemplo.
 - un bloque sobrescribe al anterior sin necesidad de borrarlo antes.
 
 En las Flash los bloques son grandes (de 4 kbytes como **mínimo**) y **no se pueden sobrescribir**.
 
-Por eso el kernel reconoce las Flash como un tipo dispositivo peculiar, que se llama MTD (Memory Technology Device).
+Por eso el kernel reconoce las Flash, no como un dispositivo de bloques, sino como otro tipo peculiar de dispositivo, que se llama MTD (Memory Technology Device).
 
-```
+```console
 $ ls -l /dev/mtd*
 crw------- 1 root root 90, 0 Feb 16 20:39 /dev/mtd0
 crw------- 1 root root 90, 1 Feb 16 20:39 /dev/mtd0ro
 ```
 
-Aunque no podemos montar un sistema ext2 o vfat (con *mtdblock*, pero no se debe) sí se puede usar `dd` para leer y escribir como en cualquier fichero.
+Se puede usar `dd` para leer y escribir en ellos, como en cualquier fichero.
 
-Mira, leemos de `mtd0`. Está borrado así que son todo unos:
+Por ejemplo, leemos de `mtd0`. Está borrado así que son todo unos:
 
 ```console
 # dd if=/dev/mtd0 | hd
@@ -475,7 +469,7 @@ Vamos a ver cómo funciona JFFS2 (*Journalling Flash File System version 2*), un
 
 Empezamos por "formatear" el dispositivo con la opción `-j`:
 
-```
+```console
 # flash_erase -j /dev/mtd0 0 0
 Erasing 4 Kibyte @ 7ff000 -- 100 % complete
 ```
