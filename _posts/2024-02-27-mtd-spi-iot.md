@@ -338,7 +338,7 @@ Puede ocurrir que la tuya no la reconozca, y entonces te dirá:
 spi-nor spi0.0: unrecognized JEDEC id bytes: 5e 60 14
 ```
 
-A mí me ha pasado con la primera Flash que probé. Una [*ZB25VQ80*](https://datasheet.lcsc.com/lcsc/2003141212_Zbit-ZB25VQ80ATIG_C495747.pdf) reutilizada de una placa ESP-01S (la misma placa de de [Proyectos a batería y cerveza fría]({{site.baseurl}}{% post_url 2021-10-24-bateria-cerveza-fria %}).
+A mí me ha pasado con la primera Flash que probé. Una [*ZB25VQ80*](https://datasheet.lcsc.com/lcsc/2003141212_Zbit-ZB25VQ80ATIG_C495747.pdf) reutilizada de una placa ESP-01S (la misma placa de [Proyectos a batería y cerveza fría]({{site.baseurl}}{% post_url 2021-10-24-bateria-cerveza-fria %})).
 
 {% include image.html file="ZB25VQ80_raspberry.jpg" caption="Memoria ZB25VQ80 reutilizada de un ESP-01. No la reconocía. EyC." %}
 
@@ -422,7 +422,7 @@ Ahora escribirmos otra cosa distinta encima, para que veas cómo los datos se **
 
 Al escribir encima, los bits que eran `1` sí han pasado a `0` pero los que eran `0` se han quedado como estaban:
 
-```
+```console
 # dd if=/dev/mtd0 | hd
 00000000  48 64 64 60 67 20 61 64  60 20 64 21 00 73 6e 27  |Hdd`g ad` d!.sn'|
 00000010  74 20 77 6f 72 6b 0a ff  ff ff ff ff ff ff ff ff  |t work..........|
@@ -595,13 +595,14 @@ La estructura en **rojo** es la **segunda** versión. Sólo cambian algunas part
 03 00 00 00    <- inode #
 02 00 00 00    <- version
 
-a4 03 d9 65    <- access date: 1708721060 (Friday, 23 February 2024 20:44:20)
+a4 03 d9 65    <- modification date: 1708721060 (Friday, 23 February 2024 20:44:20)
 
 Data:
 "My password is: anacardo"
 ```
 
-En un análisis forense diríamos que *el fichero se modificó a las 20:44:20, en ese momento contenía la contraseña en claro; sin embargo, fue sobrescrito segundos más tarde, a las 20:45:32, con intención de eliminar la información sensible*.
+En un **análisis forense** diríamos que:
+> *el fichero se modificó a las 20:44:20, en ese momento contenía la contraseña en claro; sin embargo, fue sobrescrito segundos más tarde, a las 20:45:32, con intención de eliminar la información sensible*.
 
 Con el tiempo, cuando el espacio usado llegue a un umbral, el *garbage collector* acabará eliminando las versiones obsoletas y moviendo los datos actualizados a un sector aparte. Pero mientras tanto ahí están.
 
