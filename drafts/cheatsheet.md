@@ -225,6 +225,7 @@ Escucha en http://127.0.0.1:4000/
 
 See `tools/post_links.sh`.
 
+- [Electrónica y Ciencia - Memorias Flash: almacenamiento en IoT]({{site.baseurl}}{% post_url 2024-02-27-mtd-spi-iot %})
 - [Electrónica y Ciencia - Mi propia consola serie y el terminal de Unix]({{site.baseurl}}{% post_url 2024-01-17-consola-serie %})
 - [Electrónica y Ciencia - Gráficos VGA con FPGA Tang Nano parte III. Texto]({{site.baseurl}}{% post_url 2023-11-10-lcd_tang_nano_III_texto %})
 - [Electrónica y Ciencia - El integrado MCP2221/A]({{site.baseurl}}{% post_url 2023-09-30-integrado-mcp2221 %})
