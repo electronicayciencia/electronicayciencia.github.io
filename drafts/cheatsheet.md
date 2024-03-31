@@ -8,6 +8,7 @@ description: Plantilla para los posts
 tags:
   - Binario
   - Circuitos
+  - Criptografía
   - DSP
   - Estadística
   - Experimentos

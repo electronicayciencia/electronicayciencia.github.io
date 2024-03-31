@@ -7,7 +7,7 @@ featured: false
 description: Utilizar ltrace y gdb para inspeccionar cómo funciona el validador de licencias en un software sencillo.
 tags:
   - Binario
-  - Informática
+  - Criptografía
 ---
 
 ¡Vamos a piratear Software! No, es broma. Vamos a aprender de informática, a bajo nivel, mientras averiguamos por qué no funciona un programa. Es decir mientras **depuramos** software.

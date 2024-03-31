@@ -6,6 +6,7 @@ featured: false
 layout: post
 tags:
 - Informática
+- Criptografía
 title: Prácticas con TPM virtual
 ---
 

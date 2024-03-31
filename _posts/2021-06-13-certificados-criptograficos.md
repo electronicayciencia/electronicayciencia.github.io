@@ -7,8 +7,7 @@ featured: false
 description: Descomponemos al detalle un certificado x.509 para manipularlo de forma no estándar.
 tags:
   - Binario
-  - Informática
-  - Matemáticas
+  - Criptografía
 ---
 
 Descomponemos al detalle un certificado x.509 para manipularlo de forma no estándar. ¿Conoces openssl? Hoy te propongo usarlo de una forma *diferente*. Casi **artesanal**. 

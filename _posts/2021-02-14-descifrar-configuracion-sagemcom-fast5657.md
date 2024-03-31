@@ -7,7 +7,7 @@ description: Extraer el algoritmo y la clave de cifrado del fichero de backup de
 featured: true
 tags:
   - Binario
-  - Informática
+  - Criptografía
 ---
 
 Hoy hablaremos de **criptografía**, **depuración** de software y seguridad por oscuridad. ¿Te acuerdas de cuando [obtuvimos la PLOAM password de este router]({{site.baseurl}}{% post_url 2020-10-26-obteniendo-ploam-password-fast-5657 %})? Hoy vamos a profundizar hasta **descubrir el algoritmo** y la clave con que se cifran los *backups* de la configuración.

@@ -7,8 +7,8 @@ featured: false
 description: Cómo funciona una Flash NOR-SPI. El árbol de dispositivos. Análisis forense de un sistema de ficheros JFFS2.
 tags:
   - Binario
-  - Informática
   - Raspberry
+  - Criptografía
 ---
 
 En este recorrido sobre las memorias Flash te llevaré de la **electrónica** aplicada a la **informática** más abstracta. De las señales digitales, a la estructura de datos de un sistema de ficheros, pasando por el árbol de dispositivos (*device-tree*) de los **sistemas Linux embebidos**.

@@ -4,9 +4,8 @@ featured: 'true'
 image: /assets/2010/05/criptoanalisis-del-cifrado-xor-simple/img/XOR_TABLE.jpg
 layout: post
 tags:
-- Estadística
-- Informática
 - Matemáticas
+- Criptografía
 title: Criptoanálisis del cifrado XOR simple
 ---
 
