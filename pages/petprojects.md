@@ -7,6 +7,19 @@ public: true
 
 Some other projects I do on GitHub (english).
 
+## [ATECC608 Tools](https://www.electronicayciencia.com/ATECC608-Tools/)
+
+Command-line tools to work with Microchip Crypto-Authentication devices.
+
+Proposed ATECC608 configuration to play and learn. Basic commands, examples and use cases.
+
+[ATECC608 Tools](https://www.electronicayciencia.com/ATECC608-Tools/)
+
+[Source repository](https://github.com/electronicayciencia/ATECC608-Tools)
+
+(Updated Apr 2024)
+
+
 ## [Verilog VGA](https://electronicayciencia.github.io/verilog-vga/)
 
 A project to learn how to work with a Gowin FPGA (Sipeed Tang Nano) and a LCD display.
