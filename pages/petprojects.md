@@ -7,6 +7,20 @@ public: true
 
 Some other projects I do on GitHub (english).
 
+
+## [TFPCX Telnet](https://www.electronicayciencia.com/TFPCX-Telnet/)
+
+An AX.25 emulator for TCP connections.
+
+This interface emulates *The Firmware* TNC and makes regular TCP/IP traffic appears like AX.25.
+
+[TFPCX Telnet](https://www.electronicayciencia.com/TFPCX-Telnet/)
+
+[Source repository](https://github.com/electronicayciencia/TFPCX-Telnet)
+
+(Updated Apr 2024)
+
+
 ## [ATECC608 Tools](https://www.electronicayciencia.com/ATECC608-Tools/)
 
 Command-line tools to work with Microchip Crypto-Authentication devices.
