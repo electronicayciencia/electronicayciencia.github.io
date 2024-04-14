@@ -8,15 +8,15 @@ public: true
 Some other projects I do on GitHub (english).
 
 
-## [TFPCX Telnet](https://www.electronicayciencia.com/TFPCX-Telnet/)
+## [TNC Telnet](https://www.electronicayciencia.com/TNC-Telnet/)
 
 An AX.25 emulator for TCP connections.
 
-This interface emulates *The Firmware* TNC and makes regular TCP/IP traffic appears like AX.25.
+This interface emulates WA8DED's *The Firmware* TNC and makes regular Telnet traffic appears like AX.25.
 
-[TFPCX Telnet](https://www.electronicayciencia.com/TFPCX-Telnet/)
+[TNC Telnet](https://www.electronicayciencia.com/TNC-Telnet/)
 
-[Source repository](https://github.com/electronicayciencia/TFPCX-Telnet)
+[Source repository](https://github.com/electronicayciencia/TNC-Telnet)
 
 (Updated Apr 2024)
 
