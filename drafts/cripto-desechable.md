@@ -14,7 +14,7 @@ tags:
 
 Esto son muestras del ATECC608. Un chip criptográfico fabricado por la empresa americana Microchip. Usado a veces en la autenticación de consumibles y accesorios. Puede calcular SHA256, AES128 y ECC P256, también soporta KDF, ECDH, GCM y muchas siglas más.
 
-[foto: atecc608.jpg | ATECC608 (aunque no lo ponga). El formato rectangular está pensado para pegarlos en consumibles sin más electrónica ni soldaduras.]
+{% include image.html file="atecc608.jpg" caption="ATECC608 (aunque no lo ponga). El formato rectangular está pensado para pegarlos en consumibles sin más electrónica ni soldaduras." %}
 
 Como te decía, un integrado que calcula una **función hash** segura, un algoritmo de **cifrado simétrico** considerado robusto a día de hoy y otro **asimétrico**.
 
@@ -30,7 +30,7 @@ Hasta el año 2000, EEUU consideraba la *criptografía fuerte* **munición milit
 
 *Debian* tenía el repositorio *Non-US* con software compilado en Europa, el cual sería delito exportar -y a veces usar- dentro de América.
 
-[foto: debian3_non_us.png | Mensaje durante la instalación de Debian Woody (2002). EyC.]
+{% include image.html file="debian3_non_us.png" caption="Mensaje durante la instalación de Debian Woody (2002). EyC." %}
 
 Las distribuciones de Linux basadas en la Unión Europea, como SuSE (alemana), no tenían ese problema.
 
@@ -42,7 +42,7 @@ PGP se difundió por las BBS de todo el mundo. En 1993, su autor fue perseguido 
 
 Para mostrar el absurdo de la ley, también estamparon camisetas con el algoritmo.
 
-[foto: camiseta-rsa.png | Perl es el único lenguaje que se lee igual antes y después de cifrarlo con RSA. Fuente: [blockstream.com](https://store.blockstream.com/products/rsa-t-shirt-1)]
+{% include image.html file="camiseta-rsa.png" caption="Perl es el único lenguaje que se lee igual antes y después de cifrarlo con RSA. Fuente: [blockstream.com](https://store.blockstream.com/products/rsa-t-shirt-1)" %}
 
 Con la popularización de internet la criptografía había dejado de ser cosa de espías.
 
@@ -63,11 +63,11 @@ Si bien el software aún tardó años en adaptarse a la nueva legislación.
 
 La JCE ([*Java Cryptography Extension*](https://www.oracle.com/java/technologies/javase-jce8-downloads.html)) es una librería que era necesario copiar para usar claves de 128 bits en Java 8... ¡[hasta 2017](https://bugs.openjdk.java.net/browse/JDK-8170157)!.
 
-[foto: java_ce.png | Hasta 2017, Java permitía criptografía "fuerte"... pero limitada. README de JCE. EyC.]
+{% include image.html file="java_ce.png" caption="Hasta 2017, Java permitía criptografía "fuerte"... pero limitada. README de JCE. EyC." %}
 
 A finales de los 90, AES como tal no existía. DES (Data Encryption Standard) se había quedado pequeño y el NIST organizó un concurso para elegir sucesor. Varios algoritmos competían y el que acabó ganando pasó a llamarse AES (American/Advanced Encryption Standard).
 
-[foto: rijndael-kernel-before-AES.png | Decían que el mejor era el del nombre raro. EyC.]
+{% include image.html file="rijndael-kernel-before-AES.png" caption="Decían que el mejor era el del nombre raro. EyC." %}
 
 Hoy, una empresa americana me ha hecho llegar chips con una tecnología que, hace escasos veinte años, o **no existía**; o era **secreta**; o directamente estaba **prohibida**.
 
@@ -96,11 +96,11 @@ La microelectrónica, en general, es vulnerable a dos tipos de ataques: **canal 
 
 Un ataque de **canal lateral** suele ser pasivo. Consiste en aprovechar la información filtrada de manera indirecta durante la operación normal. Por ejemplo pequeñas variaciones en el tiempo de procesamiento, en el consumo de corriente, o el campo electromagnético emitido pueden revelar las instrucciones que se están ejecutando. Y puedes llegar a deducir si en tal o cual posición de la clave había un 0 o un 1.
 
-[foto: aes_power.png | A veces se puede saber qué está haciendo un chip sólo por su consumo. [SSTIC2021](https://www.sstic.org/media/SSTIC2021/SSTIC-actes/defeating_a_secure_element_with_multiple_laser_fau/SSTIC2021-Article-defeating_a_secure_element_with_multiple_laser_fault_injections-heriveaux.pdf).]
+{% include image.html file="aes_power.png" caption="A veces se puede saber qué está haciendo un chip sólo por su consumo. [SSTIC2021](https://www.sstic.org/media/SSTIC2021/SSTIC-actes/defeating_a_secure_element_with_multiple_laser_fau/SSTIC2021-Article-defeating_a_secure_element_with_multiple_laser_fault_injections-heriveaux.pdf)." %}
 
 Con la **inyección de errores** tratamos de hacer fallar la lógica interna. Bien generando un *glitch* en el voltaje en el momento oportuno, o en la señal de reloj. Bien emitiendo un pulso EM muy intenso cerca. En los ataques más sofisticados, decapando el chip y haciendo incidir un laser sobre un transistor concreto. O usando una máquina de litografía para modificar el circuito integrado.
 
-[foto: voltage_glitch.webp | Una caída abrupta de tensión en el momento apropiado puede hacer fallar a lógica interna. [stm32_vglitch](https://jerinsunny.github.io/stm32_vglitch/).]
+{% include image.html file="voltage_glitch.webp" caption="Una caída abrupta de tensión en el momento apropiado puede hacer fallar a lógica interna. [stm32_vglitch](https://jerinsunny.github.io/stm32_vglitch/)." %}
 
 Al final del todo te dejo unos enlaces a ataques exitosos donde consiguen leer el firmware protegido de un **STM32** o romper el *secure boot* de un **ESP32** con un simple *glitch* de voltaje.
 
@@ -124,7 +124,7 @@ En la sección de enlaces te dejo las dos presentaciones y los *papers*. Pero te
 
 A día de escribir este artículo, el *datasheet* completo del ATECC608 es confidencial. Si tienes suerte, podrás encontrar una versión filtrada buscando *ATECC608A "MICROCHIP CONFIDENTIAL"*. Si no, el del ATECC508 sí se puede encontrar fácilmente.
 
-[foto: ATECC608-memory.svg | El ATECC608 tiene más cosas, pero hoy sólo voy a mencionar estas. EyC.]
+{% include image.html file="ATECC608-memory.svg" caption="El ATECC608 tiene más cosas, pero hoy sólo voy a mencionar estas. EyC." %}
 
 **Número de serie**: Para **identificar** dispositivos necesitas algo distinto en cada uno, ligado al hardware y que no se pueda cambiar. En este chip son 9 bytes, de los que 3 son fijos y el resto son únicos: `0x01 23 xx xx xx xx xx xx EE`.
 
@@ -151,7 +151,7 @@ Ahora toca probarlo y ver cómo funciona.
 
 Lo conectamos por I2C a una Raspberry Pi.
 
-[foto: cn-2233VCH.jpg | Conexión del chip a las lineas I2C de una Raspberry. EyC.]
+{% include image.html file="cn-2233VCH.jpg" caption="Conexión del chip a las lineas I2C de una Raspberry. EyC." %}
 
 Fíjate que no requiere ningún componente externo (la Raspberry ya incorpora resistencias de *pull-up*). Están pensados para ponerlos en un cartucho de tóner sin más electrónica que este chip.
 
@@ -262,7 +262,7 @@ La autenticación con *hash + secreto compartido* se basa en un principio muy si
 
 Imaginemos que el chip está instalado en un **accesorio/consumible**. Conectado a la Raspberry. Y yo quiero asegurarme de que es un accesorio original y no está caducado, por ejemplo.
 
-[foto: auth_accesorios.svg | En este ejemplo de uso autenticamos un consumible o un accesorio. EyC.]
+{% include image.html file="auth_accesorios.svg" caption="En este ejemplo de uso autenticamos un consumible o un accesorio. EyC." %}
 
 Lo primero que voy a hacer es crear un nonce. El *nonce* es un número que entra a formar parte de la operación criptográfica. Su función es impedir que un falsificador copie los mensajes de una autenticación anterior y los reproduzca. Aún no sabiendo la clave, pero sabe lo que tiene que responder. Eso se llama ataque de **replay**.
 
@@ -336,7 +336,7 @@ Ese es el resultado final. Dependiente de:
 
 Comparando el resultado sabremos si el componente es original, y que los datos leídos de él son auténticos, no está caducado, etc.
 
-[foto: MAC.svg | Esquema del proceso de autenticación. EyC.]
+{% include image.html file="MAC.svg" caption="Esquema del proceso de autenticación. EyC." %}
 
 El comando *GenDig* puede hacer entrar en el cálculo otros *slots*, la OTP o los contadores. Así podemos leer cualquier información del chip sabiendo que nadie la puede manipular.
 
@@ -453,7 +453,7 @@ $ ./aes_encrypt TEMPKEY aa55aa55aa55aa55aa55aa55aa55aa55
 
 Recuerda usar CBC si los datos a cifrar superan el tamaño del bloque AES.
 
-[foto: CBC_encryption.svg | Cifrado encadenado. EyC.]
+{% include image.html file="CBC_encryption.svg" caption="Cifrado encadenado. EyC." %}
 
 Descifrar los datos es igual, proporcionando la credencial en **13** y el *índice* de la clave derivada.
 
