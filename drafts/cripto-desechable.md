@@ -12,15 +12,15 @@ tags:
 ---
 
 
-Esto son muestras del ATECC608. Un **chip criptográfico** fabricado por la empresa americana Microchip. Usado a veces en la autenticación de consumibles y accesorios. Puede calcular SHA256, AES128 y ECC P256, también soporta KDF, ECDH, GCM y muchas siglas más.
+Esto son muestras del ATECC608. Un **chip criptográfico** fabricado por la empresa americana Microchip. Usado a veces en la autenticación de consumibles y accesorios. Puede calcular **SHA256**, **AES128** y **ECC P256**, también soporta KDF, ECDH, GCM y muchas siglas más.
 
-{% include image.html file="atecc608.jpg" caption="ATECC608C (aunque no ponga eso). El formato rectangular está pensado para pegarlos en consumibles sin electrónica ni PCB." %}
+{% include image.html file="atecc608.jpg" caption="ATECC608C (aunque ponga otra cosa). Los alargados son para pegarlos en consumibles sin electrónica ni PCB." %}
 
-Como te decía, un integrado que calcula una **función hash** segura, un algoritmo de **cifrado simétrico** considerado robusto a día de hoy y otro **asimétrico**.
+Como te decía, un integrado que calcula una **función hash** segura, un algoritmo de **cifrado simétrico** robusto y otro **asimétrico**.
 
 Los pedí y me los enviaron. Así, sin más.
 
-¿No le ves nada de extraño? ¡Cuánto me alegro! Porque [no siempre ha sido así](https://en.wikipedia.org/wiki/Export_of_cryptography_from_the_United_States).
+¿No le ves **nada de extraño**? ¡Cuánto me alegro! Porque [no siempre ha sido así](https://en.wikipedia.org/wiki/Export_of_cryptography_from_the_United_States).
 
 
 
@@ -88,34 +88,52 @@ Dentro de la familia hay modelos específicos para autenticación de **consumibl
 
 El ATECC608 se puede usar como **acelerador criptográfico**, almacén de claves, autenticación de dispositivos IoT, *secure boot*, cifrado de comunicaciones TLS y más.
 
-¿Es necesario un micro especial para seguridad cuando casi todos los micros tienen ya protección de firmware?
+¿Es necesario un micro especial para **seguridad** cuando casi todos los micros tienen ya protección de firmware?
 
 Como siempre... depende de cuál sea el **valor** de tus secretos.
 
-La microelectrónica, en general, es vulnerable a dos tipos de ataques: **canal lateral** e **inyección de errores**.
+La **microelectrónica**, en general, es **vulnerable** a **dos tipos de ataques**: 
+- canal lateral
+- inyección de errores
 
-Un ataque de **canal lateral** suele ser pasivo. Consiste en aprovechar la información filtrada de manera indirecta durante la operación normal. Por ejemplo pequeñas variaciones en el tiempo de procesamiento, en el consumo de corriente, o el campo electromagnético emitido pueden revelar las instrucciones que se están ejecutando. Y puedes llegar a deducir si en tal o cual posición de la clave había un 0 o un 1.
+Un ataque de **canal lateral** suele ser pasivo. Consiste en aprovechar la **información filtrada** de manera indirecta durante la operación normal. 
+
+Por ejemplo pequeñas variaciones en el **tiempo** de procesamiento, en el **consumo** de corriente, o el campo electromagnético emitido pueden revelar las instrucciones que se están ejecutando. Y puedes llegar a deducir si en tal o cual posición de la clave había un 0 o un 1.
 
 {% include image.html file="aes_power.png" caption="A veces se puede saber qué está haciendo un chip sólo por su consumo. [SSTIC2021](https://www.sstic.org/media/SSTIC2021/SSTIC-actes/defeating_a_secure_element_with_multiple_laser_fau/SSTIC2021-Article-defeating_a_secure_element_with_multiple_laser_fault_injections-heriveaux.pdf)." %}
 
-Con la **inyección de errores** tratamos de hacer fallar la lógica interna. Bien generando un *glitch* en el voltaje en el momento oportuno, o en la señal de reloj. Bien emitiendo un pulso EM muy intenso cerca. En los ataques más sofisticados, decapando el chip y haciendo incidir un laser sobre un transistor concreto. O usando una máquina de litografía para modificar el circuito integrado.
+Con la **inyección de errores** tratamos de hacer **fallar** la lógica interna. 
+
+Bien generando un *glitch* en el **voltaje** en el momento oportuno, o en la señal de **reloj**. Bien emitiendo un **pulso EM** muy intenso cerca. 
+
+En los ataques más sofisticados, decapando el chip y haciendo incidir un **laser** sobre un transistor concreto. O usando una máquina de litografía para modificar el circuito integrado.
 
 {% include image.html file="voltage_glitch.webp" caption="Una caída abrupta de tensión en el momento apropiado puede hacer fallar a lógica interna. [stm32_vglitch](https://jerinsunny.github.io/stm32_vglitch/)." %}
 
-Al final del todo te dejo unos enlaces a ataques exitosos donde consiguen leer el firmware protegido de un **STM32** o romper el *secure boot* de un **ESP32** con un simple *glitch* de voltaje.
+Al final del todo te dejo unos enlaces a ataques exitosos donde consiguen **leer** el **firmware protegido** de un **STM32** o romper el ***secure boot*** de un **ESP32** con un simple ***glitch*** de voltaje.
 
 El ATECC608 incorpora defensas contra estos ataques:
-- **Blindaje** metálico: Bajo el encapsulado epoxy hay una capa metálica a modo de blindaje, cubierto por un hilo muy fino. Impide fugas electromagnéticas y evita que los campos muy fuertes alteren el funcionamiento normal. Si lo retiras o lo perforas romperás el hilo y el micro dejará de funcionar.
+- **Blindaje** metálico: Bajo el encapsulado epoxy hay una **capa metálica** a modo de blindaje, cubierto por un **hilo** muy fino. Impide fugas electromagnéticas y evita que los campos muy fuertes alteren el funcionamiento normal. Si lo retiras o lo perforas romperás el hilo y el micro dejará de funcionar.
 - Señal de **reloj** interna: evita los ataques de *glitch* en el reloj.
-- Regulador de **voltaje** interno: Detecta un *glitch* en el voltaje y reinicia el micro. También introduce ruido de forma deliberada en la alimentación para dificultar los ataques de canal lateral.
-- **Cifrado** de los datos almacenados: aunque consiguieras hacer un volcado de la EEPROM, no te serviría, porque está cifrada. Necesitas que sea el propio chip quien la lea.
-- *Self-testing* durante el proceso de inicialización (*wake-up*). Se pasan unos tests internamente. Si se detecta algo raro, se detiene el arranque.
+- Regulador de **voltaje** interno: Detecta un *glitch* en el voltaje y **reinicia el micro**. También introduce ruido de forma deliberada en la alimentación para dificultar los ataques de canal lateral.
+- **Cifrado** de los datos almacenados: aunque consiguieras hacer un volcado de la **EEPROM**, no te serviría, porque está cifrada. Necesitas que sea el propio chip quien la lea.
+- ***Self-testing*** durante el proceso de **inicialización** (*wake-up*). Se pasan unos tests internamente. Si se detecta algo raro, se detiene el arranque.
 
-No obstante, se han llevado a cabo dos **ataques exitosos** de inyección láser. Uno contra el **ATECC508** (predecesor del ATECC608), presentado en la BlackHat'20. Los investigadores consiguieron extraer las claves secretas de una **cartera de criptomonedas**.
+Pese a todas estas protecciones, se han llevado a cabo **ataques exitosos**. 
 
-En el segundo, presentado en la BlackHat'21, **rompieron el ATECC608A**. El fabricante actualizó a la versión B.
+El **primero** contra el **ATECC508A** (predecesor del ATECC608A), presentado en la [BlackHat 2020](https://www.youtube.com/watch?v=7-9knubFJjY). Los investigadores consiguieron extraer las claves secretas de una **cartera de criptomonedas** usando un ataque de inyección laser.
 
-En la sección de enlaces te dejo las dos presentaciones y los *papers*. Pero te adelanto que el equipo necesario ronda los 200k dólares.
+Microchip ya no recomienda el ATECC508 en nuevos diseños.
+
+En el **segundo**, presentado en la [BlackHat 2021](https://www.youtube.com/watch?v=Kj1nVJypXPM), **rompieron el ATECC608A** usando inyección láser en **dos puntos** diferentes de la ejecución. 
+
+El fabricante actualizó a la versión B. E introdujo **esperas aleatorias** para hacer la ejecución menos predecible.
+
+Aún así, en 2023, se presentó [un tercer ataque](https://www.youtube.com/watch?v=Hd_K2yQlMJs) contra el **ATECC608B**. 
+
+No se conocen ataques aún para la versión **C** del **ATECC608**.
+
+En la sección de enlaces te dejo las exposiciones en vídeo, presentaciones y *papers*.
 
 > The use of secure circuits is considered the best practice for protecting secrets in a system. Those circuits are much stronger than standard microcontrollers. The vulnerability we found is powerful, but required really expensive equipment, and a lot of effort and expertise. Compared to microcontrollers, where a simple low-cost voltage glitch can give full access to the Flash memory, the ATECC device can protect from a wide range of attackers. [Lit By Laser: Pin Code Recovery On Coldcard Mk2 Wallets](https://www.ledger.com/blog/coldcard-pin-code)
 
@@ -188,7 +206,7 @@ Yo, por mi cuenta, me he hecho unas **utilidades** en forma de comandos y script
 ## Configuración y provisión
 
 Antes de empezar a usar el chip hay que seguir unos pasos:
-1. Primero personalizas las **opciones de configuración**: Dices qué slots se van a poder escribir, cuáles van a ser secretos o de sólo lectura, etc.
+1. Primero, personalizas las **opciones de configuración**: Dices qué slots se van a poder escribir, cuáles van a ser secretos o de sólo lectura, etc.
 1. **Bloqueas** esa configuración (*config lock*).
 1. Con los slots configurados, **grabas las claves**, certificados, etc. Escribes la OTP, los contadores de uso, etc.
 1. Una vez lo tengas todo, **bloqueas** esos datos (*data lock*). 
@@ -535,13 +553,23 @@ Hacking:
 - [SECGlitcher (Part 1) - Reproducible Voltage Glitching on STM32 Microcontrollers](https://sec-consult.com/blog/detail/secglitcher-part-1-reproducible-voltage-glitching-on-stm32-microcontrollers/)
 - [Power Side-Channel Attack Analysis: A Review of 20 Years of Study for the Layman - PDF](https://www.researchgate.net/publication/341513963_Power_Side-Channel_Attack_Analysis_A_Review_of_20_Years_of_Study_for_the_Layman)
 
-- [Lit By Laser: Pin Code Recovery On Coldcard Mk2 Wallets](https://www.ledger.com/blog/coldcard-pin-code)
-- [Black-box Laser Fault Injection on a Secure Memory - BlackHat 2020](https://i.blackhat.com/USA-20/Thursday/us-20-Heriveaux-Black-Box-Laser-Fault-Injection-On-A-Secure-Memory.pdf)
-- [Defeating a Secure Element with Multiple Laser Fault injections - BlackHat 2021](https://i.blackhat.com/USA21/Wednesday-Handouts/us-21-Defeating-A-Secure-Element-With-Multiple-Laser-Fault-Injections.pdf)
-- [Black-Box Laser Fault Injection on a Secure Memory - PDF Paper](https://www.sstic.org/media/SSTIC2020/SSTIC-actes/blackbox_laser_fault_injection_on_a_secure_memory/SSTIC2020-Article-blackbox_laser_fault_injection_on_a_secure_memory-heriveaux.pdf)
-- [Defeating a Secure Element with Multiple Laser Fault Injections - PDF](https://www.sstic.org/media/SSTIC2021/SSTIC-actes/defeating_a_secure_element_with_multiple_laser_fau/SSTIC2021-Article-defeating_a_secure_element_with_multiple_laser_fault_injections-heriveaux.pdf)
+Ataque al ATECC508:
 
-- [NSEC 2024 - Badge Addon - Phospholipid](https://blog.quantumlyconfused.com/ctf/2024/05/25/nsec2024-badgelife-addon/)
+- [Black-box Laser Fault Injection on a Secure Memory - Vídeo BlackHat 2020](https://www.youtube.com/watch?v=7-9knubFJjY)
+- [Black-box Laser Fault Injection on a Secure Memory - Presentación BlackHat 2020](https://i.blackhat.com/USA-20/Thursday/us-20-Heriveaux-Black-Box-Laser-Fault-Injection-On-A-Secure-Memory.pdf)
+- [Black-Box Laser Fault Injection on a Secure Memory - Paper en PDF](https://www.sstic.org/media/SSTIC2020/SSTIC-actes/blackbox_laser_fault_injection_on_a_secure_memory/SSTIC2020-Article-blackbox_laser_fault_injection_on_a_secure_memory-heriveaux.pdf)
+
+Ataque al ATECC608A:
+
+- [Defeating a Secure Element with Multiple Laser Fault Injections - Vídeo BlackHat 2021](https://www.youtube.com/watch?v=Kj1nVJypXPM)
+- [Defeating a Secure Element with Multiple Laser Fault injections - Presentación BlackHat 2021](https://i.blackhat.com/USA21/Wednesday-Handouts/us-21-Defeating-A-Secure-Element-With-Multiple-Laser-Fault-Injections.pdf)
+- [Defeating a Secure Element with Multiple Laser Fault Injections - Paper en PDF](https://www.sstic.org/media/SSTIC2021/SSTIC-actes/defeating_a_secure_element_with_multiple_laser_fau/SSTIC2021-Article-defeating_a_secure_element_with_multiple_laser_fault_injections-heriveaux.pdf)
+
+Ataque al ATECC608B:
+
+- [Triple Exploit Chain with Laser Fault Injection on a Secure Element - Video Hardwear.io 2023](https://www.youtube.com/watch?v=Hd_K2yQlMJs)
+- [Triple Exploit Chain with Laser Fault Injection on a Secure Element - Presentación Hardwear.io](https://hardwear.io/netherlands-2023/presentation/triple-exploit-chain-with-laser-fault-injection-on-a-secure-element.pdf)
+
 
 
 Artículos relacionados:
