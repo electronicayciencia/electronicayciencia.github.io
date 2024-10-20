@@ -495,7 +495,7 @@ aa55aa55aa55aa55aa55aa55aa55aa55
 
 ¿Y para **cambiar la contraseña**?
 
-Por eso habíamos puesto que el slot **13** se pueda escribir **conociendo** el slot **13**.
+Por eso habíamos puesto que el slot **13** se pudiera escribir **conociendo** el slot **13**.
 
 ```console
 $ ./write_enc 13 `SHA256 anacardo` 13 `SHA256 password`
@@ -513,18 +513,20 @@ $ ./rotate_key.sh 12 `SHA256 password`
 Ok
 ```
 
-Un comando y no necesitas preocuparte de borrar nada. Al haber **destruido la clave**, cualquier dato cifrado con ella o sus derivadas ahora es **irrecuperable**.
+Un comando y olvídate de borrar nada. Al haber **destruido la clave**, cualquier dato cifrado con ella o sus derivadas ya es **irrecuperable**.
 
 
 ## Conclusión
 
-Por naturaleza, trabajar con **criptografía y seguridad** siempre es complicado. En este artículo hemos practicado dos casos de uso sencillos con el ATECC608:
+Por naturaleza, trabajar con **criptografía y seguridad** siempre es complicado. En este artículo hemos hablado de **ataques**, defensas y vulnerabilidades en **microelectrónica**.
+
+Hemos presentado el **ATECC608** y practicado dos casos de uso:
 - Una **autenticación** con hash y secreto compartido, donde apreciamos la importancia del ***nonce*** y de la función ***hash*** para leer datos de forma autenticada.
-- Y un cifrado con **doble factor**, usando claves derivadas de otra custodiada en el **hardware**.
+- Y un **cifrado** simétrico usando claves derivadas de otra custodiada por **hardware**.
 
-Aunque nos hemos dejado fuera muchas capacidades importantes del chip (firmas, certificados, ECDH, KDF o *secure boot*), nos ha servido para familiarizarnos con él.
+Si bien nos hemos dejado fuera muchas capacidades importantes del chip (firmas, certificados, ECDH, KDF o *secure boot*), ha servido para familiarizarnos con él.
 
-La **documentación** aún es **escasa** (a menudo sujeta a **NDA**). Y, aunque tenemos la librería del fabricante, pública, con ejemplos y notas de aplicación, se aprecia que es un producto destinado sobre todo al **sector profesional**.
+La **documentación** aún es **escasa** (a menudo sujeta a **NDA**). Y, aunque tenemos la librería del fabricante, pública, con ejemplos y notas de aplicación, se aprecia que es un producto orientado sobre todo al **sector profesional**.
 
 
 ## Más información
@@ -539,8 +541,7 @@ Documentación y casos de uso:
 - [MicrochipTech/cryptoauthlib - GitHub](https://github.com/MicrochipTech/cryptoauthlib)
 - [ATECC508A CryptoAuthentication Device Complete Data Sheet](https://cdn.sparkfun.com/assets/learn_tutorials/1/0/0/3/Microchip_ATECC508A_Datasheet.pdf)
 
-
-Hacking:
+Hacking para electrónicos:
 
 - [An Introduction to Fault Injection](https://www.nccgroup.com/sg/research-blog/an-introduction-to-fault-injection-part-13/)
 - [How to voltage fault injection ](https://www.synacktiv.com/publications/how-to-voltage-fault-injection)
@@ -564,8 +565,6 @@ Ataque al ATECC608B:
 
 - [Triple Exploit Chain with Laser Fault Injection on a Secure Element - Video Hardwear.io 2023](https://www.youtube.com/watch?v=Hd_K2yQlMJs)
 - [Triple Exploit Chain with Laser Fault Injection on a Secure Element - Presentación Hardwear.io](https://hardwear.io/netherlands-2023/presentation/triple-exploit-chain-with-laser-fault-injection-on-a-secure-element.pdf)
-
-
 
 Artículos relacionados:
 
