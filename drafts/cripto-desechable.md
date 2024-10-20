@@ -12,9 +12,9 @@ tags:
 ---
 
 
-Esto son muestras del ATECC608. Un chip criptográfico fabricado por la empresa americana Microchip. Usado a veces en la autenticación de consumibles y accesorios. Puede calcular SHA256, AES128 y ECC P256, también soporta KDF, ECDH, GCM y muchas siglas más.
+Esto son muestras del ATECC608. Un **chip criptográfico** fabricado por la empresa americana Microchip. Usado a veces en la autenticación de consumibles y accesorios. Puede calcular SHA256, AES128 y ECC P256, también soporta KDF, ECDH, GCM y muchas siglas más.
 
-{% include image.html file="atecc608.jpg" caption="ATECC608 (aunque no lo ponga). El formato rectangular está pensado para pegarlos en consumibles sin más electrónica ni soldaduras." %}
+{% include image.html file="atecc608.jpg" caption="ATECC608C (aunque no ponga eso). El formato rectangular está pensado para pegarlos en consumibles sin electrónica ni PCB." %}
 
 Como te decía, un integrado que calcula una **función hash** segura, un algoritmo de **cifrado simétrico** considerado robusto a día de hoy y otro **asimétrico**.
 
@@ -26,27 +26,27 @@ Los pedí y me los enviaron. Así, sin más.
 
 ## Cuando la criptografía era munición
 
-Hasta el año 2000, EEUU consideraba la *criptografía fuerte* **munición militar**. Estando sujeta a licencias de uso y restricciones de exportación. Sólo el gobierno de EE.UU. tenía derecho a utilizar claves de más de 40 bits. Y el ejército. Los ciudadanos, no. Y mucho menos naciones extranjeras.
+**Hasta el año 2000**, EEUU consideraba la *criptografía fuerte* **munición militar**. Estando sujeta a licencias de uso y restricciones de exportación. Sólo el **gobierno** de EE.UU. tenía derecho a utilizar claves de más de 40 bits. Y el ejército. Los ciudadanos, no. Y mucho menos naciones extranjeras.
 
-*Debian* tenía el repositorio *Non-US* con software compilado en Europa, el cual sería delito exportar -y a veces usar- dentro de América.
+**Debian** tenía el repositorio *Non-US* con software compilado en Europa, el cual sería delito exportar -y a veces usar- dentro de América.
 
 {% include image.html file="debian3_non_us.png" caption="Mensaje durante la instalación de Debian Woody (2002). EyC." %}
 
 Las distribuciones de Linux basadas en la Unión Europea, como SuSE (alemana), no tenían ese problema.
 
-PGP fue el primer programa destinado al público que usaba criptografía asimétrica (RSA). Surgió en 1991 y digamos que el mundo aún no estaba preparado para el cifrado masivo de las comunicaciones civiles.
+PGP fue el **primer programa** destinado al público que usaba criptografía asimétrica (RSA). Surgió en 1991 y digamos que el mundo aún no estaba preparado para el cifrado masivo de las comunicaciones civiles.
 
 Nada iba cifrado, ni en USA ni en ningún sitio. Las líneas telefónicas eran analógicas; las conexiones, por telnet; las radios y hasta los recientes móviles GSM estaban en claro.
 
-PGP se difundió por las BBS de todo el mundo. En 1993, su autor fue perseguido por exportar sin licencia munición militar. Hubo [múltiples protestas](https://en.wikipedia.org/wiki/Crypto_Wars). Imprimieron su código fuente en un libro. Este, protegido por la primera enmienda, sí que podía exportarse.
+PGP se difundió por las BBS de todo el mundo. En 1993, su autor fue **perseguido** por exportar sin licencia munición militar. Hubo [protestas](https://en.wikipedia.org/wiki/Crypto_Wars). Imprimieron su código fuente en un libro. Este, protegido por la primera enmienda, sí que podía exportarse.
 
 Para mostrar el absurdo de la ley, también estamparon camisetas con el algoritmo.
 
 {% include image.html file="camiseta-rsa.png" caption="Perl es el único lenguaje que se lee igual antes y después de cifrarlo con RSA. Fuente: [blockstream.com](https://store.blockstream.com/products/rsa-t-shirt-1)" %}
 
-Con la popularización de internet la criptografía había dejado de ser cosa de espías.
+Con la popularización de internet la criptografía había dejado de ser **cosa de espías**.
 
-Para el año 2000, algunas restricciones cayeron:
+Para el año **2000**, algunas restricciones cayeron:
 
 > EEUU elimina las restricciones de exportación de criptografía
 
@@ -59,13 +59,13 @@ Para el año 2000, algunas restricciones cayeron:
 
 > [Una al día - enero de 2000 - Hispasec](https://unaaldia.hispasec.com/2000/01/eeuu-elimina-las-restricciones-de-exportacion-de-criptografia.html)
 
-Si bien el software aún tardó años en adaptarse a la nueva legislación.
+Si bien el software aún tardó **años** en adaptarse a la nueva legislación.
 
-La JCE ([*Java Cryptography Extension*](https://www.oracle.com/java/technologies/javase-jce8-downloads.html)) es una librería que era necesario copiar para usar claves de 128 bits en Java 8... ¡[hasta 2017](https://bugs.openjdk.java.net/browse/JDK-8170157)!.
+La JCE ([*Java Cryptography Extension*](https://www.oracle.com/java/technologies/javase-jce8-downloads.html)) es una librería que era necesario copiar para usar claves de 128 bits en Java 8... ¡[hasta 2017](https://bugs.openjdk.java.net/browse/JDK-8170157)!
 
-{% include image.html file="java_ce.png" caption="Hasta 2017, Java permitía criptografía "fuerte"... pero limitada. README de JCE. EyC." %}
+{% include image.html file="java_ce.png" caption="Hasta 2017, Java permitía criptografía \"fuerte\"... pero limitada. README de JCE. EyC." %}
 
-A finales de los 90, AES como tal no existía. DES (Data Encryption Standard) se había quedado pequeño y el NIST organizó un concurso para elegir sucesor. Varios algoritmos competían y el que acabó ganando pasó a llamarse AES (American/Advanced Encryption Standard).
+A finales de los 90, **AES** como tal no existía. DES (Data Encryption Standard) se había quedado pequeño y el NIST organizó un **concurso** para elegir sucesor. Varios algoritmos competían y el que acabó ganando pasó a llamarse AES (American/Advanced Encryption Standard).
 
 {% include image.html file="rijndael-kernel-before-AES.png" caption="Decían que el mejor era el del nombre raro. EyC." %}
 
@@ -74,19 +74,19 @@ Hoy, una empresa americana me ha hecho llegar chips con una tecnología que, hac
 
 ## Exploits electrónicos
 
-El ATECC608 forma parte de la familia ATCA (*Atmel Crypto Authentication*), ahora de Microchip.
+El ATECC608 forma parte de la **familia ATCA** (*Atmel Crypto Authentication*), ahora de Microchip.
 
 Estos integrados son como mini-HSM. Aunque con aplicaciones y algoritmos muy limitados. Los llaman **secure element**, a veces *secure memory*.
 
-Su función principal fue, en su día, la autenticación de **accesorios y consumibles**. ¿Sabes esos cartuchos de tinta que no se pueden reutilizar porque "llevan un chip"? ¿O esos portátiles que no funcionan sin el cargador original? A veces son chips de este estilo.
+Su función principal **fue**, en su día, la autenticación de **accesorios y consumibles**. ¿Sabes esos cartuchos de tinta que no se pueden reutilizar porque "llevan un chip"? ¿O esos portátiles que no funcionan sin el cargador original? A veces son chips de este estilo.
 
-Actualmente, la seguridad embebida va mucho más allá de satisfacer la codicia de los fabricantes de impresoras. Echale un vistazo al [estándar ISA/IEC 62443](https://www.isa.org/standards-and-publications/isa-standards/isa-iec-62443-series-of-standards):
+**Actualmente**, la seguridad embebida va mucho más allá de satisfacer la codicia de los fabricantes de impresoras. Echale un vistazo al [estándar ISA/IEC 62443](https://www.isa.org/standards-and-publications/isa-standards/isa-iec-62443-series-of-standards):
 
 > The international series of standards IEC 62443 are being developed [...] to address the need to design cybersecurity robustness and resilience into industrial automation and control systems (IACS), covering both organizational and technical aspects of security over the life cycle of systems. - [IEC 62443 Background](https://syc-se.iec.ch/deliveries/cybersecurity-guidelines/security-standards-and-best-practices/iec-62443/)
 
 Dentro de la familia hay modelos específicos para autenticación de **consumibles** (desechables, más baratos, con menos memoria, y menos algoritmos soportados), otra gama para seguridad en el sector **automoción**, y otra más **generalista**.
 
-El ATECC608 se puede usar como acelerador criptográfico, almacén de claves, autenticación de dispositivos IoT, *secure boot*, cifrado de comunicaciones TLS y más.
+El ATECC608 se puede usar como **acelerador criptográfico**, almacén de claves, autenticación de dispositivos IoT, *secure boot*, cifrado de comunicaciones TLS y más.
 
 ¿Es necesario un micro especial para seguridad cuando casi todos los micros tienen ya protección de firmware?
 
@@ -113,7 +113,7 @@ El ATECC608 incorpora defensas contra estos ataques:
 
 No obstante, se han llevado a cabo dos **ataques exitosos** de inyección láser. Uno contra el **ATECC508** (predecesor del ATECC608), presentado en la BlackHat'20. Los investigadores consiguieron extraer las claves secretas de una **cartera de criptomonedas**.
 
-En el segundo, presentado en la BlackHat'21, rompieron el ATECC608A. El fabricante actualizó a la versión B.
+En el segundo, presentado en la BlackHat'21, **rompieron el ATECC608A**. El fabricante actualizó a la versión B.
 
 En la sección de enlaces te dejo las dos presentaciones y los *papers*. Pero te adelanto que el equipo necesario ronda los 200k dólares.
 
@@ -138,26 +138,27 @@ A día de escribir este artículo, el *datasheet* completo del ATECC608 es confi
 
 **Config Zone**: aquí se seleccionan las opciones del integrado, protocolo I2C o 1-Wire, dirección I2C, duración del watchdog, protección durante el transporte, etc. Y también es donde configuran los slots.
 
-**Data Zone**: Son 16 ***slots***. Para guardar claves AES, secretos, claves públicas, certificados o datos en general. Cada *slot* se puede configurar individualmente:
-- El tipo de clave: ECC privada, AES, o datos varios; por ejemplo secretos, claves públicas, certificados, etc.
-- Si se puede leer en claro, sólo leer cifrada -sabiendo otra clave- o directamente no se puede leer -es secreto-.
-- Lo mismo para la escritura.
-- Si la podemos usar sin *nonce* (luego veremos qué es), si este puede ser un valor dado o debe ser aleatorio.
-- Si requiere demostrar que se conoce otra clave antes de poder usar esta (una clave protegida por otra).
-- Si tiene límite de usos (asociada al contador 0).
-- Si se puede usar para firmar información externa o únicamente datos internos del dispositivo (*attestation*)
+**Data Zone**: Son 16 ***slots***. Para guardar claves AES, secretos, claves públicas, certificados o datos en general. 
+
+En cada *slot* se puede configurar individualmente:
+- El **tipo** de clave: ECC privada, AES, o datos varios; por ejemplo secretos, claves públicas, certificados, etc.
+- Si se puede **leer** en claro, sólo leer cifrada -sabiendo otra clave- o directamente no se puede leer -es secreto-.
+- Lo mismo para **escribir**.
+- Si la podemos usar sin ***nonce*** (luego veremos qué es), si este puede ser un valor dado o debe ser aleatorio.
+- Si requiere estar **autorizado** con alguna otra clave antes de usar esta.
+- Si tiene **límite** de usos (asociada al contador 0).
 
 Ahora toca probarlo y ver cómo funciona.
 
-Lo conectamos por I2C a una Raspberry Pi.
+Lo conectamos por **I2C** a una Raspberry Pi.
 
 {% include image.html file="cn-2233VCH.jpg" caption="Conexión del chip a las lineas I2C de una Raspberry. EyC." %}
 
-Fíjate que no requiere ningún componente externo (la Raspberry ya incorpora resistencias de *pull-up*). Están pensados para ponerlos en un cartucho de tóner sin más electrónica que este chip.
+Fíjate que no requiere **ningún componente externo** (la Raspberry ya incorpora resistencias de *pull-up*). Están pensados para ponerlos en un consumible sin más electrónica que este chip.
 
-Como curiosidad verás que está marcado como CN-2233VCH, que nada tiene que ver con ATECC608. Es una **contramedida** más para despistar. Podrías pensar que es una EEPROM o algún micro chino.
+Verás que está marcado como **CN-2233VCH**, que nada tiene que ver con ATECC608. Es una contramedida más para **despistar**. Podrías pensar que es una EEPROM o algún micro chino.
 
-He usado como masa el pin 4 del conector GPIO. Normalmente estará configurado como entrada, y así no va a funcionar. Primero debemos configurarlo como salida:
+He usado como masa el pin 4 del conector GPIO. Normalmente estará configurado como **entrada**, y así no va a funcionar. Primero debemos configurarlo como **salida** con el comando:
 
 ```
 gpioset pinctrl-bcm2835 4=0
@@ -165,7 +166,7 @@ gpioset pinctrl-bcm2835 4=0
 
 Comprobamos que lo detecta:
 
-```
+```console
 pi@raspberrypi:~$ i2cdetect -y 1
      0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
 00:          -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -180,67 +181,77 @@ pi@raspberrypi:~$ i2cdetect -y 1
 
 La librería del fabricante es pública: [MicrochipTech/cryptoauthlib - GitHub](https://github.com/MicrochipTech/cryptoauthlib).
 
-Yo, por mi cuenta, me he hecho unas utilidades en forma de comandos y scripts de Bash: [electronicayciencia/ATECC608-Tools - GitHub](https://github.com/electronicayciencia/ATECC608-Tools).
+Yo, por mi cuenta, me he hecho unas **utilidades** en forma de comandos y scripts de Bash: [electronicayciencia/ATECC608-Tools - GitHub](https://github.com/electronicayciencia/ATECC608-Tools).
 
 
 
 ## Configuración y provisión
 
 Antes de empezar a usar el chip hay que seguir unos pasos:
-1. Primero personalizas las opciones de configuración: Dices qué slots se van a poder escribir, cuáles van a ser secretos o de sólo lectura, etc.
-1. Bloqueas esa configuración (**config lock**).
-1. Con los slots configurados, grabas las claves, certificados, etc. Escribes la OTP, los contadores de uso, etc.
-1. Una vez lo tengas todo, bloqueas esos datos (**data lock**). En ese momento se hace efectiva la configuración de los slots. Si era de sólo lectura, ya no se podrá escribir. Si la escritura estaba protegida por una clave, ahora esa protección se activa. El **data lock** no significa que ya no puedas escribir nada. Si el slot era de lectura/escritura, se podrá seguir escribiendo libremente en él.
+1. Primero personalizas las **opciones de configuración**: Dices qué slots se van a poder escribir, cuáles van a ser secretos o de sólo lectura, etc.
+1. **Bloqueas** esa configuración (*config lock*).
+1. Con los slots configurados, **grabas las claves**, certificados, etc. Escribes la OTP, los contadores de uso, etc.
+1. Una vez lo tengas todo, **bloqueas** esos datos (*data lock*). 
+
+En ese momento se **hace efectiva** la configuración de los slots. Si era de sólo lectura, ya no se podrá escribir. Si la escritura estaba protegida por una clave, ahora esa protección se activa. 
+
+El **data lock** no significa que ya no puedas escribir nada. Si el slot era de lectura/escritura, se podrá seguir escribiendo libremente en él.
+
+Vamos con el **primer paso**.
 
 Cada slot se configura individualmente según el uso previsto.
 
-Esta es la parte más complicada. Toda la seguridad del chip es inútil si te dejas un secreto legible o una clave mal configurada.
+Esta es la parte más complicada. Toda la seguridad del chip es **inútil** si te dejas un secreto legible o una clave mal configurada.
 
-Yo le voy a dar una configuración variada, tan sólo para ver cómo funciona.
+Yo le voy a dar una **configuración variada**, sin un uso concreto en mente, tan sólo para ver cómo funciona.
 
 Slot |Bytes | Tipo         | Read | Write | Uso previsto
 ----:|-----:|--------------|------|-------|-------------
-  00 |  36  | ECC Private  | No   | Sí    | Clave privada.
-  01 |  36  | AES          | 7    | 7     | Clave simétrica.
-  02 |  36  | AES          | 7    | 7     | Clave simétrica con contador de usos.
-  03 |  36  | AES          | Sí   | Sí    | Clave simétrica R/W para pruebas.
+  00 |  36  | ECC Private  | No   | Sí    | Clave **privada**.
+  01 |  36  | AES          | 7    | 7     | Clave **simétrica**.
+  02 |  36  | AES          | 7    | 7     | Clave **simétrica** con **contador** de usos.
+  03 |  36  | AES          | Sí   | Sí    | Clave **simétrica** R/W para **pruebas**.
   04 |  36  | SHA          | 7    | 7     | Secreto.
   05 |  36  | SHA          | 7    | 7     | Secreto con contador de usos.
   06 |  36  | SHA          | Sí   | Sí    | Secreto R/W para pruebas.
-  07 |  36  | SHA          | 7    | 7     | Clave de personalización o *encrypted I/O*.
+  07 |  36  | SHA          | 7    | 7     | Clave de **personalización** o *encrypted I/O*.
   08 | 416  | Data         | Sí   | Sí    | Datos R/W (416 bytes)
   09 |  72  | ECC Public   | Sí   | Sí    | Clave pública de **0**.
   10 |  72  | -            | -    | -     | -
   11 |  72  | -            | -    | -     | -
-  12 |  72  | AES          | No   | 13    | Clave simétrica autorizada por **13**.
-  13 |  72  | SHA          | No   | 13    | Secreto para utilizar **12**.
+  12 |  72  | AES          | No   | 13    | Clave **simétrica** autorizada por **13**.
+  13 |  72  | SHA          | No   | 13    | **Secreto** para utilizar **12**.
   14 |  72  | -            | -    | -     | -
-  15 |  72  | Data         | Sí   | 7     | Información del consumible.
+  15 |  72  | Data         | Sí   | 7     | **Información** del consumible.
 
-La clave del slot **0** va a ser una clave privada. La podemos escribir pero no leer. La idea es que el chip cree una clave usando su generador aleatorio y nos devuelva la parte pública. Esta la guardaremos en el slot **9**.
+La clave del slot **0** va a ser una **clave privada**. La podemos escribir pero no leer. La idea es que el chip cree una clave usando su generador aleatorio y nos devuelva la parte pública. Esta la guardaremos en el slot **9**.
 
-Los slots del **1** al **3** serán claves simétricas para **AES**:
+Los slots del **1** al **3** serán **claves simétricas** para **AES**:
 - **1** solo se puede leer y escribir sabiendo la clave **7**.
 - **2** solo se puede leer y escribir sabiendo la clave **7** y tiene contador de usos.
 - **3** se puede leer y escribir en claro.
 
-Los slots del **4** al **6** son igual pero con secretos para **SHA**.
+Los slots del **4** al **6** son igual pero con **secretos** para **SHA**.
 
-La clave **7** var a ser muy importante. Se llama de *personalización*. Con ella podremos leer y escribir otras claves. Sirve para actualizar el dispositivo o para provisionarlo una vez pasada la línea de montaje. También se le llama de *I/O encryption*, porque los valores que escribamos no irán en claro sino "cifrados".
+La clave **7** var a ser muy importante. Se llama de ***personalización***. Con ella podremos leer y escribir otras claves. Sirve para actualizar el dispositivo o para provisionarlo una vez pasada la línea de montaje. También se le llama de *I/O encryption*, porque los valores que escribamos no irán en claro sino "cifrados".
 
-El slot **8** lo destinamos a guardar datos variados, como si fuera una EEPROM.
+El slot **8** lo destinamos a guardar **datos variados**, como si fuera una EEPROM.
 
-El slot **9** lo reservamos para la clave pública de **0** (los slots anteriores son muy pequeños y no cabe una clave pública).
+El slot **9** lo reservamos para la **clave pública** de **0** (los slots anteriores son muy pequeños y no cabe una clave pública).
 
-En el slot **12** irá una clave AES, la podremos escribir pero nunca leer, ni siquiera cifrada. Además, para usarla debemos conocer la clave **13**.
+En el slot **12** irá una **clave AES**, la podremos escribir pero **nunca leer**, ni siquiera cifrada. Además, para usarla debemos conocer la clave **13**.
 
-**13** es un secreto SHA. Nos servirá para desbloquear **12**. Lo podremos escribir si y sólo si lo conocemos previamente.
+**13** es un **secreto SHA**. Nos servirá para desbloquear **12**. Lo podremos escribir si y sólo si lo conocemos previamente.
 
-Por último, el slot **15** serán datos varios. Públicamente accesibles pero, a diferencia del **8**, para modificarlos se necesitará la clave de *personalización*.
+Por último, el slot **15** serán **datos varios**. Públicamente accesibles pero, a diferencia del **8**, para modificarlos se necesitará la clave de *personalización* **7**.
 
 El resto de slots no los usaremos.
 
-Tras **bloquear la config**, inicializamos las claves **7** y **13**, necesarias para cambiar luego el resto. Les pondré como valor el SHA256 de la palabra `password`:
+**Paso dos**: bloqueamos la config.
+
+**Paso tres**: inicializamos las claves **7** y **13**, necesarias para cambiar luego el resto. 
+
+Les pondré como valor el SHA256 de la palabra `password`:
 
 ```bash
 function SHA256 {
@@ -253,24 +264,26 @@ $ SHA256 password
 5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
 ```
 
-Ya sólo queda **bloquear la data zone** y listo.
+Por último, ya sólo queda **bloquear la data zone** y listo.
 
 
 ## Autenticación con secreto compartido
 
-La autenticación con *hash + secreto compartido* se basa en un principio muy simple: Ambas partes calculan por su cuenta una operación en la que interviene un secreto. Si ambas partes llegan al mismo resultado es porque ambos conocen el secreto.
+La **autenticación** con *hash + secreto compartido* se basa en un principio muy simple: Ambas partes calculan por su cuenta una operación en la que interviene un **secreto**. Si ambas partes llegan al mismo resultado es porque ambos conocen el secreto.
 
 Imaginemos que el chip está instalado en un **accesorio/consumible**. Conectado a la Raspberry. Y yo quiero asegurarme de que es un accesorio original y no está caducado, por ejemplo.
 
 {% include image.html file="auth_accesorios.svg" caption="En este ejemplo de uso autenticamos un consumible o un accesorio. EyC." %}
 
-Lo primero que voy a hacer es crear un nonce. El *nonce* es un número que entra a formar parte de la operación criptográfica. Su función es impedir que un falsificador copie los mensajes de una autenticación anterior y los reproduzca. Aún no sabiendo la clave, pero sabe lo que tiene que responder. Eso se llama ataque de **replay**.
+Lo primero que voy a hacer es crear un **nonce**. El *nonce* es un número que entra a formar parte de la operación criptográfica. 
 
-Si yo comienzo cada vez con un *nonce* diferente, los mensajes de una conversación anterior ya no valen para esta. No tiene por qué ser aleatorio; basta con que no lo reutilicemos. 
+Su **función** es impedir que un falsificador copie los mensajes de una **autenticación anterior** y los reproduzca. Aún no sabiendo la clave, pero sabe lo que tiene que responder. Eso se llama ataque de **replay**.
 
-Utilizaré la fecha actual hasta los nanosegundos. *Pero la fecha se puede manipular*, me dirás. Y llevas razón. Lo más seguro es uno random. Aunque en un sistema embebido tampoco es fácil obtener un número aleatorio de verdad.
+Si yo comienzo cada vez con un *nonce* diferente, los mensajes de una conversación anterior ya **no valen** para esta. No tiene por qué ser aleatorio; basta con **no reutilizarlo**. 
 
-¿Y no puedo llamar al mismo ATECC608 para que me genere un random y pasárselo de nonce? ¡No! Eso sí sería un gran fallo.
+Tomaré la fecha actual hasta los nanosegundos. *Pero la fecha se puede manipular*, me dirás. Y llevas razón. Lo más seguro es uno random. Aunque en un sistema embebido tampoco es fácil obtener un número aleatorio de verdad.
+
+¿Y no puedo llamar al **mismo ATECC608** para que me genere un random y pasárselo de nonce? ¡No! Eso sí sería un **gran fallo**. Sería cómo preguntarle al posible *suplantador* qué nonce quiere usar.
 
 El ATECC608 requiere un *nonce* de 20 bytes. Usare la fecha, como decía, y el resto lo rellenaré con ceros.
 
@@ -279,14 +292,14 @@ $ printf %40x `date +%s%N` | tr ' ' '0'
 00000000000000000000000017fe1ae201b054d5
 ```
 
-Se lo paso al ATECC608, él genera otro aleatorio al cual me devuelve, y ambos los combina en **TempKey**.
+Se lo paso al ATECC608, él genera otro número aleatorio y me lo devuelve. Ambos los combina en **TempKey**.
 
-```
+```console
 $ ./nonce_rand 00000000000000000000000017fe1ae201b054d5
 3141a096115c8b18c6b6d89bf3c34fff11f0de4e2b969dd8e3b6f8cdc792472a
 ```
 
-Ya tenemos **TempKey** inicializado. El estado cambia. Reflejando que la fuente de TempKey tiene un componente aleatorio (porque lo ha generado el chip con su propio generador interno).
+Ya tenemos **TempKey** inicializado. El estado cambia. Reflejando que la fuente de TempKey tiene un componente **aleatorio** (porque lo ha generado el chip con su propio generador interno).
 
 ```console
 $ ./state
@@ -294,25 +307,25 @@ TempKey.SourceFlag: 0    <-- random
 TempKey.Valid:      1
 ```
 
-Ahora le pido que me dé el contenido del *slot* **15** y lo convierto a ASCII.
+Ahora le pido que me dé el **contenido** del *slot* **15** y lo convierto a ASCII.
 
 ```console
 $ ./read_slot 15 | xxd -r -p
 EyC test  Cad:12/2024 Lot:24AA11
 ```
 
-Tipo de consumible, fecha de caducidad y lote.
+Tipo de consumible, **fecha de caducidad** y lote.
 
-Este mensaje no va cifrado. ¿Cómo sé que no lo han alterado?
+Este mensaje va sin cifrar. ¿Cómo sé que no lo han alterado?
 
-Le pido al chip que combine ese mismo *slot 15* con el valor actual de **TempKey** mediante un **hash**.
+Le pido al chip que **combine** ese mismo *slot 15* con el valor actual de **TempKey** mediante un **hash**.
 
 ```console
 $ ./gendig 15
 Ok
 ```
 
-No devuelve nada, pero sí actualiza el **TempKey**. Lo vemos en el estado interno:
+No devuelve nada, pero sí **actualiza** el **TempKey**. Lo vemos en el estado interno:
 
 ```console
 $ ./state
@@ -322,7 +335,7 @@ TempKey.KeyID:      15   <-- y el slot 15
 TempKey.Valid:      1
 ```
 
-Finalmente le pido al chip que genere un MAC combinando el **TempKey** con el contenido de la clave **7**. Aquí está el **secreto compartido**.
+Finalmente le pido al chip que genere un **MAC** combinando el **TempKey** con el contenido de la clave **7**. Aquí está el **secreto compartido**.
 
 ```console
 $ ./mac 7
@@ -330,15 +343,15 @@ $ ./mac 7
 ```
 
 Ese es el resultado final. Dependiente de:
-- El *nonce* inicial. Luego este MAC sólo vale para esta vez.
-- El contenido del slot **15**. Si el falsificador manipuló la respuesta, el hash no coincidirá.
-- La clave **7**. Que es secreta.
+- El ***nonce*** inicial. Luego este MAC sólo vale para **esta vez**.
+- El **contenido** del slot **15**. Si el falsificador manipuló la respuesta, el hash no coincidirá.
+- La **clave 7**. Que es **secreta**.
 
-Comparando el resultado sabremos si el componente es original, y que los datos leídos de él son auténticos, no está caducado, etc.
+**Comparando** el resultado sabremos si el componente es original, y que los datos leídos de él son auténticos, no está caducado, etc.
 
 {% include image.html file="MAC.svg" caption="Esquema del proceso de autenticación. EyC." %}
 
-El comando *GenDig* puede hacer entrar en el cálculo otros *slots*, la OTP o los contadores. Así podemos leer cualquier información del chip sabiendo que nadie la puede manipular.
+El comando *GenDig* puede hacer entrar en el cálculo otros *slots*, la OTP o los contadores. Así podemos leer cualquier información del chip sin que nadie pueda **alterar** esa lectura.
 
 ```console
 $ ./eyc_original.sh
@@ -354,48 +367,46 @@ EyC Crypt Cad:12/2024 Lot:24AA11
 ------
 ```
 
-Estos comandos los tienes en [electronicayciencia/ATECC608-Tools - GitHub](https://github.com/electronicayciencia/ATECC608-Tools).
+Estos **comandos** los tienes en [electronicayciencia/ATECC608-Tools - GitHub](https://github.com/electronicayciencia/ATECC608-Tools).
 
 
 
 
 ## Cifrar con una clave desconocida
 
-En la clave **13** habíamos puesto el sha256 de *password*.
+En la clave **13** habíamos puesto el **sha256 de *password***.
 
-Pero en la **12** no habíamos puesto nada. Desconocemos totalmente su contenido.
+Vamos a crear en **12** una **clave aleatoria** usando un *rotado de clave*.
 
-Para asegurarnos de que es del todo aleatoria, la combinamos con un valor *random* y la sobrescribimos. Esa operación se llama **rotado de la clave**.
-
-Tras un rotado, la clave nueva se podría calcular sabiendo el valor de la antigua y el random devuelto. Pero nosotros ni sabíamos la antigua, ni nos interesa el *random* devuelto.
+Esta operación consiste en **sobrescribir** la clave antigua con el resultado de **combinar** su **valor actual** (que no conocemos) con un **número aleatorio** (que no apuntamos).
 
 ```console
 $ ./rotate_key.sh 12 `SHA256 password`
 Ok
 ```
 
-Ahora es aleatoria y secreta.
+Ahora es **aleatoria y secreta**.
 
-¿Y para qué quiero cifrar datos con una clave desconocida?
+¿Y para qué quiero cifrar datos con una **clave desconocida**?
 
-Fácil: dado que no puedes extraerla de ninguna manera, para vincular físicamente los datos al dispositivo.
+Fácil: dado que no puedes extraerla de ninguna manera, para **vincular físicamente** los datos al dispositivo.
 
 Es más, como necesitas la clave **13** para usarla, conseguimos un **doble factor**:
-- algo que tienes (el chip físico)
-- y algo que sabes (la clave **13**)
+- algo que **tienes** (el chip físico)
+- y algo que **sabes** (la clave **13**)
 
 Vamos a practicarlo.
 
-Primero tengo que autenticarme con la clave **13**. ¿Cómo le demuestro al chip que conozco la clave **13** sin revelarla?
+Primero tengo que **autenticarme** con la clave **13**. ¿Cómo le demuestro al chip que conozco la clave **13** sin revelarla?
 
-Con un MAC, como en el ejemplo anterior. Pero esta vez soy yo quien le enseño el MAC al chip y él quien lo verifica.
+Con un **MAC**, como en el ejemplo anterior. Pero esta vez soy **yo** quien le enseño el MAC al chip y **él** quien lo verifica.
 
 ```console
 $ ./authorize.sh 13 `SHA256 password`
 Ok
 ```
 
-Me reconoce como autorizado con la clave **13**. El estado interno cambia.
+Me reconoce como **autorizado** con la clave **13**. El estado interno cambia.
 
 ```console
 $ ./state
@@ -412,18 +423,18 @@ Pero, en lugar de usarla directamente, voy a crear lo que se llaman **claves der
 
 Derivar la clave requiere un paso adicional, pero es muy útil para no cifrar todo con la **misma clave**. Por ejemplo cada fichero con una clave diferente. O cada partición de la flash.
 
-La clave derivada va a ser el resultado de combinar la **12** (desconocida) con un valor de entrada (conocido). A este valor le llamaremos **índice de derivación**.
+La clave derivada va a ser el resultado de **combinar** la **12** (desconocida) con un **valor de entrada** conocido. A este valor le llamaremos **índice de derivación**.
 
-Por cierto, si quieres hacerlo correctamente el ATECC680 soporta KDF (*Key Derivation Functions*). La derivación que hacemos aquí es con un simple hash.
+Por cierto, si quieres hacerlo **correctamente** el ATECC680 soporta **KDF** (*Key Derivation Functions*). La derivación que hacemos aquí es más simple.
 
-Primero cargo TempKey con el *índice de derivación* 0.
+Primero cargo **TempKey** con el **índice de derivación** 0.
 
 ```console
-./load_tempkey 00000000000000000000000000000000
+$ ./load_tempkey 00000000000000000000000000000000
 Ok
 ```
 
-El estado cambia para reflejar que TempKey ya no viene de una semilla aleatoria.
+El estado cambia para reflejar que TempKey ya **no** viene de una semilla **aleatoria**.
 
 ```console
 $ ./state
@@ -434,15 +445,16 @@ Auth Key ID:        13
 Auth Valid:         1
 ```
 
-A continuación, usaré el comando `GenDig` para combinar el slot **12** con lo que haya en TempKey.
+A continuación, usaré el comando `GenDig` para **combinar** el slot **12** con lo que haya en **TempKey**.
 
 ```console
 $ ./gendig 12
 Ok
 ```
 
-No sé lo que hay en *TempKey*. Sólo sé que viene de **12** y el índice que he puesto.
+No necesito saber lo que hay en **TempKey**. 
 
+Sólo sé que viene de **12** y el índice que he puesto... y que puedo usarlo para **cifrar y descifrar**.
 
 Ciframos un bloque de entrada `aa55aa55...`:
 
@@ -451,11 +463,11 @@ $ ./aes_encrypt TEMPKEY aa55aa55aa55aa55aa55aa55aa55aa55
 44c536ec5fc1f410174170ea4b1edc32
 ```
 
-Recuerda usar CBC si los datos a cifrar superan el tamaño del bloque AES.
+Recuerda usar **CBC** si los datos a cifrar superan el **tamaño del bloque** AES.
 
 {% include image.html file="CBC_encryption.svg" caption="Cifrado encadenado. EyC." %}
 
-Descifrar los datos es igual, proporcionando la credencial en **13** y el *índice* de la clave derivada.
+**Descifrar** los datos es igual, proporcionando la credencial en **13** y el **índice** de la clave derivada.
 
 ```console
 $ ./authorize.sh 13 `SHA256 password`
@@ -470,34 +482,34 @@ aa55aa55aa55aa55aa55aa55aa55aa55
 
 ¿Y para **cambiar la contraseña**?
 
-Por eso habíamos puesto que el slot **13** se pueda escribir conociendo el slot **13**.
+Por eso habíamos puesto que el slot **13** se pueda escribir **conociendo** el slot **13**.
 
-```
+```console
 $ ./write_enc 13 `SHA256 anacardo` 13 `SHA256 password`
 Ok
 ```
 
-¿Te cuento otra otra ventaja de no saber la clave?: la **destrucción segura** de información.
+¿Te cuento **otra ventaja** de no saber la clave?: la **destrucción segura** de información.
 
-Quieres borrar los datos, pero has leído [Memorias Flash: almacenamiento en IoT]({{site.baseurl}}{% post_url 2024-02-27-mtd-spi-iot %}) y sabes que por el *wear leveling* cuesta mucho borrarlo todo y siempre quedan restos.
+Quieres **borrar** los datos, pero has leído [Memorias Flash: almacenamiento en IoT]({{site.baseurl}}{% post_url 2024-02-27-mtd-spi-iot %}) y sabes que por el *wear leveling* cuesta mucho borrarlo todo y siempre quedan restos.
 
-Ningún problema: vuelves a rotar la clave **12**.
+Ningún problema: vuelves a **rotar la clave** **12**.
 
 ```console
 $ ./rotate_key.sh 12 `SHA256 password`
 Ok
 ```
 
-Un comando y no necesitas preocuparte de borrar nada. Al haber destruido la clave, cualquier dato cifrado con ella o sus derivadas es irrecuperable.
+Un comando y no necesitas preocuparte de borrar nada. Al haber **destruido la clave**, cualquier dato cifrado con ella o sus derivadas es **irrecuperable**.
 
 
 ## Conclusión
 
-Por naturaleza, trabajar con criptografía y seguridad siempre es complicado. En este artículo hemos practicado dos casos de uso sencillos con el ATECC608B un chip criptográfico de Atmel:
-- Una **autenticación** con hash y secreto compartido, donde apreciamos la importancia del *nonce* y de la función *hash* para leer datos de forma autenticada. 
-- Y un cifrado con **doble factor**, usando claves derivadas de otra custodiada en **hardware**.
+Por naturaleza, trabajar con **criptografía y seguridad** siempre es complicado. En este artículo hemos practicado dos casos de uso sencillos con el ATECC608B:
+- Una **autenticación** con hash y secreto compartido, donde apreciamos la importancia del ***nonce*** y de la función ***hash*** para leer datos de forma autenticada. 
+- Y un cifrado con **doble factor**, usando claves derivadas de otra custodiada en el **hardware**.
 
-Aunque nos hemos dejado fuera muchas capacidades importantes del chip (firmas, certificados, ECDH o *secure boot*) nos ha servido para empezar a operar con él. La documentación aún es escasa (muchas veces sujeta NDA). Y, aunque tenemos la librería del fabricante, pública, con ejemplos y notas de aplicación, se aprecia que es un producto destinado al sector profesional.
+Aunque nos hemos dejado fuera muchas capacidades importantes del chip (firmas, certificados, ECDH o *secure boot*), nos ha servido para **empezar** a operar con él. La **documentación** aún es **escasa** (muchas veces sujeta a **NDA**). Y, aunque tenemos la librería del fabricante, pública, con ejemplos y notas de aplicación, se aprecia que es un producto destinado al **sector profesional**.
 
 A continuación te dejo algunos enlaces interesantes.
 
