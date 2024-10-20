@@ -4,7 +4,7 @@ layout: post
 assets: /assets/2024/10/cripto-desechable
 image: /assets/2024/10/cripto-desechable/img/atecc608.jpg
 featured: false
-description: Explicación y uso del ATECC608, un chip criptográfico empleado a veces en la autenticación de consumibles y accesorios.
+description: Explicación y uso del ATECC608. Autenticación de consumibles. Cifrado por hardware. Ataques y defensas en microelectrónica.
 tags:
   - Binario
   - Criptografía
