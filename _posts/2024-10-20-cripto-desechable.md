@@ -12,11 +12,11 @@ tags:
 ---
 
 
-Esto son muestras del ATECC608. Un **chip criptográfico** fabricado por la empresa americana Microchip. Usado a veces en la autenticación de consumibles y accesorios. Puede calcular **SHA256**, **AES128** y **ECC P256**, también soporta KDF, ECDH, GCM y muchas siglas más.
+Esto son muestras del ATECC608. Un **chip criptográfico** fabricado por la empresa americana Microchip. Usado a veces en la autenticación de consumibles y accesorios. Puede calcular **SHA256**, **AES128** y **ECC P256**; también soporta KDF, ECDH, GCM y muchas siglas más.
 
 {% include image.html file="atecc608.jpg" caption="ATECC608C (aunque ponga otra cosa). Los alargados son para pegarlos en consumibles sin electrónica ni PCB." %}
 
-Como te decía, un integrado que calcula una **función hash** segura, un algoritmo de **cifrado simétrico** robusto y otro **asimétrico**.
+Como te decía, un integrado capaz de calcular una **función hash** segura, un algoritmo de **cifrado simétrico** robusto y otro **asimétrico**.
 
 Los pedí y me los enviaron. Así, sin más.
 
@@ -42,7 +42,7 @@ PGP se difundió por las BBS de todo el mundo. En 1993, su autor fue **perseguid
 
 Para mostrar el absurdo de la ley, también estamparon camisetas con el algoritmo.
 
-{% include image.html file="camiseta-rsa.png" caption="Perl es el único lenguaje que se lee igual antes y después de cifrarlo con RSA. Fuente: [blockstream.com](https://store.blockstream.com/products/rsa-t-shirt-1)" %}
+{% include image.html file="camiseta-rsa.png" caption="Perl es el único lenguaje que se lee igual antes y después de cifrarlo con RSA. [blockstream.com](https://store.blockstream.com/products/rsa-t-shirt-1)" %}
 
 Con la popularización de internet la criptografía había dejado de ser **cosa de espías**.
 
@@ -61,7 +61,7 @@ Para el año **2000**, algunas restricciones cayeron:
 
 Si bien el software aún tardó **años** en adaptarse a la nueva legislación.
 
-La JCE ([*Java Cryptography Extension*](https://www.oracle.com/java/technologies/javase-jce8-downloads.html)) es una librería que era necesario copiar para usar claves de 128 bits en Java 8... ¡[hasta 2017](https://bugs.openjdk.java.net/browse/JDK-8170157)!
+La JCE ([*Java Cryptography Extension*](https://www.oracle.com/java/technologies/javase-jce8-downloads.html)) es una librería que fue necesario instalar para usar claves de 128 bits en Java... ¡[hasta 2017](https://bugs.openjdk.java.net/browse/JDK-8170157)!
 
 {% include image.html file="java_ce.png" caption="Hasta 2017, Java permitía criptografía \"fuerte\"... pero limitada. README de JCE. EyC." %}
 
@@ -119,13 +119,15 @@ El ATECC608 incorpora defensas contra estos ataques:
 - **Cifrado** de los datos almacenados: aunque consiguieras hacer un volcado de la **EEPROM**, no te serviría, porque está cifrada. Necesitas que sea el propio chip quien la lea.
 - ***Self-testing*** durante el proceso de **inicialización** (*wake-up*). Se pasan unos tests internamente. Si se detecta algo raro, se detiene el arranque.
 
+{% include image.html file="shield.png" caption="Blindaje del ATECC508. Si la malla se corta en algún punto, el micro se inutiliza. [SSTIC2020](https://www.sstic.org/media/SSTIC2020/SSTIC-actes/blackbox_laser_fault_injection_on_a_secure_memory/SSTIC2020-Article-blackbox_laser_fault_injection_on_a_secure_memory-heriveaux.pdf)" %}
+
 Pese a todas estas protecciones, se han llevado a cabo **ataques exitosos**.
 
-El **primero** contra el **ATECC508A** (predecesor del ATECC608A), presentado en la [BlackHat 2020](https://www.youtube.com/watch?v=7-9knubFJjY). Los investigadores consiguieron extraer las claves secretas de una **cartera de criptomonedas** usando un ataque de inyección laser.
+[El **primero**](https://www.youtube.com/watch?v=7-9knubFJjY) contra el **ATECC508A** (predecesor del ATECC608A), presentado en la BlackHat 2020. Los investigadores consiguieron extraer las claves secretas de una **cartera de criptomonedas** usando un ataque de inyección laser.
 
 Microchip ya no recomienda el ATECC508 en nuevos diseños.
 
-En el **segundo**, presentado en la [BlackHat 2021](https://www.youtube.com/watch?v=Kj1nVJypXPM), **rompieron el ATECC608A** usando inyección láser en **dos puntos** diferentes de la ejecución.
+En [el **segundo**](https://www.youtube.com/watch?v=Kj1nVJypXPM), presentado en la BlackHat 2021, **rompieron el ATECC608A** usando inyección láser en **dos puntos** diferentes de la ejecución.
 
 El fabricante actualizó a la versión B. E introdujo **esperas aleatorias** para hacer la ejecución menos predecible.
 
@@ -398,6 +400,8 @@ $ ./rotate_key.sh 12 `SHA256 password`
 Ok
 ```
 
+{% include image.html file="rotate_key.svg" caption="Esquema de la operación de rotado de clave. EyC." %}
+
 Ahora es **aleatoria y secreta**.
 
 ¿Y para qué quiero cifrar datos con una **clave desconocida** que no puedo extraer?
@@ -438,7 +442,9 @@ Derivar la clave requiere un paso adicional, pero es muy útil para no cifrar to
 
 La clave derivada va a ser el resultado de **combinar** la **12** (desconocida) con un **valor de entrada** conocido. A este valor le llamaremos **índice de derivación**.
 
-Por cierto, si quieres hacerlo **correctamente** el ATECC680 soporta **KDF** (*Key Derivation Functions*). La derivación que hacemos aquí es más simple.
+{% include image.html file="derive_key_encryption.svg" caption="Esquema para cifrar con una clave derivada temporal. EyC." %}
+
+Por cierto, si quieres hacerlo **correctamente** el ATECC680 soporta **KDF** (*Key Derivation Functions*). La derivación que hacemos aquí es menos segura pero más simple.
 
 Primero cargo **TempKey** con el **índice de derivación** 0.
 
