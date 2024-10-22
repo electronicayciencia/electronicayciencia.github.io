@@ -201,7 +201,7 @@ pi@raspberrypi:~$ i2cdetect -y 1
 
 La librería del fabricante es pública: [MicrochipTech/cryptoauthlib - GitHub](https://github.com/MicrochipTech/cryptoauthlib).
 
-Yo, por mi cuenta, me he hecho unas **utilidades** en forma de comandos y scripts de Bash: [electronicayciencia/ATECC608-Tools - GitHub](https://github.com/electronicayciencia/ATECC608-Tools).
+Yo, por mi cuenta, me he hecho unas **utilidades** en forma de comandos y scripts de Bash: [electronicayciencia/ATECC608-Tools](https://www.electronicayciencia.com/ATECC608-Tools/).
 
 
 
@@ -316,7 +316,7 @@ Se lo paso al ATECC608, él genera otro número aleatorio y me lo devuelve. Ambo
 
 ```console
 $ ./nonce_rand 00000000000000000000000017fe1ae201b054d5
-3141a096115c8b18c6b6d89bf3c34fff11f0de4e2b969dd8e3b6f8cdc792472a
+3141a096115c8b18c6b6d89bf3c34fff11f0de4e2b969dd8e3b6f8cdc792472a  <-- random
 ```
 
 Ya tenemos **TempKey** inicializado. El estado cambia. Reflejando que la fuente de TempKey tiene un componente **aleatorio** (porque lo ha generado el chip con su propio generador interno).
@@ -389,7 +389,7 @@ Estos **comandos** los tienes en [electronicayciencia/ATECC608-Tools - GitHub](h
 
 ## Cifrar con una clave desconocida
 
-En la clave **13** habíamos puesto el **SHA256** de **password***.
+En la clave **13** habíamos puesto el **SHA256** de **password**.
 
 En **12** vamos a crear una **clave aleatoria** por medio de una operación de **rotado**.
 
