@@ -30,7 +30,9 @@ body {
   padding: 10px 0;
 }
 
-
+.post-header {
+    margin-bottom: 15px;
+}
 
 /* Images and video */
 .ytvideo {
@@ -237,7 +239,7 @@ $img-x-large-width: 100%;
   cursor: pointer;
 }
 
-.post-card .post-description {
+.post-description {
   overflow: hidden;
   color: grey;
   font-style: italic;

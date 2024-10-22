@@ -10,15 +10,23 @@ layout: default
         {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
         {{ page.date | date: date_format }}
       </time>
-	  | {{ content | number_of_words | divided_by:120 }} minutos
-	  {% if page.tags %} |
+          | {{ content | number_of_words | divided_by:120 }} minutos
+      {% if page.tags %} |
       {% for tag in page.tags %}
         <a class="post-tag" href="{{ site.baseurl }}/tags/#{{ tag | slugify }}">{{ tag }}</a>
       {% endfor %}
       {% endif %}
       {%- if page.author -%}
         • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{{ page.author }}</span></span>
-      {%- endif -%}</p>
+      {%- endif -%}
+    </p>
+
+    {%- if page.description -%}
+      <div itemprop="abstract" itemscope itemtype="https://schema.org/abstract" class="post-card post-description">
+        {{ page.description | escape }}
+      </div>
+    {%- endif -%}
+
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
