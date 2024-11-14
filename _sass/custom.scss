@@ -14,6 +14,10 @@ body {
     background-color: $content-background;
 }
 
+.site-header .wrapper {
+    max-width: 80%;
+}
+
 .site-footer {
     background-color: $content-background;
 }

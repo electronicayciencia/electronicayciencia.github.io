@@ -1,8 +1,9 @@
 ---
 layout: page
-title: El blog
+title: EyC
 permalink: /about/
 public: true
+order: Z
 ---
 
 *Electrónica y Ciencia* es un blog sobre **electrónica aplicada** en español.

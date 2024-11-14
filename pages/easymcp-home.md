@@ -1,7 +1,8 @@
 ---
 layout: page
-title: Proyectos con MCP2221
+title: MCP2221
 public: true
+order: C
 ---
 
   {%- if site.easymcp.size > 0 -%}

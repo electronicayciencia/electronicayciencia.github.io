@@ -1,8 +1,9 @@
 ---
 layout: page
-title: Projects
+title: Side Projects
 permalink: /petprojects/
 public: true
+order: Y
 ---
 
 Some other projects I do on GitHub (english).
