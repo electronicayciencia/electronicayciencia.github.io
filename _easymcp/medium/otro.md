@@ -1,12 +1,11 @@
 ---
 layout: easymcp-project
-title: Proyecto de prueba
-tier: 1
+title: Proyecto de prueba medio
 tags:
   - ADC
   - GPIO
 ---
 
-Prueba de proyecto.
+Prueba de proyecto medio.
 
 

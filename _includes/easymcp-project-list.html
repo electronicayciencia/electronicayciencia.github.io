@@ -1,0 +1,13 @@
+<ul>
+{% for p in site.easymcp %}
+{% assign tier = p.path | split: '/' | slice: 1 %}
+{%- if tier[0] == include.tier -%}
+  <li><a href="{{p.url}}">{{p.title}}</a>
+   {% for tag in p.tags %}
+   <div class="easymcp-tag">{{ tag }}</div>
+   {% endfor %}
+  </li>
+{%- endif -%}
+{% endfor %}
+</ul>
+

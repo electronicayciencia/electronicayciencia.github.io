@@ -5,13 +5,6 @@ layout: default
 
   <header class="post-header">
     <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
-    <p class="post-meta">
-      {% if page.tags %} |
-      {% for tag in page.tags %}
-        <a class="post-tag" href="{{ site.baseurl }}/tags/#{{ tag | slugify }}">{{ tag }}</a>
-      {% endfor %}
-      {% endif %}
-    </p>
 
     {%- if page.description -%}
       <div itemprop="abstract" itemscope itemtype="https://schema.org/abstract" class="post-card post-description">

@@ -1,18 +1,35 @@
 ---
 layout: page
-title: Aprende electrónica con el MCP2221
+title: Aprende electrónica con el chip MCP2221
 head: MCP2221
 public: true
 order: 30
 ---
 
-  {%- if site.easymcp.size > 0 -%}
-    <ul>
-      {%- for project in site.easymcp -%}
-        <li>
-          <a href="{{ project.url | relative_url }}">{{ project.title }}</a>
-        </li>
-      {%- endfor -%}
-    </ul>
-  {%- endif -%}
+Laboratorio casero de electrónica y robótica basado en el integrado MCP2221/A.
+
+
+Disintos proyectos ordenados por grado de dificultad.
+
+
+### Básicos
+
+{% include easymcp-project-list.html tier="basic" %}
+
+
+### Fáciles
+
+{% include easymcp-project-list.html tier="easy" %}
+
+
+### Intermedios
+
+{% include easymcp-project-list.html tier="medium" %}
+
+
+### Avanzados
+
+{% include easymcp-project-list.html tier="hard" %}
+
+
 
