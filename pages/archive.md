@@ -1,10 +1,10 @@
 ---
 layout: page
-title: "Índice"
-description: "Electrónica y ciencia - Archivo"
+head: Índice
+title: Índice cronológico
 permalink: /archive/
 public: true
-order: B
+order: 20
 ---
 
 {% assign postsByYear = site.posts | group_by_exp:"post", "post.date | date: '%Y'" %}

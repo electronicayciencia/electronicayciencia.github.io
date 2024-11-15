@@ -1,8 +1,9 @@
 ---
 layout: page
-title: MCP2221
+title: Aprende electrónica con el MCP2221
+head: MCP2221
 public: true
-order: C
+order: 30
 ---
 
   {%- if site.easymcp.size > 0 -%}
