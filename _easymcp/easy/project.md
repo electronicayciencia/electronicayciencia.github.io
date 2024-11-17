@@ -1,10 +1,9 @@
 ---
 layout: easymcp-project
-title: Proyecto de prueba básico
-order: 00
+title: Proyecto de prueba básico 2
+order: 01
 tags:
   - ADC
-  - GPIO
 ---
 
 Prueba de proyecto básico.
