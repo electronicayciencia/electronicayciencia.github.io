@@ -5,9 +5,10 @@ date: 2024-05-01
 image: gp_ea2rcf.png
 ---
 
-An AX.25 emulator for TCP connections.
+Simulador de sockets AX.25 para conexiones TCP.
 
-This interface emulates WA8DED's *The Firmware* TNC and makes regular Telnet traffic appears like AX.25.
+Se trata de una capa que emula una interfaz compatible con una TNC con *The Firmware* de WA8DED. 
+El tráfico normal TCP/IP aparenta ser una comunicación AX.25 por puerto serie.
 
-[Source repository](https://github.com/electronicayciencia/TNC-Telnet)
+Así podemos utilizar programas clásicos como *Graphic Packet* o *TSTHOST* con BBS actuales por Internet via Telnet.
 

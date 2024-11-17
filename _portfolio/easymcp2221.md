@@ -5,5 +5,12 @@ date: 2022-07-01
 image: led_blink_brd.gif
 ---
 
-Complete Python library for Microchip devices MCP2221 and MCP2221A. Fully documented with a lot of examples. GitHub: [Easy MCP2221](https://github.com/electronicayciencia/EasyMCP2221).
+La librería en Python más completa para usar los chips MCP2221 y MCP2221A.
+
+Totalmente documentada y con muchísimos ejemplos.
+
+Código fuente y ejemplos: [Easy MCP2221](https://github.com/electronicayciencia/EasyMCP2221).
+
+Artículo: [Electrónica y Ciencia - El integrado MCP2221/A]({{site.baseurl}}{% post_url 2023-09-30-integrado-mcp2221 %})
+
 

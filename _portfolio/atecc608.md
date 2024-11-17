@@ -5,12 +5,11 @@ date: 2024-04-01
 image: 
 ---
 
-Command-line tools to work with Microchip Crypto-Authentication devices.
+Herramientas en línea de comandos para trabajar con los chips Microchip Crypto-Authentication.
 
-Proposed ATECC608 configuration to play and learn. Basic commands, examples and use cases.
+Incluye configuración de ejemplo para probar y aprender, comandos básicos, ejemplos y casos de uso.
 
-[ATECC608 Tools](https://www.electronicayciencia.com/ATECC608-Tools/)
+Código fuente: [ATECC608-Tools](https://github.com/electronicayciencia/ATECC608-Tools)
 
-[Source repository](https://github.com/electronicayciencia/ATECC608-Tools)
-
+Artículo: [Chips criptográficos de usar y tirar]({{site.baseurl}}{% post_url 2024-10-20-cripto-desechable %})
 

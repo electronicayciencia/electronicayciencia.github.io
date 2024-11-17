@@ -1,9 +1,11 @@
 .portfolio .entry {
-  border: 1px solid green;
   padding: 1em;
   margin-top: 1em;
   clear: both;
   overflow: auto;
+  border-color: gray;
+  border-width: 1px;
+  border-style: solid;
 }
 
 

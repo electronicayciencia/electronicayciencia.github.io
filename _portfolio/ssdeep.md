@@ -5,7 +5,7 @@ date: 2013-01-01
 image: 
 ---
 
-This module provides simple implementation of ssdeep fuzzy hashing also known as Context Triggered Piecewise Hashing (CTPH).
+Implementación en Perl del paper de Jesse Kornblum *Identifying almost identical files using context triggered piecewise hashing* (CTPH).
 
-Thanks to Christoph Biedl for create a Debian Package from it: [libdigest-ssdeep-perl](https://packages.debian.org/buster/libdigest-ssdeep-perl).
+Gracias a Christoph Biedl por generar un paquete Debian de este módulo: [libdigest-ssdeep-perl](https://packages.debian.org/buster/libdigest-ssdeep-perl).
 

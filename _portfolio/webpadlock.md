@@ -5,6 +5,7 @@ date: 2020-10-01
 image: webpadlock.png
 ---
 
-Proof of concept to deny access from unknown devices. Based on Browser, local SSL certificate and local API.
-
+Prueba de concepto para permitir o denegar el acceso a dispositivos conocidos. 
+Se basa en la instalación de un certificado local y un agente que actua como API REST.
+El navegador puede llamarlo y comprobar las credenciales. 
 
