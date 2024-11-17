@@ -2,7 +2,7 @@
 layout: page
 title: Aprende electrónica con el chip MCP2221
 head: MCP2221
-public: true
+public: false
 order: 30
 ---
 

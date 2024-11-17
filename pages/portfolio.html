@@ -17,13 +17,13 @@ Otros proyectos personales además de este blog.
   <div class="entry">
   <!--entry content-->
 
-  {%- if p.image -%}
-  <div class="picture"><img src="{{page.assets | relative_url}}/img/{{p.image}}"/></div>
-  {%- endif -%}
-
 
   <div class="title">{{p.title | escaped}}</div>
   <div class="web"><a href="{{p.web}}">{{p.web}}</a></div>
+
+  {%- if p.image -%}
+  <div class="picture"><img src="{{page.assets | relative_url}}/img/{{p.image}}"/></div>
+  {%- endif -%}
 
   <div class="text">{{ p.content }} </div>
 

@@ -32,6 +32,16 @@
   margin-left: 1em;
 }
 
+/* condition for screen size less than 500px */
+@media (max-width:500px) {
+  .portfolio .picture {
+    max-width: 90%;
+    float: none;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
 
 
 

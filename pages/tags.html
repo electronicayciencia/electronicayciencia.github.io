@@ -10,7 +10,7 @@ order: 01
 {% assign sorted_tags = site.tags | sort %}
 
 <div class="tags">
-    <h2 class="post-list-heading">Selecciona un tema</h2>
+        <!-- <h2 class="post-list-heading">Selecciona un tema</h2> -->
         <p class="all-tags-enumeration">
           {% for tag in sorted_tags %}
             <a class="post-tag" href="{{ site.baseurl }}/tags/#{{ tag[0] | slugify }}">
