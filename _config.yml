@@ -73,6 +73,8 @@ defaults:
 collections:
   easymcp:
     output: true
+  portfolio:
+    output: false
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list

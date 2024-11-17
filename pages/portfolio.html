@@ -1,0 +1,37 @@
+---
+layout: page
+title: Portfolio
+head: Portfolio
+assets: /assets/portfolio/
+permalink: /portfolio/
+public: true
+order: 90
+---
+
+Otros proyectos personales además de este blog.
+
+{% assign psorted = site.portfolio | sort | reverse %}
+
+<div class="portfolio">
+{% for p in psorted %}
+  <div class="entry">
+
+  <div class="title">{{p.title | escaped}}</div>
+  <div class="web"><a href="{{p.web}}">{{p.web}}</a></div>
+
+  <div class="content">
+  <div class="text">{{ p.content }} </div>
+
+  {%- if p.image -%}
+  <div class="picture"><img src="{{page.assets | relative_url}}/img/{{p.image}}"/></div>
+  {%- endif -%}
+
+  </div>
+
+  </div>
+{% endfor %}
+</div>
+
+
+
+

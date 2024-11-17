@@ -1,0 +1,38 @@
+.portfolio .entry {
+  border: 1px solid green;
+  padding: 1em;
+  margin-top: 1em;
+}
+
+
+.portfolio .title {
+  font-size: larger;
+  font-weight: bold;
+}
+
+.portfolio .web {
+  font-size: small;
+  font-style: italic;
+  color: grey;
+}
+
+
+.portfolio .content {
+  display: flex;
+  flex-direction: row;
+  margin-top: 1em;
+}
+
+
+.portfolio .content .text {
+  margin: 5px;
+  padding: 5px;
+}
+
+.portfolio .content .picture {
+  max-width: 100em;
+}
+
+
+
+
