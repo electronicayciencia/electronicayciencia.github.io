@@ -2,7 +2,7 @@
 title: Verilog VGA
 web: https://electronicayciencia.github.io/verilog-vga/
 date: 2024-01-01
-image: 
+image: verilog-vga.jpeg
 ---
 
 Project to learn how to work with a Gowin FPGA (Sipeed Tang Nano) and a LCD display.
