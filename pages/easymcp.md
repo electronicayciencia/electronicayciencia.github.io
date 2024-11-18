@@ -18,22 +18,22 @@ Te propongo aprender programación, electrónica y robótica. Aquí tienes vario
 
 ### Básicos
 
-{% include easymcp-project-list.html tier="basic" %}
+{% include easymcp-project-list.html tier="00_basic" %}
 
 
 ### Fáciles
 
-{% include easymcp-project-list.html tier="easy" %}
+{% include easymcp-project-list.html tier="01_easy" %}
 
 
 ### Intermedios
 
-{% include easymcp-project-list.html tier="medium" %}
+{% include easymcp-project-list.html tier="02_medium" %}
 
 
 ### Avanzados
 
-{% include easymcp-project-list.html tier="hard" %}
+{% include easymcp-project-list.html tier="03_hard" %}
 
 
 

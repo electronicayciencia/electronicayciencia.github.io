@@ -1,6 +1,5 @@
 <ul>
-{% assign ordered = site.easymcp | sort:"order" %}
-{% for p in ordered %}
+{% for p in site.easymcp %}
 {% assign tier = p.path | split: '/' | slice: 1 %}
 {%- if tier[0] == include.tier -%}
   <li><a href="{{p.url}}">{{p.title}}</a>
