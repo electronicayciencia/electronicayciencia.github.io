@@ -7,33 +7,31 @@ permalink: /easymcp/
 order: 30
 ---
 
-Con el MCP2221 y la librería EasyMCP2221 se puede jugar con cosas electrónicas pero programando en un ordenador normal.
+Te presento un laboratorio casero de electrónica y robótica para jugar con cosas electrónicas pero programando en un ordenador normal.
 
 Sin temor a romper nada, sin componentes complicados y programando directamente en el ordenador y en Python.
 
-Se puede usar para hacer muchos experimentos. Algunos simples, como encender LEDs con el ordenador, leer sensores de luz o de temperatura. Otros más sofisticados, como hacer una fuente de alimentación, generador de señales. Pero también avanzados, usando I2C por ejemplo.
-
-Te propongo aprender programación, electrónica y robótica. Aquí tienes varios proyectos ordenados por grado de dificultad.
+Aquí tienes algunos proyectos ordenados por grado de dificultad.
 
 
 ### Básicos
 
-{% include easymcp-project-list.html tier="00_basic" %}
+{% include easymcp-project-list.html tier="0_basic" %}
 
 
 ### Fáciles
 
-{% include easymcp-project-list.html tier="01_easy" %}
+{% include easymcp-project-list.html tier="1_easy" %}
 
 
 ### Intermedios
 
-{% include easymcp-project-list.html tier="02_medium" %}
+{% include easymcp-project-list.html tier="2_medium" %}
 
 
 ### Avanzados
 
-{% include easymcp-project-list.html tier="03_hard" %}
+{% include easymcp-project-list.html tier="3_hard" %}
 
 
 
