@@ -69,6 +69,14 @@ defaults:
       path: 'drafts/**'
     values:
       sitemap: false
+  - scope:
+      path: '_easymcp/**'
+    values:
+      sitemap: false
+  - scope:
+      path: 'pages/easymcp.md'
+    values:
+      sitemap: false
 
 collections:
   easymcp:
