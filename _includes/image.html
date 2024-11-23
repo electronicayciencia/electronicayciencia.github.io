@@ -1,3 +1,7 @@
+{% comment %}
+Assets directory default to local directory unless page.assets variable is defined.
+{% endcomment %}
+
 {% capture filename %}{{ page.url | split: "/" | last }}{% endcapture %}
 {% capture folder %}{{ page.url | remove: filename }}{% endcapture %}
 {% capture assets %}{{ page.assets | default: folder }}{% endcapture %}
