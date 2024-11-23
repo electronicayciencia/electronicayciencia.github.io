@@ -1,12 +1,17 @@
+{% # Assets default to local directory unless page.assets variable is defined %}
+{% capture filename %}{{ page.url | split: "/" | last }}{% endcapture %}
+{% capture folder %}{{ page.url | remove: filename }}{% endcapture %}
+{% capture assets %}{{ page.assets | default: folder }}{% endcapture %}
+
 <div class="postimage">
 <figure>
-  <a href="{{page.assets | relative_url}}/video/{{include.file}}">
+  <a href="{{assets | relative_url}}/video/{{include.file}}">
     <video
       class="fullwidth {{include.class | default: "original-width"}}"
       {{include.attrs | default: "autoplay loop muted"}} >
 
       <source
-          src="{{page.assets | relative_url}}/video/{{include.file}}"
+          src="{{assets | relative_url}}/video/{{include.file}}"
           type="{{include.type | default: "video/mp4"}}" />
 
       Your browser does not support the video tag.
