@@ -14,24 +14,24 @@ Sin temor a romper nada, sin componentes complicados y programando directamente 
 Aquí tienes algunos proyectos ordenados por grado de dificultad.
 
 
-### Básicos
+### Introducción
 
-{% include easymcp-project-list.html tier="0_basic" %}
+{% include easymcp-project-list.html tier="0-intro" %}
 
 
 ### Fáciles
 
-{% include easymcp-project-list.html tier="1_easy" %}
+{% include easymcp-project-list.html tier="1-easy" %}
 
 
 ### Intermedios
 
-{% include easymcp-project-list.html tier="2_medium" %}
+{% include easymcp-project-list.html tier="2-medium" %}
 
 
 ### Avanzados
 
-{% include easymcp-project-list.html tier="3_hard" %}
+{% include easymcp-project-list.html tier="3-hard" %}
 
 
 
