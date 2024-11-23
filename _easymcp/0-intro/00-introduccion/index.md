@@ -14,11 +14,7 @@ Lo puedes comprar en kit o suelto.
 
 Prueba de proyecto básico.
 
-```
-{% include file.txt file="code.py" %}
-```
 
-Otro codigo 2:
 
 ```python
 {% include_relative code.py %}```
