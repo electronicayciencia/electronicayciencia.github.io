@@ -223,7 +223,7 @@ Si da error de permisos:
 El servidor se lanza con:
 
     bundle exec jekyll serve
-
+    
 Escucha en http://127.0.0.1:4000/
 
 Para escuchar en otro host:
