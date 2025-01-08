@@ -4,6 +4,7 @@ title: ¿Cómo empezar?
 tags:
   - ADC
   - GPIO
+title: Empezar
 ---
 
 Lo primero que necesitarás es un chip MCP2221 o MCP2221A.
@@ -23,6 +24,12 @@ Prueba de proyecto básico.
 Texto.
 
 {% include image.html class="small-width" file="a-cat.png" caption="Un gato pequeño. Foto de Google." %}
+
+
+cable
+aislador
+kit desarrollo
+kit componenetes arduino
 
 
 
