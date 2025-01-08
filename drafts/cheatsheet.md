@@ -27,7 +27,7 @@ tags:
 ---
 
 Esta página no aparece en el menú de navegación porque no tiene definida la variable `public: true`.
-Tampoco aparece en el *sitemap* porque `/drafts/**` está excluido en la configuración. 
+Tampoco aparece en el *sitemap* porque `/drafts/**` está excluido en la configuración.
 Para llegar a ella utiliza este enlace: `/drafts/cheatsheet.html`.
 
 Si el título contiene dos puntos (`:`) hay que ponerlo entre comillas.
@@ -40,7 +40,7 @@ Texto normal. El primer párrafo será lo que se use como resúmen en la portada
 
 **Negrita**
 
-Salto  
+Salto
 de linea.
 
 ### Listas
@@ -215,17 +215,27 @@ Para instalar las versiones correctas, en el directorio hacer:
 
     bundle install --path ~/gems
 
+Si da error de permisos:
+
+    export GEM_HOME=$HOME/.gems
+    bundle install
+
 El servidor se lanza con:
 
     bundle exec jekyll serve
 
 Escucha en http://127.0.0.1:4000/
 
+Para escuchar en otro host:
+
+    bundle exec jekyll serve --host=0.0.0.0
+
 
 ## Referencias a artículos anteriores
 
 See `tools/post_links.sh`.
 
+- [Electrónica y Ciencia - Chips criptográficos de usar y tirar]({{site.baseurl}}{% post_url 2024-10-20-cripto-desechable %})
 - [Electrónica y Ciencia - Memorias Flash: almacenamiento en IoT]({{site.baseurl}}{% post_url 2024-02-27-mtd-spi-iot %})
 - [Electrónica y Ciencia - Mi propia consola serie y el terminal de Unix]({{site.baseurl}}{% post_url 2024-01-17-consola-serie %})
 - [Electrónica y Ciencia - Gráficos VGA con FPGA Tang Nano parte III. Texto]({{site.baseurl}}{% post_url 2023-11-10-lcd_tang_nano_III_texto %})
