@@ -38,7 +38,7 @@ El escáner funciona perfectamente. El problema que hay es que al no tener la pa
 
 Como una entrada sólo con fotos del montaje me parece sosa vamos a darle un poco más de contenido. Las impresoras de tinta tienen un carro móvil donde están los cartuchos de impresión. Ese carro tiene un [sensor óptico](http://hackaday.com/2009/11/12/linear-optical-encoder/) para saber dónde se encuentra. Se trata de una tira de plástico transparente con miles de lineas verticales muy finitas. La cinta está fija en la impresora y en el carro hay una luz y un fotodetector. Según el carro avanza va contando cuantas lineas opacas van y así sabe su posición horizontal.
 
-Las lineas son muy finas para verlas a simple vista, pero vamos a averiguar la separación utilizando un láser. Es un experimento de difracción por rendijas múltiples (como el [experimento de Young](http://www.quadernsdigitals.net/datos_web/hemeroteca/r_1/nr_510/a_7082/7082.htm)) similar a una [red de difracción](http://en.wikipedia.org/wiki/Diffraction_grating).
+Las lineas son muy finas para verlas a simple vista, pero vamos a averiguar la separación utilizando un láser. Es un experimento de difracción por rendijas múltiples (como el [experimento de Young](https://es.wikipedia.org/wiki/Experimento_de_la_doble_rendija)) similar a una [red de difracción](http://en.wikipedia.org/wiki/Diffraction_grating).
 
 El caso es que si apuntamos con un puntero láser a la rejilla y situamos una pantalla detrás lo que vemos es esto:
 
